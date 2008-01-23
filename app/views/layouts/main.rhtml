@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>dradis: <%= controller.controller_name() %>: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'dradis' %>
+  <%= javascript_include_tag :defaults %>
+  <%= active_scaffold_includes %>
+</head>
+<body>
+  <h1><%= controller.controller_name() %>: <%= controller.action_name %></h1>
+  <p style="color: green"><%= flash[:notice] %></p>
+  <div>
+    entities:
+    <%= link_to "protocols", {:controller => 'protocols'} %>
+    <%= link_to "hosts", {:controller => 'hosts'} %>
+    <%= link_to "services", {:controller => 'service'} %>
+    <%= link_to "tickets", {:controller => 'tickets'} %>
+    <%= link_to "note categories", {:controller => 'category'} %> |
+    <%= link_to "config", {:controller => 'config'} %>
+  </div>
+  <div>&nbsp;</div>
+  <%= @content_for_layout %>
+  
+</body>
+</html>

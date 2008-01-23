@@ -1,0 +1,43 @@
+<div>
+<% for host in @hosts %>
+  <a href="#" onclick="javascript:Effect.toggle('data_<%=host.address%>', 'slide')"><%= host.address %></a>
+<% end %>
+</div>
+<div>&nbsp;</div>
+<% i = 0 %>
+<% for host in @hosts %>  
+  <% color = i==1 ? '#fff' : '#ccc'%>
+  <div id="data_<%=host.address%>" style="display: none; background-color: <%= color %>">
+    Host: <%= host.address %> (<a href="javascript:Effect.toggle('data_<%=host.address%>', 'slide')">hide</a>)
+    <ul>
+      <li>Notes:
+        <ul>
+    <% for note in host.notes %>
+        <li><strong><%= note.category.name %></strong>: <%= note.text[0,60] %>[...] <a href="javascript:Effect.toggle('note_<%=note.id%>', 'slide')">details</a>
+        <div id="note_<%=note.id%>" style="display: none;"><pre><%= sanitize(note.text) %></pre></div>
+        </li>
+    <% end %>
+        </ul>
+      </li>
+      <li>Services:
+        <ul>
+          <% for service in host.services %>
+          <li><%= service.to_label %><% if service.notes.size > 0 %> (<a href="javascript:Effect.toggle('service_<%= service.id %>', 'slide')"><%=service.notes.size %> notes</a>)<% end %>
+          <div id="service_<%= service.id %>" style="display: none;">
+          <ul>
+          <% for note in service.notes %>
+            <li><strong><%= note.category.name %></strong>: <%= note.text[0,60] %> <a href="javascript:Effect.toggle('note_<%=note.id%>', 'slide')">details</a>
+            <div id="note_<%=note.id%>" style="display: none;"><pre><%= sanitize(note.text) %></pre></div>
+            </li>
+          <% end %>
+          </ul>
+          </div>
+          </li>
+          <% end %>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+  <% i = 1 - i %>
+<% end %>
