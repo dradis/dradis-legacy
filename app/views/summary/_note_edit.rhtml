@@ -1,0 +1,10 @@
+            <div>
+              <div style="text-align: right;"><%= link_bar %></div>
+	      <div>
+	    <% form_remote_tag( :url => {:action => 'update', :id => @note.id}, :update => "note_#{@note.id}") do %>
+            <%= render :partial => 'form' %>
+	    <% end %>
+	      </div>
+              <div style="text-align: right;">by <em><%= @note.author %></em></div>
+
+

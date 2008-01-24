@@ -1,43 +1,20 @@
-<div>
+<div id="summary">
+
 <% for host in @hosts %>
-  <a href="#" onclick="javascript:Effect.toggle('data_<%=host.address%>', 'slide')"><%= host.address %></a>
+  <div id="summary_host_<%= host.id %>" class="host">
+    <div id="summary_host_<%= host.id %>_notes" class="notes">
+    </div>
+      
+    <div id="summary_host_<%= host.id %>_services" class="services">
+      <strong><%= link_to_remote host.address, :url => { :action => "notes", :parent_id => host.id, :parent_type=> host.class.to_s, :position => host.id }%></strong> (<span id="host_note_count_<%=host.id%>"><%= host.notes.size %></span>)
+	      <ul>
+        <% for service in host.services %>
+        <li><%= link_to_remote service.to_label, :url => { :action => "notes", :parent_id => service.id, :parent_type=> service.class.to_s, :position => host.id } %> (<span id="service_note_count_<%=service.id%>"><%= service.notes.size %></span>)</li>
+        <% end %>
+        <!--li class="add_service"><a href="#">add service</a></li-->
+      </ul>
+    </div>
+    <div class="clear">&nbsp;</div>
+  </div>
 <% end %>
 </div>
-<div>&nbsp;</div>
-<% i = 0 %>
-<% for host in @hosts %>  
-  <% color = i==1 ? '#fff' : '#ccc'%>
-  <div id="data_<%=host.address%>" style="display: none; background-color: <%= color %>">
-    Host: <%= host.address %> (<a href="javascript:Effect.toggle('data_<%=host.address%>', 'slide')">hide</a>)
-    <ul>
-      <li>Notes:
-        <ul>
-    <% for note in host.notes %>
-        <li><strong><%= note.category.name %></strong>: <%= note.text[0,60] %>[...] <a href="javascript:Effect.toggle('note_<%=note.id%>', 'slide')">details</a>
-        <div id="note_<%=note.id%>" style="display: none;"><pre><%= sanitize(note.text) %></pre></div>
-        </li>
-    <% end %>
-        </ul>
-      </li>
-      <li>Services:
-        <ul>
-          <% for service in host.services %>
-          <li><%= service.to_label %><% if service.notes.size > 0 %> (<a href="javascript:Effect.toggle('service_<%= service.id %>', 'slide')"><%=service.notes.size %> notes</a>)<% end %>
-          <div id="service_<%= service.id %>" style="display: none;">
-          <ul>
-          <% for note in service.notes %>
-            <li><strong><%= note.category.name %></strong>: <%= note.text[0,60] %> <a href="javascript:Effect.toggle('note_<%=note.id%>', 'slide')">details</a>
-            <div id="note_<%=note.id%>" style="display: none;"><pre><%= sanitize(note.text) %></pre></div>
-            </li>
-          <% end %>
-          </ul>
-          </div>
-          </li>
-          <% end %>
-        </ul>
-      </li>
-
-    </ul>
-  </div>
-  <% i = 1 - i %>
-<% end %>

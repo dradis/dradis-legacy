@@ -1,17 +1,114 @@
-body { background-color: #fff; color: #333; }
+/*
+#BFE4FF
+
+#6096BF
+
+#E6F4FF
+
+#80C9FF
+*/
+
+body { 
+  background-color: #fff; 
+  color: #333; 
+  min-width:750px;
+}
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size:   13px;
-  line-height: 18px;
+/* font-size:   13px; line-height: 18px; */
 }
 
 pre {
-  background-color: #eee;
-  padding: 10px;
-  font-size: 11px;
+  background-color: #f9fbfc;
+  font-family: 'Courier New',monospace;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid #c3ced9;
+  margin: 0;
 }
 
 a { color: #000; }
 a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }
+/*a:hover { color: #fff; background-color:#000; }*/
+
+.clear { clear: both; }
+.right {text-align: right; }
+
+#wrap {
+  margin:0 auto;
+  width:750px;
+}
+
+#content {
+  float: left;
+  width:600px;  
+}
+
+#sidebar {
+  float:right;
+  width:148px;
+  border-left: 1px solid #BFE4FF;
+  font-weight: bold;
+  padding-left: 1px;
+}
+
+#sidebar #feed {
+  background-color: #FFE4BF;
+  border: 1px solid orange;
+}
+
+#sidebar ul { 
+  font-weight: normal; 
+  padding-right: 2em;
+}
+
+#summary ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 1em;
+}
+
+#summary div.host {
+  border-top: 1px solid #80C9FF; 
+}
+
+#summary div.services {
+  float: left; 
+  width: 199px;
+}
+
+/*#summary div.services li.add_service { text-align: right; }*/
+#summary div.services li.add_service a { color: blue; }
+#summary div.services li.add_service a:visited { color: blue; }
+
+#summary div.notes {
+  float: right; 
+  border-left: 1px solid #80C9FF; 
+  width: 400px;
+}
+
+#summary div.notes div.bar {
+  border-bottom: 1px solid #80C9FF;
+  background-color: #E6F4FF;
+}
+
+#summary div.notes div.bar a {
+  border-right: 1px solid #80C9FF;
+  padding: 0 1ex 0 1ex;
+}
+
+
+#summary div.notes ul { 
+  list-style: square;
+  margin-bottom: 1em; 
+}
+
+#summary div.notes li { padding: 0 1ex; margin: 1ex 0;}
+
+#summary input, #summary textarea, #summary select {
+  border: 1px solid #80C9FF;
+  width: 80%;
+}
+
+

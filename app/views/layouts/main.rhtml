@@ -10,19 +10,38 @@
   <%= active_scaffold_includes %>
 </head>
 <body>
-  <h1><%= controller.controller_name() %>: <%= controller.action_name %></h1>
+  <!--<h1><%= controller.controller_name() %>: <%= controller.action_name %></h1>-->
   <p style="color: green"><%= flash[:notice] %></p>
-  <div>
-    entities:
-    <%= link_to "protocols", {:controller => 'protocols'} %>
-    <%= link_to "hosts", {:controller => 'hosts'} %>
-    <%= link_to "services", {:controller => 'service'} %>
-    <%= link_to "tickets", {:controller => 'tickets'} %>
-    <%= link_to "note categories", {:controller => 'category'} %> |
-    <%= link_to "config", {:controller => 'config'} %>
+  <div id="wrap">
+    
+    <div id="content">
+    <%= @content_for_layout %>
+    </div>
+    
+    <div id="sidebar">
+      <!--div id="feed">
+      <ul>
+        <li>00:00:00</li>
+      </ul>
+      </div-->
+      <%#= periodically_call_remote(:url => {:action=>'num', :id=>host.id}, :frequency => 4, :update => "host_note_count_#{host.id}") %>
+
+      general
+      <ul>
+        <li><%= link_to "summary", {:controller => 'summary'} %></li>
+      </ul>
+      active scaffolding
+      <ul>
+        <li><%= link_to "protocols", {:controller => 'protocols'} %></li>
+        <li><%= link_to "hosts", {:controller => 'hosts'} %></li>
+        <li><%= link_to "services", {:controller => 'service'} %></li>
+        <li><%= link_to "tickets", {:controller => 'tickets'} %></li>
+        <li><%= link_to "note categories", {:controller => 'category'} %></li>
+        <li><%= link_to "dradis server settings", {:controller => 'config'} %></li>
+      </ul>
+
+    </div>    
+    
   </div>
-  <div>&nbsp;</div>
-  <%= @content_for_layout %>
-  
 </body>
 </html>

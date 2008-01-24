@@ -1,0 +1,7 @@
+            <div class="right">author: <%= text_field(:note, :author) %></div>
+            <div class="right">category: <%= collection_select(:note, :category_id, Category.find(:all), :id, :name ) %></div>
+            <div class="right">text: <%= text_area(:note, :text, :rows => 10) -%></div>
+            <input type="hidden" name="parent_type" value="<%= @parent_type %>" />
+            <input type="hidden" name="parent_id" value="<%= @parent_id %>" />
+            <input type="hidden" name="position" value="<%= @position %>" />
+            <div class="right"><%= submit_tag("save") %></div>
