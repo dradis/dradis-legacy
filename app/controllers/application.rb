@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_dserver_session_id'
   layout 'main'
-  before_filter :authorise
+  # not ye implemented, plus it breaks the client web service calls :)
+  #before_filter :authorise
 
 
   private
