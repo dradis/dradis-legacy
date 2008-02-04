@@ -1,5 +1,22 @@
 <div id="summary">
 
+  <!--div class="host">
+    <div id="summary_host_0_notes" class="notes">
+      <div class="bar">
+        <a href="#" onclick="javascript:Effect.toggle('add_host', 'slide')">host</a>
+        <a href="#" onclick="javascript:Effect.toggle('add_category', 'appear')">category</a>
+        <a href="#" onclick="javascript:Effect.toggle('add_protocol', 'appear')">protocol</a>
+      </div>
+      <div id="add_host" style="display: none; border-bottom: 1px solid #80C9FF; padding: 1ex;"><input type="text" /></div>
+      <div id="add_category" style="display: none; border-bottom: 1px solid #80C9FF; padding: 1ex;"><input type="text" /></div>
+      <div id="add_protocol" style="display: none; border-bottom: 1px solid #80C9FF; padding: 1ex;"><input type="text" /></div>
+    </div>
+    <div id="summary_host_0_services" class="services">
+      add:
+    </div>
+    <div class="clear">&nbsp;</div>
+  </div-->
+
 <% for host in @hosts %>
   <div id="summary_host_<%= host.id %>" class="host">
     <div id="summary_host_<%= host.id %>_notes" class="notes">
@@ -17,4 +34,5 @@
     <div class="clear">&nbsp;</div>
   </div>
 <% end %>
+
 </div>

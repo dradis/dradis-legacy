@@ -9,7 +9,7 @@ class DradisController < ApplicationController
 
   #---------------------------------------------- ticketing system
   def clear_expired_tickets
-    expired = Ticket.find(:all, :conditions => ['valid_until <= NOW()'] )
+    expired = Ticket.find(:all, :conditions => ['valid_until <= ?', Date.today.to_s] )
     if expired.size > 0
       expired.each do |ticket|
         ticket.destroy
