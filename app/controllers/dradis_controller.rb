@@ -293,7 +293,12 @@ class DradisController < ApplicationController
   
   #---------------------------------------------- other stuff  
   def refresh()
-    KnowledgeBaseResponse.new(:revision=>Configuration.find(:first, :conditions=>{ :name=>'revision' }).value.to_i, :hosts=>Host.find(:all,:order=>:address).collect! do |h| SOAPHost.from_host h end)
+    KnowledgeBaseResponse.new(
+      :revision=>Configuration.find(:first, :conditions=>{ :name=>'revision' }).value.to_i, 
+      :hosts=>Host.find(:all,:order=>:address).collect! do |h| SOAPHost.from_host h end,
+      :categories => Category.find(:all,:order=>:name).collect! do |c| SOAPCategory.from_category c end,
+      :protocols => Protocol.find(:all,:order=>:name).collect! do |p| SOAPProtocol.from_protocol p end
+      )
   end
   
   def changed(updatenum)
