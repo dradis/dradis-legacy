@@ -84,12 +84,12 @@ a:visited { color: #666; }
 
 #summary div.notes {
   float: right; 
-  border-left: 1px solid #80C9FF; 
+  /*border-left: 1px solid #80C9FF;*/ 
   width: 400px;
 }
 
 #summary div.notes div.bar {
-  border-bottom: 1px solid #80C9FF;
+  /*border-bottom: 1px solid #80C9FF;*/
   background-color: #E6F4FF;
 }
 

@@ -1,0 +1,8 @@
+<div id="summary_host_<%= host.id %>" class="host">
+  <div id="summary_host_<%= host.id %>_notes" class="notes">
+  </div>
+
+  <%= render :partial => 'services', :locals => {:host => host} %>
+
+  <div class="clear">&nbsp;</div>
+</div>

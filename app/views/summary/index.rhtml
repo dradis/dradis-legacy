@@ -1,38 +1,76 @@
+<script type="text/javascript">
+  function reFresh() {
+    location.reload(true)
+  }
+  window.setInterval("reFresh()",60000);
+</script>
 <div id="summary">
-
-  <!--div class="host">
+  <div class="host">
     <div id="summary_host_0_notes" class="notes">
-      <div class="bar">
-        <a href="#" onclick="javascript:Effect.toggle('add_host', 'slide')">host</a>
-        <a href="#" onclick="javascript:Effect.toggle('add_category', 'appear')">category</a>
-        <a href="#" onclick="javascript:Effect.toggle('add_protocol', 'appear')">protocol</a>
+      <div class="bar" style="font-size:80%">
+        <span style="background-color: #fff; padding: 0 3em 0 1ex; border-right: 1px solid #80C9FF ">add new:</span>
+        <a id="activate_add_host" href="#" onclick="javascript:Effect.toggle('add_host', 'appear');
+            Effect.Fade('add_protocol');
+            Effect.Fade('add_category');
+            document.getElementById('activate_add_host').style.backgroundColor = '#80C9FF';
+            document.getElementById('activate_add_category').style.backgroundColor = '#E6F4FF';
+            document.getElementById('activate_add_protocol').style.backgroundColor = '#E6F4FF'">host</a>
+
+        <a id="activate_add_category" href="#" onclick="javascript:Effect.toggle('add_category', 'appear');
+            Effect.Fade('add_protocol');
+            Effect.Fade('add_host');
+            document.getElementById('activate_add_category').style.backgroundColor = '#80C9FF';
+            document.getElementById('activate_add_host').style.backgroundColor = '#E6F4FF';
+            document.getElementById('activate_add_protocol').style.backgroundColor = '#E6F4FF'">note category</a>
+        <a id="activate_add_protocol" href="#" onclick="javascript:Effect.toggle('add_protocol', 'appear');
+            Effect.Fade('add_category');
+            Effect.Fade('add_host');
+            document.getElementById('activate_add_category').style.backgroundColor = '#E6F4FF';
+            document.getElementById('activate_add_host').style.backgroundColor = '#E6F4FF';
+            document.getElementById('activate_add_protocol').style.backgroundColor = '#80C9FF'">protocol</a>
       </div>
-      <div id="add_host" style="display: none; border-bottom: 1px solid #80C9FF; padding: 1ex;"><input type="text" /></div>
-      <div id="add_category" style="display: none; border-bottom: 1px solid #80C9FF; padding: 1ex;"><input type="text" /></div>
-      <div id="add_protocol" style="display: none; border-bottom: 1px solid #80C9FF; padding: 1ex;"><input type="text" /></div>
+      <div id="add_host" style="display: none; border: 1px solid #80C9FF; border-width: 1px 0 1px 1px;  padding: 1ex;font-size:80%;">
+      <% form_remote_tag :url => { :action => 'add_host' } do %>
+        "xxx.xxx.xxx.xxx"<br>
+        <input type="text" name="address" value="" style="width: 40%"/>
+        <input type="image" name="commit" title="Add host" value="Add host" src="/images/submit.png" 
+            style="width: 26px;border-width:0px;" onclick="javascript:Effect.Fade('add_host');
+                javascript:Effect.Appear('activate_add_host');"/>
+      <% end %>
+      <a href="#" onclick="javascript:Effect.Fade('add_host');
+          javascript:Effect.Appear('activate_add_host');">cancel</a>
+    </div>
+
+      <div id="add_category" style="display: none; border: 1px solid #80C9FF; border-width: 1px 0 1px 1px;  padding: 1ex;font-size:80%;">
+        <% form_remote_tag :url => { :action => 'add_category' } do %>
+          <input type="text" name="category" value="" style="width: 50%"/>
+          <input type="image" name="commit" title="Add category" value="Add category" src="/images/submit.png" 
+              style="width: 26px;border-width:0px;" onclick="javascript:Effect.Fade('add_category');
+            document.getElementById('activate_add_category').style.backgroundColor = '#E6F4FF'"/>
+        <% end %>
+        <a href="#" onclick="javascript:Effect.Fade('add_category');
+            document.getElementById('activate_add_category').style.backgroundColor = '#E6F4FF'">cancel</a>
+      </div>
+      <div id="add_protocol" style="display: none; border: 1px solid #80C9FF; border-width: 1px 0 1px 1px;  padding: 1ex;font-size:80%;>
+        <% form_remote_tag :url => { :action => 'add_protocol' } do %>
+          <input type="text" name="protocol" value="" style="width: 50%"/>
+          <input type="image" name="commit" title="Add protocol" value="Add protocol" src="/images/submit.png" 
+              style="width: 26px;border-width:0px;" onclick="javascript:Effect.Fade('add_protocol');
+            document.getElementById('activate_add_protocol').style.backgroundColor = '#E6F4FF'"/>
+        <% end %>
+        <a href="#" onclick="javascript:Effect.Fade('add_protocol');
+            document.getElementById('activate_add_protocol').style.backgroundColor = '#E6F4FF'">cancel</a>
+      </div>
     </div>
     <div id="summary_host_0_services" class="services">
-      add:
-    </div>
-    <div class="clear">&nbsp;</div>
-  </div-->
-
-<% for host in @hosts %>
-  <div id="summary_host_<%= host.id %>" class="host">
-    <div id="summary_host_<%= host.id %>_notes" class="notes">
-    </div>
-      
-    <div id="summary_host_<%= host.id %>_services" class="services">
-      <strong><%= link_to_remote host.address, :url => { :action => "notes", :parent_id => host.id, :parent_type=> host.class.to_s, :position => host.id }%></strong> (<span id="host_note_count_<%=host.id%>"><%= host.notes.size %></span>)
-	      <ul>
-        <% for service in host.services %>
-        <li><%= link_to_remote service.to_label, :url => { :action => "notes", :parent_id => service.id, :parent_type=> service.class.to_s, :position => host.id } %> (<span id="service_note_count_<%=service.id%>"><%= service.notes.size %></span>)</li>
-        <% end %>
-        <!--li class="add_service"><a href="#">add service</a></li-->
-      </ul>
     </div>
     <div class="clear">&nbsp;</div>
   </div>
-<% end %>
+  
+  <% for host in @hosts %>
+    <%= render :partial => 'host', :locals => {:host => host} %>
+  <% end %>
+  <div id="place_holder">
+  </div>
 
 </div>

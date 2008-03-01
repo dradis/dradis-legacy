@@ -1,5 +1,6 @@
 # Author: Luke Holden <lholden@cablelan.net>
 # Updated for SQLite3: Jamis Buck <jamis@37signals.com>
+# patched to avoid 'too many open files': Daniel Martin Gomez <etd[-at-]nomejortu.com>
 
 require 'active_record/connection_adapters/abstract_adapter'
 
@@ -104,6 +105,11 @@ module ActiveRecord
 
       def requires_reloading?
         true
+      end
+
+      def disconnect!
+        super
+        @connection.close rescue nil
       end
       
       def supports_count_distinct? #:nodoc:

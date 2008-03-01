@@ -56,14 +56,6 @@ class DradisController < ApplicationController
 
   #---------------------------------------------- /ticketing system
   
-  #---------------------------------------------- increase revision num
-  def update_revision
-    rev = Configuration.find(:first, :conditions=>{ :name=>'revision' })
-    rev.value = rev.value.to_i + 1
-    rev.save
-  end
-  #---------------------------------------------- /increase revision num
-  
   
   #---------------------------------------------- hosts
   def add_host(req)
@@ -75,7 +67,7 @@ class DradisController < ApplicationController
     else
       Host.transaction do
         Host.new(:address => req.address).save!
-        update_revision
+        Configuration.increment_revision
       end 
       out = SOAPResponse.new( Dradis::Error::SUCCESS )
     end
@@ -91,7 +83,7 @@ class DradisController < ApplicationController
     else
       Host.transaction do
         Host.find_by_id(req.id).destroy
-        update_revision
+        Configuration.increment_revision
       end 
       out = SOAPResponse.new( Dradis::Error::SUCCESS )
     end
@@ -110,7 +102,7 @@ class DradisController < ApplicationController
     else
       Protocol.transaction do
         Protocol.new(:name => req.name).save!
-        update_revision
+        Configuration.increment_revision
       end 
       out = SOAPResponse.new( Dradis::Error::SUCCESS )
     end
@@ -126,7 +118,7 @@ class DradisController < ApplicationController
     else
       Protocol.transaction do
         Protocol.find_by_name(req.name).destroy
-        update_revision
+        Configuration.increment_revision
       end 
       out = SOAPResponse.new( Dradis::Error::SUCCESS )
     end
@@ -159,7 +151,7 @@ class DradisController < ApplicationController
           :protocol => prot, 
           :name => req.name, 
           :port => req.port).save!
-        update_revision
+        Configuration.increment_revision
       end 
       out = SOAPResponse.new( Dradis::Error::SUCCESS )
     end
@@ -175,7 +167,7 @@ class DradisController < ApplicationController
     else
       Service.transaction do
         Service.find_by_id(req.id).destroy
-        update_revision
+        Configuration.increment_revision
       end 
       out = SOAPResponse.new( Dradis::Error::SUCCESS )
     end
@@ -211,7 +203,7 @@ class DradisController < ApplicationController
             :category => category,
             :annotatable => parent
             ).save!
-          update_revision
+          Configuration.increment_revision
         end 
         out = SOAPResponse.new( Dradis::Error::SUCCESS )
       end
@@ -238,7 +230,7 @@ class DradisController < ApplicationController
           
         Note.transaction do
           note.save!
-          update_revision
+          Configuration.increment_revision
         end 
         out = SOAPResponse.new( Dradis::Error::SUCCESS )
       end
@@ -260,7 +252,7 @@ class DradisController < ApplicationController
     else
       Category.transaction do
         Category.new(:name => req.name).save!
-        update_revision
+        Configuration.increment_revision
       end 
       out = SOAPResponse.new( Dradis::Error::SUCCESS )
     end
@@ -276,7 +268,7 @@ class DradisController < ApplicationController
     else
       Category.transaction do
         Category.find_by_name(req.name).destroy
-        update_revision
+        Configuration.increment_revision
       end 
       out = SOAPResponse.new( Dradis::Error::SUCCESS )
     end
