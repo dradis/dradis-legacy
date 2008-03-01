@@ -2,6 +2,7 @@ class SummaryController < ApplicationController
 
   def index
     @hosts = Host.find(:all)
+    @old_revision = @new_revision = Configuration.get_revision.value.to_i
   end
 
   def num
@@ -140,5 +141,11 @@ class SummaryController < ApplicationController
     end
     
     render :nothing => true
+  end
+  
+  def revision_countdown
+    @old_revision = params[:revision].to_i
+    @new_revision = Configuration.get_revision.value.to_i
+    render :partial => 'refresher'
   end
 end

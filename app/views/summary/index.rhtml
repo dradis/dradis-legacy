@@ -1,10 +1,33 @@
 <script type="text/javascript">
-  function reFresh() {
-    location.reload(true)
-  }
-  window.setInterval("reFresh()",60000);
+ //<![CDATA[
+   stop_refresher = false;
+   counter = 60;
+   stop_countdown = false
+   function timeout() {
+     if (stop_countdown == false) {
+       counter -= 1;
+       document.getElementById('refresher_countdown').innerHTML = counter;
+       if (counter <= 0) {
+         location.reload(true)
+       }
+     }
+   }
+   function abortCountdown(link){
+     stop_countdown=true; 
+     link.innerHTML='refresh view'; 
+     link.href='/'
+     link.onclick=null;
+   }
+  //]]>
 </script>
+<%= periodically_call_remote(
+   :condition => 'stop_refresher == false',
+   :update => 'refresher_notice',
+   :frequency => 3,
+   :url => { :action => "revision_countdown", :revision => @new_revision }) %>
+ 
 <div id="summary">
+  <div id="refresher_notice" style="color: red; padding: 1ex;"><%= render :partial => 'refresher'%></div>
   <div class="host">
     <div id="summary_host_0_notes" class="notes">
       <div class="bar" style="font-size:80%">
@@ -51,7 +74,7 @@
         <a href="#" onclick="javascript:Effect.Fade('add_category');
             document.getElementById('activate_add_category').style.backgroundColor = '#E6F4FF'">cancel</a>
       </div>
-      <div id="add_protocol" style="display: none; border: 1px solid #80C9FF; border-width: 1px 0 1px 1px;  padding: 1ex;font-size:80%;>
+      <div id="add_protocol" style="display: none; border: 1px solid #80C9FF; border-width: 1px 0 1px 1px;  padding: 1ex;font-size:80%;">
         <% form_remote_tag :url => { :action => 'add_protocol' } do %>
           <input type="text" name="protocol" value="" style="width: 50%"/>
           <input type="image" name="commit" title="Add protocol" value="Add protocol" src="/images/submit.png" 
