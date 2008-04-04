@@ -33,24 +33,33 @@
       <div class="bar" style="font-size:80%">
         <span style="background-color: #fff; padding: 0 3em 0 1ex; border-right: 1px solid #80C9FF ">add new:</span>
         <a id="activate_add_host" href="#" onclick="javascript:Effect.toggle('add_host', 'appear');
-            Effect.Fade('add_protocol');
-            Effect.Fade('add_category');
-            document.getElementById('activate_add_host').style.backgroundColor = '#80C9FF';
+			Effect.BlindUp('add_protocol',{delay:'0.5'});
+			Effect.BlindUp('add_category',{delay:'0.5'});
+			if (Element.visible('add_host')) 
+			{this.style.backgroundColor = '#E6F4FF';}
+			else
+			{this.style.backgroundColor = '#80C9FF';};
             document.getElementById('activate_add_category').style.backgroundColor = '#E6F4FF';
-            document.getElementById('activate_add_protocol').style.backgroundColor = '#E6F4FF'">host</a>
+            document.getElementById('activate_add_protocol').style.backgroundColor = '#E6F4FF';">host</a>
 
         <a id="activate_add_category" href="#" onclick="javascript:Effect.toggle('add_category', 'appear');
-            Effect.Fade('add_protocol');
-            Effect.Fade('add_host');
-            document.getElementById('activate_add_category').style.backgroundColor = '#80C9FF';
+        	Effect.BlindUp('add_protocol',{delay:'0.5'});
+        	Effect.BlindUp('add_host',{delay:'0.5'});
+        	if (Element.visible('add_category')) 
+        	{this.style.backgroundColor = '#E6F4FF';}
+        	else
+        	{this.style.backgroundColor = '#80C9FF';};
             document.getElementById('activate_add_host').style.backgroundColor = '#E6F4FF';
-            document.getElementById('activate_add_protocol').style.backgroundColor = '#E6F4FF'">note category</a>
+            document.getElementById('activate_add_protocol').style.backgroundColor = '#E6F4FF';">note category</a>
         <a id="activate_add_protocol" href="#" onclick="javascript:Effect.toggle('add_protocol', 'appear');
-            Effect.Fade('add_category');
-            Effect.Fade('add_host');
+        	Effect.BlindUp('add_category',{delay:'0.5'});
+        	Effect.BlindUp('add_host',{delay:'0.5'});
+        	if (Element.visible('add_protocol')) 
+        	{this.style.backgroundColor = '#E6F4FF';}
+        	else
+        	{this.style.backgroundColor = '#80C9FF';};
             document.getElementById('activate_add_category').style.backgroundColor = '#E6F4FF';
-            document.getElementById('activate_add_host').style.backgroundColor = '#E6F4FF';
-            document.getElementById('activate_add_protocol').style.backgroundColor = '#80C9FF'">protocol</a>
+            document.getElementById('activate_add_host').style.backgroundColor = '#E6F4FF';">protocol</a>
       </div>
       <div id="add_host" style="display: none; border: 1px solid #80C9FF; border-width: 1px 0 1px 1px;  padding: 1ex;font-size:80%; line-height: 2em;">
       <% form_remote_tag :url => { :action => 'add_host' } do %>
