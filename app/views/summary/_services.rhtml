@@ -5,24 +5,26 @@
     <li><%= link_to_remote service.to_label, :url => { :action => "notes", :parent_id => service.id, :parent_type=> service.class.to_s, :position => host.id } %> (<span id="service_note_count_<%=service.id%>"><%= service.notes.size %></span>)</li>
     <% end %>
     <li style="font-size:80%">
-      <a id="activate_add_service_<%= host.id %>" href="#" onclick="javascript:Effect.Appear('add_service_<%= host.id %>');
+      <a id="activate_add_service_<%= host.id %>" href="javascript:return;" onclick="javascript:Effect.Appear('add_service_<%= host.id %>');
           Effect.Fade('activate_add_service_<%= host.id %>');">
         Add service
       </a>
       <div id="add_service_<%= host.id %>" style="display: none; padding: 1ex;">
         <% form_remote_tag :url => { :action => 'add_service' } do %>
-        "protocol"/"port number"<br>
-        <input type="text" name="service" style="width: 100%"/>
-          <br>
+        "service (protocol/port)"<br>
+		<div style="line-height: 2em;">
+        <input type="text" name="service" id="add_service_<%= host.id %>_text" value="service (protocol/port)"
+          onclick="if (this.value=='service (protocol/port)') {this.value=''}"/>
           <input type="hidden" name="host_id" value="<%= host.id %>" />
-          <input type="image" name="commit" title="Add service" value="Add service" src="/images/submit.png" style="width: 26px;border-width:0px;"/>
+          <input type="image" name="commit" title="Add service" value="Add service" src="/images/submit.png" style="width: 26px;border-width:0px;vertical-align: middle;"/>
+		  </div>
         <% end %>
-        <a href="#" onclick="javascript:Effect.Fade('add_service_<%= host.id %>');
-            javascript:Effect.Appear('activate_add_service_<%= host.id %>');">
+        <a href="javascript:return;" onclick="javascript:Effect.Fade('add_service_<%= host.id %>');
+            javascript:Effect.Appear('activate_add_service_<%= host.id %>');
+				document.getElementById('add_service_<%= host.id %>_text').value='service (protocol/port)'">
           cancel
         </a>
       </div>
     </li>
-    <!--li class="add_service"><a href="#">add service</a></li-->
   </ul>
 </div>

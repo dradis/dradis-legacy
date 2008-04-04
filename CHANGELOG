@@ -1,0 +1,10 @@
+v1.2 (4th of April 2008)
+ - a slightly less annoying implementation of the web interface 'auto refresh'
+ functionality.
+ - the services added through the web interface can have a name now :)
+ - simple prevention against embedded XSS.
+ - the missing submit.png image is included in the release now.
+
+v1.1 (29th of February 2008)
+ - new web interface, the old summary is gone, the new one is much neater and
+ ajax powered.

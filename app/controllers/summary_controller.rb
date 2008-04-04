@@ -94,12 +94,16 @@ class SummaryController < ApplicationController
   def add_service
     host_id = params[:host_id]
     host = Host.find(host_id)
-    service = params[:service].split('/')  
-    protocol_id = Protocol.find(:first, :conditions => ["name = ?", service[0]]).id
+    params[:service] =~ /(.*)\((.*)\/(.*)\)/
+    service = $1.strip
+    protocol = $2.strip
+    port = $3.strip
+    protocol_id = Protocol.find(:first, :conditions => ["name = ?", protocol]).id
     Service.transaction do
       Service.new(
         :protocol_id => protocol_id,
-        :port => service[1],
+        :port => port,
+        :name => service,
         :host_id => host_id
       ).save!
       Configuration.increment_revision
