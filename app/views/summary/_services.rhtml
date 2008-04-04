@@ -12,10 +12,11 @@
       <div id="add_service_<%= host.id %>" style="display: none; padding: 1ex;">
         <% form_remote_tag :url => { :action => 'add_service' } do %>
         "protocol"/"port number"<br>
-        <input type="text" name="service" style="width: 100%"/>
-          <br>
+		<div style="line-height: 2em;">
+		<input type="text" name="service"/>
           <input type="hidden" name="host_id" value="<%= host.id %>" />
-          <input type="image" name="commit" title="Add service" value="Add service" src="/images/submit.png" style="width: 26px;border-width:0px;"/>
+          <input type="image" name="commit" title="Add service" value="Add service" src="/images/submit.png" style="width: 26px;border-width:0px;vertical-align: middle;"/>
+		  </div>
         <% end %>
         <a href="#" onclick="javascript:Effect.Fade('add_service_<%= host.id %>');
             javascript:Effect.Appear('activate_add_service_<%= host.id %>');">
