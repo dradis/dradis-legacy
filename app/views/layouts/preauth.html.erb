@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Welcome to dradis</title>
+    <style type="text/css">
+      body { background-color: #89AEF1; font-family: Verdana, arial, sans-serif;}
+      h1 { padding-left: 2em; font-size: 300%; font-family: Arial Black, sans-serif; margin-bottom: 0.5ex;}
+      input { border: 1px solid #799EE1; width: 200px;}
+      label { }
+      .submit { background-color: #799EE1; font-weight: bold; color: #fff; cursor: pointer;}
+      
+      #wrap { width: 80%; margin: 2.5% auto; padding: 2ex; }
+      #content { width: 30%; margin: 0 auto; padding: 2ex; border: 2px solid #3F4C6B; background-color: #FFF;}
+      #footer { width: 40%; margin: 10 30% 0 30%; padding: 0 2ex; text-align: right;}
+      #footer a {color: #fff; font-weight: bold; text-decoration: none;}
+      #footer a:hover {text-decoration: underline;}      
+      #notice { border: 2px solid #CCFF00; background-color: #F2FFBF; padding: 1ex; font-family: monospace;}
+      #error { border: 2px solid #D01F3C; background-color: #FFBFDC; padding: 1ex; }
+    </style>      
+  </head>
+  <body>
+    <div id="wrap">
+      <h1>Welcome to dradis</h1>
+      <div id="content">
+        <div style="float: right; margin: 1ex 1ex 0 0;"><img src="/images/rails.png"/></div>
+        <%= @content_for_layout %>
+        <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
+        <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
+      </div>
+      <div id="footer"><a href="http://dradis.sourceforge.net/">dradis framework</a></div>      
+    </div>
+  </body>
+</html>

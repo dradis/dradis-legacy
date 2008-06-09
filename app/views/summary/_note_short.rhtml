@@ -1,9 +1,0 @@
-            <% if (@text.size > 60)
-			  @text = @text[0,59] << '...'
-		      @cropped = true
-  	        else
-	          @cropped = false
-            end %>
-
-            <%= h(@text) %> (<em><%= @note.author %></em>) <%= link_bar %>
-

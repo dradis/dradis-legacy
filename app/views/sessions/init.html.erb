@@ -1,0 +1,10 @@
+<% form_for :password, :url => { :action => 'setup' } do |f| -%>
+<p>This server doesn't have a password yet, please set up one:</p>
+<p><label for="password">Password</label><br/>
+<%= f.password_field :value %></p>
+
+<p><label for="password_confirmation">Confirm Password</label><br/>
+<%= f.password_field :confirm_value %></p>
+
+<p><%= submit_tag 'Sign up' %></p>
+<% end -%>
