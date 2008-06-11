@@ -28,6 +28,8 @@ namespace :win32 do
       substitute_placeholder( Rails::Configuration.new().database_configuration_file, /db\/dev.db/, db_path)
       # logfile
       log_path = "config.log_path = \"#{dradis_path}dradis-1.2.log\""
+      # back slashes needs to be escaped in paths in environment.rb
+      log_path = log_path.gsub(/\\/,"\\\\")
       substitute_placeholder( 'config/environment.rb', /#--w32logfile--#/, log_path)
     end
   end  
