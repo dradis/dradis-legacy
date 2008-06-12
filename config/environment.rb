@@ -42,7 +42,7 @@ Rails::Initializer.run do |config|
   # config.active_record.default_timezone = :utc
   
   # See Rails::Configuration for more options
-  #--w32logfile--#
+  #--win32logfile--#
 end
 
 # Add new inflection rules using the following format 
