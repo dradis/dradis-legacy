@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>dradis v2.0</title>
+    <!-- Ext CSS and Libs -->
+    <%= javascript_include_tag 'adapter/ext/ext-base.js' %>
+    <%= javascript_include_tag 'ext-all.js' %>
+    <%= stylesheet_link_tag 'ext-all.css' %>
+
+    <!-- Custom CSS and Libs -->
+    <%= javascript_include_tag 'interface' %>
+    <%= stylesheet_link_tag 'dradis.css' %>
+  </head>
+  <body>
+    <div id="header">
+    <h1 class="x-panel-header">dradis v2.0</h1>
+    </div>
+    <noscript>
+      <p>This application makes extensive use of JavaScript. Please enable 
+      JavaScript support in your browser. (<%= link_to 'logout', logout_path %>)</p>
+    </noscript>  
+    <div id="main">
+    <%#= @content_for_layout %>
+    <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
+    <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
+    </div>
+  </body>
+</html>
