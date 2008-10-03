@@ -7,8 +7,9 @@
     <%= stylesheet_link_tag 'ext-all.css' %>
 
     <!-- Custom CSS and Libs -->
-    <%= javascript_include_tag 'interface' %>
+    <%= javascript_include_tag 'notesbrowser', 'interface' %>
     <%= stylesheet_link_tag 'dradis.css' %>
+
   </head>
   <body>
     <div id="header">
@@ -19,9 +20,14 @@
       JavaScript support in your browser. (<%= link_to 'logout', logout_path %>)</p>
     </noscript>  
     <div id="main">
-    <%#= @content_for_layout %>
-    <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
-    <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
+      <div id="tabs">
+        <div id="notes" class="x-hide-display">notes</div>
+        <div id="properties" class="x-hide-display">props</div>
+      </div>
+      <%#= link_to_remote 'label', :url => { :action => "notes", :parent_id => 83, :parent_type=> 'foo', :position => 7 } %>
+      <%#= @content_for_layout %>
+      <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
+      <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
     </div>
   </body>
 </html>
