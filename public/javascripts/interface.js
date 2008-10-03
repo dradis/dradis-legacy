@@ -1,7 +1,7 @@
-// ----------------------------------------- app config
+
 Ext.BLANK_IMAGE_URL = '/images/default/s.gif';
-Ext.ns('dradis');
- 
+//Ext.ns('dradis');
+
 // ----------------------------------------- header: title + toolbar
 //dradis.HeaderPanel = new Ext.Panel({
 dradisheader = new Ext.Panel({
@@ -56,7 +56,10 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
   rootVisible: false,
   listeners: {
     click: function(n) {
-      Ext.Msg.alert('Navigation Tree Click', 'You clicked: "' + n.attributes.text + '"');
+      notesbrowser.updateNotes(n.attributes.id); 
+      if (dradistabs.getActiveTab() == null) {
+        dradistabs.setActiveTab(0);
+      }
     }
   }
 });
@@ -64,6 +67,25 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 Ext.reg('dradisnodes', dradis.NodesTree);
 
 // ----------------------------------------- notes 
+
+var notesbrowser = new dradis.NotesBrowser();
+var dradistabs = new Ext.TabPanel({
+  region: 'center',
+  tabPosition: 'bottom',
+  deferredRender: false,
+  items: [
+    notesbrowser,
+    { contentEl: 'properties', title: 'Properties'}
+  ],
+});
+
+// ----------------------------------------- status bar
+var dradisstatus = new Ext.StatusBar({
+  region: 'south',
+  defaultText: ''
+});
+Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
+Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); }); 
 
 
 
@@ -80,28 +102,22 @@ Ext.onReady(function() {
         //title: 'Navigation',
         xtype: 'dradisnodes',
       }, 
-      { // center panel view
-        region: 'center',
-        xtype: 'tabpanel',
-        tabPosition: 'bottom',
-        items: [{
-            title: 'Notes',
-            html: 'The first tab\'s content. Others may be added dynamically'
-          },{
-            title: 'Properties'
-          }]
-      }, {
+      dradistabs,
+      dradisstatus
+        //{
         // console? do we need this?
-        region: 'south',
+        //region: 'south',
         //title: 'Information',
         //ollapsible: true,
         //html: 'Information goes here',
         //split: true,
         //height: 100,
         //minHeight: 100
-        xtype: 'statusbar'
-      }]
+        //xtype: 'statusbar'
+        //}
+    ]
   });
+  store.load();
   vp.doLayout();
 
 });
