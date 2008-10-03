@@ -6,6 +6,9 @@ class Node < ActiveRecord::Base
     json = '{"text":"'
     json << self.label
     json << '"'
+    json << ',"id":"'
+    json << self.attributes['id'].to_s
+    json << '"'
     if (self.children.any?)
       json << ', "children":'
       json << self.children.to_json
