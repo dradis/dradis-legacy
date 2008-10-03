@@ -7,7 +7,7 @@ class NotesController < ApplicationController
   # GET /nodes
   # Formats: xml
   def index
-    @notes = Note.find(:all)
+    @notes = Note.find(:all, :conditions => {:node_id => @node.id})
     respond_to do |format|
       format.html { head :method_not_allowed }
       
