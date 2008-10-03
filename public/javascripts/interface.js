@@ -1,40 +1,23 @@
 
 Ext.BLANK_IMAGE_URL = '/images/default/s.gif';
-//Ext.ns('dradis');
 
 // ----------------------------------------- header: title + toolbar
-//dradis.HeaderPanel = new Ext.Panel({
-dradisheader = new Ext.Panel({
-  border: false,
-  layout:'anchor',
-  region:'north',
-  //cls: 'docs-header',
-  //height:60,
-  margins: '0 0 5 0',
-  autoHeight: true,
-  items: [
-    {
-      xtype:'box',
-      el:'header',
-      border:false,
-      //anchor: 'none -25'
-    }, 
-    new Ext.Toolbar(
-      {
-        border: false,
-        //autoHeight: true,
-        items: [ 
-          {
-            text: 'logout', 
-            handler: function(){ window.location = '/logout';},
-            tooltip: {text:'End session'}
-          } 
-        ]
-      })
-    ]
-});
+dradis.HeaderPanel = function(config){
+  Ext.apply(this, {
+    border: false,
+    layout:'anchor',
+    region:'north',
+    margins: '0 0 5 0',
+    autoHeight: true,
+    title: 'dradis v2.0',
+    tbar: [ {text: 'logout', handler: function(){ window.location = '/logout'; }, tooltip: 'End session'} ],
+  });
+  
+  dradis.HeaderPanel.superclass.constructor.apply(this, arguments);
+};
 
-//Ext.reg('dradisheader', dradis.HeaderPanel);
+Ext.extend( dradis.HeaderPanel, Ext.Panel, {} );
+Ext.reg('headerpanel', dradis.HeaderPanel);
 
 // ----------------------------------------- tree
 
@@ -95,7 +78,7 @@ Ext.onReady(function() {
   var vp = new Ext.Viewport({
     layout: 'border',
     items: [
-      dradisheader,
+      { xtype: 'headerpanel' },
       { // left-hand side, the tree
         region: 'west',
         collapsible: true,
