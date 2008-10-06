@@ -2,3 +2,10 @@ noscript p {
   font-family: Verdana,Arial,Helvetica,sans-serif;
   padding: 0.5ex;
 }
+
+.add { 
+  background-image: url(../images/add.gif) !important;
+}
+.options { 
+  background-image: url(../images/list-items.gif) !important;
+}
