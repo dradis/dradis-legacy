@@ -21,12 +21,17 @@ var store = new Ext.data.Store({
   )
 });
 
+var expander = new Ext.grid.RowExpander({
+  tpl: new Ext.Template( '<p><b>Full text</b>:</p>', '<pre>{text:htmlEncode}</pre>')
+});
+
 var grid = new Ext.grid.GridPanel({
   store: store,
   columns: [
     //{id:'company',header: "Company", width: 60, sortable: true, dataIndex: 'company'},
-    {header: 'Text', width: 180, sortable: false, dataIndex: 'text'},
-    {header: 'Author', width: 40, sortable: true, dataIndex: 'author'},
+    expander,
+    {header: 'Text', width: 180, sortable: false, dataIndex: 'text', renderer:Ext.util.Format.htmlEncode},
+    {header: 'Author', width: 40, sortable: true, dataIndex: 'author', renderer:Ext.util.Format.htmlEncode},
     {header: "Last Updated", width: 20, sortable: true, renderer: Ext.util.Format.dateRenderer('m/d/Y h:i'), dataIndex: 'updated-at'}
   ],
 
@@ -36,10 +41,10 @@ var grid = new Ext.grid.GridPanel({
   //}),
   viewConfig: { forceFit: true },
 
-  //frame:true,
   border: false,
   autoHeight: true,
   iconCls: 'icon-grid',
+  plugins: expander
 });
 
 // ------------------------------------------------ Panel: toolbar + grid 
@@ -60,7 +65,7 @@ dradis.NotesBrowser = function(config) {
           {
             text:'note categories',
             tooltip:'Manage note categories',
-            iconCls:'option'
+            iconCls:'options'
           },
           '-',
           'filter notes by: ',
