@@ -37,13 +37,46 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     expanded: true,
     }),
   rootVisible: false,
+  contextMenu: new Ext.menu.Menu({
+    items: [
+      { id: 'add-node', text: 'Add child', iconCls: 'add' },
+      { id: 'delete-node', text: 'Delete Node', iconCls: 'del' }
+    ],
+    listeners: {
+      itemclick: function(item) {
+        switch (item.id) {
+          case 'add-node':
+            var root = item.parentMenu.contextNode;
+            var node = root.appendChild(new Ext.tree.TreeNode({ text:'child node' }));
+            node.select();
+            break;
+          case 'delete-node':
+            var n = item.parentMenu.contextNode;
+            if (n.parentNode) {
+              n.remove();
+            }
+            break;
+        }
+      }
+    }
+  }),  
   listeners: {
     click: function(n) {
       notesbrowser.updateNotes(n.attributes.id); 
       if (dradistabs.getActiveTab() == null) {
         dradistabs.setActiveTab(0);
       }
+    },
+    contextmenu: function(node, e) {
+      //          Register the context node with the menu so that a Menu Item's handler function can access
+      //           it via its parentMenu property.
+      node.select();
+      node.expand();
+      var c = node.getOwnerTree().contextMenu;
+      c.contextNode = node;
+      c.showAt(e.getXY());
     }
+    
   }
 });
 
@@ -100,7 +133,5 @@ Ext.onReady(function() {
         //}
     ]
   });
-  store.load();
   vp.doLayout();
-
 });
