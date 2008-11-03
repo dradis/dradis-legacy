@@ -38,7 +38,7 @@ Ext.extend(Ext.grid.RowExpander, Ext.util.Observable, {
     dataIndex: '',
     id: 'expander',
     lazyRender : true,
-    enableCaching: true,
+    enableCaching: false,
 
     getRowClass : function(record, rowIndex, p, ds){
         p.cols = p.cols-1;
