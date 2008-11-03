@@ -120,9 +120,7 @@ var grid = new Ext.grid.EditorGridPanel({
   }),
   listeners: { 
     beforeedit: function(e){
-      Ext.MessageBox.alert('Warning!', 'editing...');
-      e.stopEvent();
-      //e.grid.collapseRow(e.row);
+      expander.collapseRow(e.row);
     },
     rowcontextmenu: function(grid, row, e) {
       e.stopEvent();
