@@ -6,6 +6,11 @@ noscript p {
 .add { 
   background-image: url(../images/add.gif) !important;
 }
+.del { 
+  background-image: url(../images/delete.gif) !important;
+}
 .options { 
   background-image: url(../images/list-items.gif) !important;
 }
+
+.talleditor { height: 240px; }
