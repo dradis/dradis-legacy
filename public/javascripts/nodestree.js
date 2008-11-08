@@ -37,7 +37,8 @@ var tree = new Ext.tree.TreePanel({
             case 'add-node':
               var root = item.parentMenu.contextNode;
               var node = root.appendChild(new Ext.tree.TreeNode({ text:'child node #' + (root.childNodes.length+1) }));
-              node.select();
+              //node.select();
+              editor.triggerEdit(node,false);
               break;
             case 'delete-node':
               var n = item.parentMenu.contextNode;
@@ -89,7 +90,8 @@ dradis.NodesTree = function(config) {
         handler: function() {
           var root = tree.getRootNode();
           var node = root.appendChild(new Ext.tree.TreeNode({ text:'branch #' + (root.childNodes.length +1) }));
-          node.select();
+          //node.select();
+          editor.triggerEdit(node,false);
         }
       }
     ],
