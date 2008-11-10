@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
   def init
   end
   
+  # TODO: add a check to prevent someone from resetting the password
   def setup
     pwd = params.fetch( :password, nil )
     if (pwd.nil?)
