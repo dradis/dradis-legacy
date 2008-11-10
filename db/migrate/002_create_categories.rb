@@ -5,6 +5,7 @@ class CreateCategories < ActiveRecord::Migration
 
       t.timestamps
     end
+    Category.new(:name=>'default category').save
   end
 
   def self.down
