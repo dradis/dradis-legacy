@@ -44,7 +44,7 @@ var store = new Ext.data.Store({
         },
         failure: function(response, options) {
           dradisstatus.setStatus({
-            test: 'An error occured with the Ajax request',
+            text: 'An error occured with the Ajax request',
             clear: 5000
           });
         },
