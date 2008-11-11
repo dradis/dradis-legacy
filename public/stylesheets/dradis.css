@@ -12,5 +12,7 @@ noscript p {
 .options { 
   background-image: url(../images/list-items.gif) !important;
 }
-
+.error { 
+  background-image: url(../images/exclamation.gif) !important;
+}
 .talleditor { height: 240px; }
