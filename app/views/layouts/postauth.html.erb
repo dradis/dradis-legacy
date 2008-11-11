@@ -26,5 +26,8 @@
       <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
       <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
     </div>
+    <script language="javascript">
+      Ext.Ajax.extraParams = { authenticity_token: "<%= form_authenticity_token %>" };
+    </script>
   </body>
 </html>
