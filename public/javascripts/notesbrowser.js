@@ -31,9 +31,10 @@ var store = new Ext.data.Store({
     Note
   ),
   listeners: {
+    // TODO: think REST please!!!
     add: function(store, records, index) {
       Ext.Ajax.request({
-        url: '/json/note',
+        url: '/json/note_create',
         params: records[index].data, 
         //{ note: Ext.encode(records[index].data) },
         success: function(response, options) {
@@ -49,6 +50,36 @@ var store = new Ext.data.Store({
           });
         },
       })
+    },
+    update: function(store, record, operation){
+      Ext.Ajax.request({
+        url: '/json/note_update?id='+record.id,
+        params: record.data, 
+        //{ note: Ext.encode(records[index].data) },
+        success: function(response, options) {
+          dradisstatus.setStatus({ 
+            text: 'Data sent to the server',
+            clear: 5000
+          });
+        },
+        failure: function(response, options) {
+          dradisstatus.setStatus({
+            text: 'An error occured with the Ajax request',
+            clear: 5000
+          });
+        },
+      })
+
+    },
+    loadexception: function(proxy, options, response, error) {
+      dradisstatus.setStatus({
+        text: 'Error loading notes from server',
+        iconCls: 'error',
+        clear: 5000
+      });
+      console.log('error loading records from server:');
+      console.log("\tfile: "+error.fileName);
+      console.log("\tline: "+error.lineNumber);
     }
   }
 });
