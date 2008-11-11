@@ -9,6 +9,7 @@ var Note = Ext.data.Record.create([
   {name: 'text', type: 'string'}, 
   {name: 'author', type: 'string'}, 
   {name: 'category', mapping: 'category-id'}, 
+  {name: 'node', mapping: 'node-id'}, 
   // date format: 2008-04-10T12:30:29+01:00
   { name: 'updated', mapping: 'updated-at', type: 'date', dateFormat: 'c'}
   ]);
@@ -28,7 +29,28 @@ var store = new Ext.data.Store({
     }, 
     // records for the grid
     Note
-  )
+  ),
+  listeners: {
+    add: function(store, records, index) {
+      Ext.Ajax.request({
+        url: '/json/note',
+        params: records[index].data, 
+        //{ note: Ext.encode(records[index].data) },
+        success: function(response, options) {
+          dradisstatus.setStatus({ 
+            text: 'New note sent to the server',
+            clear: 5000
+          });
+        },
+        failure: function(response, options) {
+          dradisstatus.setStatus({
+            test: 'An error occured with the Ajax request',
+            clear: 5000
+          });
+        },
+      })
+    }
+  }
 });
 
 // ------------------------------------------------------------------ grid
@@ -142,6 +164,7 @@ var grid = new Ext.grid.EditorGridPanel({
 // Constructor
 dradis.NotesBrowser = function(config) {
     Ext.apply(this, {
+        selectedNode: 0,
         title: 'Notes',
         layout: 'anchor',
         border: false,
@@ -154,9 +177,10 @@ dradis.NotesBrowser = function(config) {
             handler: function() {
               var n = new Note( {
                             text: 'New note', 
-                            category: 2, 
+                            category: 1, 
+                            node: notesbrowser.selectedNode,
                             author: 'etd', 
-                            updated: Date.parseDate('2008-10-27T12:00:00+01:00', 'c')
+                            updated: Date()//.parseDate('2008-10-27T12:00:00+01:00', 'c')
               });
               grid.stopEditing();
               store.insert(0, n);
@@ -189,9 +213,11 @@ dradis.NotesBrowser = function(config) {
 };
 
 Ext.extend(dradis.NotesBrowser, Ext.Panel, {
-  updateNotes: function(note_id){ 
+  updateNotes: function(node_id){ 
+    this.selectedNode = node_id;
     var conn = grid.getStore().proxy.conn;
-    conn.url = '/nodes/' + note_id + '/notes.xml';
+    conn.url = '/nodes/' + node_id + '/notes.xml';
+    conn.method = 'GET';
     store.load();
   }
 });
