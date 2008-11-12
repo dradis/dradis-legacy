@@ -27,7 +27,7 @@
       <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
     </div>
     <script language="javascript">
-      Ext.Ajax.extraParams = { authenticity_token: "<%= form_authenticity_token %>" };
+      dradis.token = "<%= form_authenticity_token %>";
     </script>
   </body>
 </html>
