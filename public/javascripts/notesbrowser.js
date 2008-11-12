@@ -1,6 +1,29 @@
 Ext.ns('dradis');
 
 
+// ------------------------------------------ data stores
+
+var categoriesDS = new Ext.data.Store({
+  /*
+  url: '/categories.xml',
+  autoLoad: true,
+  */
+  
+  proxy: new Ext.data.HttpProxy(
+                new Ext.data.Connection({
+                      url: '/categories.xml',
+                      method: 'GET'
+                    })
+              ),
+  
+  reader: new Ext.data.XmlReader(
+                { record: 'category', id: 'id'},
+                [ 
+                  { name: 'name', type: 'string' }
+                ]
+              )
+});
+
 // ------------------------------------------ Note record & XML data store
 
 // this could be inline, but we want to define the Note record
@@ -33,9 +56,11 @@ var store = new Ext.data.Store({
   listeners: {
     // TODO: think REST please!!!
     add: function(store, records, index) {
+      var p = records[index].data;
+      p.authenticity_token = dradis.token;
       Ext.Ajax.request({
         url: '/json/note_create',
-        params: records[index].data, 
+        params: p, 
         //{ note: Ext.encode(records[index].data) },
         success: function(response, options) {
           dradisstatus.setStatus({ 
@@ -52,10 +77,11 @@ var store = new Ext.data.Store({
       })
     },
     update: function(store, record, operation){
+      var p = record.data;
+      p.authenticity_token = dradis.token;
       Ext.Ajax.request({
         url: '/json/note_update?id='+record.id,
-        params: record.data, 
-        //{ note: Ext.encode(records[index].data) },
+        params: p, 
         success: function(response, options) {
           dradisstatus.setStatus({ 
             text: 'Data sent to the server',
@@ -126,10 +152,12 @@ var grid = new Ext.grid.EditorGridPanel({
       renderer:Ext.util.Format.htmlEncode,
       editor: new Ext.form.ComboBox({
                               lazyRender: true,
-                              lazyInit: false,
-                              mode: 'local',
                               selectOnFocus: true,
-                              store: [ 'category #1', 'category #2', 'category #3']
+                              store: categoriesDS,
+                              displayField: 'name',
+                              valueField: 'id',
+                              hiddenName: 'category_id',
+                              triggerAction: 'all',
                   })
     },
     {
@@ -228,10 +256,11 @@ dradis.NotesBrowser = function(config) {
           'filter notes by: ',
           {
             xtype: 'combo',
-            store: ['high', 'low', 'medium'],
+            store: categoriesDS,
             triggerAction: 'all',
             emptyText:'select a category...',
             selectOnFocus:true,
+            displayField: 'name'
           }
         ],
 
