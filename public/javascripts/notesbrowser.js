@@ -66,6 +66,7 @@ var store = new Ext.data.Store({
         failure: function(response, options) {
           dradisstatus.setStatus({
             text: 'An error occured with the Ajax request',
+            iconCls: 'error',
             clear: 5000
           });
         },
@@ -86,6 +87,7 @@ var store = new Ext.data.Store({
         failure: function(response, options) {
           dradisstatus.setStatus({
             text: 'An error occured with the Ajax request',
+            iconCls: 'error',
             clear: 5000
           });
         },
