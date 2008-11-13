@@ -159,6 +159,10 @@ var grid = new Ext.grid.EditorGridPanel({
                               //hideTrigger: true,
                               selectOnFocus: false,
                   }),
+      renderer: function(value, metadata, record, rowIndex, colIndex, store) {
+                  var idx = categoriesDS.find('id', value);
+                  return categoriesDS.getAt(idx).get('name');
+                  },
     },
     {
       header: 'Author', 
