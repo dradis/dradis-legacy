@@ -4,21 +4,16 @@ Ext.ns('dradis');
 // ------------------------------------------ data stores
 
 var categoriesDS = new Ext.data.Store({
-  /*
-  url: '/categories.xml',
-  autoLoad: true,
-  */
-  
   proxy: new Ext.data.HttpProxy(
                 new Ext.data.Connection({
                       url: '/categories.xml',
                       method: 'GET'
                     })
               ),
-  
   reader: new Ext.data.XmlReader(
                 { record: 'category', id: 'id'},
                 [ 
+                  { name: 'id', type: 'string' },
                   { name: 'name', type: 'string' }
                 ]
               )
@@ -151,14 +146,17 @@ var grid = new Ext.grid.EditorGridPanel({
       dataIndex: 'category', 
       renderer:Ext.util.Format.htmlEncode,
       editor: new Ext.form.ComboBox({
+                              id: 'category-id',
                               lazyRender: true,
                               selectOnFocus: true,
                               store: categoriesDS,
                               displayField: 'name',
                               valueField: 'id',
-                              hiddenName: 'category_id',
-                              triggerAction: 'all',
-                  })
+                              allowBlank: false,
+                              mode: 'local',
+                              //hideTrigger: true,
+                              selectOnFocus: false,
+                  }),
     },
     {
       header: 'Author', 
@@ -278,6 +276,7 @@ Ext.extend(dradis.NotesBrowser, Ext.Panel, {
     var conn = grid.getStore().proxy.conn;
     conn.url = '/nodes/' + node_id + '/notes.xml';
     conn.method = 'GET';
+    categoriesDS.load();
     store.load();
   }
 });
