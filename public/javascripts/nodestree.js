@@ -39,6 +39,8 @@ var tree = new Ext.tree.TreePanel({
               var node = new Ext.tree.TreeNode({ text:'child node #' + (parent.childNodes.length+1) });
               var p = { label: node.text, parent_id: parent.id }
               p.authenticity_token = dradis.token;
+              // TODO: fix the node id out of sync thing: id in the tree 
+              // doesn't match id in the server.
               Ext.Ajax.request({
                 url: '/json/node_create',
                 params: p, 
@@ -104,21 +106,9 @@ var tree = new Ext.tree.TreePanel({
         var c = node.getOwnerTree().contextMenu;
         c.contextNode = node;
         c.showAt(e.getXY());
-      }
-    }
-
-});
-
-var editor = new Ext.tree.TreeEditor(tree, {}, {
-  cancelOnEsc: true,
-  completeOnEnter: true,
-  ignoreNoChange: true,
-  revertInvalid: true,
-  selectOnFocus: true,
-  listeners: {
-    complete: function(editor, new_value, old_value){
-        var node = this.editNode;
-        var p = { id: node.id, label: new_value }
+      },
+      textchange: function(node, new_text, old_text){
+        var p = { id: node.id, label: new_text }
         if (node.parentNode.parentNode !== null) {
           p.parent_id = node.parentNode.id;
         }
@@ -140,7 +130,19 @@ var editor = new Ext.tree.TreeEditor(tree, {}, {
                       });
           },
         })
+      }
+
     }
+
+});
+
+var editor = new Ext.tree.TreeEditor(tree, {}, {
+  cancelOnEsc: true,
+  completeOnEnter: true,
+  ignoreNoChange: true,
+  revertInvalid: true,
+  selectOnFocus: true,
+  listeners: {
   }
 });
 
