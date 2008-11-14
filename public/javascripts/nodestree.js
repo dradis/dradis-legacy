@@ -114,7 +114,34 @@ var editor = new Ext.tree.TreeEditor(tree, {}, {
   completeOnEnter: true,
   ignoreNoChange: true,
   revertInvalid: true,
-  selectOnFocus: true
+  selectOnFocus: true,
+  listeners: {
+    complete: function(editor, new_value, old_value){
+        var node = this.editNode;
+        var p = { id: node.id, label: new_value }
+        if (node.parentNode.parentNode !== null) {
+          p.parent_id = node.parentNode.id;
+        }
+        p.authenticity_token = dradis.token;
+        Ext.Ajax.request({
+          url: '/json/node_update',
+          params: p, 
+          success: function(response, options) {
+                      dradisstatus.setStatus({ 
+                        text: 'Node label edited',
+                        clear: 5000
+                    });
+          },
+          failure: function(response, options) {
+                      dradisstatus.setStatus({
+                        text: 'An error occured with the Ajax request',
+                        iconCls: 'error',
+                        clear: 5000
+                      });
+          },
+        })
+    }
+  }
 });
 
 dradis.NodesTree = function(config) {
