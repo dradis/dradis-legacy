@@ -35,9 +35,28 @@ var tree = new Ext.tree.TreePanel({
         itemclick: function(item) {
           switch (item.id) {
             case 'add-node':
-              var root = item.parentMenu.contextNode;
-              var node = root.appendChild(new Ext.tree.TreeNode({ text:'child node #' + (root.childNodes.length+1) }));
-              //node.select();
+              var parent = item.parentMenu.contextNode;
+              var node = new Ext.tree.TreeNode({ text:'child node #' + (parent.childNodes.length+1) });
+              var p = { label: node.text, parent_id: parent.id }
+              p.authenticity_token = dradis.token;
+              Ext.Ajax.request({
+                url: '/json/node_create',
+                params: p, 
+                success: function(response, options) {
+                            dradisstatus.setStatus({ 
+                            text: 'New node sent to the server',
+                            clear: 5000
+                          });
+                },
+                failure: function(response, options) {
+                            dradisstatus.setStatus({
+                            text: 'An error occured with the Ajax request',
+                            iconCls: 'error',
+                            clear: 5000
+                          });
+                },
+              });
+              parent.appendChild(node);
               editor.triggerEdit(node,false);
               break;
             case 'delete-node':
