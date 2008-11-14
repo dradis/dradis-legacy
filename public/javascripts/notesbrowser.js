@@ -1,4 +1,4 @@
-Ext.ns('dradis');
+
 
 
 // ------------------------------------------ data stores
@@ -144,20 +144,18 @@ var grid = new Ext.grid.EditorGridPanel({
     {
       header: 'Category', 
       width: 40, 
-      sortable: false, 
+      sortable: true, 
       dataIndex: 'category', 
       renderer:Ext.util.Format.htmlEncode,
       editor: new Ext.form.ComboBox({
                               id: 'category-id',
                               lazyRender: true,
-                              selectOnFocus: true,
                               store: categoriesDS,
                               displayField: 'name',
                               valueField: 'id',
                               allowBlank: false,
                               mode: 'local',
-                              //hideTrigger: true,
-                              selectOnFocus: false,
+                              triggerAction: 'all',
                   }),
       renderer: function(value, metadata, record, rowIndex, colIndex, store) {
                   var idx = categoriesDS.find('id', value);
@@ -261,11 +259,32 @@ dradis.NotesBrowser = function(config) {
           {
             xtype: 'combo',
             store: categoriesDS,
+            mode: 'local',
             triggerAction: 'all',
             emptyText:'select a category...',
             selectOnFocus:true,
-            displayField: 'name'
-          }
+            displayField: 'name',
+            valueField: 'id',
+            forceSelection: true,
+            listeners: {
+              change: function(field, new_value, old_value) {
+                        if (new_value.length == 0) {
+                          store.clearFilter(false);
+                        } else {
+                          store.filter('category', new_value);
+                        }
+                      }
+            }
+          },
+          {
+            text: 'clear',
+            disabled: true,
+            handler: function(btn, e) {
+              store.clearFilter(false);
+              btn.disable();
+            }
+          },
+          '-'
         ],
 
         items: [
