@@ -35,4 +35,38 @@ class JsonController < ApplicationController
     render :text => 'noerror'
   end
 
+
+  def node_create
+    Node.new({
+      :label => params[:label],
+      :parent_id => params[:parent_id]
+    }).save
+    render :text => 'noerror'
+  end
+  def node_update
+    begin
+      node = Node.find(params[:id].to_i)
+    rescue
+      render :text => 'node not found'
+      return
+    end
+    node.update_attributes({
+      :label => params[:label],
+      :parent_id => params[:parent_id]
+    })
+    node.save
+    render :text => 'noerror'
+  end
+
+  def node_delete
+    begin
+      node = Node.find(params[:id].to_i)
+      node.destroy
+      render :text => 'noerror'
+    rescue
+      render :text => 'node not found'
+      return
+    end
+  end
+
 end
