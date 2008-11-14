@@ -60,9 +60,29 @@ var tree = new Ext.tree.TreePanel({
               editor.triggerEdit(node,false);
               break;
             case 'delete-node':
-              var n = item.parentMenu.contextNode;
-              if (n.parentNode) {
-                n.remove();
+              var node = item.parentMenu.contextNode;
+              if (node.parentNode) {
+              var p = { id: node.id }
+              p.authenticity_token = dradis.token;
+              Ext.Ajax.request({
+                url: '/json/node_delete',
+                params: p, 
+                success: function(response, options) {
+                            dradisstatus.setStatus({ 
+                            text: 'Node removed from the server',
+                            clear: 5000
+                          });
+                },
+                failure: function(response, options) {
+                            dradisstatus.setStatus({
+                            text: 'An error occured with the Ajax request',
+                            iconCls: 'error',
+                            clear: 5000
+                          });
+                },
+              });
+
+                node.remove();
               }
               break;
           }
