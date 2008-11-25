@@ -13,7 +13,7 @@ class Node < ActiveRecord::Base
       json << ', "children":'
       json << self.children.to_json
     else
-      json << ',"leaf":true'
+      #json << ',"leaf":true'
     end
     json << '}'
   end
