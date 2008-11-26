@@ -38,11 +38,12 @@ class JsonController < ApplicationController
 
 
   def node_create
-    Node.new({
+    node = Node.new({
       :label => params[:label],
       :parent_id => params[:parent_id]
-    }).save
-    render :text => 'noerror'
+    })
+    node.save
+    render :text => node.id
   end
   def node_update
     begin
