@@ -2,7 +2,8 @@ class JsonController < ApplicationController
   before_filter :login_required
 
   def nodes
-    nodes = Node.find(:all, :conditions => {:parent_id => nil})
+    parent_id = params[:node] == 'root-node' ? nil : params[:node].to_i
+    nodes = Node.find(:all, :conditions => {:parent_id => parent_id})
     render :text => nodes.to_json
   end
 
