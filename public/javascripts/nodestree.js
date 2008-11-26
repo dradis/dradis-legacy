@@ -40,27 +40,8 @@ var tree = new Ext.tree.TreePanel({
               var node = new Ext.tree.TreeNode({ text:'child node #' + (parent.childNodes.length+1) });
               var p = { label: node.text, parent_id: parent.id }
               p.authenticity_token = dradis.token;
-              // TODO: fix the node id out of sync thing: id in the tree 
-              // doesn't match id in the server.
-              Ext.Ajax.request({
-                url: '/json/node_create',
-                params: p, 
-                success: function(response, options) {
-                            dradisstatus.setStatus({ 
-                            text: 'New node sent to the server',
-                            clear: 5000
-                          });
-                },
-                failure: function(response, options) {
-                            dradisstatus.setStatus({
-                            text: 'An error occured with the Ajax request',
-                            iconCls: 'error',
-                            clear: 5000
-                          });
-                },
-              });
               parent.appendChild(node);
-              editor.triggerEdit(node,false);
+              addnode(node, function(new_id){ node.id = new_id });
               break;
             case 'delete-node':
               var node = item.parentMenu.contextNode;
@@ -94,7 +75,7 @@ var tree = new Ext.tree.TreePanel({
     }),  
     listeners: {
       click: function(n) {
-        notesbrowser.updateNotes(n.attributes.id); 
+        notesbrowser.updateNotes(n.id); 
         if (dradistabs.getActiveTab() == null) {
           dradistabs.setActiveTab(0);
         }
@@ -109,6 +90,7 @@ var tree = new Ext.tree.TreePanel({
         c.showAt(e.getXY());
       },
       textchange: function(node, new_text, old_text){
+        console.log('textchange event');
         var p = { id: node.id, label: new_text }
         if (node.parentNode.parentNode !== null) {
           p.parent_id = node.parentNode.id;
@@ -193,9 +175,9 @@ dradis.NodesTree = function(config) {
         iconCls: 'add',
         handler: function() {
           var root = tree.getRootNode();
-          var node = root.appendChild(new Ext.tree.TreeNode({ text:'branch #' + (root.childNodes.length +1) }));
-          //node.select();
-          editor.triggerEdit(node,false);
+          var label = 'branch #' + (root.childNodes.length +1);
+          var node = root.appendChild(new Ext.tree.TreeNode({ text: label }));
+          addnode(node, function(new_id){ node.id = new_id });
         }
       }
     ],
