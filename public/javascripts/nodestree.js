@@ -23,6 +23,7 @@ var tree = new Ext.tree.TreePanel({
       requestMethod: 'GET'
     }),
     root: new Ext.tree.AsyncTreeNode({
+      id: 'root-node',
       expanded: true,
     }),
     rootVisible: false,
@@ -130,9 +131,44 @@ var tree = new Ext.tree.TreePanel({
                       });
           },
         })
-      }
+      }, 
+      nodedrop: function(e) {
+        console.log('node drop ['+e.dropNode.text+']');
+        console.log('from ['+e.data.node.text+'] to ['+e.target.text+'|'+e.point+']')
+        // TODO: ojo que los drops en el root hacen cosas raras
+        
+        var point = e.point;
+        var node = e.dropNode;
+        var p = { id: node.id, label: node.text }
+        if ( point == 'append') {
+          p.parent_id = e.target.id;
+        } else {
+          var parent = e.target.parentNode;
+          if (parent.id !== 'root-node') {
+            p.parent_id = parent.id;
+          }
+        }
+        p.authenticity_token = dradis.token;
+        Ext.Ajax.request({
+          url: '/json/node_update',
+          params: p, 
+          success: function(response, options) {
+                      dradisstatus.setStatus({ 
+                        text: 'Node repositioned',
+                        clear: 5000
+                    });
+          },
+          failure: function(response, options) {
+                      dradisstatus.setStatus({
+                        text: 'An error occured with the Ajax request',
+                        iconCls: 'error',
+                        clear: 5000
+                      });
+          },
+        })
 
-    }
+      }
+    } //listeners
 
 });
 
