@@ -15,6 +15,7 @@
       #footer a:hover {text-decoration: underline;}      
       #notice { border: 2px solid #CCFF00; background-color: #F2FFBF; padding: 1ex; font-family: monospace;}
       #error { border: 2px solid #D01F3C; background-color: #FFBFDC; padding: 1ex; }
+      #nojs { font-size: 80%; margin: 1ex; border: 1px solid #FFBFDC; color: #D01F3C; padding: 0.5ex; }
     </style>      
   </head>
   <body>
@@ -25,6 +26,7 @@
         <%= @content_for_layout %>
         <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
         <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
+        <noscript><div id="nojs">Please enable JavaScript support.</div></noscript>
       </div>
       <div id="footer"><a href="http://dradis.sourceforge.net/">dradis framework</a></div>      
     </div>
