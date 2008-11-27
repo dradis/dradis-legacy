@@ -42,6 +42,7 @@ var tree = new Ext.tree.TreePanel({
               p.authenticity_token = dradis.token;
               parent.appendChild(node);
               addnode(node, function(new_id){ node.id = new_id });
+              editor.triggerEdit(node,false);
               break;
             case 'delete-node':
               var node = item.parentMenu.contextNode;
@@ -178,6 +179,7 @@ dradis.NodesTree = function(config) {
           var label = 'branch #' + (root.childNodes.length +1);
           var node = root.appendChild(new Ext.tree.TreeNode({ text: label }));
           addnode(node, function(new_id){ node.id = new_id });
+          editor.triggerEdit(node,false);
         }
       }
     ],
