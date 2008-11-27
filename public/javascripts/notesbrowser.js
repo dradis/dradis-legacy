@@ -240,7 +240,7 @@ dradis.NotesBrowser = function(config) {
                             text: 'New note', 
                             category: 1, 
                             node: notesbrowser.selectedNode,
-                            author: 'etd', 
+                            author: dradis.author, 
                             updated: Date()//.parseDate('2008-10-27T12:00:00+01:00', 'c')
               });
               grid.stopEditing();

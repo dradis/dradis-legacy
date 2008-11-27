@@ -27,6 +27,7 @@
       <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
     </div>
     <script language="javascript">
+      dradis.author = "<%= current_user %>";
       dradis.token = "<%= form_authenticity_token %>";
     </script>
   </body>
