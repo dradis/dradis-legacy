@@ -49,28 +49,9 @@ var store = new Ext.data.Store({
     Note
   ),
   listeners: {
-    // TODO: think REST please!!!
     add: function(store, records, index) {
-      var p = records[index].data;
-      p.authenticity_token = dradis.token;
-      Ext.Ajax.request({
-        url: '/json/note_create',
-        params: p, 
-        //{ note: Ext.encode(records[index].data) },
-        success: function(response, options) {
-          dradisstatus.setStatus({ 
-            text: 'New note sent to the server',
-            clear: 5000
-          });
-        },
-        failure: function(response, options) {
-          dradisstatus.setStatus({
-            text: 'An error occured with the Ajax request',
-            iconCls: 'error',
-            clear: 5000
-          });
-        },
-      })
+      var note = records[index];
+      addnote(note, function(new_id){ note.id = new_id })
     },
     update: function(store, record, operation){
       var p = record.data;

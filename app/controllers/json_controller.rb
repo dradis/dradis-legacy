@@ -9,13 +9,14 @@ class JsonController < ApplicationController
 
   def note_create  
     # TODO: validation!!
-    Note.new( 
+    note = Note.new( 
       :text => params[:text],
       :author => params[:author],
       :node_id => params[:node],
       :category_id => params[:category] 
-    ).save
-    render :text => 'noerror'
+    )
+    note.save
+    render :text => note.id
   end
 
   def note_update
