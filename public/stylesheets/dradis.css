@@ -6,6 +6,9 @@ noscript p {
 .add { 
   background-image: url(../images/add.gif) !important;
 }
+.edit { 
+  background-image: url(../images/edit.gif) !important;
+}
 .del { 
   background-image: url(../images/delete.gif) !important;
 }
