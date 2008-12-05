@@ -3,6 +3,7 @@
 
 // ------------------------------------------ data stores
 
+var categoriesMenu = new Ext.menu.Menu({});
 var categoriesDS = new Ext.data.Store({
   proxy: new Ext.data.HttpProxy(
                 new Ext.data.Connection({
@@ -16,8 +17,17 @@ var categoriesDS = new Ext.data.Store({
                   { name: 'id', type: 'string' },
                   { name: 'name', type: 'string' }
                 ]
-              )
+              ),
+  listeners: {
+    datachanged: function(store){
+      categoriesMenu.removeAll();
+      store.each(function(record){
+        categoriesMenu.add( {text: record.data.name} );
+      });
+    }
+  }
 });
+
 
 // ------------------------------------------ Note record & XML data store
 
@@ -233,7 +243,8 @@ dradis.NotesBrowser = function(config) {
           {
             text:'note categories',
             tooltip:'Manage note categories',
-            iconCls:'options'
+            iconCls:'options',
+            menu: categoriesMenu,
           },
           '-',
           'filter notes by: ',
