@@ -57,3 +57,29 @@ function addnote(note, callback) {
   })
 
 }
+
+
+function addcategory(name, callback) {
+  var p = { name: name};
+  p.authenticity_token = dradis.token;
+  Ext.Ajax.request({
+    url: '/json/category_create',
+    params: p, 
+    success: function(response, options) {
+              dradisstatus.setStatus({ 
+                text: 'New category sent to the server',
+                clear: 5000
+              });
+              callback(response.responseText);
+    },
+    failure: function(response, options) {
+              dradisstatus.setStatus({
+                text: 'An error occured with the Ajax request',
+                iconCls: 'error',
+                clear: 5000
+              });
+    },
+  })
+
+
+}
