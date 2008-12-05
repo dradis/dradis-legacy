@@ -21,9 +21,21 @@ var categoriesDS = new Ext.data.Store({
   listeners: {
     datachanged: function(store){
       categoriesMenu.removeAll();
+      var item; // the menu item
       store.each(function(record){
-        categoriesMenu.add( {text: record.data.name} );
+        item = new Ext.menu.Item({
+                    text: record.data.name,
+                    menu: {
+                      items:[
+                        { text: 'edit' },
+                        { text: 'delete', iconCls: 'del' }
+                      ]
+                    },
+                });
+        categoriesMenu.add( item );
       });
+      categoriesMenu.addSeparator();
+      categoriesMenu.add({ text: 'add category...', iconCls: 'add'});
     }
   }
 });
