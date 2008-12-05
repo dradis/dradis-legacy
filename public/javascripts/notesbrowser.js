@@ -27,7 +27,7 @@ var categoriesDS = new Ext.data.Store({
                     text: record.data.name,
                     menu: {
                       items:[
-                        { text: 'edit' },
+                        { text: 'edit', iconCls: 'edit' },
                         { text: 'delete', iconCls: 'del' }
                       ]
                     },
