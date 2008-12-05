@@ -72,4 +72,13 @@ class JsonController < ApplicationController
     end
   end
 
+  def category_create
+    category = Category.new(:name => params[:name])
+    category.save
+    render :text => category.id
+  end
+  def category_update
+  end
+  def category_delete
+  end
 end
