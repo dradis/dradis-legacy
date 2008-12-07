@@ -97,7 +97,6 @@ function delcategory(category, callback) {
                   text: 'Category successfully deleted.',
                   clear: 5000
                 });
-                callback(msg);
               } else {
                 dradisstatus.setStatus({
                   text: msg,
@@ -106,6 +105,8 @@ function delcategory(category, callback) {
                 });
 
               }
+              // callback even if an error existed: restore the DS
+              callback(msg);
     },
     failure: function(response, options) {
               dradisstatus.setStatus({
