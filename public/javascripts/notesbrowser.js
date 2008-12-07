@@ -123,6 +123,9 @@ var store = new Ext.data.Store({
     update: function(store, record, operation){
       updatenote(record);
     },
+    remove: function(store, record, index) {
+      delnote(record);
+    },
     loadexception: function(proxy, options, response, error) {
       dradisstatus.setStatus({
         text: 'Error loading notes from server',
