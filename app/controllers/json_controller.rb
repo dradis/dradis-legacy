@@ -37,6 +37,18 @@ class JsonController < ApplicationController
     render :text => 'noerror'
   end
 
+  def note_delete
+    begin
+      note = Note.find(params[:id].to_i)
+      note.destroy
+      render :text => 'noerror'
+    rescue
+      render :text => 'note not found'
+      return
+    end
+  end
+
+
 
   def node_create
     node = Node.new({
