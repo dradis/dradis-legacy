@@ -38,8 +38,6 @@ var tree = new Ext.tree.TreePanel({
             case 'add-node':
               var parent = item.parentMenu.contextNode;
               var node = new Ext.tree.TreeNode({ text:'child node #' + (parent.childNodes.length+1) });
-              var p = { label: node.text, parent_id: parent.id }
-              p.authenticity_token = dradis.token;
               parent.appendChild(node);
               addnode(node, function(new_id){ node.id = new_id });
               editor.triggerEdit(node,false);
