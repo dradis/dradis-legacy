@@ -1,4 +1,6 @@
 // TODO: think REST please!!!
+
+//------------------------------------------------------------------------ nodes
 function addnode(node, callback) {
   var parent = node.parentNode;
   console.log( 'thebrain: addnode' );
@@ -34,6 +36,15 @@ function addnode(node, callback) {
   console.log( 'thebrain: /addnode' );
 }
 
+function delnode(node, callback){
+  console.log('deleting node!');
+}
+
+function updatenode(node, callback){
+  console.log('update node!');
+}
+
+//------------------------------------------------------------------------ notes 
 function addnote(note, callback) {
   var p = note.data;
   p.authenticity_token = dradis.token;
@@ -58,7 +69,15 @@ function addnote(note, callback) {
 
 }
 
+function delnote(note, callback){
+  console.log('deleting note!');
+}
 
+function updatenote(note, callback){
+  console.log('update note!');
+}
+
+//------------------------------------------------------------------------ categories 
 function addcategory(category, callback) {
   var p = category.data; 
   p.authenticity_token = dradis.token;
