@@ -74,7 +74,25 @@ function delnote(note, callback){
 }
 
 function updatenote(note, callback){
-  console.log('update note!');
+  var p = note.data;
+  p.authenticity_token = dradis.token;
+  Ext.Ajax.request({
+    url: '/json/note_update?id='+note.id,
+    params: p, 
+    success: function(response, options) {
+      dradisstatus.setStatus({ 
+        text: 'Data sent to the server',
+        clear: 5000
+      });
+    },
+    failure: function(response, options) {
+      dradisstatus.setStatus({
+        text: 'An error occured with the Ajax request',
+        iconCls: 'error',
+        clear: 5000
+      });
+    },
+  })
 }
 
 //------------------------------------------------------------------------ categories 
