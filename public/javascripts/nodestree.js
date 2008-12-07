@@ -45,26 +45,7 @@ var tree = new Ext.tree.TreePanel({
             case 'delete-node':
               var node = item.parentMenu.contextNode;
               if (node.parentNode) {
-              var p = { id: node.id }
-              p.authenticity_token = dradis.token;
-              Ext.Ajax.request({
-                url: '/json/node_delete',
-                params: p, 
-                success: function(response, options) {
-                            dradisstatus.setStatus({ 
-                            text: 'Node removed from the server',
-                            clear: 5000
-                          });
-                },
-                failure: function(response, options) {
-                            dradisstatus.setStatus({
-                            text: 'An error occured with the Ajax request',
-                            iconCls: 'error',
-                            clear: 5000
-                          });
-                },
-              });
-
+                delnode(node);
                 node.remove();
               }
               break;
