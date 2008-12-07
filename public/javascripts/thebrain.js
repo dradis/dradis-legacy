@@ -37,7 +37,26 @@ function addnode(node, callback) {
 }
 
 function delnode(node, callback){
-  console.log('deleting node!');
+  var p = { id: node.id }
+  p.authenticity_token = dradis.token;
+  Ext.Ajax.request({
+    url: '/json/node_delete',
+    params: p, 
+    success: function(response, options) {
+      dradisstatus.setStatus({ 
+        text: 'Node removed from the server',
+        clear: 5000
+      });
+    },
+    failure: function(response, options) {
+      dradisstatus.setStatus({
+        text: 'An error occured with the Ajax request',
+        iconCls: 'error',
+        clear: 5000
+      });
+    }
+  });
+
 }
 
 function updatenode(node, callback){
