@@ -60,7 +60,29 @@ function delnode(node, callback){
 }
 
 function updatenode(node, callback){
-  console.log('update node!');
+  var p = { id: node.id, label: node.text }
+  if (node.parentNode.parentNode !== null) {
+    p.parent_id = node.parentNode.id;
+  }
+  p.authenticity_token = dradis.token;
+  Ext.Ajax.request({
+    url: '/json/node_update',
+    params: p, 
+    success: function(response, options) {
+      dradisstatus.setStatus({ 
+        text: 'Node label edited',
+        clear: 5000
+      });
+    },
+    failure: function(response, options) {
+      dradisstatus.setStatus({
+        text: 'An error occured with the Ajax request',
+        iconCls: 'error',
+        clear: 5000
+      });
+    },
+  })
+
 }
 
 //------------------------------------------------------------------------ notes 
