@@ -121,26 +121,7 @@ var store = new Ext.data.Store({
       addnote(note, function(new_id){ note.id = new_id })
     },
     update: function(store, record, operation){
-      var p = record.data;
-      p.authenticity_token = dradis.token;
-      Ext.Ajax.request({
-        url: '/json/note_update?id='+record.id,
-        params: p, 
-        success: function(response, options) {
-          dradisstatus.setStatus({ 
-            text: 'Data sent to the server',
-            clear: 5000
-          });
-        },
-        failure: function(response, options) {
-          dradisstatus.setStatus({
-            text: 'An error occured with the Ajax request',
-            iconCls: 'error',
-            clear: 5000
-          });
-        },
-      })
-
+      updatenote(record);
     },
     loadexception: function(proxy, options, response, error) {
       dradisstatus.setStatus({
