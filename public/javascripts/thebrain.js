@@ -59,8 +59,8 @@ function addnote(note, callback) {
 }
 
 
-function addcategory(name, callback) {
-  var p = { name: name};
+function addcategory(category, callback) {
+  var p = category.data; 
   p.authenticity_token = dradis.token;
   Ext.Ajax.request({
     url: '/json/category_create',
