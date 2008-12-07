@@ -70,7 +70,26 @@ function addnote(note, callback) {
 }
 
 function delnote(note, callback){
-  console.log('deleting note!');
+  var p = note.data; 
+  p.authenticity_token = dradis.token;
+  Ext.Ajax.request({
+    url: '/json/note_delete?id=' + note.id,
+    params: p, 
+    success: function(response, options) {
+               dradisstatus.setStatus({ 
+                 text: 'Note successfully deleted.',
+                 clear: 5000
+               });
+    },
+    failure: function(response, options) {
+              dradisstatus.setStatus({
+                text: 'An error occured with the Ajax request',
+                iconCls: 'error',
+                clear: 5000
+              });
+    },
+  })
+
 }
 
 function updatenote(note, callback){
