@@ -118,4 +118,39 @@ function delcategory(category, callback) {
   })
 }
 
+function updatecategory(category, callback){
+  var p = category.data; 
+  p.authenticity_token = dradis.token;
+  Ext.Ajax.request({
+    url: '/json/category_update',
+    params: p, 
+    success: function(response, options) {
+              var msg = response.responseText;
+              if (msg == 'noerror') {
+                dradisstatus.setStatus({ 
+                  text: 'Category successfully updated.',
+                  clear: 5000
+                });
+              } else {
+                dradisstatus.setStatus({
+                  text: msg,
+                  //iconCls: 'error',
+                  clear: 10000
+                });
+
+              }
+              // callback even if an error existed: restore the DS
+              callback(msg);
+    },
+    failure: function(response, options) {
+              dradisstatus.setStatus({
+                text: 'An error occured with the Ajax request',
+                iconCls: 'error',
+                clear: 5000
+              });
+    },
+  })
+ 
+}
+
 
