@@ -23,6 +23,9 @@ var categoriesDS = new Ext.data.Store({
       var cat = records[index];
       addcategory(cat, function(new_id){ categoriesDS.load(); });
     },
+    remove: function(store, record, index){
+      delcategory(record, function(new_id){ categoriesDS.load(); } );
+    },
     datachanged: function(store){
       categoriesMenu.removeAll();
       var item; // the menu item
@@ -32,7 +35,12 @@ var categoriesDS = new Ext.data.Store({
                     menu: {
                       items:[
                         { text: 'edit', iconCls: 'edit' },
-                        { text: 'delete', iconCls: 'del' }
+                        { text: 'delete', 
+                          iconCls: 'del', 
+                          handler: function(){
+                            categoriesDS.remove( record );
+                          }
+                        }
                       ]
                     },
                 });
