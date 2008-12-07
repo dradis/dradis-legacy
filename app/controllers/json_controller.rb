@@ -78,6 +78,15 @@ class JsonController < ApplicationController
     render :text => category.id
   end
   def category_update
+    begin
+      category = Category.find(params[:id].to_i)
+    rescue
+      render :text => 'category not found'
+      return
+    end
+    category.update_attributes({ :name => params[:name] })
+    category.save
+    render :text => 'noerror'
   end
   def category_delete
     begin
