@@ -80,5 +80,27 @@ class JsonController < ApplicationController
   def category_update
   end
   def category_delete
+    begin
+      cat_id = params[:id].to_i
+      p cat_id
+      if (cat_id == 1)
+        render :text => 'Default category can\'t be removed.'
+        return
+      end
+      # TODO: this should be done at model level
+      associated_notes = Category.count_by_sql( "SELECT COUNT(*) FROM notes where \"category_id\" = #{cat_id}" )
+      p associated_notes
+      if (associated_notes > 0)
+        render :text => 'There are notes associated with this category!'
+        return
+      end
+      category = Category.find(cat_id)
+      category.destroy
+      render :text => 'noerror'
+    rescue e
+      p e
+      render :text => 'category not found'
+      return
+    end
   end
 end
