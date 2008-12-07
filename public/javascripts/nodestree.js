@@ -70,29 +70,7 @@ var tree = new Ext.tree.TreePanel({
         c.showAt(e.getXY());
       },
       textchange: function(node, new_text, old_text){
-        console.log('textchange event');
-        var p = { id: node.id, label: new_text }
-        if (node.parentNode.parentNode !== null) {
-          p.parent_id = node.parentNode.id;
-        }
-        p.authenticity_token = dradis.token;
-        Ext.Ajax.request({
-          url: '/json/node_update',
-          params: p, 
-          success: function(response, options) {
-                      dradisstatus.setStatus({ 
-                        text: 'Node label edited',
-                        clear: 5000
-                    });
-          },
-          failure: function(response, options) {
-                      dradisstatus.setStatus({
-                        text: 'An error occured with the Ajax request',
-                        iconCls: 'error',
-                        clear: 5000
-                      });
-          },
-        })
+        updatenode(node);
       }, 
       nodedrop: function(e) {
         console.log('node drop ['+e.dropNode.text+']');
