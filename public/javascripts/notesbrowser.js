@@ -19,6 +19,10 @@ var categoriesDS = new Ext.data.Store({
                 ]
               ),
   listeners: {
+    add: function(store,records,index){
+      var cat = records[index];
+      addcategory(cat, function(new_id){ categoriesDS.load(); });
+    },
     datachanged: function(store){
       categoriesMenu.removeAll();
       var item; // the menu item
@@ -35,7 +39,20 @@ var categoriesDS = new Ext.data.Store({
         categoriesMenu.add( item );
       });
       categoriesMenu.addSeparator();
-      categoriesMenu.add({ text: 'add category...', iconCls: 'add'});
+      categoriesMenu.add({ 
+        text: 'add category...', 
+        iconCls: 'add',
+        handler: function(){ 
+          Ext.MessageBox.prompt( 'New Category', 
+                                  'Please enter the new category name:', 
+                                  function(btn, text){ 
+                                    var cat = text.trim();
+                                    if ((btn == 'ok')&&(cat.length > 0)) {
+                                      categoriesDS.insert(0,new Ext.data.Record({name: cat })); 
+                                    }
+                                });
+        }
+      });
     }
   }
 });
