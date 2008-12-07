@@ -26,6 +26,9 @@ var categoriesDS = new Ext.data.Store({
     remove: function(store, record, index){
       delcategory(record, function(new_id){ categoriesDS.load(); } );
     },
+    update: function(store, record, operation){
+      updatecategory(record, function(new_id){ categoriesDS.load(); } );
+    },
     datachanged: function(store){
       categoriesMenu.removeAll();
       var item; // the menu item
@@ -34,7 +37,24 @@ var categoriesDS = new Ext.data.Store({
                     text: record.data.name,
                     menu: {
                       items:[
-                        { text: 'edit', iconCls: 'edit' },
+                        { text: 'edit', 
+                          iconCls: 'edit',
+                          handler: function(){
+                            Ext.MessageBox.prompt( 'Edit Category', 
+                                  'Please enter the new category name:', 
+                                  function(btn, text){ 
+                                    var cat = text.trim();
+                                    if ((btn == 'ok')&&(cat.length > 0)) {
+                                      record.set('name', cat);
+                                    }
+                                  },
+                                  undefined,
+                                  false,
+                                  record.data.name
+                            );
+
+                          }
+                        },
                         { text: 'delete', 
                           iconCls: 'del', 
                           handler: function(){
