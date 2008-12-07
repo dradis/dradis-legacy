@@ -83,3 +83,38 @@ function addcategory(category, callback) {
 
 
 }
+
+function delcategory(category, callback) {
+  var p = category.data; 
+  p.authenticity_token = dradis.token;
+  Ext.Ajax.request({
+    url: '/json/category_delete',
+    params: p, 
+    success: function(response, options) {
+              var msg = response.responseText;
+              if (msg == 'noerror') {
+                dradisstatus.setStatus({ 
+                  text: 'Category successfully deleted.',
+                  clear: 5000
+                });
+                callback(msg);
+              } else {
+                dradisstatus.setStatus({
+                  text: msg,
+                  //iconCls: 'error',
+                  clear: 10000
+                });
+
+              }
+    },
+    failure: function(response, options) {
+              dradisstatus.setStatus({
+                text: 'An error occured with the Ajax request',
+                iconCls: 'error',
+                clear: 5000
+              });
+    },
+  })
+}
+
+
