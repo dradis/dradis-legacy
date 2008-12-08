@@ -27,7 +27,11 @@ var categoriesDS = new Ext.data.Store({
       delcategory(record, function(new_id){ categoriesDS.load(); } );
     },
     update: function(store, record, operation){
-      updatecategory(record, function(new_id){ categoriesDS.load(); } );
+      updatecategory(record, function(new_id){ 
+        categoriesDS.load(); 
+        // after renaiming a category, repaint the grid
+        grid.getStore().load(); 
+      });
     },
     datachanged: function(store){
       categoriesMenu.removeAll();
