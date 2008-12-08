@@ -292,6 +292,7 @@ dradis.NotesBrowser = function(config) {
             menu: categoriesMenu,
           },
           '-',
+          /*
           'filter notes by: ',
           {
             xtype: 'combo',
@@ -322,6 +323,7 @@ dradis.NotesBrowser = function(config) {
             }
           },
           '-'
+          */
         ],
 
         items: [
