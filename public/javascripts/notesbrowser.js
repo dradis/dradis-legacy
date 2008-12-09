@@ -136,9 +136,6 @@ var store = new Ext.data.Store({
         iconCls: 'error',
         clear: 5000
       });
-      console.log('error loading records from server:');
-      console.log("\tfile: "+error.fileName);
-      console.log("\tline: "+error.lineNumber);
     }
   }
 });

@@ -73,10 +73,6 @@ var tree = new Ext.tree.TreePanel({
         updatenode(node);
       }, 
       nodedrop: function(e) {
-        console.log('node drop ['+e.dropNode.text+']');
-        console.log('from ['+e.data.node.text+'] to ['+e.target.text+'|'+e.point+']')
-        // TODO: ojo que los drops en el root hacen cosas raras
-        
         var point = e.point;
         var node = e.dropNode;
         var p = { id: node.id, label: node.text }

@@ -3,10 +3,6 @@
 //------------------------------------------------------------------------ nodes
 function addnode(node, callback) {
   var parent = node.parentNode;
-  console.log( 'thebrain: addnode' );
-  console.log( node.id );
-  console.log( node.text );
-  console.log( parent.id );
   var p = { 
     label: node.text, 
   }
@@ -32,8 +28,6 @@ function addnode(node, callback) {
                    });
     },
   });
-
-  console.log( 'thebrain: /addnode' );
 }
 
 function delnode(node, callback){
