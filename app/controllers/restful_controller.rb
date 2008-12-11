@@ -30,6 +30,7 @@ module RESTOperations
       
       
       class_eval %(
+        before_filter :login_required
         before_filter :find_or_initialize_model, :except => [ :index ]
         def find_or_initialize_model
           if params[:id]
