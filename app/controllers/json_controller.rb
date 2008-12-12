@@ -33,7 +33,6 @@ class JsonController < ApplicationController
       :node_id => params[:node],
       :category_id => params[:category] 
     })
-    note.save
     render :text => 'noerror'
   end
 
@@ -69,7 +68,6 @@ class JsonController < ApplicationController
       :label => params[:label],
       :parent_id => params[:parent_id]
     })
-    node.save
     render :text => 'noerror'
   end
 
@@ -97,7 +95,6 @@ class JsonController < ApplicationController
       return
     end
     category.update_attributes({ :name => params[:name] })
-    category.save
     render :text => 'noerror'
   end
   def category_delete
