@@ -51,15 +51,20 @@ class DispatchServlet < WEBrick::HTTPServlet::AbstractServlet
   def self.dispatch(options = {})
     Socket.do_not_reverse_lookup = true # patch for OS X
 
+    pkey = OpenSSL::PKey::RSA.new(File.open('config/ssl/server.key.insecure').read)
+    cert = OpenSSL::X509::Certificate.new(File.open('config/ssl/server.crt').read)
+
     params = { :Port        => options[:port].to_i,
                :ServerType  => options[:server_type],
                :BindAddress => options[:ip],
                :SSLEnable => true,
                :SSLVerifyClient => OpenSSL::SSL::VERIFY_NONE,
+               :SSLCertificate => cert,
+               :SSLPrivateKey => pkey,
                :SSLCertName => [ 
                  [ 'CN', 'dradis.' + WEBrick::Utils::getservername ],
-                 [ 'O', 'dradis framework [dradis.sourceforge.net]'],
-                 [ 'OU', 'dradis server' ]
+                 #[ 'O', 'dradis framework [dradis.sourceforge.net]'],
+                 #[ 'OU', 'dradis server' ]
                ]
                 }
     params[:MimeTypes] = options[:mime_types] if options[:mime_types]
