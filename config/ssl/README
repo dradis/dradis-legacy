@@ -1,0 +1,31 @@
+The files in this folder:
+
+  server.crt
+    SSL certificate file
+  server.csr
+    SSL certificate sign request (not required)
+  server.key
+    SSL key used to generate the certificate (protected with pass phrase)
+  server.key.insecure
+    insecure SSL key (the same as previous one, but with the pass phrase removed)
+
+
+
+Intructions:
+In order to generate a new RSA private key:
+openssl genrsa -des3 -out server.key 1024
+
+The inconvenient of the previous key is that it will ask for password every 
+time you start up the server. So you may want to create an *insecure* key
+that is not protected by the pass phrase:
+openssl rsa -in server.key -out server.key.insecure
+
+Once you have the key, you need a Certificate Sign Request (CSR):
+openssl req -new -key server.key.insecure -out server.csr
+
+A real Certificate Authority (CA) should sign the request. Otherwise you can 
+self-sign the request:
+openssl x509 -req -days 365 -in server.csr -signkey server.key.insecure -out server.crt
+
+
+-- last updated 14th of December 2008
