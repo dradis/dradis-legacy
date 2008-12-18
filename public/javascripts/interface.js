@@ -10,7 +10,10 @@ dradis.HeaderPanel = function(config){
     margins: '0 0 5 0',
     autoHeight: true,
     title: 'dradis v2.0',
-    tbar: [ {text: 'logout', handler: function(){ window.location = '/logout'; }, tooltip: 'End session'} ],
+    tbar: [ 
+      {xtype: 'tbfill' }, 
+      {text: 'logout', handler: function(){ window.location = '/logout'; }, tooltip: 'End session'} 
+    ],
   });
   
   dradis.HeaderPanel.superclass.constructor.apply(this, arguments);
