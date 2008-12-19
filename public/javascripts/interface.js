@@ -75,4 +75,5 @@ Ext.onReady(function() {
     ]
   });
   vp.doLayout();
+  Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
 });
