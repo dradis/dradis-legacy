@@ -1,4 +1,5 @@
 // TODO: think REST please!!!
+// TODO: this should be an object, not functions
 
 //------------------------------------------------------------------------ nodes
 function addnode(node, callback) {
@@ -18,6 +19,7 @@ function addnode(node, callback) {
                         text: 'New node sent to the server',
                         clear: 5000
                    });
+              dradis.revision += 1; 
               callback(response.responseText);
     },
     failure: function(response, options) {
@@ -41,6 +43,7 @@ function delnode(node, callback){
         text: 'Node removed from the server',
         clear: 5000
       });
+      dradis.revision += 1; 
     },
     failure: function(response, options) {
       dradisstatus.setStatus({
@@ -67,6 +70,7 @@ function updatenode(node, callback){
         text: 'Node label edited',
         clear: 5000
       });
+      dradis.revision += 1; 
     },
     failure: function(response, options) {
       dradisstatus.setStatus({
@@ -91,6 +95,7 @@ function addnote(note, callback) {
                 text: 'New note sent to the server',
                 clear: 5000
               });
+              dradis.revision += 1; 
               callback(response.responseText);
     },
     failure: function(response, options) {
@@ -115,6 +120,7 @@ function delnote(note, callback){
                  text: 'Note successfully deleted.',
                  clear: 5000
                });
+              dradis.revision += 1; 
     },
     failure: function(response, options) {
               dradisstatus.setStatus({
@@ -138,6 +144,7 @@ function updatenote(note, callback){
         text: 'Data sent to the server',
         clear: 5000
       });
+      dradis.revision += 1; 
     },
     failure: function(response, options) {
       dradisstatus.setStatus({
@@ -161,6 +168,7 @@ function addcategory(category, callback) {
                 text: 'New category sent to the server',
                 clear: 5000
               });
+              dradis.revision += 1; 
               callback(response.responseText);
     },
     failure: function(response, options) {
@@ -188,6 +196,7 @@ function delcategory(category, callback) {
                   text: 'Category successfully deleted.',
                   clear: 5000
                 });
+                dradis.revision += 1; 
               } else {
                 dradisstatus.setStatus({
                   text: msg,
@@ -222,6 +231,7 @@ function updatecategory(category, callback){
                   text: 'Category successfully updated.',
                   clear: 5000
                 });
+                dradis.revision += 1; 
               } else {
                 dradisstatus.setStatus({
                   text: msg,
@@ -245,3 +255,36 @@ function updatecategory(category, callback){
 }
 
 
+//------------------------------------------------------------------------ revision poller
+
+function checkrevision() {
+  // prevent further requests
+  // this may be better done with Ext's TaskRunner
+  if (dradis.revision == -1) { return; }
+
+  Ext.Ajax.request({
+    url: '/configurations/1.xml',
+    method: 'get',
+    success: function(response, options) {
+              var msg = response.responseText;
+              // how ugly is this?
+              rev = msg.match(/<value>(.*)<\/value>/);
+              if (dradis.revision != eval(rev[1])) {
+                dradisstatus.setStatus({ 
+                  text: 'There is a new revision in the server. Please refresh.',
+                });
+                // prevent further requests
+                // this may be better done with Ext's TaskRunner
+                dradis.revision = -1;
+              }
+    },
+    failure: function(response, options) {
+              dradisstatus.setStatus({
+                text: 'An error occured with the Ajax request',
+                iconCls: 'error',
+                clear: 5000
+              });
+    },
+  })
+
+}
