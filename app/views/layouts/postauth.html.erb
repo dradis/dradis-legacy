@@ -29,6 +29,7 @@
     <script language="javascript">
       dradis.author = "<%= current_user %>";
       dradis.token = "<%= form_authenticity_token %>";
+      dradis.revision = <%= Configuration.revision %>;
     </script>
   </body>
 </html>
