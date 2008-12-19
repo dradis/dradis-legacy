@@ -1,5 +1,9 @@
 class Configuration < ActiveRecord::Base
   validates_presence_of :name, :value
+
+  def Configuration.revision
+    Configuration.find_by_name('revision').value
+  end
   
   def Configuration.increment_revision
     revision = Configuration.find_by_name('revision')
