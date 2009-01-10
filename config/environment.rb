@@ -53,7 +53,13 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-  config.active_record.observers = :revision_observer 
+
+  # FIX from http://robsanheim.com/2008/01/08/rails-observers-make-rake-dbmigrate-crash-from-version-0/
+  # to prevent rake db tasks from loading the observer (uses the 
+  # 'configurations' table not available until revision 4)
+  unless ((File.basename($0) == 'rake') && (%w{create drop migrate reset}.any? { |task| ARGV.include?("db:#{task}") })) 
+    config.active_record.observers = :revision_observer 
+  end
 
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
