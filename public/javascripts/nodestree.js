@@ -24,7 +24,7 @@ var tree = new Ext.tree.TreePanel({
     }),
     root: new Ext.tree.AsyncTreeNode({
       id: 'root-node',
-      expanded: true,
+      expanded: true
     }),
     rootVisible: false,
     contextMenu: new Ext.menu.Menu({
@@ -100,7 +100,7 @@ var tree = new Ext.tree.TreePanel({
                         iconCls: 'error',
                         clear: 5000
                       });
-          },
+          }
         })
 
       }

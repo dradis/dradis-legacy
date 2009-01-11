@@ -78,7 +78,7 @@ function updatenode(node, callback){
         iconCls: 'error',
         clear: 5000
       });
-    },
+    }
   })
 
 }
@@ -104,7 +104,7 @@ function addnote(note, callback) {
                 iconCls: 'error',
                 clear: 5000
               });
-    },
+    }
   })
 
 }
@@ -128,7 +128,7 @@ function delnote(note, callback){
                 iconCls: 'error',
                 clear: 5000
               });
-    },
+    }
   })
 
 }
@@ -152,7 +152,7 @@ function updatenote(note, callback){
         iconCls: 'error',
         clear: 5000
       });
-    },
+    }
   })
 }
 
@@ -177,7 +177,7 @@ function addcategory(category, callback) {
                 iconCls: 'error',
                 clear: 5000
               });
-    },
+    }
   })
 
 
@@ -214,7 +214,7 @@ function delcategory(category, callback) {
                 iconCls: 'error',
                 clear: 5000
               });
-    },
+    }
   })
 }
 
@@ -249,7 +249,7 @@ function updatecategory(category, callback){
                 iconCls: 'error',
                 clear: 5000
               });
-    },
+    }
   })
  
 }
@@ -284,7 +284,7 @@ function checkrevision() {
                 iconCls: 'error',
                 clear: 5000
               });
-    },
+    }
   })
 
 }

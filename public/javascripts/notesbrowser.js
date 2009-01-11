@@ -66,7 +66,7 @@ var categoriesDS = new Ext.data.Store({
                           }
                         }
                       ]
-                    },
+                    }
                 });
         categoriesMenu.add( item );
       });
@@ -114,7 +114,7 @@ var store = new Ext.data.Store({
     {// format of the XML
       // records will have an "Item" tag
       record: 'note',
-      id: 'id',
+      id: 'id'
     }, 
     // records for the grid
     Note
@@ -188,12 +188,12 @@ var grid = new Ext.grid.EditorGridPanel({
                               valueField: 'id',
                               allowBlank: false,
                               mode: 'local',
-                              triggerAction: 'all',
+                              triggerAction: 'all'
                   }),
       renderer: function(value, metadata, record, rowIndex, colIndex, store) {
                   var idx = categoriesDS.find('id', value);
                   return categoriesDS.getAt(idx).get('name');
-                  },
+                  }
     },
     {
       header: 'Author', 
@@ -286,7 +286,7 @@ dradis.NotesBrowser = function(config) {
             text:'note categories',
             tooltip:'Manage note categories',
             iconCls:'options',
-            menu: categoriesMenu,
+            menu: categoriesMenu
           },
           '-',
           /*

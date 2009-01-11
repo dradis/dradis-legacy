@@ -13,7 +13,7 @@ dradis.HeaderPanel = function(config){
     tbar: [ 
       {xtype: 'tbfill' }, 
       {text: 'logout', handler: function(){ window.location = '/logout'; }, tooltip: 'End session'} 
-    ],
+    ]
   });
   
   dradis.HeaderPanel.superclass.constructor.apply(this, arguments);
@@ -33,7 +33,7 @@ var dradistabs = new Ext.TabPanel({
   items: [
     notesbrowser,
     { contentEl: 'properties', title: 'Properties'}
-  ],
+  ]
 });
 
 // ----------------------------------------- status bar
@@ -57,7 +57,7 @@ Ext.onReady(function() {
         region: 'west',
         collapsible: true,
         //title: 'Navigation',
-        xtype: 'nodestree',
+        xtype: 'nodestree'
       }, 
       dradistabs,
       dradisstatus
