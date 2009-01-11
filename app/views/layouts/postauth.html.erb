@@ -3,7 +3,7 @@
     <title>dradis v2.0</title>
     <!-- Ext CSS and Libs -->
     <%= javascript_include_tag 'adapter/ext/ext-base.js' %>
-    <%= javascript_include_tag 'ext-all-debug.js' %>
+    <%= javascript_include_tag 'ext-all.js' %>
     <%= stylesheet_link_tag 'ext-all.css' %>
 
     <!-- Custom CSS and Libs -->
@@ -26,7 +26,7 @@
       <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
       <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
     </div>
-    <script language="javascript">
+    <script type="text/javascript">
       dradis.author = "<%= current_user %>";
       dradis.token = "<%= form_authenticity_token %>";
       dradis.revision = <%= Configuration.revision %>;
