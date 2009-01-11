@@ -5,8 +5,8 @@
 function addnode(node, callback) {
   var parent = node.parentNode;
   var p = { 
-    label: node.text, 
-  }
+    label: node.text 
+  };
   if (parent.id != 'root-node') {
     p.parent_id = parent.id
   }
@@ -28,12 +28,12 @@ function addnode(node, callback) {
                         iconCls: 'error',
                         clear: 5000
                    });
-    },
+    }
   });
 }
 
 function delnode(node, callback){
-  var p = { id: node.id }
+  var p = { id: node.id };
   p.authenticity_token = dradis.token;
   Ext.Ajax.request({
     url: '/json/node_delete',
@@ -57,7 +57,7 @@ function delnode(node, callback){
 }
 
 function updatenode(node, callback){
-  var p = { id: node.id, label: node.text }
+  var p = { id: node.id, label: node.text };
   if (node.parentNode.parentNode !== null) {
     p.parent_id = node.parentNode.id;
   }
