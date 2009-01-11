@@ -58,7 +58,7 @@ Ext.onReady(function() {
         collapsible: true,
         //title: 'Navigation',
         xtype: 'nodestree'
-      }, 
+      },
       dradistabs,
       dradisstatus
         //{

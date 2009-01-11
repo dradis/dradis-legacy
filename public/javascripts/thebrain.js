@@ -271,7 +271,7 @@ function checkrevision() {
               rev = msg.match(/<value>(.*)<\/value>/);
               if (dradis.revision != eval(rev[1])) {
                 dradisstatus.setStatus({ 
-                  text: 'There is a new revision in the server. Please refresh.',
+                  text: 'There is a new revision in the server. Please refresh.'
                 });
                 // prevent further requests
                 // this may be better done with Ext's TaskRunner

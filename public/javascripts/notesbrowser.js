@@ -287,9 +287,9 @@ dradis.NotesBrowser = function(config) {
             tooltip:'Manage note categories',
             iconCls:'options',
             menu: categoriesMenu
-          },
-          '-',
+          }
           /*
+          '-',
           'filter notes by: ',
           {
             xtype: 'combo',
