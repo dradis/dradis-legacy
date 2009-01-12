@@ -34,6 +34,7 @@ var dradistabs = new Ext.TabPanel({
     notesbrowser,
     { contentEl: 'properties', title: 'Properties'}
   ]
+
 });
 
 // ----------------------------------------- status bar
@@ -52,7 +53,14 @@ Ext.onReady(function() {
   var vp = new Ext.Viewport({
     layout: 'border',
     items: [
-      { xtype: 'headerpanel' },
+      {
+        region: 'north',
+        html: '<h1 class="x-panel-header" style="text-align: right;">dradis v2.0 (<a href="/logout">logout</a>)</h1>',
+        autoHeight: true,
+        border: false,
+        margins: '0 0 5 0',
+      },
+      //{ xtype: 'headerpanel' },
       { // left-hand side, the tree
         region: 'west',
         collapsible: true,
