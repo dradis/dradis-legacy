@@ -20,7 +20,11 @@ var tree = new Ext.tree.TreePanel({
     enableDD:true,
     loader: new Ext.tree.TreeLoader({
       url: 'json/nodes',
-      requestMethod: 'GET'
+      requestMethod: 'GET',
+    	createNode : function(attr){
+		    attr.text = Ext.util.Format.htmlEncode(attr.text);
+    		return this.constructor.prototype.createNode.call(this, attr);
+    	}
     }),
     root: new Ext.tree.AsyncTreeNode({
       id: 'root-node',
