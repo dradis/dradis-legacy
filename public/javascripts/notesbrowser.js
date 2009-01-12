@@ -38,7 +38,7 @@ var categoriesDS = new Ext.data.Store({
       var item; // the menu item
       store.each(function(record){
         item = new Ext.menu.Item({
-                    text: record.data.name,
+                    text: Ext.util.Format.htmlEncode(record.data.name),
                     menu: {
                       items:[
                         { text: 'edit', 
