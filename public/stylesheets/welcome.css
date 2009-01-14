@@ -1,0 +1,112 @@
+body { 
+  background-color: #fff; 
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif; 
+  text-align: center; 
+}
+a { text-decoration: none; }
+#notice { 
+  margin: 0 1ex; 
+  border: 2px solid #CCFF00; 
+  background-color: #F2FFBF; 
+  padding: 1ex; 
+  font-family: monospace;
+}
+#error { 
+  margin: 0 1ex; 
+  border: 2px solid #D01F3C; 
+  background-color: #FFBFDC; 
+  padding: 1ex; 
+}
+#nojs { 
+  font-size: 80%; 
+  margin: 1ex; 
+  border: 1px solid #FFBFDC; 
+  color: #D01F3C; 
+  padding: 0.5ex;
+}
+div.main { 
+  position: relative; 
+  width: 640px; 
+  height: 260px;	
+  margin: 150px auto 0 auto; 
+  text-align: left; 
+}
+div.main_margin { margin-top: 108px; }
+div.main div.top { 
+  width: 100%; 
+  text-align: center; 
+  line-height: 45px; 
+  color: #3A94D6; 
+  font-size: 16px; 
+}
+div.main div.content_top {
+  width: 636px; 
+  height: 10px; 
+  background: url(/images/box_shared_f_t.gif) left top no-repeat;	
+  font-size: 0;
+}
+div.main div.content 
+{
+  padding: 15px 0 15px 0;
+  width: 636px;
+ 	height: auto;
+  background: url(/images/box_shared_f_c.gif) left top repeat-y;
+}
+div.main div.content div.right {text-align: right; padding: 4px;}
+div.main div.content_bottom
+{
+  width: 636px;
+  height: 37px;
+  background: #2E91D0 url(/images/box_shared_f_b.gif) left bottom no-repeat;
+  color: #CDE7F8;
+  font-size: 13px;
+  line-height: 37px;
+  text-align: center;
+}
+div.main div.content_bottom a
+{
+  color: #CDE7F8;
+  background: url(/images/white_1px.gif) left bottom repeat-x;
+}
+div.main div.content_bottom a:hover
+{
+  background: url(/images/white_2px.gif) left bottom repeat-x;
+}
+div.text { text-align: center; }
+div.text form 
+{
+  text-align: left; 
+  padding: 10px;
+  margin: 0;
+  width: 300px;
+  margin: 0 auto 0 auto;
+}
+#login, #password, #password_value, #password_confirm_value
+{
+  font-size: 13px;
+  margin-bottom: 5px;
+  display: block;
+  padding: 4px;
+  border: solid 1px #85b1de;
+  width: 100%;
+  background-image: url( '/images/blue_bg.png' );
+  background-repeat: repeat-x;
+  background-position: top;
+}
+#login:focus, #password:focus, #password_value:focus, #password_confirm_value:focus
+{
+  background-image: none;
+  background-color: #ffffff;
+}
+.submit 
+{ 
+  border: none; 
+  background-color: #85b1de; 
+  font-weight: bold; 
+  color: #fff; 
+  cursor: pointer; 
+  padding: 0.5ex; 
+  width: 100px;
+}
+.submit:hover { background-color: #2e91d0; }
+
