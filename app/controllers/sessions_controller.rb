@@ -7,10 +7,17 @@ class SessionsController < ApplicationController
   # ------------------------------------------------------------- test password
   # render init.rhtml
   def init
+    unless Configuration.password.match('dradis')
+      redirect_to :action => :new
+    end
   end
   
-  # TODO: add a check to prevent someone from resetting the password
   def setup
+    unless Configuration.password.match('dradis')
+      redirect_to :action => :new
+      return
+    end
+
     pwd = params.fetch( :password, nil )
     if (pwd.nil?)
       flash.now[:error] = 'You need to provide new password information.'
