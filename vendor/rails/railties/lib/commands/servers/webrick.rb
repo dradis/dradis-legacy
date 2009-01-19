@@ -4,7 +4,7 @@ require 'commands/servers/base'
 
 OPTIONS = {
   :port         => 3004,
-  :ip           => "0.0.0.0",
+  :ip           => "127.0.0.1",
   :environment  => (ENV['RAILS_ENV'] || "development").dup,
   :server_root  => File.expand_path(RAILS_ROOT + "/public/"),
   :server_type  => WEBrick::SimpleServer,
@@ -61,6 +61,6 @@ require 'webrick_server'
 
 OPTIONS['working_directory'] = File.expand_path(RAILS_ROOT)
 
-puts "=> Rails application started on http://#{OPTIONS[:ip]}:#{OPTIONS[:port]}"
+puts "=> Rails application started on https://#{OPTIONS[:ip]}:#{OPTIONS[:port]}"
 puts "=> Ctrl-C to shutdown server; call with --help for options" if OPTIONS[:server_type] == WEBrick::SimpleServer
 DispatchServlet.dispatch(OPTIONS)
