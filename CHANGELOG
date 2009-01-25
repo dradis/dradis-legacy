@@ -1,3 +1,9 @@
+v2.0 (25th of January 2009)
+ - Forget Hosts, Services and Protocols. Embrace the freedom of Nodes.
+ - Forget SOAP, embrace REST
+ - Powered by Rails 2.0 and ExtJS 2.2 (http://www.extjs.com/)
+ - Now with security! (SSL transport and user authentication)
+
 v1.2 (4th of April 2008)
  - a slightly less annoying implementation of the web interface 'auto refresh'
  functionality.
