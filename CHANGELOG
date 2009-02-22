@@ -1,3 +1,5 @@
+v2.0.1
+ - security patches
 v2.0 (25th of January 2009)
  - Forget Hosts, Services and Protocols. Embrace the freedom of Nodes.
  - Forget SOAP, embrace REST
