@@ -1,4 +1,5 @@
 class ConfigurationsController < ApplicationController
+  before_filter :login_required
   before_filter :find_or_initialize_config, :except => [ :index ]
 
   # GET /nodes
