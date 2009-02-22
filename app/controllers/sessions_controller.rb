@@ -44,7 +44,7 @@ class SessionsController < ApplicationController
     c.value = pwd1
     c.save
     
-    flash[:notice] = 'Password set. Please log in.'
+    flash[:notice] =  'Password set. Please log in.<br/> Remember to adjust the client configuration file (client/conf/dradis.xml).'
     redirect_to :action => :new
   end
 
