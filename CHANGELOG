@@ -1,6 +1,7 @@
-v2.0.1
+v2.0.1 (23rd of Februaru 2009)
  - security patches
-v2.0 (25th of January 2009)
+
+v2.0 (29th of January 2009)
  - Forget Hosts, Services and Protocols. Embrace the freedom of Nodes.
  - Forget SOAP, embrace REST
  - Powered by Rails 2.0 and ExtJS 2.2 (http://www.extjs.com/)
