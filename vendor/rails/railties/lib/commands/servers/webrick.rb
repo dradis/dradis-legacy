@@ -22,10 +22,10 @@ ARGV.options do |opts|
 
   opts.on("-p", "--port=port", Integer,
           "Runs Rails on the specified port.",
-          "Default: 3000") { |v| OPTIONS[:port] = v }
+          "Default: 3004") { |v| OPTIONS[:port] = v }
   opts.on("-b", "--binding=ip", String,
           "Binds Rails to the specified ip.",
-          "Default: 0.0.0.0") { |v| OPTIONS[:ip] = v }
+          "Default: 127.0.0.1") { |v| OPTIONS[:ip] = v }
   opts.on("-e", "--environment=name", String,
           "Specifies the environment to run this server under (test/development/production).",
           "Default: development") { |v| OPTIONS[:environment] = v }
