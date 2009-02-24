@@ -49,7 +49,7 @@ namespace :export do
     # TODO: finding the container is easy, but how do we find the template? is
     # it the first child? the third?
     vuln_template = REXML::Document.new( doc.root.clone.to_s )
-    vuln_template.root.add findings_container.children[3]
+    vuln_template.root.add findings_container.children[5]
 
     Note.find(:all, :conditions => {:category_id => 7}).each do |n|
       v = REXML::Document.new(vuln_template.to_s)
@@ -122,8 +122,7 @@ namespace :export do
         v.elements.delete("//wx:sub-section[@id='vulnextra']")
       end
 
-      # TODO: this w:sectPr is speciffic of this template, try to avoid
-      findings_container.insert_before('//w:sectPr', v.root.children[0])  
+      findings_container.add(v.root.children[0])  
     end
 
     doc.write(File.new('report.xml','w'), -1, true)
