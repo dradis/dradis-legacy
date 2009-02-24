@@ -30,6 +30,38 @@ end
 
 
 namespace :export do
+  # This task generates a Word report from a set of dradis Notes. This notes 
+  # have to be asigned to a specific category and have to have the following
+  # format:
+  #
+  # #[<field #1 name>]# 
+  # <field contents #1>
+  #
+  # #[<field #2 name>]
+  # <field contents #2>
+  # ...
+  #
+  # For example:
+  # 
+  # #[Title]#
+  # Insecure Cookie Configuration
+  #
+  # #[Description]
+  # Several flags that add an extra layer of security to HTTP cookies were 
+  # found not to be in use by the application. 
+  # 
+  # The Secure flag was not set. 
+  #
+  # The HTTPOnly flag was not set. 
+  #
+  # The task will split the note text in fields and values, and then will 
+  # locate the corresponding placeholders in the XML template. These 
+  # placeholders are located using XPath. For instance if the field name is
+  # "Title" we will try to locate a tag with id="vulntitle", if it is 
+  # "Description" we will try to locate a tag with id="vulndescription", etc.
+  #
+  # Once the placeholder is found, the field value is splited in lines and a 
+  # new Word XML paragraph is attached to the placeholder for each line 
   desc "Export the contents of the dradis repository to a Word document"
   task :word => :environment do
     # This needs some tweaking, but the idea is that maybe you don't want to
