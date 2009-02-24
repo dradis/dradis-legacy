@@ -1,6 +1,33 @@
 require 'rexml/document'
 require 'rexml/xpath'
 
+# Instead of dealing with each field differently, with this method we can have
+# a generic way of adding a paragraph to the document. See Brian Jones 'Intro
+# to Word XML at: 
+# http://blogs.msdn.com/brian_jones/archive/2005/07/26/intro-to-word-xml-part-3-using-your-own-schema.aspx
+def word_paragraph_for(text, props={})
+  txt = REXML::Element.new('w:t')
+  txt.text = text 
+        
+  run = REXML::Element.new('w:r')
+
+  if (props.key?(:rprops) && !(props[:rprops].size.zero?))
+    # add properties to the run
+    run_props = REXML::Element.new('w:rPr')
+    
+    props[:rprops].each do |prop|
+      run_props.add( REXML::Element.new(prop) )
+    end
+    run.add( run_props )
+  end
+
+  run.add( txt )
+
+  paragraph = REXML::Element.new('w:p')
+  paragraph.add( run )
+  return paragraph
+end
+
 
 namespace :export do
   desc "Export the contents of the dradis repository to a Word document"
