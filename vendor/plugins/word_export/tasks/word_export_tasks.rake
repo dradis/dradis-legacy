@@ -5,7 +5,10 @@ require 'rexml/xpath'
 namespace :export do
   desc "Export the contents of the dradis repository to a Word document"
   task :word => :environment do
-    puts "There are #{Note.count} notes in the dradis database."
+    # This needs some tweaking, but the idea is that maybe you don't want to
+    # report on all of your notes, so you flag the ones you want to report
+    # by adding them to a specific category (7). Feel free to adjust.
+    puts "There are #{Note.find(:all, :conditions => {:category_id => 7}).count} notes in the reporting category (7)."
 
     begin
       doc = REXML::Document.new(File.new('./vendor/plugins/word_export/template.xml','r'))
@@ -18,7 +21,7 @@ namespace :export do
     vuln_template = REXML::Document.new( doc.root.clone.to_s )
     vuln_template.root.add body.children[3]
 
-    Note.find(:all).each do |n|
+    Note.find(:all, :conditions => {:category_id => 7}).each do |n|
       v = REXML::Document.new(vuln_template.to_s)
 
       puts "processing Note #{n.id}"
