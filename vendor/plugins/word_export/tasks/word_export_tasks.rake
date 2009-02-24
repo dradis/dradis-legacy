@@ -18,7 +18,6 @@ namespace :export do
       raise Exception.new(e)
     end
 
-    vulns = []
     findings_container = REXML::XPath.first(doc, "//[@id='findings']")
     # TODO: finding the container is easy, but how do we find the template? is
     # it the first child? the third?
@@ -96,13 +95,10 @@ namespace :export do
         v.elements.delete("//wx:sub-section[@id='vulnextra']")
       end
 
-      vulns << v
-    end
-
-    vulns.each do |v|
+      # TODO: this w:sectPr is speciffic of this template, try to avoid
       findings_container.insert_before('//w:sectPr', v.root.children[0])  
     end
-    puts
+
     doc.write(File.new('report.xml','w'), -1, true)
   end
 end
