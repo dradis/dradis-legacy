@@ -70,54 +70,27 @@ namespace :export do
       #description
       description = REXML::XPath.first(v, "//wx:sub-section[@id='vulndesc']")
       description.delete_attribute('id')
-      fields[2].split("\n\n").each do |paragraph|
-
-        par = REXML::Element.new('w:t')
-        par.text = paragraph
-        r = REXML::Element.new('w:r')
-        r.elements << par
-        chunk = REXML::Element.new('w:p')
-        chunk.attributes['wsp:rsidR']="00C27C1C" 
-        chunk.attributes['wsp:rsidRDefault']="00C27C1C"
-        chunk.attributes['wsp:rsidP']="00C27C1C"
-        chunk.elements << r
-        description.elements << chunk 
-      end
+      fields[2].split("\n").each do |paragraph|
+        description.add( word_paragraph_for(paragraph) )
+      end   
+      description.add( word_paragraph_for('') )
 
       #recommendation
       recommendation = REXML::XPath.first(v, "//wx:sub-section[@id='vulnrec']")
       recommendation.delete_attribute('id')
-      fields[3].split("\n\n").each do |paragraph|
-        par = REXML::Element.new('w:t')
-        par.text = paragraph
-        r = REXML::Element.new('w:r')
-        r.elements << par
-
-        chunk = REXML::Element.new('w:p')
-        chunk.attributes['wsp:rsidR']="00C27C1C" 
-        chunk.attributes['wsp:rsidRDefault']="00C27C1C"
-        chunk.attributes['wsp:rsidP']="00C27C1C"
-        chunk.elements << r
-        recommendation.elements << chunk
-      end
+      fields[3].split("\n").each do |paragraph|
+        recommendation.add( word_paragraph_for(paragraph) )
+      end   
+      recommendation.add( word_paragraph_for('') )
 
       #additional information
       if (fields.size > 4)
         additional = REXML::XPath.first(v, "//wx:sub-section[@id='vulnextra']")
         additional.delete_attribute('id')
-        fields[4].split("\n\n").each do |paragraph|
-          par = REXML::Element.new('w:t')
-          par.text = paragraph
-          r = REXML::Element.new('w:r')
-          r.elements << par
-
-          chunk = REXML::Element.new('w:p')
-          chunk.attributes['wsp:rsidR']="00C27C1C" 
-          chunk.attributes['wsp:rsidRDefault']="00C27C1C"
-          chunk.attributes['wsp:rsidP']="00C27C1C"
-          chunk.elements << r
-          additional.elements << chunk
-        end
+        fields[4].split("\n").each do |paragraph|
+          additional.add( word_paragraph_for(paragraph) )
+        end   
+        additional.add( word_paragraph_for('') )
       else
         v.elements.delete("//wx:sub-section[@id='vulnextra']")
       end
