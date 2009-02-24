@@ -137,6 +137,12 @@
   </wsp:rsids>
 </w:docPr>
 <w:body id="findings">
+<w:sectPr wsp:rsidR="00C27C1C" wsp:rsidRPr="00C27C1C" wsp:rsidSect="00FB5FCC">
+  <w:pgSz w:w="11906" w:h="16838"/>
+  <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/>
+  <w:cols w:space="708"/>
+  <w:docGrid w:line-pitch="360"/>
+</w:sectPr>
 
 <!-- Note Section -->
 <wx:sub-section>
@@ -185,13 +191,6 @@
 </wx:sub-section>
 
 <!-- /Note Section -->
-
 <!-- Footer of the document -->
-<w:sectPr wsp:rsidR="00C27C1C" wsp:rsidRPr="00C27C1C" wsp:rsidSect="00FB5FCC">
-  <w:pgSz w:w="11906" w:h="16838"/>
-  <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/>
-  <w:cols w:space="708"/>
-  <w:docGrid w:line-pitch="360"/>
-</w:sectPr>
 </w:body>
 </w:wordDocument>
