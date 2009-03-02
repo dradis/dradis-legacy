@@ -268,18 +268,29 @@ dradis.NotesBrowser = function(config) {
             text:'add note',
             tooltip:'Add a new note to this element',
             iconCls:'add',
-            handler: function() {
-              var n = new Note( {
+            menu: { 
+              items: [ 
+                { 
+                  text: 'empty note', 
+                  iconCls: 'empty',
+                  handler: function() {
+                    var n = new Note( {
                             text: 'New note', 
                             category: 1, 
                             node: notesbrowser.selectedNode,
                             author: dradis.author, 
                             updated: Date()//.parseDate('2008-10-27T12:00:00+01:00', 'c')
-              });
-              grid.stopEditing();
-              store.insert(0, n);
-              grid.startEditing(0,1);
+                          });
+                    grid.stopEditing();
+                    store.insert(0, n);
+                    grid.startEditing(0,1);
+                  }
+                }, 
+                { text: 'import from...', iconCls: 'import'}
+              ]
             }
+            /*
+            */
           }, 
           '-', 
           {
