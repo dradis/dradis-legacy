@@ -6,6 +6,12 @@ noscript p {
 .add { 
   background-image: url(../images/add.gif) !important;
 }
+.empty { 
+  background-image: url(../images/empty.gif) !important;
+}
+.import { 
+  background-image: url(../images/import.gif) !important;
+}
 .edit { 
   background-image: url(../images/edit.gif) !important;
 }
