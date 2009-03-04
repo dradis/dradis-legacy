@@ -12,10 +12,8 @@ Ext.ns('dradis');
 var tree = new Ext.tree.TreePanel({
     //width: 200,
     border: false,
-    autoScroll: true,
     split: true,
     useArrows:true,
-    autoScroll:true,
     animate:true,
     enableDD:true,
     loader: new Ext.tree.TreeLoader({
@@ -127,6 +125,7 @@ dradis.NodesTree = function(config) {
   Ext.apply(this,{ 
     region: 'west',
     width: 300,
+    autoScroll: true,
     tbar: [
       { 
         text: 'add branch',
