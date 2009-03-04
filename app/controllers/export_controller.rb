@@ -13,6 +13,13 @@ class ExportController < ApplicationController
   include Plugins::Export
   before_filter :prepare_params, :except => [:list]
 
+  # This method provides a list of all the available export options. It 
+  # assumes that each export plugin inclides instance methods in the
+  # Plugins::Export mixing.
+  def list
+    render :text => Plugins::Export.instance_methods().join(',')
+  end
+
   private
   def prepare_params
   end
