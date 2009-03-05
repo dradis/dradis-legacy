@@ -90,12 +90,13 @@ module WordExport
         v = REXML::Document.new(vuln_template.to_s)
 
         puts "processing Note #{n.id}"
-        fields = n.text.split(/.+?:\n.*?/).collect do |field| field.strip end
+        fields = Hash[ *n.text.scan(/#\[(.+?)\]#\n(.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ]
+
 
         #title
         title = REXML::XPath.first(v, "//w:t[@id='vulntitle']") 
         title.delete_attribute('id')
-        title.text = fields[1]
+        title.text = fields['Title']
   
         #date
         created_at = REXML::XPath.first(v, "//w:t[@id='vulncreated']") 
@@ -105,7 +106,7 @@ module WordExport
         #description
         description = REXML::XPath.first(v, "//wx:sub-section[@id='vulndesc']")
         description.delete_attribute('id')
-        fields[2].split("\n").each do |paragraph|
+        fields['Description'].split("\n").each do |paragraph|
           description.add( word_paragraph_for(paragraph) )
         end   
         description.add( word_paragraph_for('') )
@@ -113,16 +114,16 @@ module WordExport
         #recommendation
         recommendation = REXML::XPath.first(v, "//wx:sub-section[@id='vulnrec']")
         recommendation.delete_attribute('id')
-        fields[3].split("\n").each do |paragraph|
+        fields['Recommendation'].split("\n").each do |paragraph|
           recommendation.add( word_paragraph_for(paragraph) )
         end   
         recommendation.add( word_paragraph_for('') )
 
         #additional information
-        if (fields.size > 4)
+        if (fields.key?('Additional Information'))
           additional = REXML::XPath.first(v, "//wx:sub-section[@id='vulnextra']")
           additional.delete_attribute('id')
-          fields[4].split("\n").each do |paragraph|
+          fields['Additional Information'].split("\n").each do |paragraph|
             additional.add( word_paragraph_for(paragraph) )
           end   
           additional.add( word_paragraph_for('') )
