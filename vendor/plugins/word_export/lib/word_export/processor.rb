@@ -82,6 +82,7 @@ module WordExport
         doc = REXML::Document.new(File.new('./vendor/plugins/word_export/template.xml','r'))
         logger.info{ 'done.' }
       rescue REXML::ParseException => e # re-raise exception
+        logger.fatal{ e }
         raise Exception.new(e)
       end
 
