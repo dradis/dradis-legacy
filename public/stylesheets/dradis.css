@@ -12,6 +12,9 @@ noscript p {
 .import { 
   background-image: url(../images/import.gif) !important;
 }
+.export { 
+  background-image: url(../images/export.png) !important;
+}
 .edit { 
   background-image: url(../images/edit.gif) !important;
 }
