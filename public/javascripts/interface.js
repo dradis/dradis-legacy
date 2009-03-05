@@ -32,7 +32,8 @@ var dradistabs = new Ext.TabPanel({
   deferredRender: false,
   items: [
     notesbrowser,
-    { contentEl: 'properties', title: 'Properties'}
+    //{ contentEl: 'properties', title: 'Properties'},
+    { contentEl: 'import', title: 'Import from...'}
   ]
 
 });
