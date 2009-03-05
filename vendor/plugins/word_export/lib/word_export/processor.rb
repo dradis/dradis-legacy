@@ -73,7 +73,9 @@ module WordExport
       # This needs some tweaking, but the idea is that maybe you don't want to
       # report on all of your notes, so you flag the ones you want to report
       # by adding them to a specific category (7). Feel free to adjust.
-      logger.info{ "There are #{Note.find(:all, :conditions => {:category_id => 6}).count} notes in the reporting category (6)." }
+      reporting_cat = Category.find_by_name(REPORTING_CATEGORY_NAME)
+      reporting_notes_num = Note.find(:all, :conditions => {:category_id => reporting_cat}).count
+      logger.info{ "There are #{reporting_notes_num} notes in the #{REPORTING_CATEGORY_NAME} category." }
 
       begin
         logger.info{ 'Loading template... '}
@@ -89,7 +91,7 @@ module WordExport
       vuln_template = REXML::Document.new( doc.root.clone.to_s )
       vuln_template.root.add findings_container.children[5]
   
-      Note.find(:all, :conditions => {:category_id => 6}).each do |n|
+      Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |n|
         v = REXML::Document.new(vuln_template.to_s)
 
         logger.debug{ "processing Note #{n.id}" }
