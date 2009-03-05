@@ -7,9 +7,7 @@ module WordExport
     # This method will process the template, fill in the placeholders and send
     # the resulting Word XML document using rails' send_data function.
     def word(params={})
-      p = Processor.new()
-      
-      doc = REXML::Document.new("<a><b/></a>")
+      doc = Processor.generate() 
       send_data(doc, :filename => 'report.xml', :type => :xml)
     end
   end
