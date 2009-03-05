@@ -7,7 +7,7 @@ namespace :export do
   # The output report will be stored in +./report.xml+
   desc "Export the contents of the dradis repository to a Word document"
   task :word => :environment do
-    doc = Processor.generate()
+    doc = WordExport::Processor.generate()
     doc.write(File.new('report.xml','w'), -1, true)
   end
 end
