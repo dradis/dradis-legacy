@@ -286,7 +286,13 @@ dradis.NotesBrowser = function(config) {
                     grid.startEditing(0,1);
                   }
                 }, 
-                { text: 'import from...', iconCls: 'import'}
+                { 
+                  text: 'import from...', 
+                  iconCls: 'import',
+                  menu: { 
+                    items: [ {text: 'vuln db'}, {text: 'report library'}, {text: 'wiki'} ]
+                  }
+                }
               ]
             }
             /*
@@ -298,7 +304,18 @@ dradis.NotesBrowser = function(config) {
             tooltip:'Manage note categories',
             iconCls:'options',
             menu: categoriesMenu
-          }
+          },
+          '-',
+          {
+            text: 'export',
+            tooltip: 'export dradis contents to external sources',
+            iconCls: 'export',
+            menu:{
+              items:[ 
+                {text:'word', handler:function(){ window.location='/export/word'; }} 
+              ]
+            }
+           }
           /*
           '-',
           'filter notes by: ',
