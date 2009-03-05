@@ -34,7 +34,7 @@ module WordExport
     end
 
     public
-    # This task generates a Word report from a set of dradis Notes. This notes 
+    # This method generates a Word report from a set of dradis Notes. This notes 
     # have to be asigned to a specific category and have to have the following
     # format:
     #
@@ -58,7 +58,7 @@ module WordExport
     #
     # The HTTPOnly flag was not set. 
     #
-    # The task will split the note text in fields and values, and then will 
+    # The method will split the note text in fields and values, and then will 
     # locate the corresponding placeholders in the XML template. These 
     # placeholders are located using XPath. For instance if the field name is
     # "Title" we will try to locate a tag with id="vulntitle", if it is 
@@ -66,7 +66,7 @@ module WordExport
     #
     # Once the placeholder is found, the field value is splited in lines and a 
     # new Word XML paragraph is attached to the placeholder for each line 
-    def generate 
+    def self.generate 
       # This needs some tweaking, but the idea is that maybe you don't want to
       # report on all of your notes, so you flag the ones you want to report
       # by adding them to a specific category (7). Feel free to adjust.
