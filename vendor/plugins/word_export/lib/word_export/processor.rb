@@ -66,16 +66,19 @@ module WordExport
     #
     # Once the placeholder is found, the field value is splited in lines and a 
     # new Word XML paragraph is attached to the placeholder for each line 
-    def self.generate 
+    def self.generate(params={})
+      logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+      logger.info{ 'Generating Word report' } 
+
       # This needs some tweaking, but the idea is that maybe you don't want to
       # report on all of your notes, so you flag the ones you want to report
       # by adding them to a specific category (7). Feel free to adjust.
-      puts "There are #{Note.find(:all, :conditions => {:category_id => 6}).count} notes in the reporting category (6)."
+      logger.info{ "There are #{Note.find(:all, :conditions => {:category_id => 6}).count} notes in the reporting category (6)." }
 
       begin
-        print "Loading template... "
+        logger.info{ 'Loading template... '}
         doc = REXML::Document.new(File.new('./vendor/plugins/word_export/template.xml','r'))
-        puts "done."
+        logger.info{ 'done.' }
       rescue REXML::ParseException => e # re-raise exception
         raise Exception.new(e)
       end
@@ -89,7 +92,7 @@ module WordExport
       Note.find(:all, :conditions => {:category_id => 6}).each do |n|
         v = REXML::Document.new(vuln_template.to_s)
 
-        puts "processing Note #{n.id}"
+        logger.debug{ "processing Note #{n.id}" }
         fields = Hash[ *n.text.scan(/#\[(.+?)\]#\n(.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ]
 
 
