@@ -18,7 +18,15 @@ class ExportController < ApplicationController
   # assumes that each export plugin inclides instance methods in the
   # Plugins::Export mixing.
   def list
-    render :text => Plugins::Export.instance_methods().join(',')
+    respond_to do |format|
+      format.html{ redirect_to '/' }
+      format.json{ 
+        list = Plugins::Export.included_modules.collect do |plugin|
+          { :name => plugin.name }  
+        end
+        render :json => list
+      }
+    end
   end
 
   private
