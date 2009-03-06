@@ -3,6 +3,22 @@
 
 // ------------------------------------------ data stores
 
+var exportPluginsMenu = new Ext.menu.Menu({});
+var exportPluginsDS = new Ext.data.JsonStore({
+  url:'/export/list/plugins.json',
+  fields: ['name'],
+  listeners:{
+    datachanged: function(store){
+      exportPluginsMenu.removeAll();
+      var item; // the menu item
+      store.each(function(record){
+        item = new Ext.menu.Item({ text: Ext.util.Format.htmlEncode(record.data.name) });
+        exportPluginsMenu.add(item);
+      });
+    }
+  }
+});
+
 var categoriesMenu = new Ext.menu.Menu({});
 var categoriesDS = new Ext.data.Store({
   proxy: new Ext.data.HttpProxy(
@@ -310,11 +326,7 @@ dradis.NotesBrowser = function(config) {
             text: 'export',
             tooltip: 'export dradis contents to external sources',
             iconCls: 'export',
-            menu:{
-              items:[ 
-                {text:'word', handler:function(){ window.location='/export/word'; }} 
-              ]
-            }
+            menu: exportPluginsMenu
            }
           /*
           '-',
@@ -366,6 +378,7 @@ Ext.extend(dradis.NotesBrowser, Ext.Panel, {
     conn.url = '/nodes/' + node_id + '/notes.xml';
     conn.method = 'GET';
     categoriesDS.load();
+    exportPluginsDS.load();
     store.load();
   }
 });
