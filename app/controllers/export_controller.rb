@@ -11,6 +11,7 @@ end
 # functionality exposed by plugins is made available to the user.
 class ExportController < ApplicationController
   include Plugins::Export
+  before_filter :login_required
   before_filter :prepare_params, :except => [:list]
 
   # This method provides a list of all the available export options. It 
