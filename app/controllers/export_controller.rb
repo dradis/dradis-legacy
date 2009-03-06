@@ -21,9 +21,14 @@ class ExportController < ApplicationController
     respond_to do |format|
       format.html{ redirect_to '/' }
       format.json{ 
-        list = Plugins::Export.included_modules.collect do |plugin|
-          { :name => plugin.name }  
+        list = []
+        Plugins::Export.included_modules.each do |plugin|
+          list << { :name => plugin.name, :actions => [] }
+          if (plugin.constants.include?('Actions'))
+             list.last[:actions] = eval("#{plugin.name}::Actions").instance_methods
+          end
         end
+
         render :json => list
       }
     end
