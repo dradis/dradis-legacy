@@ -10,7 +10,7 @@
 ** The Attachment class inherits from the ruby core File class
 **
 ** License:
-**   See dradis.rb or LICENSE.txt for copyright and licensing information.
+**   See LICENSE.txt for copyright and licensing information.
 **
 =end
 
