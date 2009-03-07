@@ -9,6 +9,6 @@ end
 
 module Plugins
   module Export
-    include WordExport::Actions
+    include WordExport
   end
 end
