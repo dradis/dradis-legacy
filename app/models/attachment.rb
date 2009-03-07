@@ -131,11 +131,7 @@ class Attachment < File
         attachments
       end
     else
-      if args.length == 1
-        find(args.first, options)
-      else
-        find(args, options)
-      end
+      raise "Not yet implemented"
     end
     return return_value
   end
