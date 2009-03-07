@@ -68,6 +68,7 @@ class Attachment < File
 
     if File.exists?(fullpath) && File.file?(fullpath)
       super(fullpath, 'r')
+      @initialfile = fullpath.clone
     elsif File.exists?(@tempfile)
       super(@tempfile, 'r')
     else
@@ -84,10 +85,12 @@ class Attachment < File
       file_content = self.read
       @id = Attachment.find(:all).last.id.to_s
       @filename ||= File.basename(@tempfile)
-      FileUtils.mkdir(File.dirname(fullpath))
+      FileUtils.mkdir(File.dirname(fullpath)) unless File.exists?(File.dirname(fullpath))
       file_handle = File.new(fullpath, 'w')
       file_handle << file_content
       file_handle.close
+      FileUtils.rm(@initialfile) if @initialfile && @initialfile != fullpath
+      @initialfile = fullpath.clone
     end
   end
 
