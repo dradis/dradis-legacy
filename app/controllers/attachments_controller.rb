@@ -1,6 +1,6 @@
 class AttachmentsController < ApplicationController
 
   def index
-    debugger
+    @attachments = Node.find(params[:node_id]).attachments
   end
 end
