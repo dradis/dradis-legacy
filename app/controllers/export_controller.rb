@@ -25,7 +25,7 @@ class ExportController < ApplicationController
         Plugins::Export.included_modules.each do |plugin|
           list << { :name => plugin.name, :actions => [] }
           if (plugin.constants.include?('Actions'))
-             list.last[:actions] = eval("#{plugin.name}::Actions").instance_methods
+             list.last[:actions] = eval("#{plugin.name}::Actions").instance_methods.sort
           end
         end
 
