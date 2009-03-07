@@ -13,7 +13,21 @@ var exportPluginsDS = new Ext.data.JsonStore({
       var item; // the menu item
       store.each(function(record){
         item = new Ext.menu.Item({ text: Ext.util.Format.htmlEncode(record.data.name) });
-        if (record.data.actions.length == 0) { item.disabled = true; }
+        if (record.data.actions.length == 0) 
+        { 
+          item.disabled = true; 
+        } 
+        else if (record.data.actions.length == 1)
+        {
+          item.on('click', function(){ window.location = '/export/'+record.data.actions[0]; });
+        }
+        else
+        {
+          item.menu = new Ext.menu.Menu({});
+          record.data.actions.forEach(function(action){
+            item.menu.add( new Ext.menu.Item({ text: action}) );
+          });
+        }
         exportPluginsMenu.add(item);
       });
     }
