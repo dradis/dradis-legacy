@@ -4,6 +4,16 @@ module Plugins
   # ExportController will expose this functionality through an standarised
   # interface.
   module Export
+    # When this module is included in the ExportController, walk through all the
+    # defined plugins to see if they define an Actions submodule. If they do
+    # include the actions in the controller.
+    def self.included(base)
+      self.included_modules.each do |plugin|
+        if (plugin.constants.include?('Actions'))
+          base.class_eval %( include #{plugin.name}::Actions )
+        end
+      end
+    end
   end
 end
 
