@@ -16,17 +16,17 @@ var exportPluginsDS = new Ext.data.JsonStore({
         if (record.data.actions.length == 0) 
         { 
           item.disabled = true; 
-        } 
-        else if (record.data.actions.length == 1)
+        } else if (record.data.actions.length == 1)
         {
           item.on('click', function(){ window.location = '/export/'+record.data.actions[0]; });
-        }
-        else
+        } else
         {
           item.menu = new Ext.menu.Menu({});
-          record.data.actions.forEach(function(action){
-            item.menu.add( new Ext.menu.Item({ text: action}) );
-          });
+          for ( var i =0; i<record.data.actions.length; i++){
+            action = record.data.actions[i];
+            label = action.replace(/_([a-z])/ig, function(z,b){ return b.toUpperCase(); });
+            item.menu.add( new Ext.menu.Item({ text: label }) );
+          };
         }
         exportPluginsMenu.add(item);
       });
