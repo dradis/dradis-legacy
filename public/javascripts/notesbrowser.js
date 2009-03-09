@@ -22,10 +22,11 @@ var exportPluginsDS = new Ext.data.JsonStore({
         } else
         {
           item.menu = new Ext.menu.Menu({});
+          var action;
           for ( var i =0; i<record.data.actions.length; i++){
             action = record.data.actions[i];
             label = action.replace(/_([a-z])/ig, function(z,b){ return b.toUpperCase(); });
-            item.menu.add( new Ext.menu.Item({ text: label }) );
+            item.menu.add( new Ext.menu.Item({ text: label, url: '/export/' + action, handler: function(){ window.location = this.url; } }) );
           };
         }
         exportPluginsMenu.add(item);
