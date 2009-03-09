@@ -74,7 +74,7 @@ module WordExport
       # report on all of your notes, so you flag the ones you want to report
       # by adding them to a specific category (7). Feel free to adjust.
       reporting_cat = Category.find_by_name(REPORTING_CATEGORY_NAME)
-      reporting_notes_num = Note.find(:all, :conditions => {:category_id => reporting_cat}).count
+      reporting_notes_num = Note.count(:all, :conditions => {:category_id => reporting_cat})
       logger.info{ "There are #{reporting_notes_num} notes in the #{REPORTING_CATEGORY_NAME} category." }
 
       begin
