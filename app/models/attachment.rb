@@ -69,10 +69,11 @@ class Attachment < File
     if File.exists?(fullpath) && File.file?(fullpath)
       super(fullpath, 'r+')
       @initialfile = fullpath.clone
-    elsif File.exists?(@tempfile)
+    elsif @tempfile && File.exists?(@tempfile)
       super(@tempfile, 'r+')
-    elsif @filename != nil
-      super(@filename, 'r+')
+    elsif @tempfile && File.basename(@tempfile) != ''
+      super("#{RAILS_ROOT}/tmp/" + File.basename(@tempfile), 'w+')
+      @initialfile = "#{RAILS_ROOT}/tmp/" + File.basename(@tempfile)
     else
       raise "No physical file available"
     end
