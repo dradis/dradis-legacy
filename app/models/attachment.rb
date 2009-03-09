@@ -51,13 +51,13 @@
 
 class Attachment < File
 
+  require 'fileutils'
   # Set the path to the attachment storage
   AttachmentPwd = "#{RAILS_ROOT}/attachments/"
+  FileUtils.mkdir(File.dirname(AttachmentPwd)) unless File.exists?(File.dirname(AttachmentPwd))
 
   attr_accessor :filename, :node_id, :tempfile
   attr_reader :id
-
-  require 'fileutils'
 
   def initialize(*args)
     options = args.extract_options!
@@ -77,6 +77,7 @@ class Attachment < File
 
   end
 
+  # Closes the current file handle, this writes the content to the file system
   def save
     if File.exists?(fullpath) && File.file?(fullpath)
       self.close
