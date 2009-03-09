@@ -1,0 +1,3 @@
+<% form_for(:photo, node_attachments_path, :html=>{:multipart=>true}) do |form| %>
+  <%= form.file_field :image_file %>
+<% end %>
