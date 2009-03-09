@@ -1,3 +1,4 @@
-<% form_for(:photo, node_attachments_path, :html=>{:multipart=>true}) do |form| %>
-  <%= form.file_field :image_file %>
+<% form_tag(node_attachments_path, :multipart=>true) do %>
+  <%= file_field_tag :attachment_file %>
+  <%= submit_tag("Upload")  %>
 <% end %>
