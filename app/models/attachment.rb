@@ -86,6 +86,7 @@ class Attachment < File
       self.close
     else
       raise "Node with ID=#{@node_id} does not exist" unless @node_id && Node.exists?(@node_id)
+      self.rewind
       file_content = self.read
       @id = Attachment.find(:all).last ? (Attachment.find(:all).last.id.to_s + 1) : 1
       @filename ||= File.basename(@tempfile)
