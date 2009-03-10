@@ -136,7 +136,17 @@ class Attachment < File
         attachments
       end
     else
-      raise "Not yet implemented"
+      filename = args.first
+      attachments = []
+      raise "You need to supply a node id in the condition parameter" unless options[:conditions][:node_id]
+      node_id = options[:conditions][:node_id].to_s
+      raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
+      node_dir = Dir.new(AttachmentPwd + node_id)
+      node_dir.each do |attachment|
+        next unless ((attachment =~ /^(\d+)\.(.+)$/) == 0 && $2 == filename)
+        attachments << Attachment.new(:filename => $2, :id => $1.to_i, :node_id => node_id.to_i)
+      end
+      attachments.first
     end
     return return_value
   end
