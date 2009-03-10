@@ -92,7 +92,7 @@ class Attachment < File
       raise "Node with ID=#{@node_id} does not exist" unless @node_id && Node.exists?(@node_id)
       self.rewind
       file_content = self.read
-      @id = Attachment.find(:all).last ? (Attachment.find(:all).last.id.to_s + 1) : 1
+      @id = Attachment.find(:all).last ? (Attachment.find(:all).last.id.to_i + 1) : 1
       @filename ||= File.basename(@tempfile)
       FileUtils.mkdir(File.dirname(fullpath)) unless File.exists?(File.dirname(fullpath))
       file_handle = File.new(fullpath, 'w')
