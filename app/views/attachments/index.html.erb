@@ -2,5 +2,5 @@
 <p>Find me in app/views/attachments/index.html.erb</p>
 
 <% @attachments.each do |attachment| %>
-  <p><%= attachment.fullpath %></p>
+  <p><%= attachment.fullpath %><%= link_to "View", node_attachment_path(attachment.node_id, attachment.id) %></p>
 <% end  %>
