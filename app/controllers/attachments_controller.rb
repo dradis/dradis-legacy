@@ -11,4 +11,13 @@ class AttachmentsController < ApplicationController
     debugger
     redirect_to node_attachments_path(params[:node_id])
   end
+
+  def show
+    filename = params[:id] + "." + params[:format]
+    @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
+    #debugger
+    send_data(@attachment.read, :type => 'image',
+      :filename => @attachment.filename,
+      :disposition => 'inline')
+  end
 end
