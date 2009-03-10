@@ -2,5 +2,9 @@
 <p>Find me in app/views/attachments/index.html.erb</p>
 
 <% @attachments.each do |attachment| %>
-  <p><%= attachment.fullpath %><%= link_to "View", node_attachment_path(attachment.node_id, attachment.filename) %></p>
+  <p>
+    <%= attachment.fullpath %>
+    <%= link_to "View", node_attachment_path(attachment.node_id, attachment.filename) %>
+    <%= link_to "Remove", node_attachment_path(attachment.node_id, attachment.filename), :method => :delete %>
+  </p>
 <% end  %>

@@ -8,7 +8,6 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.new(params['attachment_file'].original_filename, :node_id => params[:node_id])
     @attachment << params['attachment_file'].read
     @attachment.save
-    debugger
     redirect_to node_attachments_path(params[:node_id])
   end
 
@@ -16,9 +15,21 @@ class AttachmentsController < ApplicationController
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
     filename = params[:id]
+    filename << ("." + params[:format]) if params[:format]
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     send_data(@attachment.read, :type => 'image',
       :filename => @attachment.filename,
       :disposition => 'inline')
   end
+
+  def destroy
+    # we send the file name as the id, the rails parser however split the filename
+    # at the fullstop so we join it again
+    filename = params[:id]
+    filename << ("." + params[:format]) if params[:format]
+    @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
+    @attachment.delete
+    redirect_to node_attachments_path(params[:node_id])
+  end
+  
 end

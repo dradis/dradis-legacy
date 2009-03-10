@@ -103,6 +103,14 @@ class Attachment < File
     end
   end
 
+  # Deletes the file that the instance is pointing to from memory
+  def delete
+    self.close
+    raise "No physical file to delete" if !@initialfile ||
+      File.dirname(@initialfile) == "#{RAILS_ROOT}/tmp"
+    FileUtils.rm(@initialfile)
+  end
+
   # Return the attachment instance(s) based on the find parameters
   def self.find(*args)
     options = args.extract_options!
@@ -153,6 +161,7 @@ class Attachment < File
         next unless ((attachment =~ /^(\d+)\.(.+)$/) == 0 && $2 == filename)
         attachments << Attachment.new(:filename => $2, :id => $1.to_i, :node_id => node_id.to_i)
       end
+      raise "Could not find Attachment with filename #{filename}" if attachments.empty?
       attachments.first
     end
     return return_value
