@@ -1,5 +1,10 @@
 Ext.ns('dradis');
 
+var importsourcesDS = new Ext.data.JsonStore({ 
+                            url:'/import/list/sources.json', 
+                            fields: ['name'] 
+                      });
+
 dradis.NotesImporter = Ext.extend(Ext.Panel, {
     // Prototype Defaults, can be overridden by user's config object
     title: 'Import from...',
@@ -14,9 +19,9 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
             {
               xtype:'combo', 
               fieldLabel:'External Source',
-              store: new Ext.data.SimpleStore({ fields:['sourceId', 'sourceName'], data:[ [0,'source #1'], [1,'source #2'], [2,'source #3']] }),
-              displayField: 'sourceName',
-              valueField: 'sourceId',
+              store: importsourcesDS,
+              displayField: 'name',
+              valueField: 'name',
               mode:'local',
               listeners:{
                 change: function(){ 
