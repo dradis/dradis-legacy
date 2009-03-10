@@ -55,9 +55,12 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
  
         // After parent code
         // e.g. install event handlers on rendered component
-    }
+    },
  
     // Override other inherited methods 
+    updateSources: function(node_id){ 
+      importsourcesDS.load();
+    }
 });
  
 // register xtype to allow for lazy initialization
