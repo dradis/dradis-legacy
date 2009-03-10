@@ -15,7 +15,7 @@ class AttachmentsController < ApplicationController
   def show
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
-    filename = params[:id] + "." + params[:format]
+    filename = params[:id]
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     send_data(@attachment.read, :type => 'image',
       :filename => @attachment.filename,

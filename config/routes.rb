@@ -26,7 +26,7 @@ ActionController::Routing::Routes.draw do |map|
   # Sample resource route with sub-resources:
   #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
   map.resources :nodes, :has_many => :notes do |node|
-    node.resources :attachments
+    node.resources :attachments, :id => /^.*(\..*)?$/
   end
 
   # Sample resource route within a namespace:
