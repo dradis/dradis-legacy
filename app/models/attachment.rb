@@ -48,6 +48,9 @@
 #
 # Attachment.find(:all, :conditions => {:node_id => 1})
 # Creates an array instance that contains all the attachments for node with ID=1
+#
+# Attachment.find('test.gif', :conditions => {:node_id => 1})
+# Retrieves the test.gif image that is associated with node 1
 
 class Attachment < File
 
@@ -59,6 +62,7 @@ class Attachment < File
   attr_accessor :filename, :node_id, :tempfile
   attr_reader :id
 
+  # Initializes the attachment instance 
   def initialize(*args)
     options = args.extract_options!
     @filename = options[:filename]
@@ -99,6 +103,7 @@ class Attachment < File
     end
   end
 
+  # Return the attachment instance(s) based on the find parameters
   def self.find(*args)
     options = args.extract_options!
     dir = Dir.new(AttachmentPwd)
@@ -127,6 +132,7 @@ class Attachment < File
         attachments.sort! {|a,b| a.id <=> b.id }
       end
 
+      # return based on the request arguments
       case args.first
       when :first
         attachments.first
@@ -136,6 +142,7 @@ class Attachment < File
         attachments
       end
     else
+      # in this routine we find the attachment by file name and node id
       filename = args.first
       attachments = []
       raise "You need to supply a node id in the condition parameter" unless options[:conditions][:node_id]
