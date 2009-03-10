@@ -12,4 +12,17 @@ end
 class ImportController < ApplicationController
   include Plugins::Import
   before_filter :login_required
+
+  def list
+    respond_to do |format|
+      format.html{ redirect_to '/' }
+      format.json{
+        list = []
+        Plugins::Import.included_modules.each do |plugin|
+          list << {:name => plugin.name }
+        end
+        render :json => list
+      }
+    end
+  end
 end
