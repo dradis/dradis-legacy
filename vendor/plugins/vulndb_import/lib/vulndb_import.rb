@@ -1,5 +1,7 @@
 # VulndbImport
 
+require 'vulndb_import/meta'
+
 module VulndbImport
   module Filters
     def search
