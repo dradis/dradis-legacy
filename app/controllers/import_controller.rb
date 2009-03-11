@@ -19,7 +19,7 @@ class ImportController < ApplicationController
       format.json{
         list = []
         Plugins::Import.included_modules.each do |plugin|
-          list << {:name => plugin.name }
+          list << {:name => "#{plugin::Meta::NAME} (#{plugin.name} #{plugin::Meta::VERSION::STRING})" }
         end
         render :json => list
       }
