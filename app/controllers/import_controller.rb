@@ -33,7 +33,23 @@ class ImportController < ApplicationController
     respond_to do |format|
       format.html{ redirect_to '/' }
       format.json{
-        render :json => [{:display => 'filter #1', :value => 'f1'}]
+        list = [
+          {
+            :display => 'This source does not define any filter',
+            :value => 'invalid'
+          }
+        ]
+        if (Plugins::Import.included_modules.include?(params[:scope].constantize)) 
+          source = params[:scope].constantize
+          if (source.constants.include?('Filters'))
+            list.clear
+            source::Filters.constants.each do |filter|
+              list << { :display => filter, :value => filter }
+            end
+          end
+        end
+        
+        render :json => list
       }
     end
   end
