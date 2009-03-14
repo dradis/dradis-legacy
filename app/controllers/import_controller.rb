@@ -43,8 +43,12 @@ class ImportController < ApplicationController
           source = params[:scope].constantize
           if (source.constants.include?('Filters'))
             list.clear
-            source::Filters.constants.each do |filter|
-              list << { :display => filter, :value => filter }
+            source::Filters.constants.each do |filter_name|
+              filter = "#{source.name}::Filters::#{filter_name}".constantize 
+              list << { 
+                :display => "#{filter_name}: #{filter::NAME}", 
+                :value => filter 
+              }
             end
           end
         end
