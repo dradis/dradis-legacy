@@ -47,8 +47,8 @@ class UserTest < Test::Unit::TestCase
   end
 
   def test_should_not_rehash_password
-    users(:quentin).update_attributes(:login => 'quentin2')
-    assert_equal users(:quentin), User.authenticate('quentin2', 'test')
+    User.find_by_login('quentin').update_attributes(:login => 'quentin2')
+    assert_equal User.find_by_login('quentin2'), User.authenticate('quentin2', 'test')
   end
 
   def test_should_authenticate_user
