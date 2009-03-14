@@ -4,6 +4,7 @@ Ext.ns('dradis.importer');
 dradis.importer.combo = Ext.extend(Ext.form.ComboBox, {
   displayField: 'name',
   valueField: 'name',
+  allowBlank:false,
   mode:'local',
  
   initComponent: function(){
@@ -26,6 +27,29 @@ dradis.importer.combo = Ext.extend(Ext.form.ComboBox, {
   }
 });
 
+dradis.importer.setCascading = function(parentCombo, childCombo) {
+  childCombo.setDisabled(!parentCombo.isValid());
+  parentCombo.on('change', function() {
+    childCombo.lastQuery = null;
+    childCombo.clearValue();
+    childCombo.setDisabled(!parentCombo.isValid());
+  });
+
+  childCombo.on('focus', function() {
+    if(!childCombo.disabled) {
+      var parentValue = parentCombo.getValue();
+      var childParams = childCombo.store.baseParams;
+      if(parentValue != childParams.ScopeId) {
+        childParams.ScopeId = parentValue;
+        childCombo.clearValue();
+        childCombo.lastQuery = null;
+        if(childCombo.mode != 'local') {
+          childCombo.store.load();
+        }
+      }
+    }
+  });
+};
 
 
 dradis.NotesImporter = Ext.extend(Ext.Panel, {
@@ -47,6 +71,7 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
             this.fields.filters = new dradis.importer.combo({
                                         fieldLabel:'Filter', 
                                         url:'/import/filters/list.json',
+                                        mode:'remote',
                                         disabled:true
                                       }),
             {xtype:'textfield', fieldLabel:'Search for', disabled:true},
@@ -74,6 +99,7 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
  
         // After parent code
         // e.g. install event handlers on rendered component
+        dradis.importer.setCascading(this.fields.sources, this.fields.filters);
     },
  
     // Override other inherited methods 
