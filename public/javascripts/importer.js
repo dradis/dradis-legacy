@@ -104,6 +104,17 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
         // After parent code
         // e.g. install event handlers on rendered component
         dradis.importer.setCascading(this.fields.sources, this.fields.filters);
+
+        //------------------------------------ event handlers
+
+        // When the Filters combo changes, disable/enable the Search field
+        this.fields.filters.on('change', function(combo, newValue, oldValue){
+          if (!combo.isValid() || (newValue == 'invalid')){
+            this.fields.input.setDisabled(true);
+          } else {
+            this.fields.input.setDisabled(false);
+          }
+        }, this);
     },
  
     // Override other inherited methods 
