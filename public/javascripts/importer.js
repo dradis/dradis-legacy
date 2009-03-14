@@ -1,7 +1,7 @@
 Ext.ns('dradis');
 Ext.ns('dradis.importer');
 
-dradis.importer.combo = Ext.extend(Ext.form.ComboBox, {
+dradis.importer.Combo = Ext.extend(Ext.form.ComboBox, {
   displayField: 'display',
   valueField: 'value',
   allowBlank:false,
@@ -18,7 +18,7 @@ dradis.importer.combo = Ext.extend(Ext.form.ComboBox, {
     // Before parent code
 
     // Call parent (required)
-    dradis.importer.combo.superclass.initComponent.apply(this, arguments);
+    dradis.importer.Combo.superclass.initComponent.apply(this, arguments);
 
     this.store = new Ext.data.JsonStore({ 
       url:this.initialConfig.url,
@@ -64,11 +64,11 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
         // Called during component initialization
         var config = {
           items:[
-            this.fields.sources = new dradis.importer.combo({ 
+            this.fields.sources = new dradis.importer.Combo({ 
                                         fieldLabel:'External Source', 
                                         url:'/import/sources/list.json'
                                       }),
-            this.fields.filters = new dradis.importer.combo({
+            this.fields.filters = new dradis.importer.Combo({
                                         fieldLabel:'Filter', 
                                         url:'/import/filters/list.json',
                                         mode:'remote',
