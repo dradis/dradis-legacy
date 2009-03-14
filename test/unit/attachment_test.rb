@@ -45,4 +45,15 @@ class AttachmentTest < ActiveSupport::TestCase
     attachments = Attachment.find(:all, :conditions => {:node_id => 1})
     assert_equal 2, attachments.count
   end
+
+  def test_should_rename_filename
+    attachment = Attachment.new("#{RAILS_ROOT}/public/images/rails.png", :node_id => '1')
+    attachment.save
+    attachment = Attachment.find('rails.png', :conditions => {:node_id => 1})
+    attachment.filename = 'newrails.png'
+    attachment.save
+    assert attachment = Attachment.find('newrails.png', :conditions => {:node_id => 1})
+    assert_equal 1, Attachment.find(:all).count
+  end
+
 end
