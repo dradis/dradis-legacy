@@ -5,8 +5,7 @@ require 'vulndb_import/meta'
 module VulndbImport
   module Filters
     module TextSearch
-      def self.description
-      end
+      NAME = 'Search for a specific value in all the fields of the DB'
       def self.run(params={}) 
       end
     end
