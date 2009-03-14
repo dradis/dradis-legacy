@@ -13,12 +13,12 @@ class UserTest < Test::Unit::TestCase
     end
   end
 
-  def test_should_require_login
-    assert_no_difference 'User.count' do
-      u = create_user(:login => nil)
-      assert u.errors.on(:login)
-    end
-  end
+#  def test_should_require_login
+#    assert_no_difference 'User.count' do
+#      u = create_user(:login => nil)
+#      assert u.errors.on(:login)
+#    end
+#  end
 
   def test_should_require_password
     assert_no_difference 'User.count' do
@@ -34,12 +34,12 @@ class UserTest < Test::Unit::TestCase
     end
   end
 
-  def test_should_require_email
-    assert_no_difference 'User.count' do
-      u = create_user(:email => nil)
-      assert u.errors.on(:email)
-    end
-  end
+#  def test_should_require_email
+#    assert_no_difference 'User.count' do
+#      u = create_user(:email => nil)
+#      assert u.errors.on(:email)
+#    end
+#  end
 
   def test_should_reset_password
     users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
