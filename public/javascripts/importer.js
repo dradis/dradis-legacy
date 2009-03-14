@@ -39,8 +39,8 @@ dradis.importer.setCascading = function(parentCombo, childCombo) {
     if(!childCombo.disabled) {
       var parentValue = parentCombo.getValue();
       var childParams = childCombo.store.baseParams;
-      if(parentValue != childParams.ScopeId) {
-        childParams.ScopeId = parentValue;
+      if(parentValue != childParams.scope) {
+        childParams.scope = parentValue;
         childCombo.clearValue();
         childCombo.lastQuery = null;
         if(childCombo.mode != 'local') {
