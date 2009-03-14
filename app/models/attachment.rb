@@ -56,7 +56,7 @@ class Attachment < File
 
   require 'fileutils'
   # Set the path to the attachment storage
-  AttachmentPwd = "#{RAILS_ROOT}/attachments/"
+  AttachmentPwd = ENV["RAILS_ENV"] == "test" ? "#{RAILS_ROOT}/tmp/attachments/" : "#{RAILS_ROOT}/attachments/"
   FileUtils.mkdir(File.dirname(AttachmentPwd)) unless File.exists?(File.dirname(AttachmentPwd))
 
   attr_accessor :filename, :node_id, :tempfile
@@ -153,7 +153,7 @@ class Attachment < File
       # in this routine we find the attachment by file name and node id
       filename = args.first
       attachments = []
-      raise "You need to supply a node id in the condition parameter" unless options[:conditions][:node_id]
+      raise "You need to supply a node id in the condition parameter" unless options[:conditions] && options[:conditions][:node_id]
       node_id = options[:conditions][:node_id].to_s
       raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
       node_dir = Dir.new(AttachmentPwd + node_id)
