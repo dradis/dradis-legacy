@@ -1,9 +1,32 @@
 Ext.ns('dradis');
+Ext.ns('dradis.importer');
 
-var importsourcesDS = new Ext.data.JsonStore({ 
-                            url:'/import/list/sources.json', 
-                            fields: ['name'] 
-                      });
+dradis.importer.combo = Ext.extend(Ext.form.ComboBox, {
+  displayField: 'name',
+  valueField: 'name',
+  mode:'local',
+ 
+  initComponent: function(){
+    //var config = {};
+    // Config object has already been applied to 'this' so properties can 
+    // be overriden here or new properties (e.g. items, tools, buttons) 
+    // can be added, eg:
+    //Ext.apply(this, config);
+    //Ext.apply(this.initialConfig, config); 
+      
+    // Before parent code
+
+    // Call parent (required)
+    dradis.importer.combo.superclass.initComponent.apply(this, arguments);
+
+    this.store = new Ext.data.JsonStore({ 
+      url:this.initialConfig.url,
+      fields:['name']
+    });
+  }
+});
+
+
 
 dradis.NotesImporter = Ext.extend(Ext.Panel, {
     // Prototype Defaults, can be overridden by user's config object
@@ -11,24 +34,22 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
     layout:'form',
     bodyStyle:'padding:10px',
     defaults:{anchor:'100%'},
+    fields:{},
  
     initComponent: function(){
         // Called during component initialization
         var config = {
           items:[
-            {
-              xtype:'combo', 
+            this.fields.sources = new dradis.importer.combo({
               fieldLabel:'External Source',
-              store: importsourcesDS,
-              displayField: 'name',
-              valueField: 'name',
-              mode:'local',
+              url:'/import/list/sources.json',
               listeners:{
-                change: function(){ 
-                  this.fireEvent('sourcechange', this, 1, 2); 
+                change: {
+                  fn: function(){ this.fireEvent('sourcechange', this, 1, 2); },
+                  scope: this
                 }
               }
-            },
+            }),
             {xtype:'combo', fieldLabel:'Filter', disabled:true},
             {xtype:'textfield', fieldLabel:'Search for', disabled:true},
             {
@@ -55,11 +76,12 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
  
         // After parent code
         // e.g. install event handlers on rendered component
+        this.addEvents('sourcechange');
     },
  
     // Override other inherited methods 
     updateSources: function(node_id){ 
-      importsourcesDS.load();
+      this.fields.sources.store.load();
     }
 });
  
