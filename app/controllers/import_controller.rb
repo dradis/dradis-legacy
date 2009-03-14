@@ -19,7 +19,10 @@ class ImportController < ApplicationController
       format.json{
         list = []
         Plugins::Import.included_modules.each do |plugin|
-          list << {:name => "#{plugin::Meta::NAME} (#{plugin.name} #{plugin::Meta::VERSION::STRING})" }
+          list << { 
+                    :display => "#{plugin::Meta::NAME} (#{plugin.name} #{plugin::Meta::VERSION::STRING})",
+                    :value => plugin.name
+                  }
         end
         render :json => list
       }
@@ -30,7 +33,7 @@ class ImportController < ApplicationController
     respond_to do |format|
       format.html{ redirect_to '/' }
       format.json{
-        render :json => [{:name => 'filter #1'}]
+        render :json => [{:display => 'filter #1', :value => 'f1'}]
       }
     end
   end

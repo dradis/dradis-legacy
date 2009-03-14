@@ -2,8 +2,8 @@ Ext.ns('dradis');
 Ext.ns('dradis.importer');
 
 dradis.importer.combo = Ext.extend(Ext.form.ComboBox, {
-  displayField: 'name',
-  valueField: 'name',
+  displayField: 'display',
+  valueField: 'value',
   allowBlank:false,
   mode:'local',
  
@@ -22,7 +22,7 @@ dradis.importer.combo = Ext.extend(Ext.form.ComboBox, {
 
     this.store = new Ext.data.JsonStore({ 
       url:this.initialConfig.url,
-      fields:['name']
+      fields:['display', 'value']
     });
   }
 });
