@@ -115,6 +115,12 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
             this.fields.input.setDisabled(false);
           }
         }, this);
+
+        this.fields.input.on('specialkey',function(field, ev){
+          if ( field.isValid() && (ev.getKey() == ev.ENTER)){
+            alert('Searching for: ' + field.getValue());
+          }
+        });
     },
  
     // Override other inherited methods 
