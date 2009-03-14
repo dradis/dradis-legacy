@@ -42,7 +42,7 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
           items:[
             this.fields.sources = new dradis.importer.combo({ 
                                         fieldLabel:'External Source', 
-                                        url:'/import/list/sources.json'
+                                        url:'/import/sources/list.json'
                                       }),
             this.fields.filters = new dradis.importer.combo({
                                         fieldLabel:'Filter', 
