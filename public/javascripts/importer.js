@@ -40,16 +40,10 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
         // Called during component initialization
         var config = {
           items:[
-            this.fields.sources = new dradis.importer.combo({
-              fieldLabel:'External Source',
-              url:'/import/list/sources.json',
-              listeners:{
-                change: {
-                  fn: function(){ this.fireEvent('sourcechange', this, 1, 2); },
-                  scope: this
-                }
-              }
-            }),
+            this.fields.sources = new dradis.importer.combo({ 
+                                        fieldLabel:'External Source', 
+                                        url:'/import/list/sources.json'
+                                      }),
             {xtype:'combo', fieldLabel:'Filter', disabled:true},
             {xtype:'textfield', fieldLabel:'Search for', disabled:true},
             {
@@ -76,7 +70,6 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
  
         // After parent code
         // e.g. install event handlers on rendered component
-        this.addEvents('sourcechange');
     },
  
     // Override other inherited methods 
