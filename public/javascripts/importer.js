@@ -52,7 +52,7 @@ dradis.importer.setCascading = function(parentCombo, childCombo) {
 };
 
 
-dradis.NotesImporter = Ext.extend(Ext.Panel, {
+dradis.importer.Panel = Ext.extend(Ext.Panel, {
     // Prototype Defaults, can be overridden by user's config object
     title: 'Import from...',
     layout:'form',
@@ -99,7 +99,7 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
         // Before parent code
  
         // Call parent (required)
-        dradis.NotesImporter.superclass.initComponent.apply(this, arguments);
+        dradis.importer.Panel.superclass.initComponent.apply(this, arguments);
  
         // After parent code
         // e.g. install event handlers on rendered component

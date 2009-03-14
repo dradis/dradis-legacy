@@ -25,7 +25,7 @@ Ext.reg('headerpanel', dradis.HeaderPanel);
 
 var nodestree = new dradis.NodesTree();
 var notesbrowser = new dradis.NotesBrowser();
-var importer = new dradis.NotesImporter();
+var importer = new dradis.importer.Panel();
 
 var dradistabs = new Ext.TabPanel({
   region: 'center',
