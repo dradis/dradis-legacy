@@ -79,14 +79,13 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
                                       allowBlank:false,
                                       disabled:true
                                     }),
-            {
-              xtype:'grid', 
+            this.fields.results = new Ext.grid.GridPanel({
               fieldLabel:'Results',
               columns: [ {header:'Title'}, {header:'Description'} ],
               store: new Ext.data.SimpleStore({ fields:['Title', 'Description'], data:[ ['',''], ['',''], ['','']]}),
               autoExpandColumn:'1',
               disabled: true
-            }
+            })
           ]          
         };
  
