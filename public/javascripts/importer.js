@@ -116,6 +116,8 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
           }
         }, this);
 
+        // When the user hits Enter in the search field, we should launch the
+        // query in an Ajax call.
         this.fields.input.on('specialkey',function(field, ev){
           if ( field.isValid() && (ev.getKey() == ev.ENTER)){
             alert('Searching for: ' + field.getValue());
