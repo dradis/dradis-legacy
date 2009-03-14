@@ -27,4 +27,13 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal "rails.png", attachment.filename
   end
 
+  def test_should_create_new_file_from_file_io
+    attachment = Attachment.new("rails.png", :node_id => '1')
+    file_handle = File.new("#{RAILS_ROOT}/public/images/rails.png",'r')
+    content = file_handle.read
+    attachment << content
+    attachment.save
+    attachment_content = Attachment.find("rails.png", :conditions => {:node_id => 1}).read
+    assert_equal content, attachment_content
+  end
 end
