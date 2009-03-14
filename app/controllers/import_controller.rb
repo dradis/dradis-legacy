@@ -47,7 +47,7 @@ class ImportController < ApplicationController
               filter = "#{source.name}::Filters::#{filter_name}".constantize 
               list << { 
                 :display => "#{filter_name}: #{filter::NAME}", 
-                :value => filter 
+                :value => filter_name 
               }
             end
           end
