@@ -16,7 +16,7 @@ class AttachmentTest < ActiveSupport::TestCase
   def test_should_create_new_file
     attachment = Attachment.new("#{RAILS_ROOT}/public/images/rails.png", :node_id => '1')
     attachment.save
-    assert File.exists?(Attachment.pwd + "/1/1.rails.png")
+    assert File.exists?(Attachment.pwd + "/1/rails.png")
   end
 
   # Confirm that an attachment can be found by filename and node_id

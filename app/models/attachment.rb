@@ -67,7 +67,7 @@ class Attachment < File
     options = args.extract_options!
     @filename = options[:filename]
     @node_id = options[:node_id]
-    @id = options[:id]
+    #@id = options[:id]
     @tempfile = args[0] || options[:tempfile]
 
     if File.exists?(fullpath) && File.file?(fullpath)
@@ -92,7 +92,7 @@ class Attachment < File
       raise "Node with ID=#{@node_id} does not exist" unless @node_id && Node.exists?(@node_id)
       self.rewind
       file_content = self.read
-      @id = Attachment.find(:all).last ? (Attachment.find(:all).last.id.to_i + 1) : 1
+      #@id = Attachment.find(:all).last ? (Attachment.find(:all).last.id.to_i + 1) : 1
       @filename ||= File.basename(@tempfile)
       FileUtils.mkdir(File.dirname(fullpath)) unless File.exists?(File.dirname(fullpath))
       file_handle = File.new(fullpath, 'w')
@@ -125,16 +125,16 @@ class Attachment < File
         raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
         node_dir = Dir.new(AttachmentPwd + node_id)
         node_dir.each do |attachment|
-          next unless (attachment =~ /^(\d+)\.(.+)$/) == 0
-          attachments << Attachment.new(:filename => $2, :id => $1.to_i, :node_id => node_id.to_i)
+          next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(attachment)
+          attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
         end
       else
         dir.each do |node|
           next unless node =~ /^\d*$/
           node_dir = Dir.new(AttachmentPwd + node)
           node_dir.each do |attachment|
-            next unless (attachment =~ /^(\d+)\.(.+)$/) == 0
-            attachments << Attachment.new(:filename => $2, :id => $1.to_i, :node_id => node.to_i)
+            next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(attachment)
+            attachments << Attachment.new(:filename => $1, :node_id => node.to_i)
           end
         end
         attachments.sort! {|a,b| a.id <=> b.id }
@@ -158,8 +158,8 @@ class Attachment < File
       raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
       node_dir = Dir.new(AttachmentPwd + node_id)
       node_dir.each do |attachment|
-        next unless ((attachment =~ /^(\d+)\.(.+)$/) == 0 && $2 == filename)
-        attachments << Attachment.new(:filename => $2, :id => $1.to_i, :node_id => node_id.to_i)
+        next unless ((attachment =~ /^(.+)$/) == 0 && $1 == filename)
+        attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
       end
       raise "Could not find Attachment with filename #{filename}" if attachments.empty?
       attachments.first
@@ -174,7 +174,7 @@ class Attachment < File
 
   # Retruns the full path of an attachment on the file system
   def fullpath
-    AttachmentPwd + @node_id.to_s + "/" + @id.to_s + "." + @filename.to_s
+    AttachmentPwd + @node_id.to_s + "/"  + @filename.to_s
   end
 
 end
