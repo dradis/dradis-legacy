@@ -36,4 +36,13 @@ class AttachmentTest < ActiveSupport::TestCase
     attachment_content = Attachment.find("rails.png", :conditions => {:node_id => 1}).read
     assert_equal content, attachment_content
   end
+
+  def test_should_get_all_attachments_for_node
+    attachment = Attachment.new("#{RAILS_ROOT}/public/images/rails.png", :node_id => '1')
+    attachment.save
+    attachment = Attachment.new("#{RAILS_ROOT}/public/images/add.gif", :node_id => '1')
+    attachment.save
+    attachments = Attachment.find(:all, :conditions => {:node_id => 1})
+    assert_equal 2, attachments.count
+  end
 end
