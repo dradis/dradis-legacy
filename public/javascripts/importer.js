@@ -74,7 +74,11 @@ dradis.NotesImporter = Ext.extend(Ext.Panel, {
                                         mode:'remote',
                                         disabled:true
                                       }),
-            {xtype:'textfield', fieldLabel:'Search for', disabled:true},
+            this.fields.input = new Ext.form.TextField({
+                                      fieldLabel:'Search for', 
+                                      allowBlank:false,
+                                      disabled:true
+                                    }),
             {
               xtype:'grid', 
               fieldLabel:'Results',
