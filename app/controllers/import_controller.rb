@@ -25,4 +25,13 @@ class ImportController < ApplicationController
       }
     end
   end
+
+  def filters
+    respond_to do |format|
+      format.html{ redirect_to '/' }
+      format.json{
+        render :json => [{:name => 'filter #1'}]
+      }
+    end
+  end
 end
