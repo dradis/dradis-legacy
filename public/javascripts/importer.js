@@ -132,5 +132,5 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
 });
  
 // register xtype to allow for lazy initialization
-Ext.reg('noteimporter', dradis.NotesImporter);
+Ext.reg('noteimporter', dradis.importer.Panel);
 
