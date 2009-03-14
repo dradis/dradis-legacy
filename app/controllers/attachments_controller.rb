@@ -15,7 +15,6 @@ class AttachmentsController < ApplicationController
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
     filename = params[:id]
-    filename << ("." + params[:format]) if params[:format]
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     send_data(@attachment.read, :type => 'image',
       :filename => @attachment.filename,
@@ -26,7 +25,6 @@ class AttachmentsController < ApplicationController
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
     filename = params[:id]
-    filename << ("." + params[:format]) if params[:format]
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     @attachment.delete
     redirect_to node_attachments_path(params[:node_id])
