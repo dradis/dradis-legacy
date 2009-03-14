@@ -4,7 +4,11 @@ require 'vulndb_import/meta'
 
 module VulndbImport
   module Filters
-    def search
+    module TextSearch
+      def self.description
+      end
+      def self.run(params={}) 
+      end
     end
   end
 end
