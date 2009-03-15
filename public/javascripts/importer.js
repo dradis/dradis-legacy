@@ -119,14 +119,26 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
         // query in an Ajax call.
         this.fields.input.on('specialkey',function(field, ev){
           if ( field.isValid() && (ev.getKey() == ev.ENTER)){
-            alert('Searching for: ' + field.getValue());
+            this.updateResults();
           }
-        });
+        }, this);
     },
  
     // Override other inherited methods 
     updateSources: function(node_id){ 
       this.fields.sources.store.load();
+    },
+
+    updateResults: function(){
+      this.fields.results.store.removeAll();
+      dradis.ajax.request({
+        url:'/import/sources/list.json',
+        listeners:{
+          success:function(response,options){
+            console.debug('callback success');
+          }
+        }
+      });
     }
 });
  
