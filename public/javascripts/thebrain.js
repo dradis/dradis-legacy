@@ -288,3 +288,29 @@ function checkrevision() {
   })
 
 }
+
+Ext.ns('dradis.ajax');
+
+// Try to unify the way we do Ajax calls
+dradis.ajax.request = function(options){
+  // request parameters
+  var ajax_params = options;
+  if (options.params) {
+    ajax_params.authenticity_token = dradis.token;
+  }
+
+  // callbacks
+  ajax_params.success = function(response, options) {
+    if (options.listeners.success){
+      options.listeners.success(response, options);
+    }
+  }
+  ajax_params.failure = function(response, options) {
+    dradisstatus.setStatus({
+      text: 'An error occured with the Ajax request',
+      iconCls: 'error',
+      clear: 5000
+    });
+  }
+  Ext.Ajax.request(ajax_params);
+};
