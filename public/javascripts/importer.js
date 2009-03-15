@@ -82,8 +82,12 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
             this.fields.results = new Ext.grid.GridPanel({
               fieldLabel:'Results',
               columns: [ {header:'Title'}, {header:'Description'} ],
-              store: new Ext.data.SimpleStore({ fields:['Title', 'Description'], data:[ ['',''], ['',''], ['','']]}),
+              store: new Ext.data.JsonStore({
+                url:'/import/query/results.json',
+                fields:['title','description']
+              }),
               autoExpandColumn:'1',
+              autoHeight:true,
               disabled: true
             })
           ]          
