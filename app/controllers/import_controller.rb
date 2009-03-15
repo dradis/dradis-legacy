@@ -81,5 +81,11 @@ class ImportController < ApplicationController
   end
 
   def query
+    respond_to do |format|
+      format.html{ redirect_to '/' }
+      format.json{
+        render :json => @filter.run(params)
+      }
+    end
   end
 end
