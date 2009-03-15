@@ -132,9 +132,9 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
     updateResults: function(){
       this.fields.results.store.removeAll();
       dradis.ajax.request({
-        url:'/import/filter/results.json',
+        url:'/import/query/results.json',
         params:{
-          source:this.fields.sources.getValue(),
+          scope:this.fields.sources.getValue(),
           filter:this.fields.filters.getValue(),
           query:this.fields.input.getValue()
         },
