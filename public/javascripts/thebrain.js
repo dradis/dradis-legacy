@@ -306,10 +306,12 @@ dradis.ajax.request = function(options){
     }
   }
   ajax_params.failure = function(response, options) {
+    var msg = 'Ajax error: '+response.statusText+' ('+response.status+') for ';
+    msg = msg + options.url 
     dradisstatus.setStatus({
-      text: 'An error occured with the Ajax request',
-      iconCls: 'error',
-      clear: 5000
+      text:msg,
+      //iconCls: 'error',
+      clear: 10000
     });
   }
   Ext.Ajax.request(ajax_params);
