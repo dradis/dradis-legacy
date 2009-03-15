@@ -4,6 +4,8 @@ module Plugins
   # ImportController will expose this functionality through an standarised
   # interface.
   module Import
+    module Filters
+    end
   end
 end
 
@@ -27,6 +29,11 @@ class ImportController < ApplicationController
   end
 
   def validate_filter()
+    if (params.key?(:filter) && @source::Filters::constants.include?(params[:filter]))
+      @filter = "#{@source.name}::Filters::#{params[:filter]}".constantize
+    else
+      redirect_to '/'
+    end
   end
 
   public
