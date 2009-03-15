@@ -135,6 +135,20 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
 
     updateResults: function(){
       this.fields.results.store.removeAll();
+      this.fields.results.store.load({
+        params:{
+          scope:this.fields.sources.getValue(),
+          filter:this.fields.filters.getValue(),
+          query:this.fields.input.getValue()
+        },
+        callback:function(records, options, success){
+          if (this.fields.results.store.getCount() > 0){
+            this.fields.results.setDisabled(false);
+          }
+        },
+        scope:this
+      });	
+      /*
       dradis.ajax.request({
         url:'/import/query/results.json',
         params:{
@@ -147,6 +161,7 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
           }
         }
       });
+      */
     }
 });
  
