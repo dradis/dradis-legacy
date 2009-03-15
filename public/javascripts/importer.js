@@ -132,10 +132,14 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
     updateResults: function(){
       this.fields.results.store.removeAll();
       dradis.ajax.request({
-        url:'/import/sources/list.json',
+        url:'/import/filter/results.json',
+        params:{
+          source:this.fields.sources.getValue(),
+          filter:this.fields.filters.getValue(),
+          query:this.fields.input.getValue()
+        },
         listeners:{
           success:function(response,options){
-            console.debug('callback success');
           }
         }
       });
