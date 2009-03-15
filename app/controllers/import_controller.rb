@@ -12,6 +12,24 @@ end
 class ImportController < ApplicationController
   include Plugins::Import
   before_filter :login_required
+  before_filter :validate_source, :only => [:filters, :query]
+  before_filter :validate_filter, :only => :query
+
+  private
+
+  def validate_source()
+    valid_sources = Plugins::Import::included_modules.collect do |m| m.name; end
+    if (params.key?(:scope) && valid_sources.include?(params[:scope])) 
+      @source = params[:scope].constantize
+    else
+      redirect_to '/'
+    end
+  end
+
+  def validate_filter()
+  end
+
+  public
 
   def sources
     respond_to do |format|
@@ -39,22 +57,22 @@ class ImportController < ApplicationController
             :value => 'invalid'
           }
         ]
-        if (Plugins::Import.included_modules.include?(params[:scope].constantize)) 
-          source = params[:scope].constantize
-          if (source.constants.include?('Filters'))
-            list.clear
-            source::Filters.constants.each do |filter_name|
-              filter = "#{source.name}::Filters::#{filter_name}".constantize 
-              list << { 
-                :display => "#{filter_name}: #{filter::NAME}", 
-                :value => filter_name 
-              }
-            end
+        if (@source.constants.include?('Filters'))
+          list.clear
+          @source::Filters.constants.each do |filter_name|
+            filter = "#{@source.name}::Filters::#{filter_name}".constantize 
+            list << { 
+              :display => "#{filter_name}: #{filter::NAME}", 
+              :value => filter_name 
+            }
           end
         end
         
         render :json => list
       }
     end
+  end
+
+  def query
   end
 end
