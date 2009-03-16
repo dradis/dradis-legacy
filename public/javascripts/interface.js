@@ -39,6 +39,10 @@ var dradistabs = new Ext.TabPanel({
 
 });
 
+importer.on('importrecord',function(record){ 
+    notesbrowser.addNote(record.data.description ); 
+});
+
 // ----------------------------------------- status bar
 var dradisstatus = new Ext.StatusBar({
   region: 'south',
