@@ -108,6 +108,7 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
         // e.g. install event handlers on rendered component
         dradis.importer.setCascading(this.fields.sources, this.fields.filters);
 
+        this.addEvents('importrecord');
         //------------------------------------ event handlers
 
         // When the Filters combo changes, disable/enable the Search field
@@ -129,18 +130,21 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
 
         this.fields.results.on('rowcontextmenu',function(grid, row, ev){
           var menu = new Ext.menu.Menu({
+            row: row,
             items:[ 
               {
                 text:'import this', 
                 iconCls:'add',
-                handler:function(){
+                scope: this,
+                handler:function(item, ev){
+                  this.fireEvent('importrecord', this.fields.results.store.getAt(item.parentMenu.row));
                 }
               } 
             ]
           });
           menu.showAt(ev.getXY());
           ev.stopEvent();
-        });
+        }, this);
     },
  
     // Override other inherited methods 
