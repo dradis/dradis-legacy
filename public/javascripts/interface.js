@@ -41,6 +41,7 @@ var dradistabs = new Ext.TabPanel({
 
 importer.on('importrecord',function(record){ 
     notesbrowser.addNote(record.data.description ); 
+    dradistabs.activate(notesbrowser);
 });
 
 // ----------------------------------------- status bar
