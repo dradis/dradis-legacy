@@ -30,7 +30,7 @@ module VulndbImport
         rescue Exception => e
           records << { 
                       :title => 'Error fetching records',
-                      :description => message
+                      :description => e.message
                      }
         end
         return records
