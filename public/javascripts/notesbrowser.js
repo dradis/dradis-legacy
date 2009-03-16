@@ -396,7 +396,18 @@ Ext.extend(dradis.NotesBrowser, Ext.Panel, {
     categoriesDS.load();
     exportPluginsDS.load();
     store.load();
+  },
+  addNote: function(text){
+    var n = new Note( {
+                        text: text, 
+                        category: 1, 
+                        node: notesbrowser.selectedNode,
+                        author: dradis.author, 
+                        updated: Date()//.parseDate('2008-10-27T12:00:00+01:00', 'c')
+                      });
+    grid.stopEditing();
+    store.insert(0, n);
+    grid.startEditing(0,1);
   }
 });
-
 Ext.reg('notesbrowser', dradis.NotesBrowser);
