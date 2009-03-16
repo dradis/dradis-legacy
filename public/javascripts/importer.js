@@ -148,20 +148,6 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
         },
         scope:this
       });	
-      /*
-      dradis.ajax.request({
-        url:'/import/query/results.json',
-        params:{
-          scope:this.fields.sources.getValue(),
-          filter:this.fields.filters.getValue(),
-          query:this.fields.input.getValue()
-        },
-        listeners:{
-          success:function(response,options){
-          }
-        }
-      });
-      */
     }
 });
  
