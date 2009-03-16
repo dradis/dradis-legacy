@@ -126,6 +126,21 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
             this.updateResults();
           }
         }, this);
+
+        this.fields.results.on('rowcontextmenu',function(grid, row, ev){
+          var menu = new Ext.menu.Menu({
+            items:[ 
+              {
+                text:'import this', 
+                iconCls:'add',
+                handler:function(){
+                }
+              } 
+            ]
+          });
+          menu.showAt(ev.getXY());
+          ev.stopEvent();
+        });
     },
  
     // Override other inherited methods 
