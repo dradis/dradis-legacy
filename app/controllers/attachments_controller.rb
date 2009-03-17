@@ -2,6 +2,10 @@ class AttachmentsController < ApplicationController
 
   def index
     @attachments = Node.find(params[:node_id]).attachments
+    respond_to do |format|
+      format.html{ render :action => 'index'}
+      format.json{ render :json => @attachments }
+    end
   end
 
   def create
