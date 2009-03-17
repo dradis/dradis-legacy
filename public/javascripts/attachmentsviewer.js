@@ -3,9 +3,9 @@ Ext.ns('dradis.attachments');
 
 dradis.attachments.defaultTemplate= new Ext.XTemplate(
 '<tpl for=".">',
-  '<div class="thumb-wrap" id="{title}" style="border:1px solid #ccc">',
+  '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc">',
   '<div class="thumb"></div>',
-  '<span class="x-editable">{description}</span></div>',
+  '<span class="x-editable">{filename} [{size} - {created_at}]</span></div>',
 '</tpl>',
 '<div class="x-clear"></div>'
 );
@@ -13,21 +13,24 @@ dradis.attachments.defaultTemplate= new Ext.XTemplate(
 dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   title:'Attachments',
   layout:'fit',
+  fields: {},
 
   initComponent: function(){
     // Called during component initialization
     var config ={
-      items: new Ext.DataView({
-        store: new Ext.data.SimpleStore({ 
-                                          fields:['filename', 'description'], 
-                                          data:[ ['foo','bar'], ['id','star'] ]
-        }),
-        tpl: dradis.attachments.defaultTemplate,
-        autoHeight:true,
-        multiSelect: true,
-        itemSelector:'div.thumb-wrap',
-        emptyText: 'No attachments to display'
-      }) 
+      items: 
+        this.fields.dv = new Ext.DataView({
+                                            store: new Ext.data.JsonStore({ 
+                                              url:'/nodes/1/attachments.json',
+                                              fields:['filename', 'size', 'created_at']
+                                            }),
+                                            tpl: dradis.attachments.defaultTemplate,
+                                            autoHeight:true,
+                                            multiSelect: true,
+                                            itemSelector:'div.thumb-wrap',
+                                            emptyText: 'No attachments to display'
+        })
+      
     };
 
     // Config object has already been applied to 'this' so properties can 
@@ -43,5 +46,10 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
+  },
+  updateAttachments:function(node_id){
+    var conn = this.fields.dv.store.proxy.conn;
+    conn.url = '/nodes/' + node_id + '/attachments.json';
+    this.fields.dv.store.load();
   }
 });
