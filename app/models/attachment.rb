@@ -177,4 +177,13 @@ class Attachment < File
     AttachmentPwd + @node_id.to_s + "/"  + @filename.to_s
   end
 
+  # Provide a JSON representation of this object that can be understood by 
+  # components of the web interface
+  def to_json(options={})
+    {
+      :filename => @filename,
+      :size => File.size(self.fullpath),
+      :created_at => self.ctime
+    }.to_json(options)
+  end
 end
