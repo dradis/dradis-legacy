@@ -1,17 +1,28 @@
 
 Ext.ns('dradis.attachments');
 
+dradis.attachments.defaultTemplate= new Ext.XTemplate(
+'<tpl for=".">',
+  '<div class="thumb-wrap" id="{title}" style="border:1px solid #ccc">',
+  '<div class="thumb"></div>',
+  '<span class="x-editable">{description}</span></div>',
+'</tpl>',
+'<div class="x-clear"></div>'
+);
+
 dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   title:'Attachments',
   layout:'fit',
-  //frame:true,
 
   initComponent: function(){
     // Called during component initialization
     var config ={
       items: new Ext.DataView({
-        store: new Ext.data.SimpleStore({ fields:['title', 'description'], data:[ ['foo','bar'], ['id','star'] ]}),
-        tpl: new Ext.XTemplate('<tpl for="."><div class="thumb-wrap">{title}:<div class="thumb"></div><span class="x-editable">{description}</span></div></tpl><div class="x-clear"></div>'),
+        store: new Ext.data.SimpleStore({ 
+                                          fields:['filename', 'description'], 
+                                          data:[ ['foo','bar'], ['id','star'] ]
+        }),
+        tpl: dradis.attachments.defaultTemplate,
         autoHeight:true,
         multiSelect: true,
         itemSelector:'div.thumb-wrap',
