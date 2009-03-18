@@ -22,14 +22,15 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   initComponent: function(){
     // Called during component initialization
     var config ={
-        tbar: [
+      tbar: [
           {
-            text:'Upload attachment',
+            text:'Upload',
             tooltip:'Upload a new attachment to this element',
             iconCls:'add'
             /*
             */
-          }],
+          }
+      ],
       items: 
         this.fields.dv = new Ext.DataView({
                                             store: new Ext.data.JsonStore({ 
