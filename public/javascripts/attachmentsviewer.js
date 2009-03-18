@@ -31,7 +31,12 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
                                             autoHeight:true,
                                             multiSelect: true,
                                             itemSelector:'div.thumb-wrap',
-                                            emptyText: 'No attachments to display'
+                                            emptyText: 'No attachments to display',
+                                            plugins: [
+                                              new Ext.DataView.DragSelector(),
+                                              new Ext.DataView.LabelEditor({dataIndex: 'filename'})
+                                            ]
+
         })
       
     };
