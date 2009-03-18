@@ -54,6 +54,8 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
+    this.fields.dv.on('dblclick', function(dv, index, node, ev){  });
+    this.fields.dv.on('contextmenu', function(dv, index.node.ev){  });
   },
   updateAttachments:function(node_id){
     var conn = this.fields.dv.store.proxy.conn;
