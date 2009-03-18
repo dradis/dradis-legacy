@@ -17,6 +17,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   title:'Attachments',
   frame:true,
   fields: {},
+  currentNode:1,
 
   initComponent: function(){
     // Called during component initialization
@@ -54,12 +55,15 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
-    this.fields.dv.on('dblclick', function(dv, index, node, ev){  });
-    this.fields.dv.on('contextmenu', function(dv, index.node.ev){  });
+    this.fields.dv.on('dblclick', function(dv, index, node, ev){ 
+      window.location = '/nodes/' + this.currentNode + '/attachments/' + node.id;
+    }, this),
+    this.fields.dv.on('contextmenu', function(dv, index, node, ev){  })
   },
   updateAttachments:function(node_id){
     var conn = this.fields.dv.store.proxy.conn;
     conn.url = '/nodes/' + node_id + '/attachments.json';
     this.fields.dv.store.load();
+    this.currentNode = node_id;
   }
 });
