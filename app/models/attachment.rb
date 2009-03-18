@@ -123,10 +123,12 @@ class Attachment < File
       if options[:conditions] && options[:conditions][:node_id]
         node_id = options[:conditions][:node_id].to_s
         raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
-        node_dir = Dir.new(AttachmentPwd + node_id)
-        node_dir.each do |attachment|
-          next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(attachment)
-          attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
+        if (File.exist?(AttachmentPwd + node_id))
+          node_dir = Dir.new(AttachmentPwd + node_id)
+          node_dir.each do |attachment|
+            next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(attachment)
+            attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
+          end
         end
       else
         dir.each do |node|
