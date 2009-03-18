@@ -27,8 +27,11 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
             text:'Upload',
             tooltip:'Upload a new attachment to this element',
             iconCls:'add'
-            /*
-            */
+          },
+          {
+            text:'Delete selected',
+            tooltip:'Delete the selected items',
+            iconCls:'del'
           }
       ],
       items: 
