@@ -15,7 +15,7 @@ dradis.attachments.defaultTemplate= new Ext.XTemplate(
 dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   id:'attachments-view',
   title:'Attachments',
-  layout:'fit',
+  frame:true,
   fields: {},
 
   initComponent: function(){
@@ -28,8 +28,8 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
                                               fields:['filename', 'size', 'created_at']
                                             }),
                                             tpl: dradis.attachments.defaultTemplate,
-                                            autoHeight:true,
                                             multiSelect: true,
+                                            overClass:'x-view-over',
                                             itemSelector:'div.thumb-wrap',
                                             emptyText: 'No attachments to display',
                                             plugins: [
