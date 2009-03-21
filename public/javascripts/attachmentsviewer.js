@@ -12,6 +12,14 @@ dradis.attachments.defaultTemplate= new Ext.XTemplate(
 '<div class="x-clear"></div>'
 );
 
+dradis.attachments.deleteAttachment = function () {
+    if (attachmentsviewer.fields.dv.getSelectionCount() > 0) {
+        for (x in attachmentsviewer.fields.dv.getSelectedRecords) {
+           
+        }
+    }
+}
+
 dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   id:'attachments-view',
   title:'Attachments',
@@ -31,7 +39,8 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
           {
             text:'delete selected',
             tooltip:'Delete the selected items',
-            iconCls:'del'
+            iconCls:'del',
+            handler: dradis.attachments.deleteAttachment
           }
       ],
       items: 
