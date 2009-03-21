@@ -15,7 +15,14 @@ dradis.attachments.defaultTemplate= new Ext.XTemplate(
 dradis.attachments.deleteAttachment = function () {
     if (attachmentsviewer.fields.dv.getSelectionCount() > 0) {
         for (x in attachmentsviewer.fields.dv.getSelectedRecords) {
-            
+            var filename = attachmentsviewer.fields.dv.getSelectedRecords()[0].get('filename');
+
+            Ext.Ajax.request({
+                url: '/nodes/' + attachmentsviewer.currentNode + '/attachments/' + filename,
+                method: 'POST',
+                params: {'_method' : 'delete', 'authenticity_token' : dradis.token},
+                success: function () {attachmentsviewer.fields.dv.store.reload();}
+            })
         }
     }
 }
