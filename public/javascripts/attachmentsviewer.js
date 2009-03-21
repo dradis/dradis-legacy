@@ -15,7 +15,7 @@ dradis.attachments.defaultTemplate= new Ext.XTemplate(
 dradis.attachments.deleteAttachment = function () {
     if (attachmentsviewer.fields.dv.getSelectionCount() > 0) {
         for (x in attachmentsviewer.fields.dv.getSelectedRecords) {
-           
+            
         }
     }
 }
@@ -46,7 +46,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
       items: 
         this.fields.dv = new Ext.DataView({
                                             store: new Ext.data.JsonStore({ 
-                                              url:'/nodes/1/attachments.json',
+                                              url:'/nodes/' + this.currentNode + '/attachments.json',
                                               fields:['filename', 'size', 'created_at']
                                             }),
                                             tpl: dradis.attachments.defaultTemplate,
