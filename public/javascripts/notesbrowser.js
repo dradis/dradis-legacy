@@ -124,33 +124,12 @@ var categoriesDS = new Ext.data.Store({
 
 // ------------------------------------------ Note record & XML data store
 
-// this could be inline, but we want to define the Note record
-// type so we can add records dynamically
-var Note = Ext.data.Record.create([
-  {name: 'text', type: 'string'}, 
-  {name: 'author', type: 'string'}, 
-  {name: 'category', mapping: 'category-id'}, 
-  {name: 'node', mapping: 'node-id'}, 
-  // date format: 2008-04-10T12:30:29+01:00
-  { name: 'updated', mapping: 'updated-at', type: 'date', dateFormat: 'c'}
-  ]);
-
-
 // create the Data Store
-var store = new Ext.data.Store({
+var store = new Ext.data.JsonStore({
   // load using HTTP
-  url: '/nodes/1/notes.xml',
-
-  // the return will be XML, so lets set up a reader
-  reader: new Ext.data.XmlReader(
-    {// format of the XML
-      // records will have an "Item" tag
-      record: 'note',
-      id: 'id'
-    }, 
-    // records for the grid
-    Note
-  ),
+  url: '/nodes/1/notes.json',
+  id:'id',
+  fields:['text', 'author', 'category_id', 'node_id', 'updated_at', 'created_at'],
   listeners: {
     add: function(store, records, index) {
       var note = records[index];
@@ -210,7 +189,7 @@ var grid = new Ext.grid.EditorGridPanel({
       header: 'Category', 
       width: 40, 
       sortable: true, 
-      dataIndex: 'category', 
+      dataIndex: 'category_id', 
       renderer:Ext.util.Format.htmlEncode,
       editor: new Ext.form.ComboBox({
                               id: 'category-id',
@@ -240,7 +219,7 @@ var grid = new Ext.grid.EditorGridPanel({
       width: 30, 
       sortable: true, 
       renderer: Ext.util.Format.dateRenderer('m/d/Y h:i'), 
-      dataIndex: 'updated',
+      dataIndex: 'updated_at',
       editor: new Ext.form.DateField({
                 format: 'm/d/y h:i',
                 minValue: '01/01/08'
@@ -391,7 +370,7 @@ Ext.extend(dradis.NotesBrowser, Ext.Panel, {
   updateNotes: function(node_id){ 
     this.selectedNode = node_id;
     var conn = grid.getStore().proxy.conn;
-    conn.url = '/nodes/' + node_id + '/notes.xml';
+    conn.url = '/nodes/' + node_id + '/notes.json';
     conn.method = 'GET';
     categoriesDS.load();
     exportPluginsDS.load();
