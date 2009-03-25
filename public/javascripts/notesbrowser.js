@@ -218,7 +218,7 @@ var grid = new Ext.grid.EditorGridPanel({
       header: "Last Updated", 
       width: 30, 
       sortable: true, 
-      renderer: Ext.util.Format.dateRenderer('m/d/Y h:i'), 
+      renderer: Ext.util.Format.dateRenderer('d M Y h:i'), 
       dataIndex: 'updated_at',
       editor: new Ext.form.DateField({
                 format: 'm/d/y h:i',
