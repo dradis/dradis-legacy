@@ -1,9 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  type: 1
+  id: 1
+  type_id: 1
   label: MyString
 
 two:
-  type: 1
+  id: 2
+  type_id: 1
   label: MyString
