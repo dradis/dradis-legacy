@@ -288,3 +288,31 @@ function checkrevision() {
   })
 
 }
+
+Ext.ns('dradis.ajax');
+
+// Try to unify the way we do Ajax calls
+dradis.ajax.request = function(options){
+  // request parameters
+  var ajax_params = options;
+  if (options.params) {
+    ajax_params.authenticity_token = dradis.token;
+  }
+
+  // callbacks
+  ajax_params.success = function(response, options) {
+    if (options.listeners.success){
+      options.listeners.success(response, options);
+    }
+  }
+  ajax_params.failure = function(response, options) {
+    var msg = 'Ajax error: '+response.statusText+' ('+response.status+') for ';
+    msg = msg + options.url 
+    dradisstatus.setStatus({
+      text:msg,
+      //iconCls: 'error',
+      clear: 10000
+    });
+  }
+  Ext.Ajax.request(ajax_params);
+};
