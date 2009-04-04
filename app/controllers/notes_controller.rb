@@ -13,6 +13,7 @@ class NotesController < ApplicationController
       format.html { head :method_not_allowed }
       
       format.xml { render :xml => @notes.to_xml}
+      format.json { render :json => @notes.to_json(:include => :category)}
     end
   end
 
