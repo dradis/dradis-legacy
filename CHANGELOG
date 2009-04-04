@@ -1,5 +1,6 @@
 v2.0.x (xx of xxx 2009)
  - add attachments to nodes
+ - sample VulnDB import plugin
 
 v2.0.2 (xx of April 2009)
  - import/export plugin architecture
