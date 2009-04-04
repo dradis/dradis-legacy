@@ -285,15 +285,16 @@ dradis.NotesBrowser = function(config) {
                   text: 'empty note', 
                   iconCls: 'empty',
                   handler: function() {
-                    var n = new Note( {
-                            text: 'New note', 
-                            category: 1, 
-                            node: notesbrowser.selectedNode,
-                            author: dradis.author, 
-                            updated: Date()//.parseDate('2008-10-27T12:00:00+01:00', 'c')
-                          });
+                    var new_note = new Ext.data.Record({
+                      text: 'text', 
+                      author: dradis.author, 
+                      category_id: 1, 
+                      node_id: notesbrowser.selectedNode, 
+                      updated_at: Date(),
+                      created_at: Date()
+                    });
                     grid.stopEditing();
-                    store.insert(0, n);
+                    store.insert(0, new_note);
                     grid.startEditing(0,1);
                   }
                 }, 
