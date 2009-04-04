@@ -1,4 +1,12 @@
-v2.0.1 (23rd of Februaru 2009)
+v2.0.x (xx of xxx 2009)
+ - add attachments to nodes
+
+v2.0.2 (xx of April 2009)
+ - import/export plugin architecture
+ - sample WordXML export plugin
+ - sample WikiMedia import plugin
+
+v2.0.1 (23rd of February 2009)
  - first security patch
 
 v2.0 (29th of January 2009)
