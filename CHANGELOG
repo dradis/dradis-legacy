@@ -1,12 +1,12 @@
 v2.0.x (xx of xxx 2009)
  - add attachments to nodes
  - sample VulnDB import plugin
+ - sample Project export plugin
 
 v2.0.2 (xx of April 2009)
  - import/export plugin architecture
  - import/export plugin generators
  - sample WordXML export plugin
- - sample Project export plugin
  - sample WikiMedia import plugin
 
 v2.0.1 (23rd of February 2009)
