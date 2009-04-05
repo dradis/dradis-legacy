@@ -1,5 +1,5 @@
 Description:
-    Stubs out a new dradis export plugin. Pass the plugin name, either CamelCased or
+    Stubs out a new dradis import plugin. Pass the plugin name, either CamelCased or
     under_scored, as an argument. The plugin name will be extended with '_export'
     if this is not part of the plugin name argument.
 
@@ -12,12 +12,12 @@ Note:
     export pugin requirements.
 
 Example:
-    `./script/generate plugin BrowserFilters`
+    `./script/generate plugin Word`
 
     creates a standard browser_filters plugin:
-        vendor/plugins/browser_filters/README
-        vendor/plugins/browser_filters/init.rb
-        vendor/plugins/browser_filters/install.rb
-        vendor/plugins/browser_filters/lib/browser_filters.rb
-        vendor/plugins/browser_filters/test/browser_filters_test.rb
-        vendor/plugins/browser_filters/tasks/browser_filters_tasks.rake
+        vendor/plugins/word_export/README
+        vendor/plugins/word_export/init.rb
+        vendor/plugins/word_export/install.rb
+        vendor/plugins/word_export/lib/word_export.rb
+        vendor/plugins/word_export/test/word_export_test.rb
+        vendor/plugins/word_export/tasks/word_export_tasks.rake
