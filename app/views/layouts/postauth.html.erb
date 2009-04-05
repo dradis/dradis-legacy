@@ -7,7 +7,7 @@
     <%= stylesheet_link_tag 'ext-all.css' %>
 
     <!-- Custom CSS and Libs -->
-    <%= javascript_include_tag 'thebrain', 'nodestree', 'RowExpander', 'notesbrowser', 'interface' %>
+    <%= javascript_include_tag 'thebrain', 'nodestree', 'RowExpander', 'notesbrowser', 'importer', 'interface' %>
     <%= stylesheet_link_tag 'dradis.css' %>
 
   </head>
@@ -19,6 +19,7 @@
     <div id="main">
       <div id="tabs">
         <div id="notes" class="x-hide-display">notes</div>
+        <div id="import" class="x-hide-display">import from external sources</div>
         <div id="properties" class="x-hide-display">properties pane is not implemented yet.</div>
       </div>
       <%#= link_to_remote 'label', :url => { :action => "notes", :parent_id => 83, :parent_type=> 'foo', :position => 7 } %>
