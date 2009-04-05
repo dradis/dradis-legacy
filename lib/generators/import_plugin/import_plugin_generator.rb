@@ -10,6 +10,11 @@ class ImportPluginGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
 
+      m.directory "#{plugin_path}/lib"
+      m.directory "#{plugin_path}/lib/#{file_name}"
+      m.directory "#{plugin_path}/tasks"
+      m.directory "#{plugin_path}/test"
+
     end
   end
 end
