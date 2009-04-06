@@ -10,7 +10,7 @@ end
 
 # This includes the import plugin module in the dradis import plugin repository
 module Plugins
-  module Export
+  module Import
     include <%= class_name %>
   end
 end
