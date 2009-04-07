@@ -1,5 +1,6 @@
 # WikiImport
 
+require 'wiki_import/filters'
 require 'wiki_import/meta'
 
 module WikiImport
