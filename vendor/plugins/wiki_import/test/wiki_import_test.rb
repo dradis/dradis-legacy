@@ -1,5 +1,8 @@
 require 'test/unit'
 
+# require Rails testing framework
+require File.dirname(__FILE__) + '/../../../../test/test_helper'
+
 $:.unshift File.dirname(__FILE__) + '/../lib'
 require File.dirname(__FILE__) + '/../init'
 
@@ -30,7 +33,7 @@ without requiring the application context in which they are accessed.
 
 =Recommendation=
 
-Disable directory listings if possible."
+Disable directory listings if possible.
 EOW
   DRADIS_NOTE=<<EON#nodoc
 #[Title]#
@@ -50,7 +53,7 @@ without requiring the application context in which they are accessed.
 
 #[Recommendation]#
 
-Disable directory listings if possible."
+Disable directory listings if possible.
 EON
 
   # At some point in the import process we need to translate from 
