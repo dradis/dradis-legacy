@@ -63,6 +63,8 @@ EON
   # Connect to a remote wiki, search for a specific string and parse the output
   # into the format expected by the framework.
   def test_pull_from_wiki
+    require 'cgi'
+
     expected = [ {:title => 'Directory Listings', :description => DRADIS_NOTE} ]
 
     assert_equal( expected, WikiImport::Filters::FullTextSearch.run() )
