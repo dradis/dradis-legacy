@@ -17,6 +17,37 @@ module WikiImport
 
       def self.run(params={})
         records = []
+        begin
+          # Parameters required by MediaWiki API
+          filter_params = {
+            :action => 'query',
+            :prop => 'revisions',
+            :generator => 'search',
+            :gsrsearch => CGI::escape(params[:query]), # user query
+            :rvprop => 'content',
+            :format => 'xml'
+          }
+          record = nil
+          fields = nil
+
+          # Get the results over HTTP
+          Net::HTTP.start(CONF['host'], CONF['port']) do |http|
+            res = http.get("#{CONF['path']}?#{filter_params.to_query}") 
+            record = Hash.from_xml( res.body )['api']['query']['pages']['page']['revisions']['rev']
+          end
+
+          records << {
+            :title => record.scan(/=Title=\n(.*?)=/m).first.first.strip,
+            :description => WikiImport::fields_from_wikitext(record)
+          }
+          
+        rescue Exception => e
+          records << { 
+                      :title => 'Error fetching records',
+                      :description => e.message
+                     }
+        end
+
         return records
       end
     end
