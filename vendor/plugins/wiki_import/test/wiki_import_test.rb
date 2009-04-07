@@ -65,6 +65,6 @@ EON
   def test_pull_from_wiki
     expected = [ {:title => 'Directory Listings', :description => DRADIS_NOTE} ]
 
-    assert_equals( expected, WikiImport::Filters::FullTextSearch.run() )
+    assert_equal( expected, WikiImport::Filters::FullTextSearch.run() )
   end
 end
