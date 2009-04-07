@@ -56,6 +56,29 @@ without requiring the application context in which they are accessed.
 Disable directory listings if possible.
 EON
 
+  WIKI_API_RESPONSE=<<EOX
+<?xml version="1.0"?><api><query><pages><page pageid="2" ns="0" title="Directory Listings"><revisions><rev>=Title=
+Directory Listings
+
+=Impact=
+Low
+
+=Probability=
+Low
+
+=Description=
+Some directories on the server were configured with directory listing enabled. 
+
+This may leak information about the website by revealing files that it uses 
+without requiring the application context in which they are accessed. 
+
+=Recommendation=
+
+Disable directory listings if possible.
+</rev></revisions></page></pages></query></api>
+EOX
+
+
   # At some point in the import process we need to translate from 
   # wiki-formatted text into our standard format for notes (see
   # Note#fields).
@@ -67,6 +90,15 @@ EON
   # into the format expected by the framework.
   def test_pull_from_wiki
     params = { :query => 'directory' }
+
+    # mocha stubs for Net::HTTP. WIKI_API_RESPONSE contains a fictional 
+    # response by a MediaWiki server. This will be parsed by the filter to 
+    # produce a dradis-formated note
+    response = mock
+    response.expects(:body).returns(WIKI_API_RESPONSE)
+    http = mock
+    http.expects(:get).returns(response)
+    Net::HTTP.stubs(:start).yields( http )
 
     expected = [ {:title => 'Directory Listings', :description => DRADIS_NOTE} ]
     assert_equal( expected, WikiImport::Filters::FullTextSearch.run(params) )
