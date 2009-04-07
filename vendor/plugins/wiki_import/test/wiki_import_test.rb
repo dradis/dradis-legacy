@@ -52,6 +52,6 @@ EON
   # wiki-formatted text into our standard format for notes (see
   # Note#fields).
   def test_wiki_to_dradis_fields
-    flunk
+    assert_equal( DRADIS_NOTE, WikiImport::fields_from_wikitext(WIKI_PAGE) ) 
   end
 end
