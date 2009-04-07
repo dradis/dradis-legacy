@@ -64,9 +64,9 @@ EON
   # into the format expected by the framework.
   def test_pull_from_wiki
     require 'cgi'
+    params = { :query => 'directory' }
 
     expected = [ {:title => 'Directory Listings', :description => DRADIS_NOTE} ]
-
-    assert_equal( expected, WikiImport::Filters::FullTextSearch.run() )
+    assert_equal( expected, WikiImport::Filters::FullTextSearch.run(params) )
   end
 end
