@@ -378,15 +378,16 @@ Ext.extend(dradis.NotesBrowser, Ext.Panel, {
     store.load();
   },
   addNote: function(text){
-    var n = new Note( {
+    var new_note = new  Ext.data.Record({
                         text: text, 
-                        category: 1, 
-                        node: notesbrowser.selectedNode,
+                        category_id: 1, 
+                        node_id: notesbrowser.selectedNode,
                         author: dradis.author, 
-                        updated: Date()//.parseDate('2008-10-27T12:00:00+01:00', 'c')
+                        updated_at: Date(),
+                        created_at: Date()
                       });
     grid.stopEditing();
-    store.insert(0, n);
+    store.insert(0, new_note);
     grid.startEditing(0,1);
   }
 });
