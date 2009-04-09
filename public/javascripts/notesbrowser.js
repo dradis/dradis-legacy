@@ -3,6 +3,38 @@
 
 // ------------------------------------------ data stores
 
+var exportPluginsMenu = new Ext.menu.Menu({});
+var exportPluginsDS = new Ext.data.JsonStore({
+  url:'/export/list/plugins.json',
+  fields: ['name', 'actions'],
+  listeners:{
+    datachanged: function(store){
+      exportPluginsMenu.removeAll();
+      var item; // the menu item
+      store.each(function(record){
+        item = new Ext.menu.Item({ text: Ext.util.Format.htmlEncode(record.data.name) });
+        if (record.data.actions.length == 0) 
+        { 
+          item.disabled = true; 
+        } else if (record.data.actions.length == 1)
+        {
+          item.on('click', function(){ window.location = '/export/'+record.data.actions[0]; });
+        } else
+        {
+          item.menu = new Ext.menu.Menu({});
+          var action;
+          for ( var i =0; i<record.data.actions.length; i++){
+            action = record.data.actions[i];
+            label = action.replace(/_([a-z])/ig, function(z,b){ return b.toUpperCase(); });
+            item.menu.add( new Ext.menu.Item({ text: label, url: '/export/' + action, handler: function(){ window.location = this.url; } }) );
+          };
+        }
+        exportPluginsMenu.add(item);
+      });
+    }
+  }
+});
+
 var categoriesMenu = new Ext.menu.Menu({});
 var categoriesDS = new Ext.data.Store({
   proxy: new Ext.data.HttpProxy(
@@ -92,33 +124,12 @@ var categoriesDS = new Ext.data.Store({
 
 // ------------------------------------------ Note record & XML data store
 
-// this could be inline, but we want to define the Note record
-// type so we can add records dynamically
-var Note = Ext.data.Record.create([
-  {name: 'text', type: 'string'}, 
-  {name: 'author', type: 'string'}, 
-  {name: 'category', mapping: 'category-id'}, 
-  {name: 'node', mapping: 'node-id'}, 
-  // date format: 2008-04-10T12:30:29+01:00
-  { name: 'updated', mapping: 'updated-at', type: 'date', dateFormat: 'c'}
-  ]);
-
-
 // create the Data Store
-var store = new Ext.data.Store({
+var store = new Ext.data.JsonStore({
   // load using HTTP
-  url: '/nodes/1/notes.xml',
-
-  // the return will be XML, so lets set up a reader
-  reader: new Ext.data.XmlReader(
-    {// format of the XML
-      // records will have an "Item" tag
-      record: 'note',
-      id: 'id'
-    }, 
-    // records for the grid
-    Note
-  ),
+  url: '/nodes/1/notes.json',
+  id:'id',
+  fields:['text', 'author', 'category_id', 'node_id', 'updated_at', 'created_at'],
   listeners: {
     add: function(store, records, index) {
       var note = records[index];
@@ -178,7 +189,7 @@ var grid = new Ext.grid.EditorGridPanel({
       header: 'Category', 
       width: 40, 
       sortable: true, 
-      dataIndex: 'category', 
+      dataIndex: 'category_id', 
       renderer:Ext.util.Format.htmlEncode,
       editor: new Ext.form.ComboBox({
                               id: 'category-id',
@@ -207,8 +218,8 @@ var grid = new Ext.grid.EditorGridPanel({
       header: "Last Updated", 
       width: 30, 
       sortable: true, 
-      renderer: Ext.util.Format.dateRenderer('m/d/Y h:i'), 
-      dataIndex: 'updated',
+      renderer: Ext.util.Format.dateRenderer('d M Y h:i'), 
+      dataIndex: 'updated_at',
       editor: new Ext.form.DateField({
                 format: 'm/d/y h:i',
                 minValue: '01/01/08'
@@ -269,15 +280,16 @@ dradis.NotesBrowser = function(config) {
             tooltip:'Add a new note to this element',
             iconCls:'add',
             handler: function() {
-              var n = new Note( {
-                            text: 'New note', 
-                            category: 1, 
-                            node: notesbrowser.selectedNode,
-                            author: dradis.author, 
-                            updated: Date()//.parseDate('2008-10-27T12:00:00+01:00', 'c')
+              var new_note = new Ext.data.Record({
+                text: 'text', 
+                author: dradis.author, 
+                category_id: 1, 
+                node_id: notesbrowser.selectedNode, 
+                updated_at: Date(),
+                created_at: Date()
               });
               grid.stopEditing();
-              store.insert(0, n);
+              store.insert(0, new_note);
               grid.startEditing(0,1);
             }
           }, 
@@ -287,7 +299,14 @@ dradis.NotesBrowser = function(config) {
             tooltip:'Manage note categories',
             iconCls:'options',
             menu: categoriesMenu
-          }
+          },
+          '-',
+          {
+            text: 'export',
+            tooltip: 'export dradis contents to external sources',
+            iconCls: 'export',
+            menu: exportPluginsMenu
+           }
           /*
           '-',
           'filter notes by: ',
@@ -335,11 +354,24 @@ Ext.extend(dradis.NotesBrowser, Ext.Panel, {
   updateNotes: function(node_id){ 
     this.selectedNode = node_id;
     var conn = grid.getStore().proxy.conn;
-    conn.url = '/nodes/' + node_id + '/notes.xml';
+    conn.url = '/nodes/' + node_id + '/notes.json';
     conn.method = 'GET';
     categoriesDS.load();
+    exportPluginsDS.load();
     store.load();
+  },
+  addNote: function(text){
+    var new_note = new  Ext.data.Record({
+                        text: text, 
+                        category_id: 1, 
+                        node_id: notesbrowser.selectedNode,
+                        author: dradis.author, 
+                        updated_at: Date(),
+                        created_at: Date()
+                      });
+    grid.stopEditing();
+    store.insert(0, new_note);
+    grid.startEditing(0,1);
   }
 });
-
 Ext.reg('notesbrowser', dradis.NotesBrowser);
