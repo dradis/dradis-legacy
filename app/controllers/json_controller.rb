@@ -12,8 +12,8 @@ class JsonController < ApplicationController
     note = Note.new( 
       :text => params[:text],
       :author => params[:author],
-      :node_id => params[:node],
-      :category_id => params[:category] 
+      :node_id => params[:node_id],
+      :category_id => params[:category_id] 
     )
     note.save
     render :text => note.id
