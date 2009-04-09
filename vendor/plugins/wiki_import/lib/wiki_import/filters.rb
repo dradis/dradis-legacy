@@ -33,13 +33,18 @@ module WikiImport
           # Get the results over HTTP
           Net::HTTP.start(CONF['host'], CONF['port']) do |http|
             res = http.get("#{CONF['path']}?#{filter_params.to_query}") 
-            record = Hash.from_xml( res.body )['api']['query']['pages']['page']['revisions']['rev']
+            xmlres = Hash.from_xml( res.body )
+            unless xmlres['api'].nil?
+              record = xmlres['api']['query']['pages']['page']['revisions']['rev']
+            end
           end
 
-          records << {
-            :title => record.scan(/=Title=\n(.*?)=/m).first.first.strip,
-            :description => WikiImport::fields_from_wikitext(record)
-          }
+          unless record.nil?
+            records << {
+              :title => record.scan(/=Title=\n(.*?)=/m).first.first.strip,
+              :description => WikiImport::fields_from_wikitext(record)
+            }
+          end
           
         rescue Exception => e
           records << { 
