@@ -58,6 +58,7 @@ var tree = new Ext.tree.TreePanel({
     listeners: {
       click: function(n) {
         notesbrowser.updateNotes(n.id); 
+        importer.updateSources(n.id); 
         if (dradistabs.getActiveTab() == null) {
           dradistabs.setActiveTab(0);
         }
