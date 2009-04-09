@@ -65,6 +65,7 @@ Ext.onReady(function() {
         region: 'west',
         collapsible: true,
         //title: 'Navigation',
+        split:true,
         xtype: 'nodestree'
       },
       dradistabs,
