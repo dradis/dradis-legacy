@@ -39,7 +39,7 @@ module WordExport
         props[:pprops].each do |prop|
           p_props.add( REXML::Element.new(prop) )
         end
-        p.add( p_props )
+        paragraph.add( p_props )
       end
 
       paragraph.add( run )
