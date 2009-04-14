@@ -6,6 +6,25 @@ module WordExport
   # and generate a Word XML file using a template.
   class Processor
     private
+
+    # Given a root node title and a set of WordXML properties, this method 
+    # creates the right XML structure to represent them
+    def self.word_properties(element, props={})
+      # add properties to the run
+      properties = REXML::Element.new(element)
+    
+      props.each do |prop|
+        root = prop[:root]
+        attributes = prop.fetch( :attributes, [])
+        p = REXML::Element.new(prop[:root])
+        if ( !attributes.size.zero? )
+          p.add_attributes( attributes )
+        end
+        properties.add( p )
+      end
+      return properties
+    end
+
     # Instead of dealing with each field differently, with this method we can have
     # a generic way of adding a paragraph to the document. See Brian Jones 'Intro
     # to Word XML at: 
@@ -18,13 +37,7 @@ module WordExport
 
       # if there are any properties for the "run", add them
       if (props.key?(:rprops) && !(props[:rprops].size.zero?))
-        # add properties to the run
-        run_props = REXML::Element.new('w:rPr')
-    
-        props[:rprops].each do |prop|
-          run_props.add( REXML::Element.new(prop) )
-        end
-        run.add( run_props )
+        run.add( word_properties( 'w:rPr', props[:rprops] ))
       end
 
       run.add( txt )
@@ -33,20 +46,7 @@ module WordExport
 
       # if there are any properties for the "paragraph", add them
       if (props.key?(:pprops) && !(props[:pprops].size.zero?))
-        # add properties to the run
-        p_props = REXML::Element.new('w:pPr')
-    
-        props[:pprops].each do |prop|
-          root = prop[:root]
-          attributes = prop.fetch(:attributes, [])
-
-          p = REXML::Element.new(prop[:root])
-          if ( !attributes.size.zero? )
-            p.add_attributes( attributes )
-          end
-          p_props.add( p )
-        end
-        paragraph.add( p_props )
+        paragraph.add( word_properties('w:pPr', props[:pprops]) )
       end
 
       paragraph.add( run )
@@ -136,8 +136,25 @@ module WordExport
 
           # Initialise the "run" properties (in WordXML text is split in runs) 
           rprops = [] 
-          # We make some fields (i.e. the creation date) to have italics font
-          rprops << 'w:i' if ( ["created"].include?(field) )
+
+          # In specific field we can add extra text attributes
+          if ( ["created"].include?(field) )
+            # The "created at" text will be:
+            #   - in italics
+            #   - and Arial 8 (numbers are x2)
+            rprops << { :root => 'w:i' }
+            rprops << {
+                        :root => 'w:rFonts', 
+                        :attributes => { 
+                          'w:ascii' => 'Arial', 
+                          'w:h-ansi' => 'Arial', 
+                          'w:cs' => 'Arial' 
+                        }
+                      }
+            rprops  << { :root => 'wx:font', :attributes => { 'wx:val' => 'Arial' } }
+            rprops  << { :root => 'w:sz', :attributes => { 'w:val' => '16' } }
+            rprops  << { :root => 'w:sz-cs', :attributes => { 'w:val' => '16' } }
+          end
 
           # Initialise the "paragraph" properties
           pprops = [] 
