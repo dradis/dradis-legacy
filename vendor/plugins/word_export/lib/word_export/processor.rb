@@ -143,10 +143,13 @@ module WordExport
           pprops = [] 
           # Additional properties for some special paragraphs 
           if ( ["created"].include?(field) )
+            # The "created at" paragraph will be:
+            #   - right aligned
             pprops << {:root => 'w:jc', :attributes => {'w:val' => 'right'} }
           end
 
           if ( ["Title"].include?(field) )
+            # Apply the "Heading1" style to the Vulnerability Title
             pprops << {:root => 'w:pStyle', :attributes => {'w:val' => 'Heading1'} }
           end
 
