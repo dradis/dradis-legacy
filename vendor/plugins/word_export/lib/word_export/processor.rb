@@ -96,7 +96,7 @@ module WordExport
         v = REXML::Document.new(vuln_template.to_s)
 
         logger.debug{ "processing Note #{n.id}" }
-        fields = Hash[ *n.text.scan(/#\[(.+?)\]#\n(.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ]
+        fields = n.fields 
 
 
         #title
