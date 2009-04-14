@@ -145,12 +145,12 @@
 </w:sectPr>
 
 <!-- Note Section -->
-<wx:sub-section>
-  <w:p wsp:rsidR="005F557A" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
+<wx:sub-section id="vulntitle">
+  <w:p>
     <w:pPr>
       <w:pStyle w:val="Heading1"/>
     </w:pPr>
-    <w:r><w:t id="vulntitle">Directory Listings</w:t></w:r>
+    <w:r><w:t>Directory Listings</w:t></w:r>
   </w:p>
   <w:p wsp:rsidR="00C27C1C" wsp:rsidRPr="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
     <w:pPr>
@@ -168,21 +168,21 @@
     </w:r>
   </w:p>
 
-  <wx:sub-section id="vulndesc">
+  <wx:sub-section id="vulndescription">
     <w:p wsp:rsidR="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
       <w:r><w:t>Description</w:t></w:r>
     </w:p>
   </wx:sub-section>
 
-  <wx:sub-section id="vulnrec">
+  <wx:sub-section id="vulnrecommendation">
     <w:p wsp:rsidR="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
       <w:r><w:t>Recommendation</w:t></w:r>
     </w:p>
   </wx:sub-section>
 
-  <wx:sub-section id="vulnextra">
+  <wx:sub-section id="vulnadditionalinformation">
     <w:p wsp:rsidR="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
       <w:r><w:t>Additional Information</w:t></w:r>
