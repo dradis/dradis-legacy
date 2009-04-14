@@ -37,7 +37,14 @@ module WordExport
         p_props = REXML::Element.new('w:pPr')
     
         props[:pprops].each do |prop|
-          p_props.add( REXML::Element.new(prop) )
+          root = prop[:root]
+          attributes = prop.fetch(:attributes, [])
+
+          p = REXML::Element.new(prop[:root])
+          if ( !attributes.size.zero? )
+            p.add_attributes( attributes )
+          end
+          p_props.add( p )
         end
         paragraph.add( p_props )
       end
