@@ -96,51 +96,41 @@ module WordExport
         v = REXML::Document.new(vuln_template.to_s)
 
         logger.debug{ "processing Note #{n.id}" }
+        # Get the fields from the Note's text (see app/models/note.rb)
         fields = n.fields 
 
+        # We can add extra fields, for instance author, date, etc:
+        fields['created'] = n.created_at.strftime("%Y-%m-%d %T %Z")
 
-        #title
-        title = REXML::XPath.first(v, "//w:t[@id='vulntitle']") 
-        title.delete_attribute('id')
-        title.text = fields['Title']
-  
-        #date
-        created_at = REXML::XPath.first(v, "//w:t[@id='vulncreated']") 
-        created_at.delete_attribute('id')
-        created_at.text = n.created_at.strftime("%Y-%m-%d %T %Z")
+        # We will try to locate every field in the template. To do so, we will
+        # look for XML entities with an id="vuln<field>", if we find them, then
+        # we populate the entity with the value of the field.
+        fields.each do |field, value|
+          logger.debug('WordExport'){ "\tParsing field: #{field}... " }
+          domtag = REXML::XPath.first(v, "//[@id='vuln#{field.downcase.gsub(/\s/,'')}']") 
+          if (domtag.nil?)
+            logger.debug('WordExport'){ "\tnot found in the template" }
+            next
+          end
+          domtag.delete_attribute('id')
 
-        #description
-        description = REXML::XPath.first(v, "//wx:sub-section[@id='vulndesc']")
-        description.delete_attribute('id')
-        fields['Description'].split("\n").each do |paragraph|
-          description.add( word_paragraph_for(paragraph) )
-        end   
-        description.add( word_paragraph_for('') )
+          # Initialise the "run" properties (in WordXML text is split in runs) 
+          rprops = [] 
+          # We make some fields (i.e. the creation date) to have italics font
+          rprops << 'w:i' if ( ["created"].include?(field) )
 
-        #recommendation
-        recommendation = REXML::XPath.first(v, "//wx:sub-section[@id='vulnrec']")
-        recommendation.delete_attribute('id')
-        fields['Recommendation'].split("\n").each do |paragraph|
-          recommendation.add( word_paragraph_for(paragraph) )
-        end   
-        recommendation.add( word_paragraph_for('') )
-
-        #additional information
-        if (fields.key?('Additional Information'))
-          additional = REXML::XPath.first(v, "//wx:sub-section[@id='vulnextra']")
-          additional.delete_attribute('id')
-          fields['Additional Information'].split("\n").each do |paragraph|
-            additional.add( word_paragraph_for(paragraph) )
+          # The value of each field is broken in paragraphs which are added as
+          # XML children of the +domtag+
+          value.split("\n").each do |paragraph|
+            domtag.add( word_paragraph_for(paragraph, :rprops => rprops) )
           end   
-          additional.add( word_paragraph_for('') )
-        else
-          v.elements.delete("//wx:sub-section[@id='vulnextra']")
+          domtag.add( word_paragraph_for('') )
+          logger.debug('WordExport'){ "\tdone." }
         end
 
         findings_container.add(v.root.children[0])  
       end
 
-      #doc.write(File.new('report.xml','w'), -1, true)
       return doc
     end
   end
