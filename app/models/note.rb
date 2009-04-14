@@ -3,6 +3,11 @@ class Note < ActiveRecord::Base
   belongs_to :node
 
   def fields
-    Hash[ *self.text.scan(/#\[(.+?)\]#\n(.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ]
+    begin
+      Hash[ *self.text.scan(/#\[(.+?)\]#\n(.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ]
+    rescue
+      # if the note is not in the expected format, just return an empty hash
+      {}
+    end
   end
 end
