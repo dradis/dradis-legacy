@@ -141,6 +141,14 @@ module WordExport
 
           # Initialise the "paragraph" properties
           pprops = [] 
+          # Additional properties for some special paragraphs 
+          if ( ["created"].include?(field) )
+            pprops << {:root => 'w:jc', :attributes => {'w:val' => 'right'} }
+          end
+
+          if ( ["Title"].include?(field) )
+            pprops << {:root => 'w:pStyle', :attributes => {'w:val' => 'Heading1'} }
+          end
 
           # The value of each field is broken in paragraphs which are added as
           # XML children of the +domtag+
