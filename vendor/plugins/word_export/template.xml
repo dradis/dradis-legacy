@@ -145,28 +145,19 @@
 </w:sectPr>
 
 <!-- Note Section -->
-<wx:sub-section id="vulntitle">
-  <w:p>
-    <w:pPr>
-      <w:pStyle w:val="Heading1"/>
-    </w:pPr>
-    <w:r><w:t>[Vuln. Title] If you see this, there is a problem with the formatting of one of your notes</w:t></w:r>
-  </w:p>
-  <w:p wsp:rsidR="00C27C1C" wsp:rsidRPr="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
-    <w:pPr>
-      <w:jc w:val="right"/>
-      <w:rPr>
-        <w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/>
-        <wx:font wx:val="Arial"/>
-        <w:sz w:val="16"/>
-        <w:sz-cs w:val="16"/>
-      </w:rPr>
-    </w:pPr>
-    <w:r wsp:rsidRPr="00C27C1C">
-      <w:rPr><w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/><wx:font wx:val="Arial"/><w:sz w:val="16"/><w:sz-cs w:val="16"/></w:rPr>
-      <w:t id="vulncreated">2009-02-10 00:07 GMT</w:t>
-    </w:r>
-  </w:p>
+<wx:sub-section>
+  <!--
+    This XML entity is not valid WordXML, however it is required due to the way
+    in which the report is generated. The WordExport::Processor will add a 
+    paragraph containing the vulnerability title as a children of the XML element
+    whose id is equal to "vulntitle".
+    Fortunately enough Word is not bothered about this little hack
+  -->
+  <dradisplaceholder id="vulntitle">
+  </dradisplaceholder>
+  
+  <wx:sub-section id="vulncreated">
+  </wx:sub-section>
 
   <wx:sub-section id="vulndescription">
     <w:p wsp:rsidR="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
