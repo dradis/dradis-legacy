@@ -132,10 +132,13 @@ module WordExport
           # We make some fields (i.e. the creation date) to have italics font
           rprops << 'w:i' if ( ["created"].include?(field) )
 
+          # Initialise the "paragraph" properties
+          pprops = [] 
+
           # The value of each field is broken in paragraphs which are added as
           # XML children of the +domtag+
           value.split("\n").each do |paragraph|
-            domtag.add( word_paragraph_for(paragraph, :rprops => rprops) )
+            domtag.add( word_paragraph_for(paragraph, :rprops => rprops, :pprops => pprops) )
           end   
           domtag.add( word_paragraph_for('') )
           logger.debug('WordExport'){ "\tdone." }
