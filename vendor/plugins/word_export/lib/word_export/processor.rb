@@ -16,6 +16,7 @@ module WordExport
         
       run = REXML::Element.new('w:r')
 
+      # if there are any properties for the "run", add them
       if (props.key?(:rprops) && !(props[:rprops].size.zero?))
         # add properties to the run
         run_props = REXML::Element.new('w:rPr')
@@ -29,6 +30,18 @@ module WordExport
       run.add( txt )
 
       paragraph = REXML::Element.new('w:p')
+
+      # if there are any properties for the "paragraph", add them
+      if (props.key?(:pprops) && !(props[:pprops].size.zero?))
+        # add properties to the run
+        p_props = REXML::Element.new('w:pPr')
+    
+        props[:pprops].each do |prop|
+          p_props.add( REXML::Element.new(prop) )
+        end
+        p.add( p_props )
+      end
+
       paragraph.add( run )
       return paragraph
     end
