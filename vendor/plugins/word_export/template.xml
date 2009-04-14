@@ -150,7 +150,7 @@
     <w:pPr>
       <w:pStyle w:val="Heading1"/>
     </w:pPr>
-    <w:r><w:t>Directory Listings</w:t></w:r>
+    <w:r><w:t>[Vuln. Title] If you see this, there is a problem with the formatting of one of your notes</w:t></w:r>
   </w:p>
   <w:p wsp:rsidR="00C27C1C" wsp:rsidRPr="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
     <w:pPr>
