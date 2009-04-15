@@ -23,9 +23,10 @@ var exportPluginsDS = new Ext.data.JsonStore({
         {
           item.menu = new Ext.menu.Menu({});
           var action;
+          var label;
           for ( var i =0; i<record.data.actions.length; i++){
             action = record.data.actions[i];
-            label = action.replace(/_([a-z])/ig, function(z,b){ return b.toUpperCase(); });
+            label = Ext.util.Format.capitalize( action.replace(/_/g, ' ') );
             item.menu.add( new Ext.menu.Item({ text: label, url: '/export/' + action, handler: function(){ window.location = this.url; } }) );
           };
         }
