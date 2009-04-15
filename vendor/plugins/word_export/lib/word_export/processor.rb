@@ -115,9 +115,24 @@ module WordExport
       Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |n|
         v = REXML::Document.new(vuln_template.to_s)
 
-        logger.debug{ "processing Note #{n.id}" }
+        logger.debug('WordExport'){ "processing Note #{n.id}" }
         # Get the fields from the Note's text (see app/models/note.rb)
         fields = n.fields 
+
+        # If the note doesn't define Title, Description and Recommendation 
+        # notify the user that the format of the text is not adecuate
+        required_fields = ['Title', 'Description', 'Recommendation']
+        if ((fields.keys & required_fields).size != 3)
+          logger.debug('WordExport'){ "\tInvalid format detected" }
+          fields['Title'] = "Note \##{n.id}: Invalid format detected"
+          fields['Description']= "The WordExport plugin expects the text of " +
+                                  "your notes to be in a specific format.\n" +
+                                  "Please refer to the Export -> WordExport -> Usage instructions menu" +
+                                  " to find out more about using this plugin.\n" +
+                                  "Excerpt of the note that caused this problem:\n"+
+                                  n.text[0..50]
+                                  
+        end
 
         # We can add extra fields, for instance author, date, etc:
         fields['created'] = n.created_at.strftime("%Y-%m-%d %T %Z")
