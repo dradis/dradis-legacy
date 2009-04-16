@@ -146,43 +146,34 @@
 
 <!-- Note Section -->
 <wx:sub-section>
-  <w:p wsp:rsidR="005F557A" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
-    <w:pPr>
-      <w:pStyle w:val="Heading1"/>
-    </w:pPr>
-    <w:r><w:t id="vulntitle">Directory Listings</w:t></w:r>
-  </w:p>
-  <w:p wsp:rsidR="00C27C1C" wsp:rsidRPr="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
-    <w:pPr>
-      <w:jc w:val="right"/>
-      <w:rPr>
-        <w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/>
-        <wx:font wx:val="Arial"/>
-        <w:sz w:val="16"/>
-        <w:sz-cs w:val="16"/>
-      </w:rPr>
-    </w:pPr>
-    <w:r wsp:rsidRPr="00C27C1C">
-      <w:rPr><w:rFonts w:ascii="Arial" w:h-ansi="Arial" w:cs="Arial"/><wx:font wx:val="Arial"/><w:sz w:val="16"/><w:sz-cs w:val="16"/></w:rPr>
-      <w:t id="vulncreated">2009-02-10 00:07 GMT</w:t>
-    </w:r>
-  </w:p>
+  <!--
+    This XML entity is not valid WordXML, however it is required due to the way
+    in which the report is generated. The WordExport::Processor will add a 
+    paragraph containing the vulnerability title as a children of the XML element
+    whose id is equal to "vulntitle".
+    Fortunately enough Word is not bothered about this little hack
+  -->
+  <dradisplaceholder id="vulntitle">
+  </dradisplaceholder>
+  
+  <wx:sub-section id="vulncreated">
+  </wx:sub-section>
 
-  <wx:sub-section id="vulndesc">
+  <wx:sub-section id="vulndescription">
     <w:p wsp:rsidR="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
       <w:r><w:t>Description</w:t></w:r>
     </w:p>
   </wx:sub-section>
 
-  <wx:sub-section id="vulnrec">
+  <wx:sub-section id="vulnrecommendation">
     <w:p wsp:rsidR="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
       <w:r><w:t>Recommendation</w:t></w:r>
     </w:p>
   </wx:sub-section>
 
-  <wx:sub-section id="vulnextra">
+  <wx:sub-section id="vulnadditionalinformation">
     <w:p wsp:rsidR="00C27C1C" wsp:rsidRDefault="00C27C1C" wsp:rsidP="00C27C1C">
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
       <w:r><w:t>Additional Information</w:t></w:r>

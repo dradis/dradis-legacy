@@ -23,9 +23,10 @@ var exportPluginsDS = new Ext.data.JsonStore({
         {
           item.menu = new Ext.menu.Menu({});
           var action;
+          var label;
           for ( var i =0; i<record.data.actions.length; i++){
             action = record.data.actions[i];
-            label = action.replace(/_([a-z])/ig, function(z,b){ return b.toUpperCase(); });
+            label = Ext.util.Format.capitalize( action.replace(/_/g, ' ') );
             item.menu.add( new Ext.menu.Item({ text: label, url: '/export/' + action, handler: function(){ window.location = this.url; } }) );
           };
         }
@@ -279,19 +280,36 @@ dradis.NotesBrowser = function(config) {
             text:'add note',
             tooltip:'Add a new note to this element',
             iconCls:'add',
-            handler: function() {
-              var new_note = new Ext.data.Record({
-                text: 'text', 
-                author: dradis.author, 
-                category_id: 1, 
-                node_id: notesbrowser.selectedNode, 
-                updated_at: Date(),
-                created_at: Date()
-              });
-              grid.stopEditing();
-              store.insert(0, new_note);
-              grid.startEditing(0,1);
+            menu: { 
+              items: [ 
+                { 
+                  text: 'empty note', 
+                  iconCls: 'empty',
+                  handler: function() {
+                    var new_note = new Ext.data.Record({
+                      text: 'text', 
+                      author: dradis.author, 
+                      category_id: 1, 
+                      node_id: notesbrowser.selectedNode, 
+                      updated_at: Date(),
+                      created_at: Date()
+                    });
+                    grid.stopEditing();
+                    store.insert(0, new_note);
+                    grid.startEditing(0,1);
+                  }
+                }, 
+                { 
+                  text: 'import from...', 
+                  iconCls: 'import',
+                  menu: { 
+                    items: [ {text: 'vuln db'}, {text: 'report library'}, {text: 'wiki'} ]
+                  }
+                }
+              ]
             }
+            /*
+            */
           }, 
           '-', 
           {

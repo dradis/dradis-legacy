@@ -1,0 +1,23 @@
+Description:
+    Stubs out a new dradis import plugin. Pass the plugin name, either CamelCased or
+    under_scored, as an argument. The plugin name will be extended with '_export'
+    if this is not part of the plugin name argument.
+
+    This creates a plugin in vendor/plugins including an init.rb and README
+    as well as standard lib, task, and test directories.
+
+Note:
+    The basic structure is exactly the same as a standard Rails plugin. With a the
+    unneeded files and code removed and a bit of customisation to fit the dradis
+    export pugin requirements.
+
+Example:
+    `./script/generate plugin Word`
+
+    creates a standard browser_filters plugin:
+        vendor/plugins/word_export/README
+        vendor/plugins/word_export/init.rb
+        vendor/plugins/word_export/install.rb
+        vendor/plugins/word_export/lib/word_export.rb
+        vendor/plugins/word_export/test/word_export_test.rb
+        vendor/plugins/word_export/tasks/word_export_tasks.rake

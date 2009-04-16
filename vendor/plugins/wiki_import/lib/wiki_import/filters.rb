@@ -49,7 +49,11 @@ module WikiImport
         rescue Exception => e
           records << { 
                       :title => 'Error fetching records',
-                      :description => e.message
+                      :description => e.message + "\n\n\n" +
+                                    "This error can be cause by a configuration " +
+                                    "issue (i.e. dradis not finding the MediaWiki instance). " +
+                                    "Please review the configuration settings located at:\n\n" +
+                                    "./server/vendor/plugins/wiki_import/lib/wiki_import/filters.rb"
                      }
         end
 

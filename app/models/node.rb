@@ -17,4 +17,8 @@ class Node < ActiveRecord::Base
     end
     json << '}'
   end
+
+  def attachments
+    Attachment.find(:all, :conditions => {:node_id => self.id})
+  end
 end
