@@ -28,7 +28,9 @@ class ImportPluginGenerator < Rails::Generator::NamedBase
       m.template 'unit_test.rb',  "#{plugin_path}/test/#{file_name}_test.rb"
       m.template 'meta.rb',       "#{plugin_path}/lib/#{file_name}/meta.rb"
       m.template 'filters.rb',    "#{plugin_path}/lib/#{file_name}/filters.rb"
+      m.template 'USAGE',         "#{plugin_path}/USAGE"
 
+      m.readme "USAGE"
     end
   end
 end
