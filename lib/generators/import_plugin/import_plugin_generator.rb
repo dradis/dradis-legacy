@@ -27,6 +27,7 @@ class ImportPluginGenerator < Rails::Generator::NamedBase
       m.template 'tasks.rake',    "#{plugin_path}/tasks/#{file_name}_tasks.rake"
       m.template 'unit_test.rb',  "#{plugin_path}/test/#{file_name}_test.rb"
       m.template 'meta.rb',       "#{plugin_path}/lib/#{file_name}/meta.rb"
+      m.template 'filters.rb',    "#{plugin_path}/lib/#{file_name}/filters.rb"
 
     end
   end
