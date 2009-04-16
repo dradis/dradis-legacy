@@ -280,36 +280,18 @@ dradis.NotesBrowser = function(config) {
             text:'add note',
             tooltip:'Add a new note to this element',
             iconCls:'add',
-            menu: { 
-              items: [ 
-                { 
-                  text: 'empty note', 
-                  iconCls: 'empty',
-                  handler: function() {
-                    var new_note = new Ext.data.Record({
-                      text: 'text', 
-                      author: dradis.author, 
-                      category_id: 1, 
-                      node_id: notesbrowser.selectedNode, 
-                      updated_at: Date(),
-                      created_at: Date()
-                    });
-                    grid.stopEditing();
-                    store.insert(0, new_note);
-                    grid.startEditing(0,1);
-                  }
-                }, 
-                { 
-                  text: 'import from...', 
-                  iconCls: 'import',
-                  menu: { 
-                    items: [ {text: 'vuln db'}, {text: 'report library'}, {text: 'wiki'} ]
-                  }
-                }
-              ]
-            }
-            /*
-            */
+            handler: function() {
+              var new_note = new Ext.data.Record({
+                text: 'text', 
+                author: dradis.author, 
+                category_id: 1, 
+                node_id: notesbrowser.selectedNode, 
+                updated_at: Date(),
+                created_at: Date()
+              });
+              grid.stopEditing();
+              store.insert(0, new_note);
+              grid.startEditing(0,1);
           }, 
           '-', 
           {
