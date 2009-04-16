@@ -1,6 +1,6 @@
 module <%= class_name %>  
   module Meta
-    NAME = 'Reporting <%= class_name.gsub(/Export/, '') %>'
+    NAME = "This plugin does not have a name, define it at #{__FILE__.gsub(/#{RAILS_ROOT}/,'.')}"
     # change this to the appropriate version
     module VERSION #:nodoc:
       MAJOR = 2
