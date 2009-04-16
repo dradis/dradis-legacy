@@ -8,6 +8,9 @@ module <%= class_name %>
     # first action
     def to_myformat(params={})
       # your action code to do the export goes here
+      render :type => 'text/html', :text => '<html><body><h1>Sample Export Plugin</h1>' + 
+                      '<p>This method does not define any format.</p>' +
+                      "<p>Find me at: <code>#{__FILE__}</code></p>"
     end
 
     # second action
