@@ -28,6 +28,9 @@ class ExportPluginGenerator < Rails::Generator::NamedBase
       m.template 'unit_test.rb',  "#{plugin_path}/test/#{file_name}_test.rb"
       m.template 'actions.rb',    "#{plugin_path}/lib/#{file_name}/actions.rb"
       m.template 'version.rb',    "#{plugin_path}/lib/#{file_name}/version.rb"
+      m.template 'USAGE',         "#{plugin_path}/USAGE"
+
+      m.readme "USAGE"
 
     end
   end

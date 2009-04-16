@@ -1,0 +1,18 @@
+
+
+dradis import plugin
+--------------------
+
+A framework for a dradis export plugin has been created for you in the
+vendor/plugins/<plugin name>_import folder. Inspect the list above for a full
+list of the files and directories that was created.
+
+In 99% of cases you will only be concerned with the
+vendor/plugins/<plugin name>_import/<plugin name>_import.rb and
+vendor/plugins/<plugin name>_import/<plugin name>_import/actions.rb files.
+The content of these files will give you some guidance on how to go ahead.
+
+Another source of information is the dradis forum that has a dedicated topic
+for import and export plugins:
+http://dradisframework.org/community/index.php?board=2.0
+
