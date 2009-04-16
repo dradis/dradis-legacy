@@ -292,6 +292,7 @@ dradis.NotesBrowser = function(config) {
               grid.stopEditing();
               store.insert(0, new_note);
               grid.startEditing(0,1);
+            }
           }, 
           '-', 
           {
