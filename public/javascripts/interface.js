@@ -33,7 +33,7 @@ var dradistabs = new Ext.TabPanel({
   deferredRender: false,
   items: [
     notesbrowser,
-    importer,
+    importer
   ]
 
 });

@@ -33,7 +33,7 @@ class ExportController < ApplicationController
       format.json{ 
         list = []
         Plugins::Export.included_modules.each do |plugin|
-          list << { :name => plugin.name, :actions => [] }
+          list << { :name => plugin.name.underscore.humanize.gsub(/\//,' - '), :actions => [] }
           if (plugin.constants.include?('Actions'))
              list.last[:actions] = plugin::Actions.instance_methods.sort
           end

@@ -6,6 +6,25 @@ module WordExport
   # and generate a Word XML file using a template.
   class Processor
     private
+
+    # Given a root node title and a set of WordXML properties, this method 
+    # creates the right XML structure to represent them
+    def self.word_properties(element, props={})
+      # add properties to the run
+      properties = REXML::Element.new(element)
+    
+      props.each do |prop|
+        root = prop[:root]
+        attributes = prop.fetch( :attributes, [])
+        p = REXML::Element.new(prop[:root])
+        if ( !attributes.size.zero? )
+          p.add_attributes( attributes )
+        end
+        properties.add( p )
+      end
+      return properties
+    end
+
     # Instead of dealing with each field differently, with this method we can have
     # a generic way of adding a paragraph to the document. See Brian Jones 'Intro
     # to Word XML at: 
@@ -16,19 +35,20 @@ module WordExport
         
       run = REXML::Element.new('w:r')
 
+      # if there are any properties for the "run", add them
       if (props.key?(:rprops) && !(props[:rprops].size.zero?))
-        # add properties to the run
-        run_props = REXML::Element.new('w:rPr')
-    
-        props[:rprops].each do |prop|
-          run_props.add( REXML::Element.new(prop) )
-        end
-        run.add( run_props )
+        run.add( word_properties( 'w:rPr', props[:rprops] ))
       end
 
       run.add( txt )
 
       paragraph = REXML::Element.new('w:p')
+
+      # if there are any properties for the "paragraph", add them
+      if (props.key?(:pprops) && !(props[:pprops].size.zero?))
+        paragraph.add( word_properties('w:pPr', props[:pprops]) )
+      end
+
       paragraph.add( run )
       return paragraph
     end
@@ -95,52 +115,88 @@ module WordExport
       Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |n|
         v = REXML::Document.new(vuln_template.to_s)
 
-        logger.debug{ "processing Note #{n.id}" }
-        fields = Hash[ *n.text.scan(/#\[(.+?)\]#\n(.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ]
+        logger.debug('WordExport'){ "processing Note #{n.id}" }
+        # Get the fields from the Note's text (see app/models/note.rb)
+        fields = n.fields 
 
+        # If the note doesn't define Title, Description and Recommendation 
+        # notify the user that the format of the text is not adecuate
+        required_fields = ['Title', 'Description', 'Recommendation']
+        if ((fields.keys & required_fields).size != 3)
+          logger.debug('WordExport'){ "\tInvalid format detected" }
+          fields['Title'] = "Note \##{n.id}: Invalid format detected"
+          fields['Description']= "The WordExport plugin expects the text of " +
+                                  "your notes to be in a specific format.\n" +
+                                  "Please refer to the Export -> WordExport -> Usage instructions menu" +
+                                  " to find out more about using this plugin.\n" +
+                                  "Excerpt of the note that caused this problem:\n"+
+                                  n.text[0..50]
+                                  
+        end
 
-        #title
-        title = REXML::XPath.first(v, "//w:t[@id='vulntitle']") 
-        title.delete_attribute('id')
-        title.text = fields['Title']
-  
-        #date
-        created_at = REXML::XPath.first(v, "//w:t[@id='vulncreated']") 
-        created_at.delete_attribute('id')
-        created_at.text = n.created_at.strftime("%Y-%m-%d %T %Z")
+        # We can add extra fields, for instance author, date, etc:
+        fields['created'] = n.created_at.strftime("%Y-%m-%d %T %Z")
 
-        #description
-        description = REXML::XPath.first(v, "//wx:sub-section[@id='vulndesc']")
-        description.delete_attribute('id')
-        fields['Description'].split("\n").each do |paragraph|
-          description.add( word_paragraph_for(paragraph) )
-        end   
-        description.add( word_paragraph_for('') )
+        # We will try to locate every field in the template. To do so, we will
+        # look for XML entities with an id="vuln<field>", if we find them, then
+        # we populate the entity with the value of the field.
+        fields.each do |field, value|
+          logger.debug('WordExport'){ "\tParsing field: #{field}... " }
+          domtag = REXML::XPath.first(v, "//[@id='vuln#{field.downcase.gsub(/\s/,'')}']") 
+          if (domtag.nil?)
+            logger.debug('WordExport'){ "\tnot found in the template" }
+            next
+          end
+          domtag.delete_attribute('id')
 
-        #recommendation
-        recommendation = REXML::XPath.first(v, "//wx:sub-section[@id='vulnrec']")
-        recommendation.delete_attribute('id')
-        fields['Recommendation'].split("\n").each do |paragraph|
-          recommendation.add( word_paragraph_for(paragraph) )
-        end   
-        recommendation.add( word_paragraph_for('') )
+          # Initialise the "run" properties (in WordXML text is split in runs) 
+          rprops = [] 
 
-        #additional information
-        if (fields.key?('Additional Information'))
-          additional = REXML::XPath.first(v, "//wx:sub-section[@id='vulnextra']")
-          additional.delete_attribute('id')
-          fields['Additional Information'].split("\n").each do |paragraph|
-            additional.add( word_paragraph_for(paragraph) )
+          # In specific field we can add extra text attributes
+          if ( ["created"].include?(field) )
+            # The "created at" text will be:
+            #   - in italics
+            #   - and Arial 8 (numbers are x2)
+            rprops << { :root => 'w:i' }
+            rprops << {
+                        :root => 'w:rFonts', 
+                        :attributes => { 
+                          'w:ascii' => 'Arial', 
+                          'w:h-ansi' => 'Arial', 
+                          'w:cs' => 'Arial' 
+                        }
+                      }
+            rprops  << { :root => 'wx:font', :attributes => { 'wx:val' => 'Arial' } }
+            rprops  << { :root => 'w:sz', :attributes => { 'w:val' => '16' } }
+            rprops  << { :root => 'w:sz-cs', :attributes => { 'w:val' => '16' } }
+          end
+
+          # Initialise the "paragraph" properties
+          pprops = [] 
+          # Additional properties for some special paragraphs 
+          if ( ["created"].include?(field) )
+            # The "created at" paragraph will be:
+            #   - right aligned
+            pprops << {:root => 'w:jc', :attributes => {'w:val' => 'right'} }
+          end
+
+          if ( ["Title"].include?(field) )
+            # Apply the "Heading1" style to the Vulnerability Title
+            pprops << {:root => 'w:pStyle', :attributes => {'w:val' => 'Heading1'} }
+          end
+
+          # The value of each field is broken in paragraphs which are added as
+          # XML children of the +domtag+
+          value.split("\n").each do |paragraph|
+            domtag.add( word_paragraph_for(paragraph, :rprops => rprops, :pprops => pprops) )
           end   
-          additional.add( word_paragraph_for('') )
-        else
-          v.elements.delete("//wx:sub-section[@id='vulnextra']")
+          domtag.add( word_paragraph_for('') )
+          logger.debug('WordExport'){ "\tdone." }
         end
 
         findings_container.add(v.root.children[0])  
       end
 
-      #doc.write(File.new('report.xml','w'), -1, true)
       return doc
     end
   end
