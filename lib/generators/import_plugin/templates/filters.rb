@@ -22,4 +22,6 @@ module <%= class_name %>
     end
  
     # Your filters go here
+
+  end
 end
