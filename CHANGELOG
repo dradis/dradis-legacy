@@ -3,7 +3,10 @@ v2.x (xx of xxx 2009)
  - sample VulnDB import plugin
  - sample Project export plugin
 
-v2.1 (16 of April 2009)
+v2.1.1 (17th  of April 2009)
+ - the version string was not properly updated across the different modules.
+
+v2.1 (16th of April 2009)
  - import/export plugin architecture
  - import/export plugin generators
  - sample WordXML export plugin
