@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>dradis v2.1.1</title>
+    <title><%= Core::VERSION::string %></title>
     <!-- Ext CSS and Libs -->
     <%= javascript_include_tag 'adapter/ext/ext-base.js' %>
     <%= javascript_include_tag 'ext-all.js' %>
@@ -33,6 +33,7 @@
       dradis.author = "<%= h(current_user) %>";
       dradis.token = "<%= form_authenticity_token %>";
       dradis.revision = <%= Configuration.revision %>;
+      dradis.version = "<%= Core::VERSION.string  %>";
     </script>
   </body>
 </html>

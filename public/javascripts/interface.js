@@ -9,7 +9,7 @@ dradis.HeaderPanel = function(config){
     region:'north',
     margins: '0 0 5 0',
     autoHeight: true,
-    title: 'dradis v2.1.1',
+    title: dradis.version,
     tbar: [ 
       {xtype: 'tbfill' }, 
       {text: 'logout', handler: function(){ window.location = '/logout'; }, tooltip: 'End session'} 
@@ -63,7 +63,7 @@ Ext.onReady(function() {
     items: [
       {
         region: 'north',
-        html: '<h1 class="x-panel-header" style="text-align: right;">dradis v2.1.1 (<a href="/logout">logout</a>)</h1>',
+        html: '<h1 class="x-panel-header" style="text-align: right;">'+dradis.version+' (<a href="/logout">logout</a>)</h1>',
         autoHeight: true,
         border: false,
         margins: '0 0 5 0'
