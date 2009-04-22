@@ -3,6 +3,12 @@ v2.x (xx of xxx 2009)
  - sample VulnDB import plugin
  - sample Project export plugin
 
+
+v2.2 (xx of xxx 2009)
+ - add 'refresh' buttons to the tree and the notes list
+ - force 'webrick' even if mongrel is installed (no SSL support in mongrel)
+ - centralise the framework version information.
+
 v2.1.1 (17th  of April 2009)
  - the version string was not properly updated across the different modules.
 
