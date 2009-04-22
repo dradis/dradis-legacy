@@ -9,6 +9,7 @@ v2.2 (xx of xxx 2009)
  - force 'webrick' even if mongrel is installed (no SSL support in mongrel)
  - centralise the framework version information.
  - autoExpandColumn now works on IE
+ - Rails runs in "production" mode
 
 v2.1.1 (17th  of April 2009)
  - the version string was not properly updated across the different modules.
