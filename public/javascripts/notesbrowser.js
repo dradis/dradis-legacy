@@ -159,32 +159,17 @@ var expander = new Ext.grid.RowExpander({
 
 var grid = new Ext.grid.EditorGridPanel({
   store: store,
-  autoExpandColumn: 'text',
+  autoExpandColumn: 'gridtextcolumn',
   columns: [
-    //{id:'company',header: "Company", width: 60, sortable: true, dataIndex: 'company'},
     expander,
     {
+      id: 'gridtextcolumn',
       header: 'Text', 
-      width: 180, 
+      width: 180,
       sortable: false, 
       dataIndex: 'text', 
       renderer:Ext.util.Format.htmlEncode,
-      editor:  new Ext.form.TextArea( {allowBlank: false, cls: 'talleditor', grow: true, growMin: 120} ),
-      listeners: {
-        beforeedit: function(e) 
-        {
-          alert('about to edit!');
-          return true;
-        },
-        afteredit: function(e) 
-        {
-          alert('after edit!');
-          return true;
-        }
-
-      }
-
-
+      editor:  new Ext.form.TextArea( {allowBlank: false, cls: 'talleditor', grow: true, growMin: 120} )
     },
     {
       header: 'Category', 
@@ -272,7 +257,7 @@ dradis.NotesBrowser = function(config) {
     Ext.apply(this, {
         selectedNode: 0,
         title: 'Notes',
-        layout: 'anchor',
+        layout: 'fit',
         border: false,
         margins: '0 0 5 0',
         tbar: [  
