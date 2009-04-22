@@ -34,6 +34,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   frame:true,
   fields: {},
   currentNode:1,
+  layout:'fit',
 
   initComponent: function(){
     // Called during component initialization
