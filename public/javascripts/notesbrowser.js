@@ -307,7 +307,14 @@ dradis.NotesBrowser = function(config) {
             tooltip: 'export dradis contents to external sources',
             iconCls: 'export',
             menu: exportPluginsMenu
-           }
+          },
+          '-',
+          {
+            tooltip: 'Refresh the list of notes',
+            iconCls:'x-tbar-loading',
+            scope: this,
+            handler: function(){ this.updateNotes(this.selectedNode) }
+          }
           /*
           '-',
           'filter notes by: ',
