@@ -4,6 +4,12 @@
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
 
+# Uncomment to really force rails into production mode. See:
+#   ./vendor/rails/railties/lib/commands/servers/webrick.rb#56
+#ENV["RAILS_ENV"] = 'production'
+#RAILS_ENV.replace('production') if defined?(RAILS_ENV)
+
+
 # Specifies gem version of Rails to use when vendor/rails is not present
 #RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
 
