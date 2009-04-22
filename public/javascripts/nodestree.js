@@ -139,6 +139,14 @@ dradis.NodesTree = function(config) {
           addnode(node, function(new_id){ node.id = new_id });
           editor.triggerEdit(node,false);
         }
+      },
+      '-',
+      {
+        tooltip: 'Refresh the tree',
+        iconCls:'x-tbar-loading',
+        handler: function(){ 
+          tree.loader.load( tree.getRootNode(), function(){;} ); 
+        }
       }
     ],
     items: [ tree ]
