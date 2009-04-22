@@ -4,7 +4,7 @@ Ext.ns('dradis.attachments');
 dradis.attachments.defaultTemplate= new Ext.XTemplate(
 '<tpl for=".">',
   '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc">',
-    '<div class="thumb"><img src="/images/mimetypes/image.png" title="{filename}"></div>',
+    '<div class="thumb"><img src="/images/mimetypes/image.png" title="Double click to open {filename}"></div>',
     '<span class="x-editable">{filename}</span>',
     '<div>{size}</div>',
   '</div>',
@@ -86,7 +86,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
     // After parent code
     // e.g. install event handlers on rendered component
     this.fields.dv.on('dblclick', function(dv, index, node, ev){ 
-      window.location = '/nodes/' + this.currentNode + '/attachments/' + node.id;
+      window.open('/nodes/' + this.currentNode + '/attachments/' + node.id);
     }, this),
     this.fields.dv.on('contextmenu', function(dv, index, node, ev){  })
   },
