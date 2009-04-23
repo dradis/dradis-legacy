@@ -3,10 +3,10 @@ Ext.ns('dradis.attachments');
 
 dradis.attachments.defaultTemplate= new Ext.XTemplate(
 '<tpl for=".">',
-  '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc">',
+  '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
     '<div class="thumb"><img src="/images/mimetypes/image.png" title="Double click to open {filename}"></div>',
     '<span class="x-editable">{filename}</span>',
-    '<div>{size}</div>',
+    '<div>{sizeString}</div>',
   '</div>',
 '</tpl>',
 '<div class="x-clear"></div>'
@@ -59,6 +59,10 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
                                               fields:['filename', 'size', 'created_at']
                                             }),
                                             tpl: dradis.attachments.defaultTemplate,
+                                            prepareData: function(data){
+                                              data.sizeString = Ext.util.Format.fileSize(data.size);
+                                              return data;
+                                            },
                                             multiSelect: true,
                                             overClass:'x-view-over',
                                             itemSelector:'div.thumb-wrap',
