@@ -1,17 +1,6 @@
 
 Ext.ns('dradis.attachments');
 
-dradis.attachments.defaultTemplate= new Ext.XTemplate(
-'<tpl for=".">',
-  '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
-    '<div class="thumb"><img src="/images/mimetypes/image.png" title="Double click to open {filename}"></div>',
-    '<span class="x-editable">{filename}</span>',
-    '<div>{sizeString}</div>',
-  '</div>',
-'</tpl>',
-'<div class="x-clear"></div>'
-);
-
 dradis.attachments.deleteAttachment = function () {
     if (attachmentsviewer.fields.dv.getSelectionCount() > 0) {
         var selection = attachmentsviewer.fields.dv.getSelectedRecords();
@@ -35,6 +24,15 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   fields: {},
   currentNode:1,
   layout:'fit',
+  template: new Ext.XTemplate( 
+    '<tpl for=".">',
+      '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
+        '<div class="thumb"><img src="/images/mimetypes/image.png" title="Double click to open {filename}"></div>',
+        '<span class="x-editable">{filename}</span>',
+        '<div>{sizeString}</div>',
+      '</div>',
+    '</tpl>', '<div class="x-clear"></div>' ),
+
 
   initComponent: function(){
     // Called during component initialization
@@ -58,7 +56,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
                                               url:'/nodes/' + this.currentNode + '/attachments.json',
                                               fields:['filename', 'size', 'created_at']
                                             }),
-                                            tpl: dradis.attachments.defaultTemplate,
+                                            tpl: this.template,
                                             prepareData: function(data){
                                               data.sizeString = Ext.util.Format.fileSize(data.size);
                                               return data;
