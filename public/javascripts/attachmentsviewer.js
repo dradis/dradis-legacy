@@ -20,18 +20,23 @@ dradis.attachments.deleteAttachment = function () {
 dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   id:'attachments-view',
   title:'Attachments',
-  frame:true,
+  frame:false,
   fields: {},
   currentNode:1,
   layout:'fit',
   template: new Ext.XTemplate( 
     '<tpl for=".">',
       '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
-        '<div class="thumb"><img src="/images/mimetypes/image.png" title="Double click to open {filename}"></div>',
+        '<div class="thumb"><img src="/images/mimetypes/{fileType}.png" title="Double click to open {filename}"></div>',
         '<span class="x-editable">{filename}</span>',
         '<div>{sizeString}</div>',
       '</div>',
-    '</tpl>', '<div class="x-clear"></div>' ),
+    '</tpl>', '<div class="x-clear"></div>' 
+  ),
+  dataStore: new Ext.data.JsonStore({
+    url:'/nodes/' + this.currentNode + '/attachments.json',
+    fields:['filename', 'size', 'created_at']
+  }),
 
 
   initComponent: function(){
@@ -52,13 +57,11 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
       ],
       items: 
         this.fields.dv = new Ext.DataView({
-                                            store: new Ext.data.JsonStore({ 
-                                              url:'/nodes/' + this.currentNode + '/attachments.json',
-                                              fields:['filename', 'size', 'created_at']
-                                            }),
+                                            store: this.dataStore,
                                             tpl: this.template,
                                             prepareData: function(data){
                                               data.sizeString = Ext.util.Format.fileSize(data.size);
+                                              data.fileType = 'image';
                                               return data;
                                             },
                                             multiSelect: true,
