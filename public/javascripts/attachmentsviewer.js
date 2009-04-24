@@ -22,7 +22,6 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   title:'Attachments',
   frame:false,
   fields: {},
-  currentNode:1,
   layout:'fit',
   template: new Ext.XTemplate( 
     '<tpl for=".">',
@@ -34,8 +33,17 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
     '</tpl>', '<div class="x-clear"></div>' 
   ),
   dataStore: new Ext.data.JsonStore({
+    currentNode:1,
     url:'/nodes/' + this.currentNode + '/attachments.json',
-    fields:['filename', 'size', 'created_at']
+    fields:['filename', 'size', 'created_at'],
+    listeners:{
+      beforeload:function(store, options){
+        if (options.nodeId)
+        {
+          this.proxy.conn.url = '/nodes/' + options.nodeId + '/attachments.json';
+        }
+      }
+    }
   }),
 
 
@@ -96,9 +104,6 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
     this.fields.dv.on('contextmenu', function(dv, index, node, ev){  })
   },
   updateAttachments:function(node_id){
-    var conn = this.fields.dv.store.proxy.conn;
-    conn.url = '/nodes/' + node_id + '/attachments.json';
-    this.fields.dv.store.load();
-    this.currentNode = node_id;
+    this.fields.dv.store.load({nodeId: node_id});
   }
 });
