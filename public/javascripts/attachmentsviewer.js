@@ -4,15 +4,8 @@ Ext.ns('dradis.attachments');
 dradis.attachments.deleteAttachment = function () {
     if (attachmentsviewer.fields.dv.getSelectionCount() > 0) {
         var selection = attachmentsviewer.fields.dv.getSelectedRecords();
-        for (x in selection) {
-            var filename = selection[x].get('filename');
-            Ext.Ajax.request({
-                url: '/nodes/' + attachmentsviewer.currentNode + '/attachments/' + filename,
-                method: 'POST',
-                params: {'_method' : 'delete', 'authenticity_token' : dradis.token},
-                success: function () {attachmentsviewer.fields.dv.store.reload();},
-                failure: function () {Ext.Msg.alert('Error', 'The selected file could not be deleted')}
-            })
+        for (var i=0; i < selection.length; i++) {
+          attachmentsviewer.fields.dv.store.remove(selection[i]);
         }
     }
 }
@@ -41,7 +34,15 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
         if (options.nodeId)
         {
           this.proxy.conn.url = '/nodes/' + options.nodeId + '/attachments.json';
+          this.currentNode = options.nodeId;
         }
+      },
+      remove:function(store, record, index){
+        dradis.ajax.request({
+          url: '/nodes/' + this.currentNode + '/attachments/' + record.get('filename'),
+          method: 'POST',
+          params: {'_method' : 'delete'}
+        });
       }
     }
   }),
