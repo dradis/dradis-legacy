@@ -1,15 +1,6 @@
 
 Ext.ns('dradis.attachments');
 
-dradis.attachments.deleteAttachment = function () {
-    if (attachmentsviewer.fields.dv.getSelectionCount() > 0) {
-        var selection = attachmentsviewer.fields.dv.getSelectedRecords();
-        for (var i=0; i < selection.length; i++) {
-          attachmentsviewer.fields.dv.store.remove(selection[i]);
-        }
-    }
-}
-
 dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   id:'attachments-view',
   title:'Attachments',
@@ -61,7 +52,15 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
             text:'delete selected',
             tooltip:'Delete the selected items',
             iconCls:'del',
-            handler: dradis.attachments.deleteAttachment
+            scope: this,
+            handler: function(){
+              if (this.fields.dv.getSelectionCount() > 0) {
+                var selection = this.fields.dv.getSelectedRecords();
+                for (var i=0; i < selection.length; i++) {
+                 this.fields.dv.store.remove(selection[i]);
+                }
+              }
+            }
           },
           '-',
           {
