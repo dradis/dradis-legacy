@@ -1,4 +1,5 @@
 class AttachmentsController < ApplicationController
+  before_filter :login_required
 
   def index
     @attachments = Node.find(params[:node_id]).attachments
