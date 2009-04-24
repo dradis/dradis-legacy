@@ -62,6 +62,15 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
             tooltip:'Delete the selected items',
             iconCls:'del',
             handler: dradis.attachments.deleteAttachment
+          },
+          '-',
+          {
+            tooltip: 'Refresh the list of attachments',
+            iconCls:'x-tbar-loading',
+            scope: this,
+            handler: function(){
+              this.refresh();
+            }
           }
       ],
       items: 
@@ -106,5 +115,8 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   },
   updateAttachments:function(node_id){
     this.fields.dv.store.load({nodeId: node_id});
+  },
+  refresh:function(){
+    this.fields.dv.store.load();
   }
 });
