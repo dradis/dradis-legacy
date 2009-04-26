@@ -296,12 +296,12 @@ dradis.ajax.request = function(options){
   // request parameters
   var ajax_params = options;
   if (options.params) {
-    ajax_params.authenticity_token = dradis.token;
+    ajax_params.params.authenticity_token = dradis.token;
   }
 
   // callbacks
   ajax_params.success = function(response, options) {
-    if (options.listeners.success){
+    if (options.listeners && options.listeners.success){
       options.listeners.success(response, options);
     }
   }
