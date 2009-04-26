@@ -89,7 +89,6 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
                                               new Ext.DataView.DragSelector(),
                                               new Ext.DataView.LabelEditor({dataIndex: 'filename'})
                                             ]
-
         })
       
     };
@@ -109,8 +108,27 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
     // e.g. install event handlers on rendered component
     this.fields.dv.on('dblclick', function(dv, index, node, ev){ 
       window.open('/nodes/' + this.currentNode + '/attachments/' + node.id);
-    }, this),
-    this.fields.dv.on('contextmenu', function(dv, index, node, ev){  })
+    }, this);
+    
+    this.fields.dv.on('contextmenu', function(dv, index, node, ev){  
+      dv.select(node);
+      var menu = new Ext.menu.Menu({
+        dataView: dv,
+        items:[ 
+          {
+            text:'Delete File', 
+            iconCls:'del',
+            handler:function(item, ev){
+              var dv = this.parentMenu.dataView;
+              dv.store.remove( dv.getSelectedRecords()[0] );
+            }
+          } 
+        ]
+      });
+      menu.showAt(ev.getXY());
+      ev.stopEvent();
+    });
+
   },
   updateAttachments:function(node_id){
     this.fields.dv.store.load({nodeId: node_id});
