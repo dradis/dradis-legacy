@@ -90,17 +90,13 @@ class Attachment < File
       self.close
     else
       raise "Node with ID=#{@node_id} does not exist" unless @node_id && Node.exists?(@node_id)
-      self.rewind
-      file_content = self.read
-      #@id = Attachment.find(:all).last ? (Attachment.find(:all).last.id.to_i + 1) : 1
+      
       @filename ||= File.basename(@tempfile)
       FileUtils.mkdir(File.dirname(fullpath)) unless File.exists?(File.dirname(fullpath))
-      file_handle = File.new(fullpath, 'w')
-      file_handle << file_content
-      file_handle.close
+      self.close
+      FileUtils.cp(self.path, fullpath) if @intialfile != fullpath
       if ( @initialfile && @initialfile != fullpath )
         # If we are still a temp file
-        self.close
         FileUtils.rm(@initialfile)
       end
       @initialfile = fullpath.clone
@@ -144,7 +140,7 @@ class Attachment < File
             attachments << Attachment.new(:filename => $1, :node_id => node.to_i)
           end
         end
-        attachments.sort! {|a,b| a.id <=> b.id }
+        attachments.sort! {|a,b| a.filename <=> b.filename }
       end
 
       # return based on the request arguments
