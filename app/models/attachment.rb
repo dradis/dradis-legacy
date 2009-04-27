@@ -56,7 +56,7 @@ class Attachment < File
 
   require 'fileutils'
   # Set the path to the attachment storage
-  AttachmentPwd = ENV["RAILS_ENV"] == "test" ? "#{RAILS_ROOT}/tmp/attachments/" : "#{RAILS_ROOT}/attachments/"
+  AttachmentPwd = ENV["RAILS_ENV"] == "test" ? File.join(RAILS_ROOT, 'tmp', 'attachments') : File.join( RAILS_ROOT, 'attachments')
   FileUtils.mkdir(File.dirname(AttachmentPwd)) unless File.exists?(File.dirname(AttachmentPwd))
 
   attr_accessor :filename, :node_id, :tempfile
@@ -76,8 +76,8 @@ class Attachment < File
     elsif @tempfile && File.exists?(@tempfile)
       super(@tempfile, 'r+')
     elsif @tempfile && File.basename(@tempfile) != ''
-      super("#{RAILS_ROOT}/tmp/" + File.basename(@tempfile), 'w+')
-      @initialfile = "#{RAILS_ROOT}/tmp/" + File.basename(@tempfile)
+      @initialfile = File.join( RAILS_ROOT, 'tmp', File.basename(@tempfile))
+      super(@initialfile, 'w+')
     else
       raise "No physical file available"
     end
@@ -106,8 +106,9 @@ class Attachment < File
   # Deletes the file that the instance is pointing to from memory
   def delete
     self.close
-    raise "No physical file to delete" if !@initialfile ||
-      File.dirname(@initialfile) == "#{RAILS_ROOT}/tmp"
+    if ( !@initialfile || (File.dirname(@initialfile) == File.join(RAILS_ROOT, 'tmp')) )
+      raise "No physical file to delete"
+    end
     FileUtils.rm(@initialfile)
   end
 
@@ -123,8 +124,8 @@ class Attachment < File
       if options[:conditions] && options[:conditions][:node_id]
         node_id = options[:conditions][:node_id].to_s
         raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
-        if (File.exist?(AttachmentPwd + node_id))
-          node_dir = Dir.new(AttachmentPwd + node_id)
+        if (File.exist?( File.join(AttachmentPwd, node_id)))
+          node_dir = Dir.new( File.join(AttachmentPwd, node_id) )
           node_dir.each do |attachment|
             next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(attachment)
             attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
@@ -133,7 +134,7 @@ class Attachment < File
       else
         dir.each do |node|
           next unless node =~ /^\d*$/
-          node_dir = Dir.new(AttachmentPwd + node)
+          node_dir = Dir.new( File.join(AttachmentPwd, node) )
           node_dir.each do |attachment|
             next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(attachment)
             attachments << Attachment.new(:filename => $1, :node_id => node.to_i)
@@ -158,7 +159,7 @@ class Attachment < File
       raise "You need to supply a node id in the condition parameter" unless options[:conditions] && options[:conditions][:node_id]
       node_id = options[:conditions][:node_id].to_s
       raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
-      node_dir = Dir.new(AttachmentPwd + node_id)
+      node_dir = Dir.new( File.join(AttachmentPwd, node_id) )
       node_dir.each do |attachment|
         next unless ((attachment =~ /^(.+)$/) == 0 && $1 == filename)
         attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
@@ -176,7 +177,7 @@ class Attachment < File
 
   # Retruns the full path of an attachment on the file system
   def fullpath
-    AttachmentPwd + @node_id.to_s + "/"  + @filename.to_s
+    File.join(AttachmentPwd, @node_id.to_s, @filename.to_s)
   end
 
   # Provide a JSON representation of this object that can be understood by 
