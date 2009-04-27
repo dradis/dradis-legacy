@@ -77,7 +77,7 @@ class Attachment < File
       super(@tempfile, 'r+')
     elsif @tempfile && File.basename(@tempfile) != ''
       @initialfile = File.join( RAILS_ROOT, 'tmp', File.basename(@tempfile))
-      super(@initialfile, 'w+')
+      super(@initialfile, 'wb+')
     else
       raise "No physical file available"
     end
