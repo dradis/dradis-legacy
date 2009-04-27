@@ -98,7 +98,11 @@ class Attachment < File
       file_handle = File.new(fullpath, 'w')
       file_handle << file_content
       file_handle.close
-      FileUtils.rm(@initialfile) if @initialfile && @initialfile != fullpath
+      if ( @initialfile && @initialfile != fullpath )
+        # If we are still a temp file
+        self.close
+        FileUtils.rm(@initialfile)
+      end
       @initialfile = fullpath.clone
     end
   end
