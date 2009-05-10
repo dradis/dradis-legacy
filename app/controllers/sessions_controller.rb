@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
       return
     end
     
-    if not pwd1.match(pwd2)
+    if not pwd1 == pwd2
       flash.now[:error] = 'The password did not match the confirmation.'
       render :action => :init
       return      
@@ -56,7 +56,7 @@ class SessionsController < ApplicationController
   def create
     usr = params.fetch(:login, nil)
     pwd = params.fetch(:password, nil)
-    if not ( usr.nil? || pwd.nil? || !pwd.match(Configuration.password))
+    if not ( usr.nil? || pwd.nil? || pwd != Configuration.password)
       self.current_user = usr
       redirect_back_or_default('/')
       flash[:notice] = 'Logged in successfully.'

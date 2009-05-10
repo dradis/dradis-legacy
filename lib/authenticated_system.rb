@@ -104,7 +104,7 @@ module AuthenticatedSystem
     def login_from_basic_auth
       authenticate_with_http_basic do |username, password|
         ##self.current_user = User.authenticate(username, password)
-        if not ( username.nil? || password.nil? || !password.match(Configuration.password) )
+        if not ( username.nil? || password.nil? || password != Configuration.password )
           current_user = username
         end
       end
