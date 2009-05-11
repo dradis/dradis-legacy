@@ -72,8 +72,16 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
             }
           }
       ],
-      items: 
+      items:[ 
+        this.fields.uploader = new Ext.Panel({ 
+                                            region:'west',
+                                            split:'true',
+                                            collapsible:true,
+                                            title:'upload',
+                                            width:'20%'
+        }),
         this.fields.dv = new Ext.DataView({
+                                            region:'center',
                                             store: this.dataStore,
                                             tpl: this.template,
                                             prepareData: function(data){
@@ -90,6 +98,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
                                               new Ext.DataView.LabelEditor({dataIndex: 'filename'})
                                             ]
         })
+      ]
       
     };
 
