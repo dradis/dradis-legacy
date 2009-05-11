@@ -1,0 +1,80 @@
+Index: actionpack/test/controller/mime_responds_test.rb
+===================================================================
+--- actionpack/test/controller/mime_responds_test.rb	(revision 8662)
++++ actionpack/test/controller/mime_responds_test.rb	(working copy)
+@@ -107,6 +107,13 @@
+       type.any(:js, :xml) { render :text => "Either JS or XML" }
+     end
+   end
++  
++  def handle_any_any
++    respond_to do |type|
++      type.html { render :text => 'HTML' }
++      type.any { render :text => 'Whatever you ask for, I got it' }
++    end
++  end
+ 
+   def all_types_with_layout
+     respond_to do |type|
+@@ -335,6 +342,35 @@
+     assert_equal 'Either JS or XML', @response.body
+   end
+ 
++  def test_handle_any_any
++    @request.env["HTTP_ACCEPT"] = "*/*"
++    get :handle_any_any
++    assert_equal 'HTML', @response.body
++  end
++  
++  def test_handle_any_any_parameter_format
++    get :handle_any_any, {:format=>'html'}
++    assert_equal 'HTML', @response.body
++  end
++  
++  def test_handle_any_any_explicit_html
++    @request.env["HTTP_ACCEPT"] = "text/html"
++    get :handle_any_any
++    assert_equal 'HTML', @response.body
++  end
++
++  def test_handle_any_any_javascript
++    @request.env["HTTP_ACCEPT"] = "text/javascript"
++    get :handle_any_any
++    assert_equal 'Whatever you ask for, I got it', @response.body
++  end
++  
++  def test_handle_any_any_xml
++    @request.env["HTTP_ACCEPT"] = "text/xml"
++    get :handle_any_any
++    assert_equal 'Whatever you ask for, I got it', @response.body
++  end
++
+   def test_rjs_type_skips_layout
+     @request.env["HTTP_ACCEPT"] = "text/javascript"
+     get :all_types_with_layout
+Index: actionpack/lib/action_controller/mime_responds.rb
+===================================================================
+--- actionpack/lib/action_controller/mime_responds.rb	(revision 8662)
++++ actionpack/lib/action_controller/mime_responds.rb	(working copy)
+@@ -125,7 +125,7 @@
+ 
+         @order << mime_type
+ 
+-        @responses[mime_type] = Proc.new do
++        @responses[mime_type] ||= Proc.new do
+           @response.template.template_format = mime_type.to_sym
+           @response.content_type = mime_type.to_s
+           block_given? ? block.call : @controller.send(:render, :action => @controller.action_name)
+@@ -133,7 +133,11 @@
+       end
+ 
+       def any(*args, &block)
+-        args.each { |type| send(type, &block) }
++        if args.any?
++          args.each { |type| send(type, &block) }
++        else
++          custom(@mime_type_priority.first, &block)
++        end
+       end
+ 
+       def method_missing(symbol, &block)

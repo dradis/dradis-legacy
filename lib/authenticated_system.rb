@@ -68,6 +68,8 @@ module AuthenticatedSystem
           flash[:notice] = 'Access denied.'
           redirect_to login_path
         end
+        # this did not work as expected. A patch has been applied. See:
+        # http://dev.rubyonrails.org/ticket/11140
         format.any do
           request_http_basic_authentication 'Web Password'
         end
