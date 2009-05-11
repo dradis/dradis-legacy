@@ -26,5 +26,6 @@ noscript p {
 }
 .error { 
   background-image: url(../images/exclamation.gif) !important;
+  background-repeat: no-repeat; 
 }
 .talleditor { height: 240px; }
