@@ -6,7 +6,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   title:'Attachments',
   frame:false,
   fields: {},
-  layout:'fit',
+  layout:'border',
   template: new Ext.XTemplate( 
     '<tpl for=".">',
       '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
