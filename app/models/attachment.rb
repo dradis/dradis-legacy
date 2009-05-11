@@ -71,10 +71,10 @@ class Attachment < File
     @tempfile = args[0] || options[:tempfile]
 
     if File.exists?(fullpath) && File.file?(fullpath)
-      super(fullpath, 'r+')
+      super(fullpath, 'rb+')
       @initialfile = fullpath.clone
     elsif @tempfile && File.exists?(@tempfile)
-      super(@tempfile, 'r+')
+      super(@tempfile, 'rb+')
     elsif @tempfile && File.basename(@tempfile) != ''
       @initialfile = File.join( RAILS_ROOT, 'tmp', File.basename(@tempfile))
       super(@initialfile, 'wb+')
