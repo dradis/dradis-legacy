@@ -43,12 +43,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
     // Called during component initialization
     var config ={
       tbar: [
-          {
-            text:'upload file',
-            tooltip:'Upload a new attachment to this element',
-            iconCls:'add'
-          },
-          {
+         {
             text:'delete selected',
             tooltip:'Delete the selected items',
             iconCls:'del',
