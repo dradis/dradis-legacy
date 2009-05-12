@@ -17,6 +17,18 @@ class AttachmentsController < ApplicationController
     redirect_to node_attachments_path(params[:node_id])
   end
 
+  # PUT /node/<id>
+  # Formats: xml
+  def update
+    attachment = Attachment.find(params[:id], :conditions => {:node_id => Node.find(params[:node_id]).id})
+    attachment.close
+    new_name = CGI::unescape( params[:rename] )
+    destination = File.expand_path( File.join( Attachment.pwd, params[:node_id], new_name ) )
+    if !File.exist?(destination) && ( !destination.match(/^#{Attachment.pwd}/).nil? )
+      File.rename( attachment.fullpath, destination  )
+    end
+    redirect_to :action => 'show', :id => params[:rename]
+  end
   def show
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
