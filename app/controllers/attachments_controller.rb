@@ -7,6 +7,7 @@ class AttachmentsController < ApplicationController
       format.html{ render :action => 'index'}
       format.json{ render :json => @attachments }
     end
+    @attachments.each do |a| a.close end
   end
 
   def create
