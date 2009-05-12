@@ -21,9 +21,13 @@ class AttachmentsController < ApplicationController
     # at the fullstop so we join it again
     filename = params[:id]
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
-    send_data(@attachment.read, :type => 'image',
+    extname = File.extname(filename)[1..-1]
+    mime_type = Mime::Type.lookup_by_extension(extname)
+    content_type = mime_type.to_s unless mime_type.nil?
+    send_data(@attachment.read, :type => content_type,
       :filename => @attachment.filename,
-      :disposition => 'inline')
+      :disposition => content_type.match('image') ? 'inline' : 'attachment')
+    @attachment.close
   end
 
   def destroy
