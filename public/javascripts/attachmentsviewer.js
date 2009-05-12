@@ -28,6 +28,22 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
           this.currentNode = options.nodeId;
         }
       },
+      update:function(store, record, operation){
+        dradis.ajax.request({
+          url: '/nodes/' + this.currentNode + '/attachments/' + record.modified.filename,
+          method: 'POST',
+          record: record,
+          params: {
+            '_method' : 'put',
+            rename: record.get('filename')
+          },
+          listeners:{
+            success:function(response, options){ options.record.commit(true); },
+            failure:function(response, options){ options.record.reject(true); }
+          }
+        });
+
+      },
       remove:function(store, record, index){
         dradis.ajax.request({
           url: '/nodes/' + this.currentNode + '/attachments/' + record.get('filename'),
@@ -43,7 +59,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
     // Called during component initialization
     var config ={
       tbar: [
-         {
+          {
             text:'delete selected',
             tooltip:'Delete the selected items',
             iconCls:'del',
