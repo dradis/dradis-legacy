@@ -45,6 +45,46 @@ dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
 });
 
 
+//------------------------------------------------ FileViewPanel
+
+/*
+
+  dradis.attachments.FileViewPanel
+
+  This widget will enable users to list the associated attachments of a given 
+  node. It will also enable some other actions such as attachment display, 
+  rename and deletion.
+
+ */
+dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
+
+  initComponent: function(){
+    // Called during component initialization
+    var config ={
+     
+    };
+
+    // Config object has already been applied to 'this' so properties can 
+    // be overriden here or new properties (e.g. items, tools, buttons) 
+    // can be added, eg:
+    Ext.apply(this, config);
+    Ext.apply(this.initialConfig, config); 
+        
+    // Before parent code
+ 
+    // Call parent (required)
+    dradis.attachments.FileViewPanel.superclass.initComponent.apply(this, arguments);
+
+    // After parent code
+    // e.g. install event handlers on rendered component
+  }
+
+  // other methods/actions
+
+});
+
+
+
 //------------------------------------------------ AttachmentsPanel
 
 dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
