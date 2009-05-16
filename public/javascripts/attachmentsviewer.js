@@ -2,6 +2,16 @@
 Ext.ns('dradis.attachments');
 
 //------------------------------------------------ FileUploadPanel
+
+/*
+
+  dradis.attachments.FileUploadPanel
+
+  This widget will enable users to upload files to the system presenting a file
+  selection box and handling the remote file upload (using Ajax). It will also
+  present a rough estimate/feedback of the upload status.
+
+ */
 dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
   region:'west',
   split:'true',
