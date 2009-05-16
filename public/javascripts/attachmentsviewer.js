@@ -1,6 +1,42 @@
 
 Ext.ns('dradis.attachments');
 
+//------------------------------------------------ FileUploadPanel
+dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
+  region:'west',
+  split:'true',
+  collapsible:true,
+  title:'upload',
+  width:'20%',
+
+  initComponent: function(){
+    // Called during component initialization
+    var config ={
+     
+    };
+
+    // Config object has already been applied to 'this' so properties can 
+    // be overriden here or new properties (e.g. items, tools, buttons) 
+    // can be added, eg:
+    Ext.apply(this, config);
+    Ext.apply(this.initialConfig, config); 
+        
+    // Before parent code
+ 
+    // Call parent (required)
+    dradis.attachments.FileUploadPanel.superclass.initComponent.apply(this, arguments);
+
+    // After parent code
+    // e.g. install event handlers on rendered component
+  }
+
+  // other methods/actions
+
+});
+
+
+//------------------------------------------------ ViewerPanel
+
 dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
   id:'attachments-view',
   title:'Attachments',
@@ -84,13 +120,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
           }
       ],
       items:[ 
-        this.fields.uploader = new Ext.Panel({ 
-                                            region:'west',
-                                            split:'true',
-                                            collapsible:true,
-                                            title:'upload',
-                                            width:'20%'
-        }),
+        this.fields.uploader = new dradis.attachments.FileUploadPanel(), 
         this.fields.dv = new Ext.DataView({
                                             region:'center',
                                             store: this.dataStore,
