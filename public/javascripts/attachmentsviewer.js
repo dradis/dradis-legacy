@@ -45,9 +45,9 @@ dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
 });
 
 
-//------------------------------------------------ ViewerPanel
+//------------------------------------------------ AttachmentsPanel
 
-dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
+dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
   id:'attachments-view',
   title:'Attachments',
   frame:false,
@@ -162,7 +162,7 @@ dradis.attachments.ViewerPanel=Ext.extend(Ext.Panel, {
     // Before parent code
  
     // Call parent (required)
-    dradis.attachments.ViewerPanel.superclass.initComponent.apply(this, arguments);
+    dradis.attachments.AttachmentsPanel.superclass.initComponent.apply(this, arguments);
 
     // After parent code
     // e.g. install event handlers on rendered component
