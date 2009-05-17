@@ -13,6 +13,7 @@ Ext.ns('dradis.attachments');
 
  */
 dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
+  //props (overridable by caller)
   region:'west',
   split:'true',
   collapsible:true,
@@ -22,7 +23,7 @@ dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
   initComponent: function(){
     // Called during component initialization
     var config ={
-     
+      //props (non-overridable)
     };
 
     // Config object has already been applied to 'this' so properties can 
@@ -57,11 +58,71 @@ dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
 
  */
 dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
+  //props (overridable by caller)
+  region:'center',
+  fields:{},
+  template: new Ext.XTemplate( 
+    '<tpl for=".">',
+      '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
+        '<div class="thumb"><img src="/images/mimetypes/{fileType}.png" title="Double click to open {filename}"></div>',
+        '<span class="x-editable">{filename}</span>',
+        '<div>{sizeString}</div>',
+      '</div>',
+    '</tpl>', '<div class="x-clear"></div>' 
+  ),
 
   initComponent: function(){
+    // TODO: we need to ensure that a *store* property is provided
+
     // Called during component initialization
     var config ={
-     
+      //props (non-overridable)
+      tbar: [
+          {
+            text:'delete selected',
+            tooltip:'Delete the selected items',
+            iconCls:'del',
+            scope: this,
+            handler: function(){
+              if (this.fields.dv.getSelectionCount() > 0) {
+                var selection = this.fields.dv.getSelectedRecords();
+                for (var i=0; i < selection.length; i++) {
+                 this.fields.dv.store.remove(selection[i]);
+                }
+              }
+            }
+          },
+          '-',
+          {
+            tooltip: 'Refresh the list of attachments',
+            iconCls:'x-tbar-loading',
+            scope: this,
+            handler: function(){
+              this.refresh();
+            }
+          }
+      ],
+
+      items: [
+        this.fields.dv = new Ext.DataView({
+          store: this.store,
+          tpl: this.template,
+          prepareData: function(data){
+            data.sizeString = Ext.util.Format.fileSize(data.size);
+            data.fileType = 'image';
+            return data;
+          },
+          multiSelect: true,
+          overClass:'x-view-over',
+          itemSelector:'div.thumb-wrap',
+          emptyText: 'No attachments to display',
+          plugins: [
+            // see data-view-plugins.js
+            new Ext.DataView.DragSelector(),
+            new Ext.DataView.LabelEditor({dataIndex: 'filename'})
+          ]
+        })
+      ]
     };
 
     // Config object has already been applied to 'this' so properties can 
@@ -77,9 +138,37 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
-  }
+    this.fields.dv.on('dblclick', function(dv, index, node, ev){ 
+      window.open('/nodes/' + dv.store.currentNode + '/attachments/' + node.id);
+    }, this);
+    
+    this.fields.dv.on('contextmenu', function(dv, index, node, ev){  
+      dv.select(node);
+      var menu = new Ext.menu.Menu({
+        dataView: dv,
+        items:[ 
+          {
+            text:'Delete File', 
+            iconCls:'del',
+            handler:function(item, ev){
+              var dv = this.parentMenu.dataView;
+              dv.store.remove( dv.getSelectedRecords()[0] );
+            }
+          } 
+        ]
+      });
+      menu.showAt(ev.getXY());
+      ev.stopEvent();
+    });
+  },
 
   // other methods/actions
+  updateAttachments:function(node_id){
+    this.fields.dv.store.load({nodeId: node_id});
+  },
+  refresh:function(){
+    this.fields.dv.store.load();
+  }
 
 });
 
@@ -93,15 +182,6 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
   frame:false,
   fields: {},
   layout:'border',
-  template: new Ext.XTemplate( 
-    '<tpl for=".">',
-      '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
-        '<div class="thumb"><img src="/images/mimetypes/{fileType}.png" title="Double click to open {filename}"></div>',
-        '<span class="x-editable">{filename}</span>',
-        '<div>{sizeString}</div>',
-      '</div>',
-    '</tpl>', '<div class="x-clear"></div>' 
-  ),
   dataStore: new Ext.data.JsonStore({
     currentNode:1,
     url:'/nodes/' + this.currentNode + '/attachments.json',
@@ -144,53 +224,10 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
   initComponent: function(){
     // Called during component initialization
     var config ={
-      tbar: [
-          {
-            text:'delete selected',
-            tooltip:'Delete the selected items',
-            iconCls:'del',
-            scope: this,
-            handler: function(){
-              if (this.fields.dv.getSelectionCount() > 0) {
-                var selection = this.fields.dv.getSelectedRecords();
-                for (var i=0; i < selection.length; i++) {
-                 this.fields.dv.store.remove(selection[i]);
-                }
-              }
-            }
-          },
-          '-',
-          {
-            tooltip: 'Refresh the list of attachments',
-            iconCls:'x-tbar-loading',
-            scope: this,
-            handler: function(){
-              this.refresh();
-            }
-          }
-      ],
       items:[ 
         this.fields.uploader = new dradis.attachments.FileUploadPanel(), 
-        this.fields.dv = new Ext.DataView({
-                                            region:'center',
-                                            store: this.dataStore,
-                                            tpl: this.template,
-                                            prepareData: function(data){
-                                              data.sizeString = Ext.util.Format.fileSize(data.size);
-                                              data.fileType = 'image';
-                                              return data;
-                                            },
-                                            multiSelect: true,
-                                            overClass:'x-view-over',
-                                            itemSelector:'div.thumb-wrap',
-                                            emptyText: 'No attachments to display',
-                                            plugins: [
-                                              new Ext.DataView.DragSelector(),
-                                              new Ext.DataView.LabelEditor({dataIndex: 'filename'})
-                                            ]
-        })
+        this.fields.viewer = new dradis.attachments.FileViewPanel({ store: this.dataStore })
       ]
-      
     };
 
     // Config object has already been applied to 'this' so properties can 
@@ -206,34 +243,17 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
-    this.fields.dv.on('dblclick', function(dv, index, node, ev){ 
-      window.open('/nodes/' + dv.store.currentNode + '/attachments/' + node.id);
-    }, this);
-    
-    this.fields.dv.on('contextmenu', function(dv, index, node, ev){  
-      dv.select(node);
-      var menu = new Ext.menu.Menu({
-        dataView: dv,
-        items:[ 
-          {
-            text:'Delete File', 
-            iconCls:'del',
-            handler:function(item, ev){
-              var dv = this.parentMenu.dataView;
-              dv.store.remove( dv.getSelectedRecords()[0] );
-            }
-          } 
-        ]
-      });
-      menu.showAt(ev.getXY());
-      ev.stopEvent();
-    });
 
   },
+
+  /* 
+    Map the externally provided methods to the internal handlers of the 
+    different components of the widget
+  */
   updateAttachments:function(node_id){
-    this.fields.dv.store.load({nodeId: node_id});
+    this.fields.viewer.updateAttachments(node_id);
   },
   refresh:function(){
-    this.fields.dv.store.load();
+    this.fields.viewer.refresh();
   }
 });
