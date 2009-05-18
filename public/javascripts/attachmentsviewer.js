@@ -16,7 +16,6 @@ dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
   //props (overridable by caller)
   region:'west',
   split:'true',
-  collapsible:true,
   title:'upload',
   width:'20%',
 
