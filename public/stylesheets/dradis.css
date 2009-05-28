@@ -4,10 +4,7 @@ noscript p {
 }
 
 .add { 
-  background-image: url(../images/add.gif) !important;
-}
-.empty { 
-  background-image: url(../images/empty.gif) !important;
+  background-image: url(../images/silk/add.png) !important;
 }
 .import { 
   background-image: url(../images/import.gif) !important;
@@ -19,13 +16,13 @@ noscript p {
   background-image: url(../images/edit.gif) !important;
 }
 .del { 
-  background-image: url(../images/delete.gif) !important;
+  background-image: url(../images/silk/delete.png) !important;
 }
 .options { 
   background-image: url(../images/list-items.gif) !important;
 }
 .error { 
-  background-image: url(../images/exclamation.gif) !important;
+  background-image: url(../images/silk/exclamation.png) !important;
   background-repeat: no-repeat; 
 }
 .talleditor { height: 240px; }
