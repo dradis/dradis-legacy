@@ -19,7 +19,7 @@
   height: 60px;
 	width: 80px;
 */
-  height: 64; width: 64;
+  height: 16; width: 16;
 }
 #attachments-view .thumb-wrap{
 	float: left;
@@ -35,7 +35,7 @@
 
 #attachments-view .x-view-over{
     border:1px solid #dddddd;
-    background: #efefef url(../../resources/images/default/grid/row-over.gif) repeat-x left top;
+    background: #efefef url(../images/default/grid/row-over.gif) repeat-x left top;
 	padding: 4px;
 }
 
@@ -50,9 +50,71 @@
 
 #attachments-view .loading-indicator {
 	font-size:11px;
-	background-image:url('../../resources/images/default/grid/loading.gif');
+	background-image:url('../images/default/grid/loading.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	padding-left:20px;
 	margin:10px;
 }
+
+
+/* From Saki's FileTree extension: filetree.css */
+
+.ux-up-item {
+	line-height:17px;
+	height:17px;
+	cursor:default;
+/*	border: 1px solid transparent; */
+	margin-bottom:1px;
+	position:relative;
+	background-color:#e0e0e0;
+	background-image:url(../images/white_bg.png);
+	background-repeat:no-repeat
+}
+.ux-up-icon-file {
+	width:16px;
+	height:16px;
+	vertical-align:-3px;
+	margin-right:4px;
+	background-image:url(../images/default/tree/leaf.gif);
+	float:left;
+}
+.ux-up-item-selected {
+	/*
+	border-color:#c0c0c0;
+	background-color:#f0f0f0;
+	*/
+}
+.ux-up-indicator {
+	background-color:yellow;
+	height:17px;
+	width:40px;
+	position:absolute;
+	opacity:0.4;
+}
+.ux-up-icon-state {
+	width:16px;
+	float:right;
+	margin-right:2px;
+	cursor:pointer;
+	z-index:-1;
+}
+.ux-up-icon-queued {
+	background-image:url(../images/silk/page_white_get.png);
+}
+.ux-up-icon-uploading {
+	background-image:url(../images/default/grid/wait.gif);
+}
+.ux-up-icon-done {
+	background-image:url(../images/silk/accept.png);
+}
+.ux-up-icon-failed {
+	background-image:url(../images/silk/error.png);
+}
+.ux-up-icon-stopped {
+	background-image:url(../images/silk/stop.png);
+}
+.ux-up-text {
+	float:left;
+}
+
