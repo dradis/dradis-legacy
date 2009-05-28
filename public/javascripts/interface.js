@@ -1,5 +1,6 @@
 
 Ext.BLANK_IMAGE_URL = '/images/default/s.gif';
+Ext.state.Manager.setProvider(new Ext.state.CookieProvider);
 
 // ----------------------------------------- header: title + toolbar
 dradis.HeaderPanel = function(config){
