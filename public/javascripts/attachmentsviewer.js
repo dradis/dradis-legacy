@@ -64,7 +64,7 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
   template: new Ext.XTemplate( 
     '<tpl for=".">',
       '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
-        '<div class="thumb"><img src="/images/mimetypes/{fileType}.png" title="Double click to open {filename}"></div>',
+        '<div class="thumb"><img src="/images/mimetypes/{extension}.png" title="Double click to open {filename}"></div>',
         '<span class="x-editable">{filename}</span>',
         '<div>{sizeString}</div>',
       '</div>',
@@ -109,7 +109,7 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
           tpl: this.template,
           prepareData: function(data){
             data.sizeString = Ext.util.Format.fileSize(data.size);
-            data.fileType = 'image';
+            data.extension = data.filename.substr(data.filename.lastIndexOf('.') + 1);
             return data;
           },
           multiSelect: true,
