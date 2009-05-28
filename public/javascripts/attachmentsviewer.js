@@ -18,6 +18,7 @@ dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
   split:'true',
   title:'upload',
   width:'20%',
+  layout:'fit',
 
   initComponent: function(){
     // Called during component initialization
