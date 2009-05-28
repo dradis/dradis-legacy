@@ -24,6 +24,12 @@ dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
     // Called during component initialization
     var config ={
       //props (non-overridable)
+      items:[
+        {
+          xtype:'uploadpanel',
+          addIconCls:'add'
+        }
+      ]
     };
 
     // Config object has already been applied to 'this' so properties can 
@@ -63,10 +69,12 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
   fields:{},
   template: new Ext.XTemplate( 
     '<tpl for=".">',
-      '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc; text-align: center;">',
-        '<div class="thumb"><img src="/images/mimetypes/{extension}.png" title="Double click to open {filename}"></div>',
+      '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc;">',
+        //'<div class="thumb"><img src="/images/mimetypes/{extension}.png" title="Double click to open {filename}"></div>',
+        '<div class="thumb"><div class="ux-up-icon-file file-{extension}"></div></div>',
         '<span class="x-editable">{filename}</span>',
-        '<div>{sizeString}</div>',
+        '<div style="float:right;">{sizeString}</div>',
+        '<div style="clear-both;"></div>',
       '</div>',
     '</tpl>', '<div class="x-clear"></div>' 
   ),
