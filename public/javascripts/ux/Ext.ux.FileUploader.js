@@ -607,7 +607,8 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 
 		// append input to the form
 		var inp = record.get('input');
-		inp.set({name:inp.id});
+		//inp.set({name:inp.id});
+		inp.set({name:'attachment_file'});
 		form.appendChild(inp);
 
 		// get params for request
@@ -622,7 +623,8 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 		this.upCount++;
 
 		// request upload
-		Ext.Ajax.request(o);
+		//Ext.Ajax.request(o);
+    dradis.ajax.request(o);
 
 		// todo:delete after devel
 		this.getIframe.defer(100, this, [record]);
