@@ -16,6 +16,7 @@ var tree = new Ext.tree.TreePanel({
     useArrows:true,
     animate:true,
     enableDD:true,
+    stateful:true,
     loader: new Ext.tree.TreeLoader({
       url: 'json/nodes',
       requestMethod: 'GET',
