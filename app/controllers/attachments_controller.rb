@@ -11,10 +11,15 @@ class AttachmentsController < ApplicationController
   end
 
   def create
+    # TODO: what happens with files if they already exist?
     @attachment = Attachment.new(params['attachment_file'].original_filename, :node_id => params[:node_id])
     @attachment << params['attachment_file'].read
     @attachment.save
-    redirect_to node_attachments_path(params[:node_id])
+    
+    # Note: this breaks the basic html scaffolds, but is required for the FileTree 
+    # extension
+    #redirect_to node_attachments_path(params[:node_id])
+    render :text => {:success => true}.to_json
   end
 
   # PUT /node/<id>
