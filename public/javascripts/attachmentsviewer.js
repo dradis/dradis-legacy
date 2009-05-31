@@ -207,6 +207,10 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
     // After parent code
     // e.g. install event handlers on rendered component
 
+    this.fields.uploader.on( 'allfinished', function(uploader, options){ 
+      this.fields.viewer.refresh();
+    }, this);
+
   },
 
   /* 
@@ -215,6 +219,7 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
   */
   updateAttachments:function(node_id){
     this.fields.viewer.updateAttachments(node_id);
+    this.fields.uploader.setUrl( '/nodes/'+node_id+'/attachments.json' );
   },
   refresh:function(){
     this.fields.viewer.refresh();
