@@ -66,6 +66,7 @@ dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
 dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
   //props (overridable by caller)
   region:'center',
+  layout:'fit',
   fields:{},
   template: new Ext.XTemplate( 
     '<tpl for=".">',
