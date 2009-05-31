@@ -1,10 +1,10 @@
 v2.x (xx of xxx 2009)
- - add attachments to nodes
  - sample VulnDB import plugin
  - sample Project export plugin
 
 
 v2.2 (xx of xxx 2009)
+ - add attachments to nodes
  - add 'refresh' buttons to the tree and the notes list
  - force 'webrick' even if mongrel is installed (no SSL support in mongrel)
  - centralise the framework version information.
