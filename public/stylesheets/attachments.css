@@ -7,7 +7,6 @@
  */
 
 #attachments-view .x-panel-body{
-	background: white;
 	font: 11px Arial, Helvetica, sans-serif;
 }
 #attachments-view .thumb{
@@ -24,7 +23,8 @@
 	float: left;
 	margin: 4px;
 	margin-right: 0;
-	padding: 5px;
+	padding: 4px;
+  width: 300px;
 }
 #attachments-view .thumb-wrap span{
 	display: block;
@@ -33,8 +33,8 @@
 }
 
 #attachments-view .x-view-over{
-    border:1px solid #dddddd;
-    background: #efefef url(../images/default/grid/row-over.gif) repeat-x left top;
+  border:1px solid #dddddd;
+  background: #efefef url(../images/default/grid/row-over.gif) repeat-x left top;
 	padding: 4px;
 }
 
