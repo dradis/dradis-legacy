@@ -1,56 +1,6 @@
 
 Ext.ns('dradis.attachments');
 
-//------------------------------------------------ FileUploadPanel
-
-/*
-
-  dradis.attachments.FileUploadPanel
-
-  This widget will enable users to upload files to the system presenting a file
-  selection box and handling the remote file upload (using Ajax). It will also
-  present a rough estimate/feedback of the upload status.
-
- */
-dradis.attachments.FileUploadPanel=Ext.extend(Ext.Panel, {
-  //props (overridable by caller)
-  region:'west',
-  split:'true',
-  title:'upload',
-  width:'20%',
-  layout:'fit',
-
-  initComponent: function(){
-    // Called during component initialization
-    var config ={
-      //props (non-overridable)
-      items:[
-        {
-          xtype:'uploadpanel',
-          addIconCls:'add'
-        }
-      ]
-    };
-
-    // Config object has already been applied to 'this' so properties can 
-    // be overriden here or new properties (e.g. items, tools, buttons) 
-    // can be added, eg:
-    Ext.apply(this, config);
-    Ext.apply(this.initialConfig, config); 
-        
-    // Before parent code
- 
-    // Call parent (required)
-    dradis.attachments.FileUploadPanel.superclass.initComponent.apply(this, arguments);
-
-    // After parent code
-    // e.g. install event handlers on rendered component
-  }
-
-  // other methods/actions
-
-});
-
 
 //------------------------------------------------ FileViewPanel
 
@@ -234,7 +184,11 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
     // Called during component initialization
     var config ={
       items:[ 
-        this.fields.uploader = new dradis.attachments.FileUploadPanel(), 
+        this.fields.uploader = new Ext.ux.UploadPanel({ 
+          region:'west',
+          split:true, 
+          title:'upload'
+        }),
         this.fields.viewer = new dradis.attachments.FileViewPanel({ store: this.dataStore })
       ]
     };
