@@ -188,7 +188,8 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
           region:'west',
           split:true, 
           title:'upload',
-          width:'20%'
+          width:'20%',
+          enableProgress:false
         }),
         this.fields.viewer = new dradis.attachments.FileViewPanel({ store: this.dataStore })
       ]
