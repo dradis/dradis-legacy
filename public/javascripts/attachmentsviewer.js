@@ -17,11 +17,11 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
   //props (overridable by caller)
   region:'center',
   layout:'fit',
+  autoScroll:true,
   fields:{},
   template: new Ext.XTemplate( 
     '<tpl for=".">',
       '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc;">',
-        //'<div class="thumb"><img src="/images/mimetypes/{extension}.png" title="Double click to open {filename}"></div>',
         '<div class="thumb"><div class="ux-up-icon-file file-{extension}"></div></div>',
         '<span class="x-editable">{filename}</span>',
         '<div style="float:right;">{sizeString}</div>',
@@ -187,7 +187,8 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
         this.fields.uploader = new Ext.ux.UploadPanel({ 
           region:'west',
           split:true, 
-          title:'upload'
+          title:'upload',
+          width:'20%'
         }),
         this.fields.viewer = new dradis.attachments.FileViewPanel({ store: this.dataStore })
       ]
