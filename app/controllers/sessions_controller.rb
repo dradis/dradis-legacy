@@ -1,6 +1,6 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
-  layout 'preauth'
+  layout 'banner'
   
   before_filter :check_test_password, :only => :new
   
