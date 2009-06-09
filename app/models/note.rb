@@ -4,7 +4,7 @@ class Note < ActiveRecord::Base
 
   def fields
     begin
-      Hash[ *self.text.scan(/#\[(.+?)\]#\n(.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ]
+      Hash[ *self.text.scan(/#\[(.+?)\]#[\r|\n](.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ]
     rescue
       # if the note is not in the expected format, just return an empty hash
       {}
