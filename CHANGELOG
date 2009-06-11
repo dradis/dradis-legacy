@@ -3,7 +3,7 @@ v2.x (xx of xxx 2009)
  - sample Project export plugin
 
 
-v2.2 (xx of xxx 2009)
+v2.2 (11th of June 2009)
  - add attachments to nodes
  - add 'refresh' buttons to the tree and the notes list
  - force 'webrick' even if mongrel is installed (no SSL support in mongrel)
