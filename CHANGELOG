@@ -1,8 +1,3 @@
-v2.x (xx of xxx 2009)
- - sample VulnDB import plugin
- - sample Project export plugin
-
-
 v2.2 (11th of June 2009)
  - add attachments to nodes
  - add 'refresh' buttons to the tree and the notes list
