@@ -32,8 +32,11 @@ var tree = new Ext.tree.TreePanel({
     rootVisible: false,
     contextMenu: new Ext.menu.Menu({
       items: [
-        { id: 'add-node', text: 'Add child', iconCls: 'add' },
-        { id: 'delete-node', text: 'Delete Node', iconCls: 'del' }
+        { id: 'add-node', text: 'add child', iconCls: 'add' },
+        { id: 'delete-node', text: 'delete node', iconCls: 'del' },
+        '-',
+        { id: 'expand-node', text: 'expand node', iconCls: 'icon-expand-all' },
+        { id: 'collapse-node', text: 'collapse node', iconCls: 'icon-collapse-all' }
       ],
       listeners: {
         itemclick: function(item) {
@@ -51,6 +54,12 @@ var tree = new Ext.tree.TreePanel({
                 delnode(node);
                 node.remove();
               }
+              break; 
+            case 'expand-node':
+              item.parentMenu.contextNode.expand(true);
+              break;
+            case 'collapse-node':
+              item.parentMenu.contextNode.collapse(true);
               break;
           }
         }
@@ -148,7 +157,22 @@ dradis.NodesTree = function(config) {
         handler: function(){ 
           tree.loader.load( tree.getRootNode(), function(){;} ); 
         }
+      },
+      {
+        tooltip: 'Expand all',
+        iconCls:'icon-expand-all',
+        handler: function(){ 
+          tree.expandAll(); 
+        }
+      },
+      {
+        tooltip: 'Collapse all',
+        iconCls:'icon-collapse-all',
+        handler: function(){ 
+          tree.collapseAll(); 
+        }
       }
+
     ],
     items: [ tree ]
   });
