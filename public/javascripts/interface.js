@@ -69,14 +69,7 @@ Ext.onReady(function() {
         border: false,
         margins: '0 0 5 0'
       },
-      //{ xtype: 'headerpanel' },
-      { // left-hand side, the tree
-        region: 'west',
-        collapsible: true,
-        //title: 'Navigation',
-        split:true,
-        xtype: 'nodestree'
-      },
+      nodestree,
       dradistabs,
       dradisstatus
         //{
