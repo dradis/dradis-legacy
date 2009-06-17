@@ -126,11 +126,15 @@ var categoriesDS = new Ext.data.Store({
 // ------------------------------------------ Note record & XML data store
 
 // create the Data Store
-var store = new Ext.data.JsonStore({
+var store = new Ext.data.GroupingStore({
   // load using HTTP
   url: '/nodes/1/notes.json',
-  id:'id',
-  fields:['text', 'author', 'category_id', 'node_id', 'updated_at', 'created_at'],
+  reader: new Ext.data.JsonReader({
+                id:'id',
+                fields:[ 'text', 'author', 'category_id', 'node_id', 'updated_at', 'created_at' ]
+              }),
+  sortInfo:{field: 'text', direction: "ASC"},
+  groupField: 'category_id',
   listeners: {
     add: function(store, records, index) {
       var note = records[index];
@@ -218,7 +222,8 @@ var grid = new Ext.grid.EditorGridPanel({
   //    forceFit:true,
   //    groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
   //}),
-  viewConfig: { forceFit: true },
+  //viewConfig: { forceFit: true },
+  view: new Ext.grid.GroupingView( {forceFit: true} ),
   contextMenu: new Ext.menu.Menu({
                      items: [ {id: 'delete-note', text: 'Delete Note', iconCls: 'del'} ],
                      listeners: { 
