@@ -75,7 +75,8 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           handler: function(){ 
             this.collapseAll(); 
           }
-        }
+        },
+        '-'
       ],
       //------------------------------------------- /standard TreePanel properties
 
@@ -121,7 +122,8 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           }
         }
         ]
-      })
+      }),
+      hiddenNodes: []
       //------------------------------------------- /custom NodesTree properties
 
 
@@ -148,6 +150,23 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       ignoreNoChange: true,
       selectOnFocus: true
     });
+
+    // Filter text field that will be added to the Tool bar and perform the
+    // filtering in the tree of nodes
+    this.filterField = new Ext.form.TextField({
+      width: 130,
+      emptyText:'Find a Node',
+      tree: this,
+      listeners:{
+        render: function(f){
+            f.el.on('keydown', function(ev){
+              this.tree.filterNodes(this.getValue());
+            }, this, {buffer: 350});
+        }
+      }
+    });
+    // add the text field to the toolbar
+    this.getTopToolbar().push( this.filterField );
 
     // ==================================================== event handlers
 
@@ -217,9 +236,36 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // ==================================================== /event handlers
 
-  }
+  },
 
   // other methods/actions
+  filterNodes: function(pattern){
+
+    // un-hide the nodes that were filtered last time
+    Ext.each(this.hiddenNodes, function(n){
+      n.ui.show();
+ 		});
+
+    if(!pattern){
+      // no pattern -> nothing to be done
+ 			return;
+ 		}
+    
+    this.expandAll();
+		
+    var re = new RegExp('^.*' + Ext.escapeRe(pattern) + '.*', 'i');
+
+    this.root.cascade( function(n){
+      if (re.test(n.text)) {
+        n.ui.show();
+        n.bubble(function(){ this.ui.show(); });
+      } else {
+        n.ui.hide();
+        this.hiddenNodes.push(n);
+      }
+    }, this);
+  }
+
 });
 
 
