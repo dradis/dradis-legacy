@@ -5,6 +5,7 @@ v2.x (xx of xxx 2009)
 
 v2.3 (xxth of xx 2009)
  - expand / collapse buttons in the tree
+ - add a new node filtering facility to the tree
 
 v2.2 (11th of June 2009)
  - add attachments to nodes
