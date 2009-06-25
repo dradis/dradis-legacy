@@ -87,15 +87,25 @@ module WordExport
     # Once the placeholder is found, the field value is splited in lines and a 
     # new Word XML paragraph is attached to the placeholder for each line 
     def self.generate(params={})
+      # ------------------------------------------------------- init properties
       logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
-      logger.info{ 'Generating Word report' } 
+      logger_name = params.fetch(:logger_name, 'WordExport')
+
+      # TODO: can we do better than this? i.e. __FILE__ ?
+      template = params.fetch(:template, './vendor/plugins/word_export/template.xml')
 
       # This needs some tweaking, but the idea is that maybe you don't want to
       # report on all of your notes, so you flag the ones you want to report
       # by adding them to a specific category (7). Feel free to adjust.
-      reporting_cat = Category.find_by_name(REPORTING_CATEGORY_NAME)
+      category_name = params.fetch(:category_name, REPORTING_CATEGORY_NAME)
+      reporting_cat = Category.find_by_name(category_name)
       reporting_notes_num = Note.count(:all, :conditions => {:category_id => reporting_cat})
-      logger.info{ "There are #{reporting_notes_num} notes in the #{REPORTING_CATEGORY_NAME} category." }
+      logger.info{ "There are #{reporting_notes_num} notes in the '#{category_name}' category." }
+
+      required_fields = params #TODO
+
+      # ------------------------------------------------------ /init properties
+      logger.info{ 'Generating Word report' } 
 
       begin
         logger.info{ 'Loading template... '}
@@ -130,6 +140,7 @@ module WordExport
              fields.size.zero? ||
              ( (fields.keys & required_fields).size != required_fields.size )
           )
+          # TODO: customise error message to the required_fields set
           logger.debug('WordExport'){ "\tInvalid format detected" }
           fields['Title'] = "Note \##{n.id}: Invalid format detected"
           fields['Description']= "The WordExport plugin expects the text of " +
