@@ -106,6 +106,10 @@ module WordExport
         raise Exception.new(e)
       end
 
+      # For each section of the document (<dradis:section>), we go through 
+      # all the notes and duplicate de structure we find there
+      # TODO !!
+
       findings_container = REXML::XPath.first(doc, "//[@id='findings']")
       # TODO: finding the container is easy, but how do we find the template? is
       # it the first child? the third?
@@ -122,7 +126,10 @@ module WordExport
         # If the note doesn't define Title, Description and Recommendation 
         # notify the user that the format of the text is not adecuate
         required_fields = ['Title', 'Description', 'Recommendation']
-        if ((fields.keys & required_fields).size != 3)
+        if (
+             fields.size.zero? ||
+             ( (fields.keys & required_fields).size != required_fields.size )
+          )
           logger.debug('WordExport'){ "\tInvalid format detected" }
           fields['Title'] = "Note \##{n.id}: Invalid format detected"
           fields['Description']= "The WordExport plugin expects the text of " +
