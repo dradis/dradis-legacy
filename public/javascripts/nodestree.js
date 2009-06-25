@@ -47,7 +47,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
             var root = this.getRootNode();
             var label = 'branch #' + (root.childNodes.length +1);
             var node = root.appendChild(new Ext.tree.TreeNode({ text: label }));
-            addnode(node, function(new_id){ node.id = new_id });
+            addnode(node, function(new_id){ node.id = new_id; });
             this.editor.triggerEdit(node,false);
           }
         },
@@ -57,7 +57,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           iconCls:'x-tbar-loading',
           scope: this,
           handler: function(){ 
-            this.loader.load( this.getRootNode(), function(){;} ); 
+            this.loader.load( this.getRootNode() ); 
           }
         },
         {
@@ -90,7 +90,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
             var parent = this.parentMenu.contextNode;
             var node = new Ext.tree.TreeNode({ text:'child node #' + (parent.childNodes.length+1) });
             parent.appendChild(node);
-            addnode(node, function(new_id){ node.id = new_id });
+            addnode(node, function(new_id){ node.id = new_id; });
             node.getOwnerTree().editor.triggerEdit(node,false);
           }
         },
@@ -146,7 +146,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       cancelOnEsc: true,
       completeOnEnter: true,
       ignoreNoChange: true,
-      selectOnFocus: true,
+      selectOnFocus: true
     });
 
     // ==================================================== event handlers
@@ -171,7 +171,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       notesbrowser.updateNotes(node.id); 
       importer.updateSources(node.id); 
       attachments.updateAttachments(node.id); 
-      if (dradistabs.getActiveTab() == null) {
+      if (dradistabs.getActiveTab() === null) {
         dradistabs.setActiveTab(0);
       }
     });
@@ -211,7 +211,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
                       clear: 5000
                     });
         }
-      })
+      });
 
     });
 
