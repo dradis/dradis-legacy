@@ -7,51 +7,124 @@ module WordExport
   class Processor
     private
 
-    # Given a root node title and a set of WordXML properties, this method 
-    # creates the right XML structure to represent them
-    def self.word_properties(element, props={})
-      # add properties to the run
-      properties = REXML::Element.new(element)
-    
-      props.each do |prop|
-        root = prop[:root]
-        attributes = prop.fetch( :attributes, [])
-        p = REXML::Element.new(prop[:root])
-        if ( !attributes.size.zero? )
-          p.add_attributes( attributes )
-        end
-        properties.add( p )
+    OPTIONS = {
+      :logger_name => 'WordExport',
+      # TODO: can we do better than this? i.e. __FILE__ ?
+      :template => './vendor/plugins/word_export/template.xml',
+      #FIXME:category_name => REPORTING_CATEGORY_NAME,
+      :required_fields => ['Title', 'Description', 'Recommendation'],
+      :field_properties => {
+        # In specific field we can add extra text attributes
+
+        # The "created at" text will be:
+        #   - in italics
+        #   - and Arial 8 (numbers are x2)
+        'created' => {
+          # TODO: maybe the WordXML could provide some friendlier property 
+          #  constants, for example: WordXML::Properties::Run::Italics
+          :rprops => [
+            { :root => 'w:i' }, # Italics
+            {
+              :root => 'w:rFonts', 
+              :attributes => { 
+                'w:ascii' => 'Arial', 
+                'w:h-ansi' => 'Arial', 
+                'w:cs' => 'Arial' 
+              }
+            },
+            { :root => 'wx:font', :attributes => { 'wx:val' => 'Arial' } },
+            { :root => 'w:sz', :attributes => { 'w:val' => '16' } },
+            { :root => 'w:sz-cs', :attributes => { 'w:val' => '16' } }
+          ], # /rprops
+          
+          # Additional properties for some special paragraphs 
+
+          # The "created at" paragraph will be:
+          #   - right aligned
+          :pprops => [
+            {:root => 'w:jc', :attributes => {'w:val' => 'right'} }
+          ] # /pprops
+        }, # /created
+
+        'Title' =>{
+           # Apply the "Heading1" style to the Vulnerability Title
+          :pprops => [ {:root => 'w:pStyle', :attributes => {'w:val' => 'Heading1'} } ]
+        } # /Title
+      }  
+    }
+    @@logger = nil
+    @@logger_name = nil
+
+    # For every field in the note, we have to find the placeholder, nest some
+    # children, apply some WordXML properties
+    def self.process_field(note_chunk, field, properties)
+      name, value = field
+      placeholder = name.downcase.gsub(/\s/,'')
+
+      domtag = REXML::XPath.first(note_chunk, "//[@id='vuln#{placeholder}']") 
+      if (domtag.nil?)
+        # If the current field is not found in the template, move on
+        @@logger.debug(@@logger_name){ "\tno placeholder for [#{placeholder}] found in the template" }
+        return
       end
-      return properties
+      domtag.delete_attribute('id')
+
+      # The value of each field is broken in paragraphs which are added as
+      # XML children of the +domtag+
+      value.split("\n").each do |paragraph|
+        domtag.add( WordXML.word_paragraph_for(paragraph, properties) )
+      end   
+      domtag.add( WordXML.word_paragraph_for('') )
     end
 
-    # Instead of dealing with each field differently, with this method we can have
-    # a generic way of adding a paragraph to the document. See Brian Jones 'Intro
-    # to Word XML at: 
-    # http://blogs.msdn.com/brian_jones/archive/2005/07/26/intro-to-word-xml-part-3-using-your-own-schema.aspx
-    def self.word_paragraph_for(text, props={})
-      txt = REXML::Element.new('w:t')
-      txt.text = text 
-        
-      run = REXML::Element.new('w:r')
+    # For every Note in the repository we need to go through it's fields and 
+    # try to fill in the placeholders in the template.
+    def self.process_note(vuln_template, note, required_fields, field_properties)
+      note_chunk = REXML::Document.new(vuln_template.to_s)
 
-      # if there are any properties for the "run", add them
-      if (props.key?(:rprops) && !(props[:rprops].size.zero?))
-        run.add( word_properties( 'w:rPr', props[:rprops] ))
+      @@logger.debug(@@logger_name){ "processing Note #{note.id}" }
+      # Get the fields from the Note's text (see app/models/note.rb)
+      fields = note.fields 
+
+      # If the note doesn't define Title, Description and Recommendation 
+      # notify the user that the format of the text is not adecuate
+      if (
+           fields.size.zero? ||
+           ( (fields.keys & required_fields).size != required_fields.size )
+        )
+        # TODO: customise error message to the required_fields set
+        # TODO: how do we notify of an error if the field names are unknown?
+        @@logger.debug(@@logger_name){ "\tInvalid format detected" }
+        fields['Title'] = "Note \##{note.id}: Invalid format detected"
+        fields['Description']= "The WordExport plugin expects the text of " +
+                                "your notes to be in a specific format.\n" +
+                                "Please refer to the Export -> WordExport -> Usage instructions menu" +
+                                " to find out more about using this plugin.\n" +
+                                "Excerpt of the note that caused this problem:\n"+
+                                note.text[0..50]
+                                
       end
 
-      run.add( txt )
+      # TODO: add all the Note attributes, this will help when the user can define their
+      #  attribute structure, so we won't need to change too much code
+      # This has to be done before the required_fields comparison
 
-      paragraph = REXML::Element.new('w:p')
-
-      # if there are any properties for the "paragraph", add them
-      if (props.key?(:pprops) && !(props[:pprops].size.zero?))
-        paragraph.add( word_properties('w:pPr', props[:pprops]) )
+      # We can add extra fields, for instance author, date, etc:
+      fields['created'] = note.created_at.strftime("%Y-%m-%d %T %Z")
+ 
+      # We will try to locate every field in the template. To do so, we will
+      # look for XML entities with an id="vuln<field>", if we find them, then
+      # we populate the entity with the value of the field.
+      fields.each do |field|
+        @@logger.debug(@@logger_name){ "\tParsing field: #{field[0]}... " }
+        properties = field_properties.fetch( field[0], {})
+        process_field(note_chunk, field, properties) 
+        @@logger.debug(@@logger_name){ "\tdone." }
       end
 
-      paragraph.add( run )
-      return paragraph
+      return note_chunk
     end
+
 
     public
     # This method generates a Word report from a set of dradis Notes. This notes 
@@ -88,11 +161,7 @@ module WordExport
     # new Word XML paragraph is attached to the placeholder for each line 
     def self.generate(params={})
       # ------------------------------------------------------- init properties
-      logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
-      logger_name = params.fetch(:logger_name, 'WordExport')
-
-      # TODO: can we do better than this? i.e. __FILE__ ?
-      template = params.fetch(:template, './vendor/plugins/word_export/template.xml')
+      @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
 
       # This needs some tweaking, but the idea is that maybe you don't want to
       # report on all of your notes, so you flag the ones you want to report
@@ -100,23 +169,26 @@ module WordExport
       category_name = params.fetch(:category_name, REPORTING_CATEGORY_NAME)
       reporting_cat = Category.find_by_name(category_name)
       reporting_notes_num = Note.count(:all, :conditions => {:category_id => reporting_cat})
-      logger.info{ "There are #{reporting_notes_num} notes in the '#{category_name}' category." }
+      @@logger.info{ "There are #{reporting_notes_num} notes in the '#{category_name}' category." }
 
-      required_fields = params(:field_properties, { 
-                                                    'Title'=> {}, 
-                                                    'Description' => {}, 
-                                                    'Recommendation' => {}
-                                                  }) #TODO
+      # Merge our own default options with the parameters passed to the 
+      # function
+      options = OPTIONS.merge(params)
+
+      @@logger_name = options[:logger_name]
+      template = options[:template]
+      required_fields = options[:required_fields]
+      field_properties = options[:field_properties]
 
       # ------------------------------------------------------ /init properties
-      logger.info{ 'Generating Word report' } 
+      @@logger.info{ 'Generating Word report' } 
 
       begin
-        logger.info{ 'Loading template... '}
-        doc = REXML::Document.new(File.new(template, 'r'))
-        logger.info{ 'done.' }
-      rescue REXML::ParseException => e # re-raise exception
-        logger.fatal{ e }
+        @@logger.info{ 'Loading template... '}
+        doc = WordXML.new({:template => template})
+        @@logger.info{ 'done.' }
+      rescue Exception => e # re-raise exception
+        @@logger.fatal{ e }
         raise Exception.new(e)
       end
 
@@ -130,93 +202,18 @@ module WordExport
       vuln_template = REXML::Document.new( doc.root.clone.to_s )
       vuln_template.root.add findings_container.children[5]
   
-      Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |n|
-        v = REXML::Document.new(vuln_template.to_s)
+      Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |note|
 
-        logger.debug(logger_name){ "processing Note #{n.id}" }
-        # Get the fields from the Note's text (see app/models/note.rb)
-        fields = n.fields 
+        # Use the Note template to create a new set of XML elements, fill the 
+        # the placeholders with the values in the fields of the current node
+        note_chunk = process_note( 
+                        vuln_template, 
+                        note,
+                        required_fields,
+                        field_properties)
 
-        # If the note doesn't define Title, Description and Recommendation 
-        # notify the user that the format of the text is not adecuate
-        if (
-             fields.size.zero? ||
-             ( (fields.keys & required_fields.keys).size != required_fields.keys.size )
-          )
-          # TODO: customise error message to the required_fields set
-          # TODO: how do we notify of an error if the field names are unknown?
-          logger.debug(logger_name){ "\tInvalid format detected" }
-          fields['Title'] = "Note \##{n.id}: Invalid format detected"
-          fields['Description']= "The WordExport plugin expects the text of " +
-                                  "your notes to be in a specific format.\n" +
-                                  "Please refer to the Export -> WordExport -> Usage instructions menu" +
-                                  " to find out more about using this plugin.\n" +
-                                  "Excerpt of the note that caused this problem:\n"+
-                                  n.text[0..50]
-                                  
-        end
-
-        # We can add extra fields, for instance author, date, etc:
-        fields['created'] = n.created_at.strftime("%Y-%m-%d %T %Z")
-
-        # We will try to locate every field in the template. To do so, we will
-        # look for XML entities with an id="vuln<field>", if we find them, then
-        # we populate the entity with the value of the field.
-        fields.each do |field, value|
-          logger.debug(logger_name){ "\tParsing field: #{field}... " }
-          domtag = REXML::XPath.first(v, "//[@id='vuln#{field.downcase.gsub(/\s/,'')}']") 
-          if (domtag.nil?)
-            logger.debug(logger_name){ "\tnot found in the template" }
-            next
-          end
-          domtag.delete_attribute('id')
-
-          # Initialise the "run" properties (in WordXML text is split in runs) 
-          rprops = [] 
-
-          # In specific field we can add extra text attributes
-          if ( ["created"].include?(field) )
-            # The "created at" text will be:
-            #   - in italics
-            #   - and Arial 8 (numbers are x2)
-            rprops << { :root => 'w:i' }
-            rprops << {
-                        :root => 'w:rFonts', 
-                        :attributes => { 
-                          'w:ascii' => 'Arial', 
-                          'w:h-ansi' => 'Arial', 
-                          'w:cs' => 'Arial' 
-                        }
-                      }
-            rprops  << { :root => 'wx:font', :attributes => { 'wx:val' => 'Arial' } }
-            rprops  << { :root => 'w:sz', :attributes => { 'w:val' => '16' } }
-            rprops  << { :root => 'w:sz-cs', :attributes => { 'w:val' => '16' } }
-          end
-
-          # Initialise the "paragraph" properties
-          pprops = [] 
-          # Additional properties for some special paragraphs 
-          if ( ["created"].include?(field) )
-            # The "created at" paragraph will be:
-            #   - right aligned
-            pprops << {:root => 'w:jc', :attributes => {'w:val' => 'right'} }
-          end
-
-          if ( ["Title"].include?(field) )
-            # Apply the "Heading1" style to the Vulnerability Title
-            pprops << {:root => 'w:pStyle', :attributes => {'w:val' => 'Heading1'} }
-          end
-
-          # The value of each field is broken in paragraphs which are added as
-          # XML children of the +domtag+
-          value.split("\n").each do |paragraph|
-            domtag.add( word_paragraph_for(paragraph, :rprops => rprops, :pprops => pprops) )
-          end   
-          domtag.add( word_paragraph_for('') )
-          logger.debug(logger_name){ "\tdone." }
-        end
-
-        findings_container.add(v.root.children[0])  
+        # Insert the new Note chunk in the main note tree
+        findings_container.add(note_chunk.root.children[0])  
       end
 
       return doc
