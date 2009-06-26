@@ -102,14 +102,18 @@ module WordExport
       reporting_notes_num = Note.count(:all, :conditions => {:category_id => reporting_cat})
       logger.info{ "There are #{reporting_notes_num} notes in the '#{category_name}' category." }
 
-      required_fields = params #TODO
+      required_fields = params(:field_properties, { 
+                                                    'Title'=> {}, 
+                                                    'Description' => {}, 
+                                                    'Recommendation' => {}
+                                                  }) #TODO
 
       # ------------------------------------------------------ /init properties
       logger.info{ 'Generating Word report' } 
 
       begin
         logger.info{ 'Loading template... '}
-        doc = REXML::Document.new(File.new('./vendor/plugins/word_export/template.xml','r'))
+        doc = REXML::Document.new(File.new(template, 'r'))
         logger.info{ 'done.' }
       rescue REXML::ParseException => e # re-raise exception
         logger.fatal{ e }
@@ -129,19 +133,19 @@ module WordExport
       Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |n|
         v = REXML::Document.new(vuln_template.to_s)
 
-        logger.debug('WordExport'){ "processing Note #{n.id}" }
+        logger.debug(logger_name){ "processing Note #{n.id}" }
         # Get the fields from the Note's text (see app/models/note.rb)
         fields = n.fields 
 
         # If the note doesn't define Title, Description and Recommendation 
         # notify the user that the format of the text is not adecuate
-        required_fields = ['Title', 'Description', 'Recommendation']
         if (
              fields.size.zero? ||
-             ( (fields.keys & required_fields).size != required_fields.size )
+             ( (fields.keys & required_fields.keys).size != required_fields.keys.size )
           )
           # TODO: customise error message to the required_fields set
-          logger.debug('WordExport'){ "\tInvalid format detected" }
+          # TODO: how do we notify of an error if the field names are unknown?
+          logger.debug(logger_name){ "\tInvalid format detected" }
           fields['Title'] = "Note \##{n.id}: Invalid format detected"
           fields['Description']= "The WordExport plugin expects the text of " +
                                   "your notes to be in a specific format.\n" +
@@ -159,10 +163,10 @@ module WordExport
         # look for XML entities with an id="vuln<field>", if we find them, then
         # we populate the entity with the value of the field.
         fields.each do |field, value|
-          logger.debug('WordExport'){ "\tParsing field: #{field}... " }
+          logger.debug(logger_name){ "\tParsing field: #{field}... " }
           domtag = REXML::XPath.first(v, "//[@id='vuln#{field.downcase.gsub(/\s/,'')}']") 
           if (domtag.nil?)
-            logger.debug('WordExport'){ "\tnot found in the template" }
+            logger.debug(logger_name){ "\tnot found in the template" }
             next
           end
           domtag.delete_attribute('id')
@@ -209,7 +213,7 @@ module WordExport
             domtag.add( word_paragraph_for(paragraph, :rprops => rprops, :pprops => pprops) )
           end   
           domtag.add( word_paragraph_for('') )
-          logger.debug('WordExport'){ "\tdone." }
+          logger.debug(logger_name){ "\tdone." }
         end
 
         findings_container.add(v.root.children[0])  
