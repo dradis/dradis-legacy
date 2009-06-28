@@ -195,13 +195,13 @@ module WordExport
       # For each section of the document (id="section"), we go through 
       # all the notes and duplicate de structure we find there
       REXML::XPath.each(doc, "//[@id='section']") do |section|
-        section.delete_attribute('section')
+        section.delete_attribute('id')
 
         # for each section we find the note template, we will duplicate it, 
         # fill it with the values of the current note and attach the result to
         # the main document.
         note_template = REXML::XPath.first(section, "//[@id='template']")
-        note_template.delete_attribute('template')
+        note_template.delete_attribute('id')
 
         vuln_template = REXML::Document.new( doc.root.clone.to_s )
         vuln_template.root.add_element note_template
