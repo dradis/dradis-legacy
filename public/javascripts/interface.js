@@ -41,6 +41,15 @@ var dradistabs = new Ext.TabPanel({
 
 });
 
+nodestree.on('nodeclick', function(node_id){
+  notesbrowser.updateNotes(node_id);
+  importer.updateSources(node_id);
+  attachments.updateAttachments(node_id);
+  if (dradistabs.getActiveTab() === null) {
+    dradistabs.setActiveTab(0);
+  }
+});
+
 importer.on('importrecord',function(record){ 
     notesbrowser.addNote(record.data.description ); 
     dradistabs.activate(notesbrowser);

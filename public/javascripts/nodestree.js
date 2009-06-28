@@ -142,6 +142,8 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
+    // event definition for node click
+    this.addEvents('nodeclick');
 
     // Inline editor for the node labels
     this.editor = new Ext.tree.TreeEditor(this, {}, {
@@ -185,14 +187,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // Handle node click  
     this.on('click', function(node) {
-      // TODO: this has to through an external event and the interface manager
-      // needs to notify the other widgets
-      notesbrowser.updateNotes(node.id); 
-      importer.updateSources(node.id); 
-      attachments.updateAttachments(node.id); 
-      if (dradistabs.getActiveTab() === null) {
-        dradistabs.setActiveTab(0);
-      }
+      this.fireEvent('nodeclick', node.id);
     });
 
     // Handle label edits
