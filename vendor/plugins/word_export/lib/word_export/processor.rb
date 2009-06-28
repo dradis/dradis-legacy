@@ -60,7 +60,7 @@ module WordExport
     def self.process_field(note_chunk, field, properties)
       name, value = field
       placeholder = name.downcase.gsub(/\s/,'')
-
+      
       domtag = REXML::XPath.first(note_chunk, "//[@id='vuln#{placeholder}']") 
       if (domtag.nil?)
         # If the current field is not found in the template, move on
@@ -192,29 +192,36 @@ module WordExport
         raise Exception.new(e)
       end
 
-      # For each section of the document (<dradis:section>), we go through 
+      # For each section of the document (id="section"), we go through 
       # all the notes and duplicate de structure we find there
-      # TODO !!
+      REXML::XPath.each(doc, "//[@id='section']") do |section|
+        section.delete_attribute('section')
 
-      findings_container = REXML::XPath.first(doc, "//[@id='findings']")
-      # TODO: finding the container is easy, but how do we find the template? is
-      # it the first child? the third?
-      vuln_template = REXML::Document.new( doc.root.clone.to_s )
-      vuln_template.root.add findings_container.children[5]
+        # for each section we find the note template, we will duplicate it, 
+        # fill it with the values of the current note and attach the result to
+        # the main document.
+        note_template = REXML::XPath.first(section, "//[@id='template']")
+        note_template.delete_attribute('template')
+
+        vuln_template = REXML::Document.new( doc.root.clone.to_s )
+        vuln_template.root.add_element note_template
+
   
-      Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |note|
+        Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |note|
 
-        # Use the Note template to create a new set of XML elements, fill the 
-        # the placeholders with the values in the fields of the current node
-        note_chunk = process_note( 
+          # Use the Note template to create a new set of XML elements, fill the 
+          # the placeholders with the values in the fields of the current node
+          note_chunk = process_note( 
                         vuln_template, 
                         note,
                         required_fields,
                         field_properties)
 
-        # Insert the new Note chunk in the main note tree
-        findings_container.add(note_chunk.root.children[0])  
-      end
+          # Insert the new Note chunk in the main note tree
+          section.add note_chunk.root.children[0]
+        end # /Note.find.each
+
+      end # /XPath.each id="section"
 
       return doc
     end

@@ -136,7 +136,7 @@
     <wsp:rsid wsp:val="00FB5FCC"/>
   </wsp:rsids>
 </w:docPr>
-<w:body id="findings">
+<w:body>
 <w:sectPr wsp:rsidR="00C27C1C" wsp:rsidRPr="00C27C1C" wsp:rsidSect="00FB5FCC">
   <w:pgSz w:w="11906" w:h="16838"/>
   <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0"/>
@@ -145,7 +145,8 @@
 </w:sectPr>
 
 <!-- Note Section -->
-<wx:sub-section>
+<dradisplaceholder id="section">
+<wx:sub-section id="template">
   <!--
     This XML entity is not valid WordXML, however it is required due to the way
     in which the report is generated. The WordExport::Processor will add a 
@@ -181,6 +182,7 @@
   </wx:sub-section>
 </wx:sub-section>
 
+</dradisplaceholder>
 <!-- /Note Section -->
 <!-- Footer of the document -->
 </w:body>
