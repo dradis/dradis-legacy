@@ -40,16 +40,25 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
       tbar: [
         { 
-          text: 'add branch',
+          text: 'add... ', 
           iconCls: 'add',
-          scope: this,
-          handler: function() {
-            var root = this.getRootNode();
-            var label = 'branch #' + (root.childNodes.length +1);
-            var node = root.appendChild(new Ext.tree.TreeNode({ text: label }));
-            addnode(node, function(new_id){ node.id = new_id; });
-            this.editor.triggerEdit(node,false);
-          }
+          menu: new Ext.menu.Menu({
+            items:[
+              {
+                text: 'empty branch', 
+                iconCls:'icon-folder-add',
+                scope: this,
+                handler: function() {
+                  var root = this.getRootNode();
+                  var label = 'branch #' + (root.childNodes.length +1);
+                  var node = root.appendChild(new Ext.tree.TreeNode({ text: label }));
+                  addnode(node, function(new_id){ node.id = new_id; });
+                  this.editor.triggerEdit(node,false);
+                }
+              },
+              {text: 'from file...', iconCls:'icon-form-magnify'}
+            ]
+          })
         },
         '-',
         {
