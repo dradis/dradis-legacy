@@ -54,7 +54,7 @@ dradis.importer.setCascading = function(parentCombo, childCombo) {
 
 dradis.importer.Panel = Ext.extend(Ext.Panel, {
     // Prototype Defaults, can be overridden by user's config object
-    title: 'Import from...',
+    title: 'Import note...',
     layout:'form',
     bodyStyle:'padding:10px',
     defaults:{anchor:'100%'},
