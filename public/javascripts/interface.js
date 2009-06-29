@@ -2,28 +2,7 @@
 Ext.BLANK_IMAGE_URL = '/images/default/s.gif';
 Ext.state.Manager.setProvider(new Ext.state.CookieProvider);
 
-// ----------------------------------------- header: title + toolbar
-dradis.HeaderPanel = function(config){
-  Ext.apply(this, {
-    border: false,
-    layout:'anchor',
-    region:'north',
-    margins: '0 0 5 0',
-    autoHeight: true,
-    title: dradis.version,
-    tbar: [ 
-      {xtype: 'tbfill' }, 
-      {text: 'logout', handler: function(){ window.location = '/logout'; }, tooltip: 'End session'} 
-    ]
-  });
-  
-  dradis.HeaderPanel.superclass.constructor.apply(this, arguments);
-};
-
-Ext.extend( dradis.HeaderPanel, Ext.Panel, {} );
-Ext.reg('headerpanel', dradis.HeaderPanel);
-
-
+// ------------------------------------------------------- custom ExtJS widgets
 var nodestree = new dradis.NodesTree();
 var notesbrowser = new dradis.NotesBrowser();
 var importer = new dradis.importer.Panel();
@@ -41,6 +20,19 @@ var dradistabs = new Ext.TabPanel({
 
 });
 
+var dradisstatus = new Ext.StatusBar({
+  region: 'south',
+  defaultText: ''
+});
+
+
+/*
+ * ------------------------------------------------------- custom ExtJS widgets
+ * Events thrown by the different widgets are handleded in this object and 
+ * notifications are passed to other widgets of the interface were appropriate.
+ * ----------------------------------------------------------------------------
+ */
+
 nodestree.on('nodeclick', function(node_id){
   notesbrowser.updateNotes(node_id);
   importer.updateSources(node_id);
@@ -55,16 +47,14 @@ importer.on('importrecord',function(record){
     dradistabs.activate(notesbrowser);
 });
 
-// ----------------------------------------- status bar
-var dradisstatus = new Ext.StatusBar({
-  region: 'south',
-  defaultText: ''
-});
 Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
 Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); }); 
 
 
-
+/*
+ * onReady gets called when the page is rendered, all the files are loaded and
+ * we are ready to rock!
+ */
 Ext.onReady(function() {
   Ext.QuickTips.init();
 
