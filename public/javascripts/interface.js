@@ -76,7 +76,29 @@ Ext.onReady(function() {
         html: '<h1 class="x-panel-header" style="text-align: right;">'+dradis.version+' (<a href="/logout">logout</a>)</h1>',
         autoHeight: true,
         border: false,
-        margins: '0 0 5 0'
+        margins: '0 0 5 0',
+        bbar: [ 
+          { 
+            text: 'File',
+            menu: new Ext.menu.Menu({
+              items:[
+                {
+                  text: 'import from file...', 
+                  iconCls:'icon-form-magnify',
+                  handler: function() {
+                    var win = new Ext.Window({
+                      title: 'Upload from file',
+                      width: 400,
+                      height: 300
+                    });
+                    win.show();
+                    win.center();
+                  }
+                }
+              ]
+            })
+          }
+        ]
       },
       nodestree,
       dradistabs,
