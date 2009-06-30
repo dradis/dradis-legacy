@@ -3,39 +3,6 @@
 
 // ------------------------------------------ data stores
 
-var exportPluginsMenu = new Ext.menu.Menu({});
-var exportPluginsDS = new Ext.data.JsonStore({
-  url:'/export/list/plugins.json',
-  fields: ['name', 'actions'],
-  listeners:{
-    datachanged: function(store){
-      exportPluginsMenu.removeAll();
-      var item; // the menu item
-      store.each(function(record){
-        item = new Ext.menu.Item({ text: Ext.util.Format.htmlEncode(record.data.name) });
-        if (record.data.actions.length == 0) 
-        { 
-          item.disabled = true; 
-        } else if (record.data.actions.length == 1)
-        {
-          item.on('click', function(){ window.location = '/export/'+record.data.actions[0]; });
-        } else
-        {
-          item.menu = new Ext.menu.Menu({});
-          var action;
-          var label;
-          for ( var i =0; i<record.data.actions.length; i++){
-            action = record.data.actions[i];
-            label = Ext.util.Format.capitalize( action.replace(/_/g, ' ') );
-            item.menu.add( new Ext.menu.Item({ text: label, url: '/export/' + action, handler: function(){ window.location = this.url; } }) );
-          };
-        }
-        exportPluginsMenu.add(item);
-      });
-    }
-  }
-});
-
 var categoriesMenu = new Ext.menu.Menu({});
 var categoriesDS = new Ext.data.Store({
   proxy: new Ext.data.HttpProxy(
@@ -293,13 +260,6 @@ dradis.NotesBrowser = function(config) {
           },
           '-',
           {
-            text: 'export',
-            tooltip: 'export dradis contents to external sources',
-            iconCls: 'export',
-            menu: exportPluginsMenu
-          },
-          '-',
-          {
             tooltip: 'Refresh the list of notes',
             iconCls:'x-tbar-loading',
             scope: this,
@@ -355,7 +315,6 @@ Ext.extend(dradis.NotesBrowser, Ext.Panel, {
     conn.url = '/nodes/' + node_id + '/notes.json';
     conn.method = 'GET';
     categoriesDS.load();
-    exportPluginsDS.load();
     store.load();
   },
   addNote: function(text){
