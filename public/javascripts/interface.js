@@ -25,6 +25,7 @@ var dradisstatus = new Ext.StatusBar({
   defaultText: ''
 });
 
+var plugins = new dradis.plugins.PluginManager();
 
 /*
  * ------------------------------------------------------- custom ExtJS widgets
@@ -87,7 +88,14 @@ Ext.onReady(function() {
                 }
               ]
             })
-          }
+          },
+          {
+            text: 'export',
+            tooltip: 'export dradis contents to external sources',
+            iconCls: 'export',
+            menu: plugins.exportPluginsMenu()
+          },
+
         ]
       },
       nodestree,
@@ -108,4 +116,5 @@ Ext.onReady(function() {
   });
   vp.doLayout();
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
+  plugins.refresh();
 });
