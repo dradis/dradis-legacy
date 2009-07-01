@@ -1,6 +1,6 @@
 
 Ext.BLANK_IMAGE_URL = '/images/default/s.gif';
-Ext.state.Manager.setProvider(new Ext.state.CookieProvider);
+//Ext.state.Manager.setProvider(new Ext.state.CookieProvider);
 
 // ------------------------------------------------------- custom ExtJS widgets
 var nodestree = new dradis.NodesTree();
@@ -70,7 +70,8 @@ Ext.onReady(function() {
         margins: '0 0 5 0',
         bbar: [ 
           { 
-            text: 'File',
+            text: 'file',
+            xtype: 'tbsplit',
             menu: new Ext.menu.Menu({
               items:[
                 {
@@ -78,9 +79,15 @@ Ext.onReady(function() {
                   iconCls:'icon-form-magnify',
                   handler: function() {
                     var win = new Ext.Window({
-                      title: 'Upload from file',
-                      width: 400,
-                      height: 300
+                      title: 'Import from file',
+                      layout: 'fit',
+                      width: 290,
+                      height: 230,
+                      minWidth: 290,
+                      minHeight: 230,
+                      items: [
+                        new dradis.plugins.UploadFormPanel()
+                      ]
                     });
                     win.show();
                     win.center();
@@ -91,6 +98,7 @@ Ext.onReady(function() {
           },
           {
             text: 'export',
+            xtype: 'tbsplit',
             tooltip: 'export dradis contents to external sources',
             iconCls: 'export',
             menu: plugins.exportPluginsMenu()
