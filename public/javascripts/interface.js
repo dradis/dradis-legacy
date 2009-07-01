@@ -94,7 +94,7 @@ Ext.onReady(function() {
             tooltip: 'export dradis contents to external sources',
             iconCls: 'export',
             menu: plugins.exportPluginsMenu()
-          },
+          }
 
         ]
       },
