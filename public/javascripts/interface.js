@@ -98,7 +98,7 @@ Ext.onReady(function() {
                       minWidth: 290,
                       minHeight: 230,
                       items: [
-                        new dradis.plugins.UploadFormPanel()
+                        new dradis.plugins.UploadFormPanel({manager: plugins})
                       ]
                     });
                     win.show();
