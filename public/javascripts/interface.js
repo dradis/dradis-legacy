@@ -118,7 +118,7 @@ Ext.onReady(function() {
         ]
       },
       nodestree,
-      centerelement,
+      dradistabs,
       dradisstatus
         //{
         // console? do we need this?
