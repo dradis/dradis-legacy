@@ -57,6 +57,7 @@ class SessionsController < ApplicationController
     usr = params.fetch(:login, nil)
     pwd = params.fetch(:password, nil)
     if not ( usr.nil? || pwd.nil? || pwd != Configuration.password)
+      @first_login = first_login?
       self.current_user = usr
       redirect_back_or_default('/')
       flash[:notice] = 'Logged in successfully.'
@@ -80,6 +81,20 @@ class SessionsController < ApplicationController
   def check_test_password
     if Configuration.password.match('dradis')
       redirect_to :action => :init
+    end
+  end
+
+  # we determine if the login event is the first for this dradis deployment
+  # by checking the existance of a file in the config folder
+  # the file is created if it does not exist
+  def first_login?
+    if File.exists?(File.join(RAILS_ROOT, "config/fist_render.txt"))
+      false
+    else
+      file_handle = File.new(File.join(RAILS_ROOT, "config/fist_login.txt"), "w")
+      file_handle << "This file indicates that a succesful login event has occurred on this dradis instance"
+      file_handle.close
+      true
     end
   end
 end
