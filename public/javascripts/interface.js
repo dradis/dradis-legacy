@@ -101,6 +101,7 @@ Ext.onReady(function() {
                         new dradis.plugins.UploadFormPanel({manager: plugins})
                       ]
                     });
+                    plugins.refresh();
                     win.show();
                     win.center();
                   }
@@ -135,5 +136,4 @@ Ext.onReady(function() {
   });
   vp.doLayout();
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
-  plugins.refresh();
 });
