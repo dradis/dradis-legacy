@@ -44,6 +44,11 @@ dradis.plugins.PluginManager = function(){
       }
     }
   });
+  var uploadPluginsDS = new Ext.data.JsonStore({
+    url:'/upload/list/plugins.json',
+    fields: ['name', 'format']
+  });
+
 
   /*
    * A menu containing all the available Export plugins
@@ -53,10 +58,17 @@ dradis.plugins.PluginManager = function(){
   }
 
   /*
+   * To access the internal +upload+ plugins data store
+   */
+  this.getUploadPluginsStore = function(){ return uploadPluginsDS; }
+
+  /*
    * Get a new list of installed plugins from the server. You should not forget
    * that rails only refreshes the plugin list upon server restart.
    */
   this.refresh = function(){
     exportPluginsDS.load();
+    uploadPluginsDS.load();
   }
 };
+
