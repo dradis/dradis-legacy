@@ -20,6 +20,11 @@ var dradistabs = new Ext.TabPanel({
 
 });
 
+var dradisoverview = new Ext.Panel({
+  region: 'center',
+  contentEl: 'first_render'
+})
+
 var dradisstatus = new Ext.StatusBar({
   region: 'south',
   defaultText: ''
@@ -58,6 +63,14 @@ Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults
  */
 Ext.onReady(function() {
   Ext.QuickTips.init();
+  
+  var centerelement;
+
+  if (dradis.firstrender == true) {
+    centerelement = dradisoverview;
+  } else {
+    centerelement = dradistabs;
+  }
 
   var vp = new Ext.Viewport({
     layout: 'border',
@@ -105,7 +118,7 @@ Ext.onReady(function() {
         ]
       },
       nodestree,
-      dradistabs,
+      centerelement,
       dradisstatus
         //{
         // console? do we need this?

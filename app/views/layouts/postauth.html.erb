@@ -32,6 +32,9 @@
         <div id="attachments" class="x-hide-display">add attachment to node</div>
         <div id="properties" class="x-hide-display">properties pane is not implemented yet.</div>
       </div>
+      <div id="first_render">
+        <%= render :partial => "first_render" %>
+      </div>
       <%#= link_to_remote 'label', :url => { :action => "notes", :parent_id => 83, :parent_type=> 'foo', :position => 7 } %>
       <%#= @content_for_layout %>
       <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
@@ -42,6 +45,7 @@
       dradis.token = "<%= form_authenticity_token %>";
       dradis.revision = <%= Configuration.revision %>;
       dradis.version = "<%= Core::VERSION.string  %>";
+      dradis.firstrender = true;
     </script>
   </body>
 </html>
