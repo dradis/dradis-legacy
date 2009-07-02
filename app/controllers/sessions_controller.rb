@@ -57,7 +57,7 @@ class SessionsController < ApplicationController
     usr = params.fetch(:login, nil)
     pwd = params.fetch(:password, nil)
     if not ( usr.nil? || pwd.nil? || pwd != Configuration.password)
-      @first_login = first_login?
+      flash[:first_login] = first_login?
       self.current_user = usr
       redirect_back_or_default('/')
       flash[:notice] = 'Logged in successfully.'
@@ -89,12 +89,13 @@ class SessionsController < ApplicationController
   # the file is created if it does not exist
   def first_login?
     if File.exists?(File.join(RAILS_ROOT, "config/fist_render.txt"))
-      false
+      first_login = false
     else
       file_handle = File.new(File.join(RAILS_ROOT, "config/fist_login.txt"), "w")
       file_handle << "This file indicates that a succesful login event has occurred on this dradis instance"
       file_handle.close
-      true
+      first_login = true
     end
+    return first_login
   end
 end
