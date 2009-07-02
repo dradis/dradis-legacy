@@ -58,7 +58,6 @@ class SessionsController < ApplicationController
     pwd = params.fetch(:password, nil)
     if not ( usr.nil? || pwd.nil? || pwd != Configuration.password)
       flash[:first_login] = first_login?
-      debugger
       self.current_user = usr
       redirect_back_or_default('/')
       flash[:notice] = 'Logged in successfully.'
