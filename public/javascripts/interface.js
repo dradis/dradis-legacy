@@ -71,7 +71,6 @@ Ext.onReady(function() {
         bbar: [ 
           { 
             text: 'file',
-            xtype: 'tbsplit',
             menu: new Ext.menu.Menu({
               items:[
                 {
@@ -98,7 +97,6 @@ Ext.onReady(function() {
           },
           {
             text: 'export',
-            xtype: 'tbsplit',
             tooltip: 'export dradis contents to external sources',
             iconCls: 'export',
             menu: plugins.exportPluginsMenu()
