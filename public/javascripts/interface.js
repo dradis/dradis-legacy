@@ -83,21 +83,14 @@ Ext.onReady(function() {
         border: false,
         margins: '0 0 5 0',
         bbar: [ 
-          { 
-            text: 'file',
-            menu: new Ext.menu.Menu({
-              items:[
-                {
-                  text: 'import from file...', 
-                  iconCls:'icon-form-magnify',
-                  handler: function() {
-                    var uploaders = new dradis.plugins.UploadFormWindow();
-                    uploaders.show();
-                    uploaders.center();
-                  }
-                }
-              ]
-            })
+          {
+            text: 'import from file...', 
+            iconCls:'icon-form-magnify',
+            handler: function() {
+              var uploaders = new dradis.plugins.UploadFormWindow();
+              uploaders.show();
+              uploaders.center();
+            }
           },
           {
             text: 'export',
