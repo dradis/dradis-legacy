@@ -66,10 +66,16 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
       var radiogroup = this.items.itemAt(0).items.itemAt(0);
       var columns = radiogroup.panel.items;
 
+      columns.each( function(column){
+        while(column.items.length>0){
+          column.remove(column.items.itemAt(0));
+        }
+      })
+
       var radio = null;
       store.each(function(record){
         // FIXME: this has to go through the columns
-        radio = columns.get(2).add({
+        radio = columns.get(0).add({
           boxLabel: record.get('name'),
           inputValue: record.id
         });
