@@ -66,12 +66,10 @@ dradis.plugins.PluginManager = function(){
    * Get a new list of installed plugins from the server. You should not forget
    * that rails only refreshes the plugin list upon server restart.
    */
-  this.refreshExport = function(){
+  this.refresh = function(){
     exportPluginsDS.load();
-  }
-
-  this.refreshUpload = function(){
     uploadPluginsDS.load();
   }
+
 };
 

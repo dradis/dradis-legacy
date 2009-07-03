@@ -136,6 +136,5 @@ Ext.onReady(function() {
   });
   vp.doLayout();
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
-  plugins.refreshExport();
-  plugins.refreshUpload();
+  plugins.refresh();
 });
