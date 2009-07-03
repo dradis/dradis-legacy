@@ -27,8 +27,8 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
           anchor: '100%'
         },
         {
+          xtype:'fileuploadfield',
           fieldLabel: 'Select a file',
-          xtype: 'textfield',
           anchor: '100%'
         }
       ],
