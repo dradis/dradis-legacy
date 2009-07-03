@@ -31,6 +31,7 @@ var dradisstatus = new Ext.StatusBar({
 });
 
 var plugins = new dradis.plugins.PluginManager();
+var uploadPluginsPanel = new dradis.plugins.UploadFormPanel({manager: plugins});
 
 /*
  * ------------------------------------------------------- custom ExtJS widgets
@@ -98,10 +99,9 @@ Ext.onReady(function() {
                       minWidth: 290,
                       minHeight: 230,
                       items: [
-                        new dradis.plugins.UploadFormPanel({manager: plugins})
-                      ]
+                        uploadPluginsPanel                      ]
                     });
-                    plugins.refresh();
+                    plugins.refreshUpload();
                     win.show();
                     win.center();
                   }
@@ -136,4 +136,5 @@ Ext.onReady(function() {
   });
   vp.doLayout();
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
+  plugins.refreshExport();
 });
