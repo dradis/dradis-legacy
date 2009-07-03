@@ -91,19 +91,9 @@ Ext.onReady(function() {
                   text: 'import from file...', 
                   iconCls:'icon-form-magnify',
                   handler: function() {
-                    var win = new Ext.Window({
-                      title: 'Import from file',
-                      layout: 'fit',
-                      width: 290,
-                      height: 150,
-                      minWidth: 290,
-                      minHeight: 150,
-                      items: [
-                        new dradis.plugins.UploadFormPanel({manager: plugins})
-                      ]
-                    });
-                    win.show();
-                    win.center();
+                    var uploaders = new dradis.plugins.UploadFormWindow();
+                    uploaders.show();
+                    uploaders.center();
                   }
                 }
               ]
