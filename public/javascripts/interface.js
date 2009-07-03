@@ -95,13 +95,13 @@ Ext.onReady(function() {
                       title: 'Import from file',
                       layout: 'fit',
                       width: 290,
-                      height: 230,
+                      height: 150,
                       minWidth: 290,
-                      minHeight: 230,
+                      minHeight: 150,
                       items: [
-                        uploadPluginsPanel                      ]
+                        new dradis.plugins.UploadFormPanel({manager: plugins})
+                      ]
                     });
-                    plugins.refreshUpload();
                     win.show();
                     win.center();
                   }
@@ -137,4 +137,5 @@ Ext.onReady(function() {
   vp.doLayout();
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
   plugins.refreshExport();
+  plugins.refreshUpload();
 });
