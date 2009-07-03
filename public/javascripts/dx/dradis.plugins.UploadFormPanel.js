@@ -11,30 +11,20 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
     // Called during component initialization
     var config ={
       //props (non-overridable)
-      width: 250,
-      height: 185,
+      width: 300,
+      height: 100,
 
       //bodyStyle: 'padding:0 10px 0;',
       items:[ 
         {
-          xtype: 'fieldset',
-          title: 'Available formats',
-          height: 100,
-          autoWidth: true,
-          //autoHeight: true,
-          items: {
-            xtype: 'radiogroup',
-            hideLabel: true,
-            columns: 3,
-            vertical: true,
-            items: [
-              {boxLabel: 'Item 1', name: 'cb-format'},
-              {boxLabel: 'Item 2', name: 'cb-format', checked: true},
-              {boxLabel: 'Item 3', name: 'cb-format'},
-              {boxLabel: 'Item 4', name: 'cb-format'},
-              {boxLabel: 'Item 5', name: 'cb-format'}
-            ]
-          }
+          xtype:'combo',
+          fieldLabel:'Available formats',
+          displayField:'name',
+          valueField:'format',
+          allowBlank:false,
+          mode:'local',
+          store: this.manager.getUploadPluginsStore(),
+          anchor: '100%'
         },
         {
           fieldLabel: 'Select a file',
@@ -62,28 +52,10 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
     // After parent code
     // e.g. install event handlers on rendered component
     this.manager.getUploadPluginsStore().on('datachanged', function(store) {
-
-      var radiogroup = this.items.itemAt(0).items.itemAt(0);
-      var columns = radiogroup.panel.items;
-
-      columns.each( function(column){
-        while(column.items.length>0){
-          column.remove(column.items.itemAt(0));
-        }
-      })
-
-      var radio = null;
-      store.each(function(record){
-        // FIXME: this has to go through the columns
-        radio = columns.get(0).add({
-          boxLabel: record.get('name'),
-          inputValue: record.id
-        });
-      });      
-
-      radiogroup.panel.doLayout();
+      // TODO: do we really need this? The plugin list doesn't change until 
+      // the server restarts...
     }, this);
+
   }
 
-  // other methods/actions
 });
