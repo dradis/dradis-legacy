@@ -313,6 +313,10 @@ dradis.ajax.request = function(options){
       //iconCls: 'error',
       clear: 10000
     });
+    if (options.listeners && options.listeners.failure){
+      options.listeners.failure(response, options);
+    }
+
   }
   Ext.Ajax.request(ajax_params);
 };
