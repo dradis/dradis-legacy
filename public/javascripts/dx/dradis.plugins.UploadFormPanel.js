@@ -13,7 +13,13 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
       //props (non-overridable)
       width: 300,
       height: 100,
-
+      fileUpload:true,
+      url: '/upload/import/',
+      baseParams:{ authenticity_token: dradis.token }, //FIXME
+      defaults:{
+        allowBlank:false,
+        anchor:'100%'
+      },
       //bodyStyle: 'padding:0 10px 0;',
       items:[ 
         {
@@ -21,19 +27,25 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
           fieldLabel:'Available formats',
           displayField:'name',
           valueField:'format',
-          allowBlank:false,
+          name:'uploader',
           mode:'local',
           store: this.manager.getUploadPluginsStore(),
-          anchor: '100%'
         },
         {
           xtype:'fileuploadfield',
+          id:'form-file',
+          emptyText:'Select a file',
           fieldLabel: 'Select a file',
-          anchor: '100%'
+          name:'file',
+          buttonCfg:{ text:'...' }
         }
       ],
       buttons:[
-        {text:'Upload'},
+        {
+          text:'Upload',
+          scope:this,
+          handler:function() { this.onUpload(); }
+        },
         {
           text:'Cancel',
           scope: this,
@@ -55,7 +67,7 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
     // Call parent (required)
     dradis.plugins.UploadFormPanel.superclass.initComponent.apply(this, arguments);
 
-    this.addEvents('cancel');
+    this.addEvents('cancel', 'uploadsuccess', 'uploadfailure');
 
     // After parent code
     // e.g. install event handlers on rendered component
@@ -64,8 +76,23 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
       // the server restarts...
     }, this);
 
-  }
+  },
+  onUpload: function(){
+    if(this.getForm().isValid()){
+      // FIXME: The proper way of handling this would be to subclass 
+      // Ext.form.Action to use dradis.ajax instead of Ext.ajax...
+      Ext.MessageBox.wait('Uploading file...');
 
+      this.getForm().submit({
+	      waitMsg: 'Uploading file...',
+	      success: function(fp, o){
+          this.fireEvent('uploadsuccess');
+	      } 
+	    });
+
+
+    }
+  }
 });
 
 
