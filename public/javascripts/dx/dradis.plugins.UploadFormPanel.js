@@ -26,10 +26,10 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
           xtype:'combo',
           fieldLabel:'Available formats',
           displayField:'name',
-          valueField:'format',
+          valueField:'plugin',
           name:'uploader',
           mode:'local',
-          store: this.manager.getUploadPluginsStore(),
+          store: this.manager.getUploadPluginsStore()
         },
         {
           xtype:'fileuploadfield',
@@ -85,8 +85,8 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
 
       this.getForm().submit({
 	      waitMsg: 'Uploading file...',
-	      success: function(fp, o){
-          this.fireEvent('uploadsuccess');
+	      success: function(form, o){
+          form.fireEvent('uploadsuccess');
 	      } 
 	    });
 
