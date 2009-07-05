@@ -23,7 +23,7 @@ module NmapUpload
       REXML::XPath.match(host.elements['ports'], "port").each do |port|
         hosts[hostnodename][:ports][port.attributes['portid']] = {
           :protocol => port.attributes['protocol'],
-          :state => port.attributes['state'],
+          :state => port.elements['state'].attributes['state'],
           :service => port.elements['service'].attributes['name']
         }
       end
@@ -49,7 +49,7 @@ module NmapUpload
     end
 
     port_notes_to_add = {}
-    hosts.each do |host, detail|
+    hosts.each do |host, host_details|
       host_node = Node.new( :label => host)
       host_node.save
 
@@ -58,12 +58,12 @@ module NmapUpload
         :node_id => host_node.id,
         :author => 'Nmap',
         :category_id => category.id,
-        :text => detail[:notes]
+        :text => host_details[:notes]
       ).save
 
-      detail[:ports].each do |port, detail|
+      host_details[:ports].each do |port, port_details|
         # Add a node for the port
-        port_node = Node.new( :parent_id => host_node.id, :label => "#{port}/#{detail[:protocol]}" )
+        port_node = Node.new( :parent_id => host_node.id, :label => "#{port}/#{port_details[:protocol]}" )
         port_node.save
 
         # add a note with the port information
@@ -71,7 +71,7 @@ module NmapUpload
           :node_id => port_node.id,
           :author => 'Nmap',
           :category_id => category.id,
-          :text => "State: #{detail[:state]}, Service: #{detail[:service]}"
+          :text => "State: #{port_details[:state]}, Service: #{port_details[:service]}"
         ).save
       end
     end
