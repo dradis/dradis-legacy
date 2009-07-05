@@ -8,6 +8,7 @@ class CreateConfigurations < ActiveRecord::Migration
     end
     Configuration.new(:name=>'revision', :value=>'0').save
     Configuration.new(:name=>'password', :value=>'dradis').save
+    Configuration.new(:name=>'uploads_node', :value=>'Uploaded files').save
   end
 
   def self.down

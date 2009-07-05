@@ -14,4 +14,8 @@ class Configuration < ActiveRecord::Base
   def Configuration.password
     Configuration.find_by_name('password').value
   end
+
+  def Configuration.uploadsNode
+    Configuration.find_by_name('uploads_node').value
+  end
 end
