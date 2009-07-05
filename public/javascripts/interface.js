@@ -31,7 +31,7 @@ var dradisstatus = new Ext.StatusBar({
 });
 
 var plugins = new dradis.plugins.PluginManager();
-var uploadPluginsPanel = new dradis.plugins.UploadFormPanel({manager: plugins});
+var uploaders = new dradis.plugins.UploadFormWindow();
 
 /*
  * ------------------------------------------------------- custom ExtJS widgets
@@ -44,6 +44,7 @@ nodestree.on('nodeclick', function(node_id){
   notesbrowser.updateNotes(node_id);
   importer.updateSources(node_id);
   attachments.updateAttachments(node_id);
+  dradistabs.enable();
   if (dradistabs.getActiveTab() === null) {
     dradistabs.setActiveTab(0);
   }
@@ -52,6 +53,11 @@ nodestree.on('nodeclick', function(node_id){
 importer.on('importrecord',function(record){ 
     notesbrowser.addNote(record.data.description ); 
     dradistabs.activate(notesbrowser);
+});
+
+uploaders.on('uploadsuccess', function(){
+  dradistabs.disable();
+  nodestree.refresh();
 });
 
 Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
@@ -87,7 +93,6 @@ Ext.onReady(function() {
             text: 'import from file...', 
             iconCls:'icon-form-magnify',
             handler: function() {
-              var uploaders = new dradis.plugins.UploadFormWindow();
               uploaders.show();
               uploaders.center();
             }
