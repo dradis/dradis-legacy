@@ -57,7 +57,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           iconCls:'x-tbar-loading',
           scope: this,
           handler: function(){ 
-            this.loader.load( this.getRootNode() ); 
+            this.refresh(); 
           }
         },
         {
@@ -259,6 +259,10 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
         this.hiddenNodes.push(n);
       }
     }, this);
+  },
+
+  refresh:function(){
+    this.loader.load( this.getRootNode() );
   }
 
 });
