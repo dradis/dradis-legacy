@@ -15,7 +15,6 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
       height: 100,
       fileUpload:true,
       url: '/upload/import/',
-      baseParams:{ authenticity_token: dradis.token }, //FIXME
       defaults:{
         allowBlank:false,
         anchor:'100%'
@@ -86,6 +85,7 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
 
       this.getForm().submit({
         waitMsg: 'Uploading file...',
+        params:{ authenticity_token: dradis.token }, //FIXME
         success: function(form, action){
           form.fireEvent('uploadsuccess');
         } 
