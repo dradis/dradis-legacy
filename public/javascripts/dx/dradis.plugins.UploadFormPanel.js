@@ -101,6 +101,7 @@ dradis.plugins.UploadFormWindow=Ext.extend(Ext.Window, {
   width: 290,
   height: 150,
   modal:true,
+  closeAction:'hide',
   fields:{},
 
   initComponent: function(){
@@ -130,7 +131,7 @@ dradis.plugins.UploadFormWindow=Ext.extend(Ext.Window, {
     // After parent code
     // e.g. install event handlers on rendered component
     this.fields.form.on('cancel', function(){
-      this.close();
+      this.hide();
     }, this);
   }
 
