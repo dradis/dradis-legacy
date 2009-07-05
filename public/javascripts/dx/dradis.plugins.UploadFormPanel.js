@@ -81,13 +81,13 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
     if(this.getForm().isValid()){
       // FIXME: The proper way of handling this would be to subclass 
       // Ext.form.Action to use dradis.ajax instead of Ext.ajax...
-      Ext.MessageBox.wait('Uploading file...');
 
       this.getForm().submit({
         waitMsg: 'Uploading file...',
         params:{ authenticity_token: dradis.token }, //FIXME
+        scope: this,
         success: function(form, action){
-          form.fireEvent('uploadsuccess');
+          this.fireEvent('uploadsuccess');
         } 
       });
     }
@@ -130,9 +130,19 @@ dradis.plugins.UploadFormWindow=Ext.extend(Ext.Window, {
 
     // After parent code
     // e.g. install event handlers on rendered component
+
+    // We relay the events fired by the form so the interface can handle it, 
+    // but internally we also provide a handler that closes the window.
+    this.relayEvents( this.fields.form, ['cancel', 'uploadsuccess']);
+
+    this.fields.form.on('uploadsuccess', function(){
+      this.hide();
+    }, this);
+
     this.fields.form.on('cancel', function(){
       this.hide();
     }, this);
+
   }
 
   // other methods/actions
