@@ -37,18 +37,29 @@ class UploadController < ApplicationController
   end
 
   def import 
-    p params
-
-    file = params[:file]
-    # process the upload using the plugin
-    
-
     # create an 'Imported files' node
+    uploadsNode = Node.find_by_label(Configuration.uploadsNode)
+    if (uploadsNode.nil?)
+      uploadsNode = Node.new( :label => Configuration.uploadsNode )
+      uploadsNode.save
+    end
     
     # add the file as an attachment
-    #Configuration.increment_revision 
+    attachment = Attachment.new( params[:file].original_filename, :node_id => uploadsNode.id )
+    attachment << params[:file].read
+    attachment.save
 
-    render :text => { :success=>true }.to_json
+    #Increment revision
+    Configuration.increment_revision 
+ 
+    # process the upload using the plugin
+    if( @uploader.import(:file => attachment) )
+    
+      # Notify the caller that everything was fine
+      render :text => { :success=>true }.to_json
+    else
+      # Something went wrong
+    end
   end
 
 end
