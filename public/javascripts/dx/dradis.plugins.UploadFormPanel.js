@@ -37,7 +37,7 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
           emptyText:'Select a file',
           fieldLabel: 'Select a file',
           name:'file',
-          buttonCfg:{ text:'...' }
+          buttonCfg:{ text:'', iconCls:'icon-form-magnify' }
         }
       ],
       buttons:[
@@ -101,6 +101,7 @@ dradis.plugins.UploadFormWindow=Ext.extend(Ext.Window, {
   title:'Import from file',
   width: 290,
   height: 150,
+  modal:true,
   fields:{},
 
   initComponent: function(){
