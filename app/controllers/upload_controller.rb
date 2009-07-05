@@ -33,7 +33,10 @@ class UploadController < ApplicationController
       format.json{ 
         list = []
         Plugins::Upload.included_modules.each do |plugin|
-          list << { :name => plugin.name.underscore.humanize.gsub(/\//,' - '), :formats => [] }
+          list << { 
+            :name => plugin.name.underscore.humanize.gsub(/\//,' - '), 
+            :plugin => plugin.name 
+          }
         end
 
         render :json => list

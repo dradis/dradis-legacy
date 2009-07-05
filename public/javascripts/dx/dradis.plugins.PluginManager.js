@@ -46,7 +46,7 @@ dradis.plugins.PluginManager = function(){
   });
   var uploadPluginsDS = new Ext.data.JsonStore({
     url:'/upload/list/plugins.json',
-    fields: ['name', 'format']
+    fields: ['name', 'plugin']
   });
 
 
