@@ -1,13 +1,11 @@
-NmapUploadImport
+NmapUpload
 ================
 
-Introduction goes here.
+The Nmap upload plugin will enable user to upload Nmap output files in different
+formats to create a structure of nodes/notes that contain the same information
+about the hosts/ports/services as the original file.
 
 
-Example
-=======
-
-Example goes here.
-
-
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+Copyright (c) 2009 dradis Framework, released under the terms of the GNU General 
+Public License version 2.0 as published by the Free Software Foundation and 
+appearing in the file LICENSE included in the packaging of this file.
