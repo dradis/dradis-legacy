@@ -1,13 +1,15 @@
-ProjectExport
-=============
+ProjectManagement
+=================
 
-Introduction goes here.
+This plugin belongs to the export / upload category. It provides functionality 
+to export the current contents of the dradis repository into a package that
+can be downloaded and stored as a backup.
+
+It also provides a 'hook' to the import from file functionality in order to 
+restore the state of dradis from one of these packages.
 
 
-Example
-=======
 
-Example goes here.
-
-
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+Released under the terms of the GNU General Public License version 2.0 as 
+published by the Free Software Foundation and appearing in the file LICENSE 
+included in the packaging of this file.
