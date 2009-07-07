@@ -11,7 +11,7 @@ module NmapUpload
       hostnodename = host.elements['address'].attributes['addr']
       if (!host.elements['hostnames'].elements.empty?)
        hostnodename << '('
-       host.elements['hostnames'].elements.to_a.collect do |hostname|
+       hostnodename << host.elements['hostnames'].elements.to_a.collect do |hostname|
          hostname.attributes['name']
        end.join(",")
        hostnodename << ')'
