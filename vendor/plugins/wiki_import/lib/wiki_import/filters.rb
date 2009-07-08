@@ -4,7 +4,7 @@ module WikiImport
   # in this module.
   module Filters
     
-    # Perform a text search agains the WikiMedia API. See 
+    # Perform a text search against the WikiMedia API. See 
     # http://www.mediawiki.org/wiki/API for further reference.
     module FullTextSearch
       NAME = 'Search in all fields of the wiki'
