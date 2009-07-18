@@ -9,7 +9,7 @@ namespace :export do
   desc "Export the contents of the dradis repository to a Word document"
   task :word => :environment do
     logger = Logger.new(STDOUT)
-    logger.level = Logger::INFO
+    logger.level = Logger::DEBUG
     doc = WordExport::Processor.generate(:logger => logger)
     doc.write(File.new('report.xml','w'), -1, true)
     logger.close

@@ -67,6 +67,21 @@ module WordExport
       return paragraph
     end
 
+
+    # This method will create a new paragraph for the text as the previous 
+    # method. The difference is that this one will inspect the template 
+    # paragraph and if it contains a <w:pPr> element, that element will be
+    # cloned and included in the new paragraph
+    def self.clone_paragraph_with(template, text)
+      paragraph = word_paragraph_for(text)
+
+      if (template.elements[1].name == 'pPr')
+        paragraph.insert_before( paragraph.elements[1], template.elements[1].dup )
+      end
+
+      return paragraph
+    end
+
     public
     # Generate a WordXML instance from a template
     def initialize(params={})

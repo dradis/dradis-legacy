@@ -11,8 +11,16 @@ module WordExport
       send_data(doc, :filename => 'report.xml', :type => :xml)
     end
 
+    # Provide this action so users can download the instructions and get to know
+    # how to use the plugin, create a template, etc.
     def usage_instructions(params={})
       send_file( './vendor/plugins/word_export/instructions.xml' )
+    end
+
+    # Use this option to download the current template so you can hopefully see
+    # where your report and results are coming from.
+    def view_template(params={})
+      send_file( WordExport::Processor::OPTIONS[:template] )
     end
   end
 end

@@ -59,22 +59,24 @@ module WordExport
     # children, apply some WordXML properties
     def self.process_field(note_chunk, field, properties)
       name, value = field
-      placeholder = name.downcase.gsub(/\s/,'')
       
-      domtag = REXML::XPath.first(note_chunk, "//[@id='vuln#{placeholder}']") 
+      domtag = REXML::XPath.first(note_chunk, "//w:fldSimple[contains(@w:instr,'#{name}')]")
       if (domtag.nil?)
         # If the current field is not found in the template, move on
-        @@logger.debug(@@logger_name){ "\tno placeholder for [#{placeholder}] found in the template" }
+        @@logger.debug(@@logger_name){ "\tno custom field for [#{name}] found in the template" }
         return
       end
-      domtag.delete_attribute('id')
+      # Ensure that the custom property field is empty
+      parent_node = domtag.parent.dup
+      empty = REXML::Element.new('dradisplaceholder')
+      domtag.parent.replace_with( empty )
 
       # The value of each field is broken in paragraphs which are added as
       # XML children of the +domtag+
       value.split("\n").each do |paragraph|
-        domtag.add( WordXML.word_paragraph_for(paragraph, properties) )
+        empty.add( WordXML.clone_paragraph_with(parent_node, paragraph) )
       end   
-      domtag.add( WordXML.word_paragraph_for('') )
+
     end
 
     # For every Note in the repository we need to go through it's fields and 
@@ -194,17 +196,15 @@ module WordExport
 
       # For each section of the document (id="section"), we go through 
       # all the notes and duplicate de structure we find there
-      REXML::XPath.each(doc, "//[@id='section']") do |section|
-        section.delete_attribute('id')
+      REXML::XPath.each(doc, "//[local-name()='dradis-section']") do |section|
 
         # for each section we find the note template, we will duplicate it, 
         # fill it with the values of the current note and attach the result to
         # the main document.
-        note_template = REXML::XPath.first(section, "//[@id='template']")
-        note_template.delete_attribute('id')
+        note_template = REXML::XPath.first(section, "#{section.xpath}//[local-name()='dradis-template']")
 
         vuln_template = REXML::Document.new( doc.root.clone.to_s )
-        vuln_template.root.add_element note_template
+        vuln_template.root.add_element note_template.dup
 
   
         Note.find(:all, :conditions => {:category_id => reporting_cat}).each do |note|
@@ -218,9 +218,9 @@ module WordExport
                         field_properties)
 
           # Insert the new Note chunk in the main note tree
-          section.add note_chunk.root.children[0]
+          section.insert_after note_template.xpath, note_chunk.root.children[0]
         end # /Note.find.each
-
+        note_template.remove
       end # /XPath.each id="section"
 
       return doc

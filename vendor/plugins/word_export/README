@@ -31,36 +31,10 @@ found not to be in use by the application.[...]
  
 
 The plugin will split the note text in fields and values, and then will 
-locate the corresponding placeholders in the XML template. These 
-placeholders are located using XPath. For instance if the field name is
-"Title" we will try to locate a tag with id="vulntitle", if it is 
-"Description" we will try to locate a tag with id="vulndescription", etc.
-
-Once the placeholder is found, the field value is splited in lines and a 
-new Word XML paragraph is attached to the placeholder for each line. For 
-example:
-
-  <wx:sub-section id="vulndescription">
-    <w:p>
-      <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
-      <w:r><w:t>Description</w:t></w:r>
-    </w:p>
-         # <-- the contents of the Description field will be placed here
-  </wx:sub-section>
+locate the corresponding placeholders in the XML template. 
 
 A template can have multiple sections, this is useful to have information about
 your notes in more than one location. Think "summary table" and "issue details".
-
-This is done by tagging the template with dummy XML:
-
-
-<dradisplaceholder id="section">
-  <!-- the summary table section -->
-</dradisplaceholder>
-
-<dradisplaceholder id="section">
-  <!-- the issue details section -->
-</dradisplaceholder>
 
 For each "section" in the document, the plugin will cycle through all the notes
 and will try to fill all the placeholders. For instance, the summary section 
@@ -69,6 +43,9 @@ the fields in a note.
 
 See template.xml for a sample WordXML template document and instructions.xml for
 additional instructions on the use of the plugin.
+
+Also review the 'WordExport templates' tutorial at:
+http://dradisframework.org/WordExport_templates.html
 
 
 

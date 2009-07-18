@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!--
+  dradis Framework WordExport XML Schema definition.
+  This schema can be used with Word to generate report templates usable by the
+  framework.
+  
+  http://dradisframework.org/
+  
+  Licensed under the terms specified in the LICENSE file in the packing of this 
+  file.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="dradis-section">
+  <xs:complexType mixed="true">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element name="dradis-template">
+        <xs:complexType mixed="true">
+          <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="dradisplaceholder"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:complexType>     
+</xs:element>
+
+</xs:schema>
