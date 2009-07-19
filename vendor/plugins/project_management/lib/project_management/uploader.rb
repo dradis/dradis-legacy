@@ -52,11 +52,12 @@ module ProjectTemplateUpload
       xml_node.elements.each('notes/note') do |xml_note|
         if xml_note.elements['author'] != nil
           old_id = xml_note.elements['category-id'].text.strip
-          # FIXME: use logger
-          $stderr.puts "rewriting category #{old_id} to #{category_lookup[old_id]}"
+          new_id = category_lookup[old_id]
+
+          logger.debug{ "Note category rewrite, used to be #{old_id}, now is #{new_id}" }
           note = Note.create :author      => xml_note.elements['author'].text.strip,
                               :node_id     => node.id,
-                              :category_id => category_lookup[old_id],
+                              :category_id => new_id,
                               :text        => xml_note.elements['text'].text.strip,
                               :created_at  => xml_note.elements['created-at'].text.strip,
                               :updated_at  => xml_note.elements['updated-at'].text.strip
@@ -74,9 +75,7 @@ module ProjectTemplateUpload
     
     # look for the parent_id of each orphaned node in the node_lookup table
     orphan_nodes.each do |node|
-      # FIXME use logger
-      $stderr.puts " - node #{node.label} orphaned from #{node.parent_id}"
-      $stderr.puts "   assigning to #{node_lookup[node.parent_id.to_s]}"
+      logger.debug{ "Finding parent for orphaned node: #{node.label}. Former parent was #{node.parent_id}" }
       node.parent_id = node_lookup[node.parent_id.to_s]
       node.save
     end
