@@ -2,8 +2,8 @@
 #
 #  = as_template: downloads a copy of the internal database for storage, it 
 #    dumps the contents of the DB into an XML file.
-#  = full_project: exports the database (see db_only) and attachments for each
-#    node. These are presented to the user as 'dradis.zip'.
+#  = full_project: exports the database (see as_template) and attachments for 
+#    each node. These are presented to the user as 'dradis_YYYY-MM-dd.zip'.
 #
 # This plugin theoretically supports any database backend supported by Active
 # Record. It is most efficient when utilising an SQLite database.
@@ -12,21 +12,20 @@ module ProjectExport
     def full_project 
     end
     def as_template
+      nodes = Node.find(:all).to_xml(:include => :notes)
+      categories = Category.find(:all).to_xml
 
       template = REXML::Document.new
-      template << REXML::Element.new('template')
+      template.add( REXML::Element.new('dradis-template') )
+      xml_nodes = REXML::Document.new( nodes )
+      xml_categories = REXML::Document.new( categories )
 
-      template.root << REXML::Document.new(
-                        Category.find(:all).to_xml(:except => [:id, :created_at, :updated_at])
-                       ).root
+      template.root.add_element( xml_nodes.root )
+      template.root.add_element( xml_categories.root )
 
-      template.root << REXML::Element.new('nodes')
-      Node.find(:all, :conditions => {:parent_id => nil} ).each do |branch|
-        # FIXME: How do we associate notes with categories if the id changes? use the name
-        template.root[1] << REXML::Document.new( branch.full_xml ).root
-      end
-
-      send_data template, :filename => 'template.xml',  :type => :xml
+      template << REXML::XMLDecl.new( '1.0', 'UTF-8')
+      template.write( out='', 4 )
+      send_data( out , :filename => 'dradis-template.xml',  :type => :xml )
     end
   end
 end
