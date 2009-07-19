@@ -6,7 +6,7 @@ module ProjectExport
   class Processor
     private
     public
-    def self.db_only()
+    def self.db_only(params={})
       nodes = Node.find(:all).to_xml(:include => :notes)
       categories = Category.find(:all).to_xml
 
