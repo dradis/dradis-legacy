@@ -19,8 +19,8 @@ module ProjectTemplateUpload
     # category id and the new ones so we know to which category we should
     # assign our notes
     template.elements.each('dradis-template/categories/category') do |xml_category|
-      old_id = xml_category.elements['id'].text
-      name = xml_category.elements['name'].text
+      old_id = xml_category.elements['id'].text.strip
+      name = xml_category.elements['name'].text.strip
       category = nil
 
       # Prevent creating duplicate categories
@@ -34,31 +34,37 @@ module ProjectTemplateUpload
 
     # Re generate the Node tree structure
     template.elements.each('dradis-template/nodes/node') do |xml_node|
+      type_id     = xml_node.elements['type-id'].text
+      label       = xml_node.elements['label'].text.strip
+      parent_id   = xml_node.elements['parent-id'].text
+      created_at  = xml_node.elements['created-at'].text.strip
+      updated_at  = xml_node.elements['updated-at'].text.strip
+
       logger.debug{ 'New node detected: ' }
       logger.debug{ "label: #{label}, parent_id: #{parent_id}, type_id: #{type_id}" }
 
-      node = Node.create  :type_id     => xml_node.elements['type-id'].text,
-                          :label       => xml_node.elements['label'].text,
-                          :parent_id   => xml_node.elements['parent-id'].text,
-                          :created_at  => xml_node.elements['created-at'].text,
-                          :updated_at  => xml_node.elements['updated-at'].text
+      node = Node.create  :type_id     => type_id.nil? ? nil : type_id.strip,
+                          :label       => label,
+                          :parent_id   => parent_id.nil? nil : parent_id.strip,
+                          :created_at  => created_at,
+                          :updated_at  => updated_at
 
       xml_node.elements.each('notes/note') do |xml_note|
         if xml_note.elements['author'] != nil
-          old_id = xml_note.elements['category-id'].text
+          old_id = xml_note.elements['category-id'].text.strip
           # FIXME: use logger
           $stderr.puts "rewriting category #{old_id} to #{category_lookup[old_id]}"
-          note = Note.create :author      => xml_note.elements['author'].text,
+          note = Note.create :author      => xml_note.elements['author'].text.strip,
                               :node_id     => node.id,
                               :category_id => category_lookup[old_id],
-                              :text        => xml_note.elements['text'].text,
-                              :created_at  => xml_note.elements['created-at'].text,
-                              :updated_at  => xml_note.elements['updated-at'].text
+                              :text        => xml_note.elements['text'].text.strip,
+                              :created_at  => xml_note.elements['created-at'].text.strip,
+                              :updated_at  => xml_note.elements['updated-at'].text.strip
         end
       end
       
       # keep track of reassigned ids
-      node_lookup[xml_node.elements['id'].text] = node.id
+      node_lookup[xml_node.elements['id'].text.strip] = node.id
 
       if node.parent_id != nil
         # keep track of orphaned nodes
