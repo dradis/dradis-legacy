@@ -1,5 +1,6 @@
-# ProjectExport
+# ProjectManagement
 
+require 'project_management/exporter'
 require 'project_management/actions'
 require 'project_management/uploader'
 
