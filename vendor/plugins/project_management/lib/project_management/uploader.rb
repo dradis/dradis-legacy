@@ -1,7 +1,9 @@
 module ProjectTemplateUpload
   def self.import(params={})
-    
+    logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+ 
     # load the template
+    logger.debug{ "Loading template file from: #{params[:file].fullpath}" }
     template = REXML::Document.new( File.read( params[:file].fullpath ) )
 
     # we need this to be able to convert from old category_id to the new
@@ -22,6 +24,7 @@ module ProjectTemplateUpload
       category = nil
 
       # Prevent creating duplicate categories
+      logger.debug{ "Looking for category: #{name}" }
       if Category.find_by_name(name).nil?
         category = Category.create :name => name
       end
@@ -30,7 +33,10 @@ module ProjectTemplateUpload
     end
 
     # Re generate the Node tree structure
-    template.elements.each('dradis/nodes/node') do |xml_node|
+    template.elements.each('dradis-template/nodes/node') do |xml_node|
+      logger.debug{ 'New node detected: ' }
+      logger.debug{ "label: #{label}, parent_id: #{parent_id}, type_id: #{type_id}" }
+
       node = Node.create  :type_id     => xml_node.elements['type-id'].text,
                           :label       => xml_node.elements['label'].text,
                           :parent_id   => xml_node.elements['parent-id'].text,
