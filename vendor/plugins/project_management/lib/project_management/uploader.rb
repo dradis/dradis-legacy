@@ -25,7 +25,7 @@ module ProjectTemplateUpload
 
       # Prevent creating duplicate categories
       logger.debug{ "Looking for category: #{name}" }
-      if Category.find_by_name(name).nil?
+      if (category = Category.find_by_name(name)).nil?
         category = Category.create :name => name
       end
 
