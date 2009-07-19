@@ -45,7 +45,7 @@ module ProjectTemplateUpload
 
       node = Node.create  :type_id     => type_id.nil? ? nil : type_id.strip,
                           :label       => label,
-                          :parent_id   => parent_id.nil? nil : parent_id.strip,
+                          :parent_id   => parent_id.nil? ? nil : parent_id.strip,
                           :created_at  => created_at,
                           :updated_at  => updated_at
 
