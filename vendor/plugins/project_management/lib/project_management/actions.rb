@@ -12,20 +12,8 @@ module ProjectExport
     def full_project 
     end
     def as_template
-      nodes = Node.find(:all).to_xml(:include => :notes)
-      categories = Category.find(:all).to_xml
-
-      template = REXML::Document.new
-      template.add( REXML::Element.new('dradis-template') )
-      xml_nodes = REXML::Document.new( nodes )
-      xml_categories = REXML::Document.new( categories )
-
-      template.root.add_element( xml_nodes.root )
-      template.root.add_element( xml_categories.root )
-
-      template << REXML::XMLDecl.new( '1.0', 'UTF-8')
-      template.write( out='', 4 )
-      send_data( out , :filename => 'dradis-template.xml',  :type => :xml )
+      template = Processor.db_only
+      send_data( template , :filename => 'dradis-template.xml',  :type => :xml )
     end
   end
 end
