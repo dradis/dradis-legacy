@@ -34,18 +34,21 @@ module ProjectTemplateUpload
 
     # Re generate the Node tree structure
     template.elements.each('dradis-template/nodes/node') do |xml_node|
-      type_id     = xml_node.elements['type-id'].text
+      element = xml_node.elements['type-id']
+      type_id     = element.text.nil? ? nil : element.text.strip
+      
       label       = xml_node.elements['label'].text.strip
-      parent_id   = xml_node.elements['parent-id'].text
+
+      element = xml_node.elements['parent-id']
+      parent_id   = element.text.nil? ? nil : element.text.strip
       created_at  = xml_node.elements['created-at'].text.strip
       updated_at  = xml_node.elements['updated-at'].text.strip
 
-      logger.debug{ 'New node detected: ' }
-      logger.debug{ "label: #{label}, parent_id: #{parent_id}, type_id: #{type_id}" }
+      logger.debug{ "New node detected: #{label}, parent_id: #{parent_id}, type_id: #{type_id}" }
 
-      node = Node.create  :type_id     => type_id.nil? ? nil : type_id.strip,
+      node = Node.create  :type_id     => type_id,
                           :label       => label,
-                          :parent_id   => parent_id.nil? ? nil : parent_id.strip,
+                          :parent_id   => parent_id,
                           :created_at  => created_at,
                           :updated_at  => updated_at
 
