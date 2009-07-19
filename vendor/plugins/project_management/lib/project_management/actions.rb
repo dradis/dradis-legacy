@@ -1,8 +1,15 @@
+# ProjectExport module of the plugin defines two actions:
+#
+#  = as_template: downloads a copy of the internal database for storage, it 
+#    dumps the contents of the DB into an XML file.
+#  = full_project: exports the database (see db_only) and attachments for each
+#    node. These are presented to the user as 'dradis.zip'.
+#
+# This plugin theoretically supports any database backend supported by Active
+# Record. It is most efficient when utilising an SQLite database.
 module ProjectExport
   module Actions
     def full_project 
-    end
-    def db_only
     end
     def as_template
 
