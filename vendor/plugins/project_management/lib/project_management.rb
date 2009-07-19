@@ -9,6 +9,6 @@ module Plugins
     include ProjectExport
   end
   module Upload
-    include TemplateUpload
+    include ProjectTemplateUpload
   end
 end
