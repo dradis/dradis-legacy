@@ -1,3 +1,5 @@
+require 'zip/zip'
+
 module ProjectExport
   # The Processor class does the heavy-lifting of the export functionalities
   # provided by the ProjectManagement plugin.
@@ -24,6 +26,36 @@ module ProjectExport
       template.write( out='', 4 )
 
       return out
+    end
+
+    # Create a new project export bundle. It will include an XML file with the
+    # contents of the repository (see db_only) and all the attachments that 
+    # have been uploaded into the system.
+    def self.full_project(params={})
+      raise ":filename not provided" unless params.key?(:filename)
+      
+      filename = params[:filename]
+      logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+
+      File.delete(filename) if File.exists?(filename)
+
+      logger.debug{ "Creating a new Zip file in #{filename}..." }
+      Zip::ZipFile.open(filename, Zip::ZipFile::CREATE) { |zipfile|
+        Node.find(:all).each do |node|
+          node_path = File.join('attachments', "#{node.id}")
+
+          Dir["#{node_path}/**/**"].each do |file|
+            logger.debug{ "\tAdding attachment for '#{node.label}': #{file}" }
+            zipfile.add(file.sub('attachments/', ''), file)
+          end
+        end
+        
+        logger.debug{ "\tAdding XML repository dump" }
+        zipfile.get_output_stream('dradis-repository.xml') { |out|
+          out << db_only()
+        }
+      }
+      logger.debug{ 'Done.' }
     end
   end
 end
