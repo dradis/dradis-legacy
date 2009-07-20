@@ -37,4 +37,16 @@ namespace :project do
     logger.info{ "Template file created at:\n\t#{ File.expand_path( 'dradis-export.zip' ) }" }
     logger.close
   end
+
+  # The reverse operation to the as_zip task. From a zipped project package
+  # extract the contents of the archive and populate the dradis DB and
+  # attachments with them.
+  desc 'Import the contents of a project package'
+  task :import_project_zip => :environment do
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::DEBUG
+    ProjectPackageUpload::import(:logger => logger, :file => Attachment.new(:filename =>'dradis-export.zip', :node_id => 1))
+    logger.close
+
+  end
 end
