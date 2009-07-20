@@ -3,6 +3,7 @@
 require 'project_management/exporter'
 require 'project_management/actions'
 require 'project_management/uploader'
+require 'project_management/uploader/package'
 
 module Plugins
   module Export
@@ -10,5 +11,6 @@ module Plugins
   end
   module Upload
     include ProjectTemplateUpload
+    include ProjectPackageUpload
   end
 end
