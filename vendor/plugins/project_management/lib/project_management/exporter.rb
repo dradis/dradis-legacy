@@ -6,6 +6,8 @@ module ProjectExport
   class Processor
     private
     public
+    # This method returns an XML representation of current repository which
+    # includes Categories, Nodes and Notes
     def self.db_only(params={})
       nodes = Node.find(:all).to_xml(:include => :notes)
       categories = Category.find(:all).to_xml
