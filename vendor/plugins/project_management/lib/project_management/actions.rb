@@ -9,8 +9,18 @@
 # Record. It is most efficient when utilising an SQLite database.
 module ProjectExport
   module Actions
+
+    # This Export menu entry will send a Zip file containing both the contents
+    # of the repository and any attachments that have been uploaded into the 
+    # current project
     def full_project 
     end
+
+    # This entry will create an XML file containing all the information held in
+    # the repository: categories, nodes and notes.
+    # This can be used, for instance, to create 'methodologies' a series of 
+    # notes and nodes that you can re-use every time you have to perform a 
+    # certain task (e.g. 'web application' test)
     def as_template
       template = Processor.db_only
       send_data( template , :filename => 'dradis-template.xml',  :type => :xml )
