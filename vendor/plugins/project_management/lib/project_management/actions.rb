@@ -14,6 +14,12 @@ module ProjectExport
     # of the repository and any attachments that have been uploaded into the 
     # current project
     def full_project 
+      filename = File.join(RAILS_ROOT, 'tmp', 'dradis-export.zip')
+
+      project = Processor.full_project( :filename => filename)
+      send_file( filename )
+
+      # FIXME: the zip file is left in the tmp/ directory
     end
 
     # This entry will create an XML file containing all the information held in
