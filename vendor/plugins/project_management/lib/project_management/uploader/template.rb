@@ -1,4 +1,21 @@
 module ProjectTemplateUpload
+
+  # The import method is invoked by the framework to process a template file
+  # that has just been uploaded using the 'Import from file...' dialog.
+  # 
+  # This module will take the XMl export file created with the ProjectExport
+  # module and dump the contents into the current database.
+  #
+  # Since we cannot ensure that the original node and category IDs as specified
+  # in the XML are free in this database, we need to keep a few lookup tables 
+  # to maintain the original structure of Nodes and the Notes pointing to the
+  # right nodes and categories.
+  # 
+  # This method also returns the Node lookup table so callers can understand 
+  # what changes to the original IDs have been applied. This is mainly for the
+  # benefit of the ProjectPackageUpload module that would use the translation
+  # table to re-associate the attachments in the project archive with the new
+  # node IDs in the current project.
   def self.import(params={})
     logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
  
@@ -83,5 +100,6 @@ module ProjectTemplateUpload
       node.save
     end
 
+    return node_lookup
   end
 end
