@@ -26,4 +26,15 @@ namespace :project do
     logger.close
   end
 
+  # Save the current project into a Zip file. The archive will contain an XML
+  # file with the contents of the database (categories, nodes and notes) and
+  # all the attachments that have been uploaded into the system.
+  desc 'Save the project information into a Zip file.'
+  task :as_zip => :environment do
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::DEBUG
+    ProjectExport::Processor.full_project(:logger => logger, :filename => 'dradis-export.zip')
+    logger.info{ "Template file created at:\n\t#{ File.expand_path( 'dradis-export.zip' ) }" }
+    logger.close
+  end
 end
