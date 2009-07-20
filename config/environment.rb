@@ -63,7 +63,10 @@ Rails::Initializer.run do |config|
   # FIX from http://robsanheim.com/2008/01/08/rails-observers-make-rake-dbmigrate-crash-from-version-0/
   # to prevent rake db tasks from loading the observer (uses the 
   # 'configurations' table not available until revision 4)
-  if ((File.basename($0) == 'rake') && (%w{create drop migrate reset}.any? { |task| ARGV.include?("db:#{task}") })) 
+  if (
+       (File.basename($0) == 'rake') && 
+       (%w{create drop migrate reset}.any? { |task| ARGV.include?("db:#{task}")||ARGV.include?("dradis:#{task}") })
+     ) 
     # running rake, disable import/export plugins
     config.plugins = [ ]
   else
