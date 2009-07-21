@@ -1,5 +1,5 @@
-<% form_for :password, :url => { :action => 'setup' } do |f| -%>
 <p>This server doesn't have a password yet, please set up one:</p>
+<% form_for :password, :url => { :action => 'setup' } do |f| -%>
 <p><label for="password">Password</label><br/>
 <%= f.password_field :value %></p>
 
