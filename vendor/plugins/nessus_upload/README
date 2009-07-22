@@ -1,0 +1,21 @@
+NessusUpload
+================
+
+The Nessus upload plugin will enable user to upload Nessus output files in the
+nessus client format (.nessus) to create a structure of nodes/notes that contain
+the same information about the hosts/ports/services as the original file.
+
+Details about the NessusClient file format can be found here:
+www.nessus.org/documentation/dot_nessus_file_format.pdf
+
+Other formats (nbe, nsr) are not supported at the moment.
+
+To create a .nessus file just click on File -> Save As in your nessus gui (version 4.x)
+
+The config file allows you to control parts of the behaviour of the plugin. I will add
+a detailed description in a later release...
+
+
+Released under the terms of the GNU General Public License version 2.0 as 
+published by the Free Software Foundation and appearing in the file LICENSE 
+included in the packaging of this file.

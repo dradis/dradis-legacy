@@ -1,0 +1,8 @@
+add_host_details: true               
+parse_host_details: true 
+add_title: true
+add_data: true
+parse_data: true
+add_pluginID: false
+add_severity: false
+
