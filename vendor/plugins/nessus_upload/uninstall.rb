@@ -6,7 +6,7 @@ for path in [ ['config', 'nessus_upload.yml'] ]
 
   if File.exists?(full_path)
     print 'exists, it was created by the plugin and is no longer needed, remove [yN]? '
-    if gets("\n").chomp.downcase.first == 'y'
+    if STDIN.gets("\n").chomp.downcase.first == 'y'
       File.delete( full_path )
     else
       puts "    ...skipped";
