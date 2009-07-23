@@ -1,27 +1,12 @@
 module <%= class_name %>  
+  private
+  public
   
-  # complete this with the different filters that your import plugin defines
-  module Filters
+  # This method will be called by the framework when the user selects your 
+  # plugin from the drop down list of the 'Import from file' dialog
+  def self.import(params={})
+    file_content = File.read( params[:file].fullpath )
 
-    # Dummy filter that can be deleted
-    module SearchInArray
-      NAME = "Dummy filter: Search for a word in a static array (['red', 'blue', 'green']"
-      CONF = {
-        :list => ['red', 'blue', 'green']
-      }
-      def self.run(params={})
-        records = []
-        if (CONF[:list].include?(params[:query]))
-          records << { :title => 'Search found!', :description => 'The search term was found in the list' }
-        else
-          records << { :title => 'Not found', :description => 'The search term was not in the list' }
-        end
-        records << {:title => 'Filter information', :description => "This filter is implemented in #{__FILE__}"}
-        return records
-      end
-    end
- 
-    # Your filters go here
-
+    # TODO: do something with the contents of the file!
   end
 end

@@ -1,8 +1,8 @@
-class ImportPluginGenerator < Rails::Generator::NamedBase
+class UploadPluginGenerator < Rails::Generator::NamedBase
   attr_reader :plugin_path
 
   def initialize(runtime_args, runtime_options = {})
-    runtime_args[0] = runtime_args[0].underscore + "_import" if runtime_args[0] && !(runtime_args[0].tableize =~ /.*_import/)
+    runtime_args[0] = runtime_args[0].underscore + "_upload" if runtime_args[0] && !(runtime_args[0].tableize =~ /.*_upload/)
     super
     @plugin_path = "vendor/plugins/#{file_name}"
   end
@@ -28,7 +28,6 @@ class ImportPluginGenerator < Rails::Generator::NamedBase
       m.template 'unit_test.rb',  "#{plugin_path}/test/#{file_name}_test.rb"
       m.template 'meta.rb',       "#{plugin_path}/lib/#{file_name}/meta.rb"
       m.template 'filters.rb',    "#{plugin_path}/lib/#{file_name}/filters.rb"
-      m.template 'USAGE',         "#{plugin_path}/USAGE"
 
       m.readme "USAGE"
     end
