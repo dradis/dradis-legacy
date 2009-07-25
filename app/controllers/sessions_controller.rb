@@ -10,6 +10,32 @@ class SessionsController < ApplicationController
     unless Configuration.password.match('dradis')
       redirect_to :action => :new
     end
+    if session[:meta_server]
+    end
+  end
+
+  def change_metaserver
+    session[:meta_server] = nil
+    render :update do |page|
+      page.replace_html 'meta_server', :partial => 'meta_server'
+    end
+  end
+
+  def get_projects
+    render :update do |page|
+      @projects = nil
+      begin
+        @meta_server = session[:meta_server] || MetaServer.new( params.fetch( :meta_server, {} ) )
+        Project.site = @meta_server.site_url
+        Revision.site = Project.site + 'projects/:project_id'
+        @projects = Project.find(:all)
+        page.replace_html 'meta_server', :partial => 'project_browser'
+        session[:meta_server] = @meta_server
+      rescue Exception => e
+        flash.now[:meta_server] = e.message
+        page.replace_html 'meta_server', :partial => 'meta_server'
+
+    end
   end
   
   def setup
