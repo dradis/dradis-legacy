@@ -10,6 +10,18 @@ class Project < ActiveResource::Base
   # TODO: Fix this to apply the same patch as we did in the client to be able to
   # have class.site, .user & .password because some combinations cannot be easily
   # converted into URI. See r1081
+
+  # This method takes a MetaServer object as input, configures the ActiveResource
+  # URLs for Project and Revision and pulls a list of projects from the remote
+  # Meta-Server.
+  # 
+  # If the configuration in the MetaServer is invalid, and exception will be
+  # thrown.
+  def self.find_from_metaserver(meta_server)
+    Project.site = meta_server.site_url
+    Revision.site = Project.site + 'projects/:project_id'
+    return Project.find(:all)
+  end
 end
 
 # The Revision class represents a project's revision as stored in the Meta-Server 
