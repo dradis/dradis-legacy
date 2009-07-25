@@ -10,7 +10,11 @@ class SessionsController < ApplicationController
     unless Configuration.password.match('dradis')
       redirect_to :action => :new
     end
+    @projects = nil
+    @new_project = true
     if session[:meta_server]
+      @new_project = false
+      @projects = Project.find_from_metaserver( session[:meta_server] )
     end
   end
 
@@ -25,16 +29,15 @@ class SessionsController < ApplicationController
     render :update do |page|
       @projects = nil
       begin
-        @meta_server = session[:meta_server] || MetaServer.new( params.fetch( :meta_server, {} ) )
-        Project.site = @meta_server.site_url
-        Revision.site = Project.site + 'projects/:project_id'
-        @projects = Project.find(:all)
+        meta_server = session[:meta_server] || MetaServer.new( params.fetch( :meta_server, {} ) )
+        @projects = Project.find_from_metaserver(meta_server)
+        session[:meta_server] = meta_server
+
         page.replace_html 'meta_server', :partial => 'project_browser'
-        session[:meta_server] = @meta_server
       rescue Exception => e
         flash.now[:meta_server] = e.message
         page.replace_html 'meta_server', :partial => 'meta_server'
-
+      end
     end
   end
   
@@ -44,31 +47,91 @@ class SessionsController < ApplicationController
       return
     end
 
+    mode = params.fetch(:mode, nil)
+    # Just in case validation fails, ensure that the checkboxes have the right
+    # selection
+    session[:meta_server] = nil if (mode == 'new')
+    @new_project = session[:meta_server] ? false : true
+
+    # Step 1:  Password and Password confirmation match
     pwd = params.fetch( :password, nil )
     if (pwd.nil?)
-      flash.now[:error] = 'You need to provide new password information.'
-      render :action => :init
+      flash[:error] = 'You need to provide new password information.'
+      redirect_to :action => :init
       return
     end
     
     pwd1 = pwd.fetch( :value, nil )
     pwd2 = pwd.fetch( :confirm_value, nil )
     
-    if (pwd1.nil? || pwd2.nil?)
-      flash.now[:error] = 'You need to provide both a password and a confirmation.'
-      render :action => :init
+    if (pwd1.nil? || pwd2.nil? || pwd1.blank?)
+      flash[:error] = 'You need to provide both a password and a confirmation.'
+      redirect_to :action => :init
       return
     end
     
     if not pwd1 == pwd2
-      flash.now[:error] = 'The password did not match the confirmation.'
-      render :action => :init
+      flash[:error] = 'The password did not match the confirmation.'
+      redirect_to :action => :init
       return      
     end
     
+    # Step 2: Ensure that we have a Revision, if the user has chosen meta-server mode
+    revision = params.fetch(:revision, nil)
+
+    if (mode.nil? || ((mode!='meta-server') & (mode!='new')))
+      flash[:error] = 'You have to choose a valid mode'
+      redirect_to :action => :init
+      return      
+    end
+
+    if (mode == 'meta-server') && revision.nil? 
+      flash[:error] = 'You have to choose a revision to checkout'
+      redirect_to :action => :init
+      return      
+    end
+
+    if (mode == 'meta-server') && session[:meta_server].nil?
+      # TODO: this should never happen!!
+      #flash[:error] = 'You have to choose a revision to checkout'
+      redirect_to :action => :init
+      return      
+    end
+    
+    
+    project_revision = nil
+    if ( !@new_project )
+      project, revision = revision.split('_')
+      p_id = project.to_i
+      r_id = revision.to_i
+      begin
+        Project.find_from_metaserver( session[:meta_server] )
+        project = Project.find(p_id)
+        revision_found = false
+        project.attributes['revisions'].each do |rev|
+          next if (rev.id != r_id)
+          revision_found = true
+          project_revision = rev
+        end
+
+        if !revision_found
+          flash[:error] = 'Invalid revision'
+          redirect_to :action => :init
+          return      
+        end
+      rescue
+          flash[:error] = 'Invalid revision'
+          redirect_to :action => :init
+          return      
+      end
+    end
+
+    # Step 3: Initialise the project
     c = Configuration.find_by_name('password')
     c.value = pwd1
     c.save
+
+    # Download project revision
     
     flash[:notice] =  'Password set. Please log in.<br/> Remember to adjust the client configuration file (client/conf/dradis.xml).'
     redirect_to :action => :new
