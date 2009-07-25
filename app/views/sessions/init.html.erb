@@ -1,15 +1,15 @@
             <div id="server_init">
-              <% form_for :password, :url => { :action => 'setup' } do |f| -%>
+              <% form_tag :action => 'setup' do -%>
               <h2>Server password</h2>
               <div>This server does not have a password yet, please set up one:</div>
               <div class="form_group">
                 <div>
                   <label for="password">Password</label>
-                  <%= f.password_field :value %>
+                  <%= password_field_tag 'password[value]', nil, :class => 'password' %>
                 </div>
                 <div>
                   <label for="password_confirmation">Confirm Password</label>
-                  <%= f.password_field :confirm_value %>  
+                  <%= password_field_tag 'password[confirm_value]', nil, :class => 'password' %>  
                 </div>
               </div>
   
@@ -19,33 +19,26 @@
               <div class="form_group">
                 <div>
                   <label>New project</label>
-                  <%= f.radio_button 'mode', 'new', 
-                          :checked => true, 
-                          :onclick=>"javascript:toggleform('none');" %>
+                  <%= radio_button_tag 'mode', 'new', @new_project,  
+                          :onclick=>"javascript:$(meta_server).hide();" %>
                 </div>
                 <div>
                   <label>Checkout project</label>
-                  <%= f.radio_button 'mode', 'meta-server',
-                          :onclick=>"javascript:toggleform('block');" %>
+                  <%= radio_button_tag 'mode', 'meta-server', !@new_project,
+                          :onclick=>"javascript:$(meta_server).show();" %>
                 </div>
               </div>
               <div class="form_group" id="meta_server">
+              <% if @projects %>
+                <%= render :partial => 'project_browser' %>
+              <% else %>
                 <%= render :partial => 'meta_server' %>
+              <% end %>
               </div>
               <div class="right clear"><%= submit_tag 'Initialize', :id => 'init', :class => 'submit' %></div>
               <% end -%>
 
             </div>
             <script type="text/javascript">
-              function toggleform(new_value){
-                document.getElementById('meta_server').style.display = new_value;
-                if (new_value === 'none'){
-                  //document.getElementById('init').disabled = false;
-                  document.getElementById('init').style.visibility = 'visble';
-                } else {
-                  //document.getElementById('init').disabled = true;
-                  document.getElementById('init').style.visibility = 'hidden';
-                }
-              }
-              toggleform('none');
+            <% if @new_project %>$(meta_server).hide();<% else %>$(meta_server).show();<% end %>
             </script>
