@@ -6,9 +6,17 @@ v2.x (xx of xxx 2009)
 v2.3 (xxth of xx 2009)
  - expand / collapse buttons in the tree
  - add a new node filtering facility to the tree
- - refactor the WordExport plugin. Read more about it here:-
-     http:///////
- - Import from file functionality
+ - import from file functionality (nmap, nessus, etc.)
+ - refactor the WordExport plugin:
+     - create templates using Word only
+     - convert any document into a dradis template in < 10 minutes
+     - read more about it here:-
+         http://dradisframework.org/WordExport_templates.html
+
+ - project management plugin update:
+     - create project templates (read 'methodologies')
+     - export project in .zip format (DB + attachments)
+     - import projects/templates
 
 v2.2 (11th of June 2009)
  - add attachments to nodes
