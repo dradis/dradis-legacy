@@ -13,51 +13,13 @@ module WordExport
       :template => './vendor/plugins/word_export/template.xml',
       #FIXME:category_name => REPORTING_CATEGORY_NAME,
       :required_fields => ['Title', 'Description', 'Recommendation'],
-      :field_properties => {
-        # In specific field we can add extra text attributes
-
-        # The "created at" text will be:
-        #   - in italics
-        #   - and Arial 8 (numbers are x2)
-        'created' => {
-          # TODO: maybe the WordXML could provide some friendlier property 
-          #  constants, for example: WordXML::Properties::Run::Italics
-          :rprops => [
-            { :root => 'w:i' }, # Italics
-            {
-              :root => 'w:rFonts', 
-              :attributes => { 
-                'w:ascii' => 'Arial', 
-                'w:h-ansi' => 'Arial', 
-                'w:cs' => 'Arial' 
-              }
-            },
-            { :root => 'wx:font', :attributes => { 'wx:val' => 'Arial' } },
-            { :root => 'w:sz', :attributes => { 'w:val' => '16' } },
-            { :root => 'w:sz-cs', :attributes => { 'w:val' => '16' } }
-          ], # /rprops
-          
-          # Additional properties for some special paragraphs 
-
-          # The "created at" paragraph will be:
-          #   - right aligned
-          :pprops => [
-            {:root => 'w:jc', :attributes => {'w:val' => 'right'} }
-          ] # /pprops
-        }, # /created
-
-        'Title' =>{
-           # Apply the "Heading1" style to the Vulnerability Title
-          :pprops => [ {:root => 'w:pStyle', :attributes => {'w:val' => 'Heading1'} } ]
-        } # /Title
-      }  
     }
     @@logger = nil
     @@logger_name = nil
 
     # For every field in the note, we have to find the placeholder, nest some
     # children, apply some WordXML properties
-    def self.process_field(note_chunk, field, properties)
+    def self.process_field(note_chunk, field)
       name, value = field
       
       domtag = REXML::XPath.first(note_chunk, "//w:fldSimple[contains(@w:instr,'#{name}')]")
@@ -81,7 +43,7 @@ module WordExport
 
     # For every Note in the repository we need to go through it's fields and 
     # try to fill in the placeholders in the template.
-    def self.process_note(vuln_template, note, required_fields, field_properties)
+    def self.process_note(vuln_template, note, required_fields)
       note_chunk = REXML::Document.new(vuln_template.to_s)
 
       @@logger.debug(@@logger_name){ "processing Note #{note.id}" }
@@ -119,8 +81,7 @@ module WordExport
       # we populate the entity with the value of the field.
       fields.each do |field|
         @@logger.debug(@@logger_name){ "\tParsing field: #{field[0]}... " }
-        properties = field_properties.fetch( field[0], {})
-        process_field(note_chunk, field, properties) 
+        process_field(note_chunk, field) 
         @@logger.debug(@@logger_name){ "\tdone." }
       end
 
@@ -180,7 +141,6 @@ module WordExport
       @@logger_name = options[:logger_name]
       template = options[:template]
       required_fields = options[:required_fields]
-      field_properties = options[:field_properties]
 
       # ------------------------------------------------------ /init properties
       @@logger.info{ 'Generating Word report' } 
@@ -214,8 +174,7 @@ module WordExport
           note_chunk = process_note( 
                         vuln_template, 
                         note,
-                        required_fields,
-                        field_properties)
+                        required_fields)
 
           # Insert the new Note chunk in the main note tree
           section.insert_after note_template.xpath, note_chunk.root.children[0]
