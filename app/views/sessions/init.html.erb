@@ -1,10 +1,51 @@
-<p>This server doesn't have a password yet, please set up one:</p>
-<% form_for :password, :url => { :action => 'setup' } do |f| -%>
-<p><label for="password">Password</label><br/>
-<%= f.password_field :value %></p>
+            <div id="server_init">
+              <% form_for :password, :url => { :action => 'setup' } do |f| -%>
+              <h2>Server password</h2>
+              <div>This server does not have a password yet, please set up one:</div>
+              <div class="form_group">
+                <div>
+                  <label for="password">Password</label>
+                  <%= f.password_field :value %>
+                </div>
+                <div>
+                  <label for="password_confirmation">Confirm Password</label>
+                  <%= f.password_field :confirm_value %>  
+                </div>
+              </div>
+  
+              <h2>Meta-Server</h2>
+              <div>You can create a new project or checkout one from the
+              Meta-Server:</div>
+              <div class="form_group">
+                <div>
+                  <label>New project</label>
+                  <%= f.radio_button 'mode', 'new', 
+                          :checked => true, 
+                          :onclick=>"javascript:toggleform('none');" %>
+                </div>
+                <div>
+                  <label>Checkout project</label>
+                  <%= f.radio_button 'mode', 'meta-server',
+                          :onclick=>"javascript:toggleform('block');" %>
+                </div>
+              </div>
+              <div class="form_group" id="meta_server">
+                <%= render :partial => 'meta_server' %>
+              </div>
+              <div class="right clear"><%= submit_tag 'Initialize', :id => 'init', :class => 'submit' %></div>
+              <% end -%>
 
-<p><label for="password_confirmation">Confirm Password</label><br/>
-<%= f.password_field :confirm_value %></p>
-
-<div class="right"><%= submit_tag 'Set password', :class => 'submit' %></div>
-<% end -%>
+            </div>
+            <script type="text/javascript">
+              function toggleform(new_value){
+                document.getElementById('meta_server').style.display = new_value;
+                if (new_value === 'none'){
+                  //document.getElementById('init').disabled = false;
+                  document.getElementById('init').style.visibility = 'visble';
+                } else {
+                  //document.getElementById('init').disabled = true;
+                  document.getElementById('init').style.visibility = 'hidden';
+                }
+              }
+              toggleform('none');
+            </script>
