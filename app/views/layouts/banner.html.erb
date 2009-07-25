@@ -2,19 +2,22 @@
   <head>
     <title>Welcome to dradis</title>
     <%= stylesheet_link_tag 'banner.css' %>
+    <%= javascript_include_tag 'prototype', 'application' %>
   </head>
   <body>
     <div class="main main_margin">
 
-  	  <div class="content">								
-			  	<div class="text">					
-            <%= image_tag 'banner.png' %>
-            <%= @content_for_layout %>
+      <div class="content">								
+        <div class="text">					
+            <div style="height: 100px; overflow: hidden;">
+            <%= image_tag 'banner.png', :style=>'margin-top: -20px;' %>
+            </div>
+<%= @content_for_layout %>
             <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
             <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
             <noscript><div id="nojs">Please enable JavaScript support.</div></noscript>
-  			  </div>
-	  	</div>
+        </div>
+      </div>
       <div class="content_bottom">
         effective information sharing - <a href="http://dradis.sourceforge.net/">dradis framework</a>	
   		</div>
