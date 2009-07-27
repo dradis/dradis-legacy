@@ -31,5 +31,42 @@ module ProjectExport
       template = Processor.db_only
       send_data( template , :filename => 'dradis-template.xml',  :type => :xml )
     end
+
+    
+    # Pack the current project( using Processor.full_project) and send it to 
+    # the Meta-Server either as a new Project or a new Revision of an old 
+    # project depending on how this project was started (see SessionController#setup).
+    def metaserver_commit 
+
+      # Step 1: Find the right Project to commit a new Revision to
+      # FIXME: Hard coded MetaServer config? You can do better than this!
+      Project.site_from_metaserver( MetaServer.new( 
+                                      'host' => '192.168.49.128',
+                                      'port' => '3000',
+                                      'user' => 'etd',
+                                      'password' => 'etd001') 
+                                  )
+
+      project = nil
+      mode = Configuration.find_by_name('mode').value
+      if (mode == 'new')
+        project = Project.new
+        project.attributes[:title] = "NewProject_#{DateTime.now.strftime('%Y-%m-%d')}"
+        project.save
+      else
+        project = Project.find( Configuration.find_by_name('project').value.to_i )
+      end
+
+      # Step 2: create the project package in ./tmp/
+      filename = File.join(RAILS_ROOT, 'tmp', 'dradis-export.zip')
+      Processor.full_project( :filename => filename)
+      contents = Base64::encode64( File.read( filename ) )
+      File.delete( filename )
+
+      # Step 3: send it over to the Meta-Server
+      project.post( :add_revision, {}, {:package => contents}.to_xml(:root => 'revision') )
+
+      redirect_to :back
+    end
   end
 end
