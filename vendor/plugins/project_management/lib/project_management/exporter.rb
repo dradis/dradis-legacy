@@ -23,7 +23,7 @@ module ProjectExport
       template.root.add_element( xml_categories.root )
 
       template << REXML::XMLDecl.new( '1.0', 'UTF-8')
-      template.write( out='', 4 )
+      template.write( out='', 2 )
 
       return out
     end
