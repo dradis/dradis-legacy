@@ -62,7 +62,9 @@ class SessionsController < ApplicationController
     c.value = @password 
     c.save
 
-    if (!@new_project)
+    if (@new_project)
+      Configuration.create( :name => 'mode', :value => 'new' )
+    else
       # Download project revision
       uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
       import_path = File.join( RAILS_ROOT, 'attachments', uploadsNode.id.to_s )
@@ -77,6 +79,9 @@ class SessionsController < ApplicationController
         :file => Attachment.new(:filename => 'revision_import.zip', 
                                 :node_id => uploadsNode.id) 
       )
+
+      Configuration.create( :name => 'mode', :value => 'meta-server' )
+      Configuration.create( :name => 'project', :value => @project_revision.prefix_options[:project_id].to_s )
     end
 
     flash[:notice] =  'Password set. Please log in.<br/> Remember to adjust the client configuration file (client/conf/dradis.xml).'
