@@ -211,9 +211,7 @@ class SessionsController < ApplicationController
       p_id = project.to_i
       r_id = revision.to_i
       begin
-        # FIXME: Split find_from_metaserver into 'setup' and 'find' steps so we
-        #   can use the 'setup' here
-        Project.find_from_metaserver( session[:meta_server] )
+        Project.site_from_metaserver( session[:meta_server] )
         project = Project.find(p_id)
         revision_found = false
         project.attributes['revisions'].each do |rev|

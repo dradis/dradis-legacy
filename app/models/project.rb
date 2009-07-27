@@ -18,9 +18,14 @@ class Project < ActiveResource::Base
   # If the configuration in the MetaServer is invalid, and exception will be
   # thrown.
   def self.find_from_metaserver(meta_server)
+    Project.site_from_metaserver(meta_server)
+    return Project.find(:all)
+  end
+
+  # Configures ActiveResource URLs from a given MetaServer instance
+  def self.site_from_metaserver(meta_server)
     Project.site = meta_server.site_url
     Revision.site = Project.site + 'projects/:project_id'
-    return Project.find(:all)
   end
 end
 
