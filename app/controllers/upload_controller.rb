@@ -38,12 +38,8 @@ class UploadController < ApplicationController
 
   def import 
     # create an 'Imported files' node
-    uploadsNode = Node.find_by_label(Configuration.uploadsNode)
-    if (uploadsNode.nil?)
-      uploadsNode = Node.new( :label => Configuration.uploadsNode )
-      uploadsNode.save
-    end
-    
+    uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
+   
     # add the file as an attachment
     attachment = Attachment.new( params[:file].original_filename, :node_id => uploadsNode.id )
     attachment << params[:file].read
