@@ -62,6 +62,23 @@ class SessionsController < ApplicationController
     c.value = @password 
     c.save
 
+    if (!@new_project)
+      # Download project revision
+      uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
+      import_path = File.join( RAILS_ROOT, 'attachments', uploadsNode.id.to_s )
+      FileUtils.mkdir_p( import_path )
+      package_file = File.join( import_path, 'revision_import.zip' )
+      File.open( package_file, 'wb+') do |f|
+        f.write Base64::decode64( @project_revision.get(:download) )
+      end
+
+      # Unpack, restore the DB and attachments
+      ProjectPackageUpload.import( 
+        :file => Attachment.new(:filename => 'revision_import.zip', 
+                                :node_id => uploadsNode.id) 
+      )
+    end
+
     flash[:notice] =  'Password set. Please log in.<br/> Remember to adjust the client configuration file (client/conf/dradis.xml).'
     redirect_to :action => :new
   end
@@ -212,7 +229,6 @@ class SessionsController < ApplicationController
       end
     end
    
-    p @project_revision
     return true
   end
 end
