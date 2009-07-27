@@ -63,11 +63,24 @@ module ProjectTemplateUpload
 
       logger.debug{ "New node detected: #{label}, parent_id: #{parent_id}, type_id: #{type_id}" }
 
-      node = Node.create  :type_id     => type_id,
-                          :label       => label,
-                          :parent_id   => parent_id,
-                          :created_at  => created_at,
-                          :updated_at  => updated_at
+      # There is one exception to the rule, the Configuration.uploadsNode node,
+      # it does not make sense to have more than one of this nodes, in any 
+      # given tree
+      node = nil  
+      if ( label == Configuration.uploadsNode )
+        node = Node.find_or_create_by_label( label, {
+                                                      :type_id => type_id,
+                                                      :parent_id => parent_id,
+                                                      :created_at => created_at,
+                                                      :updated_at => updated_at
+                                                    })
+      else
+        node = Node.create  :type_id     => type_id,
+                            :label       => label,
+                            :parent_id   => parent_id,
+                            :created_at  => created_at,
+                            :updated_at  => updated_at
+      end
 
       xml_node.elements.each('notes/note') do |xml_note|
         if xml_note.elements['author'] != nil
