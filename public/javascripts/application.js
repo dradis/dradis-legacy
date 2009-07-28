@@ -19,7 +19,7 @@ function expandProject(id) {
 }
 
 function projectClick(id) {
-    el = $(id);
+    var el = $(id);
     if (el.hasClassName('open')) {
         collapseProject(id);
         el.addClassName('collapsed');
