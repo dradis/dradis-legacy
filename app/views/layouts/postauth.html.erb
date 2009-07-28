@@ -31,12 +31,9 @@
         <div id="import" class="x-hide-display">import from external sources</div>
         <div id="attachments" class="x-hide-display">add attachment to node</div>
         <div id="properties" class="x-hide-display">properties pane is not implemented yet.</div>
+        <div id="first_render" class="x-hide-display"><%= render :partial => 'first_render' %></div>
       </div>
-      <% if flash[:first_login] %>
-        <%= render :partial => "first_render" %>
-      <% end %>
-      <%#= link_to_remote 'label', :url => { :action => "notes", :parent_id => 83, :parent_type=> 'foo', :position => 7 } %>
-      <%#= @content_for_layout %>
+
       <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
       <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
     </div>
