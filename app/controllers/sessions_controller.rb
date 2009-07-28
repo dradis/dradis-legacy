@@ -128,10 +128,10 @@ class SessionsController < ApplicationController
   # by checking the existance of a file in the config folder
   # the file is created if it does not exist
   def first_login?
-    if File.exists?(File.join(RAILS_ROOT, "config/fist_login.txt"))
+    if File.exists?(File.join(RAILS_ROOT, "config/first_login.txt"))
       first_login = false
     else
-      file_handle = File.new(File.join(RAILS_ROOT, "config/fist_login.txt"), "w")
+      file_handle = File.new(File.join(RAILS_ROOT, "config/first_login.txt"), "w")
       file_handle << "This file indicates that a succesful login event has occurred on this dradis instance"
       file_handle.close
       first_login = true
