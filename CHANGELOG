@@ -1,6 +1,5 @@
 v2.x (xx of xxx 2009)
  - sample VulnDB import plugin
- - sample Project export plugin
 
 
 v2.3 (xxth of xx 2009)
@@ -17,6 +16,10 @@ v2.3 (xxth of xx 2009)
      - create project templates (read 'methodologies')
      - export project in .zip format (DB + attachments)
      - import projects/templates
+     - checkout / commit project revisions from and to the Meta-Server
+
+ - "what's new in this version?" widget in the status bar to learn the latest
+ features added to the framework.
 
 v2.2 (11th of June 2009)
  - add attachments to nodes
