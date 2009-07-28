@@ -27,7 +27,25 @@ var dradisoverview = new Ext.Panel({
 
 var dradisstatus = new Ext.StatusBar({
   region: 'south',
-  defaultText: ''
+  defaultText: '',
+  welcome:{},
+  items: [
+    {
+      text:'what\'s new in this version?',
+      enableToggle:true,
+      listeners:{
+        toggle:function(){
+          if ( dradistabs.items.length != 4 ) {
+            this.welcome = new Ext.Panel({ contentEl:'first_render', title: 'What\'s new?' });
+            dradistabs.add(this.welcome);
+            dradistabs.setActiveTab(this.welcome);
+          } else {
+            dradistabs.remove(this.welcome, false);
+          }
+        }
+      }
+    }
+  ]
 });
 
 var plugins = new dradis.plugins.PluginManager();
@@ -97,7 +115,7 @@ Ext.onReady(function() {
               uploaders.center();
             }
           },
-          {
+         {
             text: 'export',
             tooltip: 'export dradis contents to external sources',
             iconCls: 'export',
@@ -123,6 +141,11 @@ Ext.onReady(function() {
     ]
   });
   vp.doLayout();
+
+  if (dradis.firstrender){
+    dradisstatus.items.get(0).toggle();
+  }
+
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
   plugins.refresh();
 });
