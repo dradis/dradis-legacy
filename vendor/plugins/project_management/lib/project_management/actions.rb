@@ -42,7 +42,7 @@ module ProjectExport
       # FIXME: Hard coded MetaServer config? You can do better than this!
       Project.site_from_metaserver( MetaServer.new( 
                                       'host' => '192.168.49.128',
-                                      'port' => '3000',
+                                      'port' => '4000',
                                       'user' => 'etd',
                                       'password' => 'etd001') 
                                   )
