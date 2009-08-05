@@ -2,7 +2,7 @@ v2.x (xx of xxx 2009)
  - sample VulnDB import plugin
 
 
-v2.3 (xxth of xx 2009)
+v2.3 (5th of August 2009)
  - expand / collapse buttons in the tree
  - add a new node filtering facility to the tree
  - import from file functionality (nmap, nessus, etc.)
