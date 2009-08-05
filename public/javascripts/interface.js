@@ -36,7 +36,7 @@ var dradisstatus = new Ext.StatusBar({
       listeners:{
         toggle:function(){
           if ( dradistabs.items.length != 4 ) {
-            this.welcome = new Ext.Panel({ contentEl:'first_render', title: 'What\'s new?' });
+            this.welcome = new Ext.Panel({ contentEl:'first_render', title: 'What\'s new?', autoScroll: true });
             dradistabs.add(this.welcome);
             dradistabs.setActiveTab(this.welcome);
           } else {
