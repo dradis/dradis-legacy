@@ -68,6 +68,17 @@ nodestree.on('nodeclick', function(node_id){
   }
 });
 
+nodestree.on('notesdrop', function(drop_ev) {
+  var notes = drop_ev.data.selections; 
+  var node_id = drop_ev.target.id;
+
+  for(var i = 0, len = notes.length; i < len; i++){
+    notesbrowser.moveNoteToNode(notes[i].id, node_id);
+  }
+
+  setTimeout( 'notesbrowser.refresh();', 3000);
+});
+
 importer.on('importrecord',function(record){ 
     notesbrowser.addNote(record.data.description ); 
     dradistabs.activate(notesbrowser);
