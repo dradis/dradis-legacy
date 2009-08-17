@@ -113,7 +113,7 @@ Ext.onReady(function() {
     items: [
       {
         region: 'north',
-        html: '<h1 class="x-panel-header" style="text-align: right;">'+dradis.version+' (<a href="/logout">logout</a>)</h1>',
+        html: '<h1 class="x-panel-header" style="text-align: right;">'+dradis.version+' - <a href="/logout">logout</a>|<a href="mailto:feedback@dradisframework.org?subject=' + dradis.version + '%20feedback">feedback</a></h1>',
         autoHeight: true,
         border: false,
         margins: '0 0 5 0',
