@@ -130,6 +130,9 @@ var expander = new Ext.grid.RowExpander({
 
 var grid = new Ext.grid.EditorGridPanel({
   store: store,
+  enableDragDrop: true,
+  ddGroup: 'gridDDGroup',
+  sm: new Ext.grid.RowSelectionModel(),
   autoExpandColumn: 'gridtextcolumn',
   columns: [
     expander,
