@@ -28,6 +28,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       }),
       rootVisible: false,
       enableDD:true,
+      ddGroup: 'gridDDGroup',
       stateful:true,
       loader: new Ext.tree.TreeLoader({
         url: 'json/nodes',
@@ -142,8 +143,10 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
-    // event definition for node click
-    this.addEvents('nodeclick');
+    // event definition for
+    //  - node click: so we can refresh the list of notes
+    //  - notes drop: so we can re-assign notes to a new neod
+    this.addEvents('nodeclick', 'notesdrop');
 
     // Inline editor for the node labels
     this.editor = new Ext.tree.TreeEditor(this, {}, {
@@ -196,6 +199,27 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     });
 
     // Handle node drops (drag'n'drop)
+    this.on('beforenodedrop', function(ev){
+
+      // this is null only if we are dropping notes. Nodes would have a non
+      // null value and the remaining code will never be executed.
+      if ( ev.dropNode === null ){
+
+        // we only support "append" drops for notes (no 'before'/'after' mode).
+        if ( ev.point != 'append' ) { 
+          dradisstatus.setStatus({ 
+            text: 'Drop your notes inside a node.',
+            iconCls: 'error'
+          }); 
+          return false; 
+        }
+ 
+        // fire the 'notesdrop' even so someone can move the notes to their new
+        // node
+        this.fireEvent('notesdrop', ev);
+      }
+    });
+
     this.on('nodedrop', function(ev) {
       var point = ev.point;
       var node = ev.dropNode;
