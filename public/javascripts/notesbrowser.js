@@ -320,6 +320,13 @@ Ext.extend(dradis.NotesBrowser, Ext.Panel, {
     categoriesDS.load();
     store.load();
   },
+  refresh: function(){ 
+    store.load();
+  },
+  moveNoteToNode: function (note_id, node_id){
+    var note = store.getById(note_id);
+    note.set('node_id', node_id);
+  },
   addNote: function(text){
     var new_note = new  Ext.data.Record({
                         text: text, 
