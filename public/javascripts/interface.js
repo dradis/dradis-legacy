@@ -79,6 +79,14 @@ nodestree.on('notesdrop', function(drop_ev) {
   setTimeout( 'notesbrowser.refresh();', 3000);
 });
 
+attachments.on('load', function(store, records, options){
+  if (records.length > 0) {
+    attachments.setTitle('Attachments (!)');
+  } else {
+    attachments.setTitle('Attachments');
+  }
+});
+
 importer.on('importrecord',function(record){ 
     notesbrowser.addNote(record.data.description ); 
     dradistabs.activate(notesbrowser);
@@ -89,6 +97,8 @@ uploaders.on('uploadsuccess', function(){
   nodestree.refresh();
 });
 
+
+// --- all-purpose general Ajax handlers to update the Status bar message
 Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
 Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); }); 
 
