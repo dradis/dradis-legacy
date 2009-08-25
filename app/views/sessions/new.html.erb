@@ -1,6 +1,7 @@
+<p>You will only be able to log in if you know this server's password.</p>
 <% form_tag session_path do -%>
 <p><label for="login">Login</label><br/>
-<%= text_field_tag 'login' %></p>
+<%= text_field_tag 'login', '[choose a username]', :style => 'color: #777;' %></p>
 
 <p><label for="password">Password</label><br/>
 <%= password_field_tag 'password' %></p>
@@ -12,3 +13,29 @@
 
 <div class="right"><%= submit_tag 'Log in', :class => 'submit' %></div>
 <% end -%>
+
+<script type="text/javascript">
+	var login = document.getElementById('login');
+ 	if(login){
+    login.onfocus = function(){
+			if(login.value == '[choose a username]'){
+        login.value = '';
+        login.style.color = '#000';
+      }
+    };
+
+    login.onblur = function(){
+      if(login.value == ''){
+        login.value = '[choose a username]';
+        login.style.color = '#777';
+      }
+    };
+		
+    if(login.value == ''){
+      login.value = '[choose a username]';
+    }
+  }
+</script>
+
+
+
