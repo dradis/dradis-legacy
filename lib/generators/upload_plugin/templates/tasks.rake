@@ -1,3 +1,11 @@
+# FIXME: this fixes the assumption of the plugin that it will be receiving an 
+#       as the :file parameter Attachment
+class File
+  def fullpath
+    File.expand_path self.path
+  end
+end
+
 namespace :upload do
 
   desc 'Explain here what the task does'
@@ -16,7 +24,7 @@ namespace :upload do
 
     # invoke the plugin
     <%= class_name %>.import( 
-      :file => Attachment.new(:filename => filename, :node_id => 1),
+      :file => File.new(filename),
       :logger => logger
     )
 
