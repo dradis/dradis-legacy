@@ -1,4 +1,29 @@
-# desc "Explaining what the task does"
-# task :nmap_upload_import do
-#   # Task goes here
-# end
+# TODO: this fixes the assumption of the plugin that it will be receiving an 
+#       as the :file parameter Attachment
+class File
+  def fullpath
+    File.expand_path self.path
+  end
+end
+
+namespace :upload do
+  desc 'Upload an parse an nmap XML file'
+  task :nmap, :file, :needs => :environment do |t, args|
+
+    filename = args[:file]
+
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::DEBUG
+
+    fail "Please provide a file: rake 'upload:nmap[<file>]'" if filename.nil?
+    fail "File [#{filename}] does not exist" unless File.exists?(filename)
+
+
+    NmapUpload.import( 
+      :file => File.new(filename),
+      :logger => logger
+    )
+
+    logger.close
+  end
+end
