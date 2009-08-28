@@ -1,36 +1,9 @@
+require 'nmap/parser'
+
 module NmapUpload  
 
   private
-  def self.parse_xml_output(content)
-    # initiate some variables to be used
-    hosts = {}
-    xml = REXML::Document.new(content.to_s)
-      
-    # loop through all hosts
-    REXML::XPath.match(xml[6],"//host").each do |host|
-      hostnodename = host.elements['address'].attributes['addr']
-      if (!host.elements['hostnames'].elements.empty?)
-       hostnodename << '('
-       hostnodename << host.elements['hostnames'].elements.to_a.collect do |hostname|
-         hostname.attributes['name']
-       end.join(",")
-       hostnodename << ')'
-      end
-
-      hosts[hostnodename] = {:notes => host.to_s}
-      hosts[hostnodename][:ports] = {}
-
-      REXML::XPath.match(host.elements['ports'], "port").each do |port|
-        hosts[hostnodename][:ports][port.attributes['portid']] = {
-          :protocol => port.attributes['protocol'],
-          :state => port.elements['state'].attributes['state'],
-          :service => port.elements['service'].attributes['name']
-        }
-      end
-    end
-    
-    return hosts
-  end
+  @@logger=nil
 
   public
   
@@ -39,7 +12,11 @@ module NmapUpload
   # @returns true if the operation was successful, false otherwise
   def self.import(params={})
     file_content = File.read( params[:file].fullpath )
-    hosts = parse_xml_output(file_content)
+    @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+
+    @@logger.debug{ 'Parsing Nmap output...' }
+    parser = Nmap::Parser.parsestring( file_content )
+    @@logger.debug{ 'Done.' }
 
     # get the "nmap output" category instance or create it if it does not exist
     category = Category.find_by_name('Nmap output') 
@@ -48,22 +25,46 @@ module NmapUpload
       category.save
     end
 
+    # TODO: do something with the Nmap::Parser::Session information
+    
     port_notes_to_add = {}
-    hosts.each do |host, host_details|
-      host_node = Node.new( :label => host)
+
+    parser.hosts do |host|
+      host_label = host.addr
+      host_label = "#{host_label} (#{host.hostname})" if host.hostname
+      host_node = Node.new( :label => host_label)
       host_node.save
 
       # add the nmap output for the host as notes to the node
+      host_info = "#{host.addr}:\n"
+      host_info << "\tHostnames: #{host.hostnames}\n"
+      host_info << "\tPort info:\n"
+
+      port_hash = {}
+	    host.getports(:any) do |port|
+        port_info = ''
+        srv = port.service
+        port_info << "\t\tPort ##{port.num}/#{port.proto} is open (#{port.reason})\n"
+        port_info << "\t\t\tService: #{srv.name}\n" if srv.name
+        port_info << "\t\t\tProduct: #{srv.product}\n" if srv.product
+        port_info << "\t\t\tVersion: #{srv.version}\n" if srv.version
+        port_info << "\n"
+
+        port_hash[ "#{port.num}/#{port.proto}" ] = port_info
+        host_info << port_info
+  		end
+
+
       Note.new(
         :node_id => host_node.id,
         :author => 'Nmap',
         :category_id => category.id,
-        :text => host_details[:notes]
+        :text => host_info
       ).save
 
-      host_details[:ports].each do |port, port_details|
+      port_hash.each do |port_name, info|
         # Add a node for the port
-        port_node = Node.new( :parent_id => host_node.id, :label => "#{port}/#{port_details[:protocol]}" )
+        port_node = Node.new( :parent_id => host_node.id, :label => "#{port_name}" )
         port_node.save
 
         # add a note with the port information
@@ -71,7 +72,7 @@ module NmapUpload
           :node_id => port_node.id,
           :author => 'Nmap',
           :category_id => category.id,
-          :text => "State: #{port_details[:state]}, Service: #{port_details[:service]}"
+          :text => info
         ).save
       end
     end
