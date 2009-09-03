@@ -49,12 +49,15 @@ class UploadController < ApplicationController
     Configuration.increment_revision 
  
     # process the upload using the plugin
-    if( @uploader.import(:file => attachment) )
+    begin
+      @uploader.import(:file => attachment)
     
       # Notify the caller that everything was fine
       render :text => { :success=>true }.to_json
-    else
+
+    rescue Exception => e
       # Something went wrong
+      render :text => { :error => e.message, :backtrace => e.backtrace }.to_json
     end
   end
 
