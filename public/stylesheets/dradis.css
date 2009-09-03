@@ -63,6 +63,7 @@ noscript p {
   color: #15428B;
   border-bottom: 1px solid #D0DEF0;
 }
+#first_render .portlet li {margin-top: 0.25ex; } 
 #first_render .portlet li a:hover { text-decoration: underline; }
 #first_render .portlet li ul { 
   margin: 0.5ex;
@@ -71,3 +72,4 @@ noscript p {
   padding-left: 1.5em;
 }
 
+.x-grid3-row-body { overflow: scroll; }
