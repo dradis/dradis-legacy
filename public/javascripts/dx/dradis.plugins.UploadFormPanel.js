@@ -88,6 +88,11 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
         scope: this,
         success: function(form, action){
           this.fireEvent('uploadsuccess');
+        },
+        failure: function(form, action){
+          var response;
+          response = Ext.util.JSON.decode( action.response.responseText );
+          this.fireEvent('uploadfailure', response);
         } 
       });
     }
@@ -133,9 +138,13 @@ dradis.plugins.UploadFormWindow=Ext.extend(Ext.Window, {
 
     // We relay the events fired by the form so the interface can handle it, 
     // but internally we also provide a handler that closes the window.
-    this.relayEvents( this.fields.form, ['cancel', 'uploadsuccess']);
+    this.relayEvents( this.fields.form, ['cancel', 'uploadsuccess', 'uploadfailure']);
 
     this.fields.form.on('uploadsuccess', function(){
+      this.hide();
+    }, this);
+
+    this.fields.form.on('uploadfailure', function(){
       this.hide();
     }, this);
 
