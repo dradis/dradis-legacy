@@ -97,6 +97,25 @@ uploaders.on('uploadsuccess', function(){
   nodestree.refresh();
 });
 
+uploaders.on('uploadfailure', function(response){
+  // FIXME: Convert this into an Ext Template
+  Ext.Msg.show({
+    title: 'There was an error processing the upload',
+    msg: '<p>We could not process the upload.</p><p>Error message was:</p>' +
+         '<textarea cols="80">' + Ext.util.Format.htmlEncode( response.error )  + '</textarea>' +
+         '<p>The stack trace was:</p>' +
+         '<textarea cols="80" rows="10">' + Ext.util.Format.htmlEncode( response.backtrace.join("\n") ) + '</textarea>' + 
+         '<p>What to do now:</p>' +
+         '<ul>' + 
+         '<li>- Go through the plugin\'s documentation.</li>' +
+         '<li>- Ask in the <a href="http://dradisframework.org/community/" target="_blank">community forums</a> or the <a href="http://dradisframework.org/mailing_lists.html" target="_blank">mailing lists</a></li>' +
+         '<li>- If all else fails, please consider submitting a <a href="http://sourceforge.net/tracker/?func=add&group_id=209736&atid=1010917" target="_blank">bug report</a>.</li>' +
+         '</ul>',
+    buttons: Ext.Msg.OK,
+    icon: Ext.Msg.WARNING
+  });
+});
+
 
 // --- all-purpose general Ajax handlers to update the Status bar message
 Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
