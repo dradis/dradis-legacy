@@ -21,7 +21,20 @@ module <%= class_name %>
       end
     end
  
-    # Your filters go here
-
-  end
+    # Your filters go here. Feel free to rename
+    module <%= class_name %>Filter
+    NAME = 'Dummy Filter: Reads a value from the config file'
+      CONF_FILE = File.join(RAILS_ROOT, 'config', '<%= file_name %>.yml')
+      CONF = YAML::load( File.read CONF_FILE ) 
+      
+      def self.run(params={})
+        records = []
+        # do stuff. For example
+        records << { :title => 'This filter uses the config file', :description => "The value of 'some_property' is: #{CONF['some_property']}." }
+        records << { :title => 'Filter information', :description => "Config file is located in #{CONF_FILE}" }
+        return records
+      end
+    end
+    
+  end  
 end
