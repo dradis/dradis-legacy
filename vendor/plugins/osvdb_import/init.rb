@@ -1,0 +1,1 @@
+require 'osvdb_import'
