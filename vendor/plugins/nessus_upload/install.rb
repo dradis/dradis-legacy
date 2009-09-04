@@ -11,7 +11,7 @@ for path in [ ['config', 'nessus_upload.yml'] ]
       puts "identical"
     else
       print "exists, overwrite [yN]?"
-      if gets("\n").chomp.downcase.first == 'y'
+      if STDIN.gets("\n").chomp.downcase.first == 'y'
         FileUtils.cp source, destination
       else
         puts "    ...skipped"; next
