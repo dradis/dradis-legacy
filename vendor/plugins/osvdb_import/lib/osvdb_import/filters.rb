@@ -44,6 +44,7 @@ module OSVDBImport
     #
     # Sample Query for osvdb_id 1234:  http://osvdb.org/api/find_by_osvdb/<your_API_key>/1234
     module OSVDIDLookup
+      NAME = 'OSVDB ID Lookup' 
       def self.run(params={})
       end
     end
