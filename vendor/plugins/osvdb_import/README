@@ -1,7 +1,19 @@
 OSVDBImport
 ===========
 
-Introduction goes here.
+Open Source Vulnerability Database (OSVDB) Import Plugin
+
+OSVDB is an independent and open source database created by and for the
+community. Our goal is to provide accurate, detailed, current, and unbiased 
+technical information." - http://osvdb.org/
+
+This plugin provides search filters to query the OSVDB from within dradis. 
+The plugin makes use of the API provided by OSVDB (http://osvdb.org/api).
+
+You will need to register in their site to get an API key: 
+http://osvdb.org/account/signup
+
+Once you have your key, copy it into your conf/osvdb_import.yml config file
 
 
 Howto Install
