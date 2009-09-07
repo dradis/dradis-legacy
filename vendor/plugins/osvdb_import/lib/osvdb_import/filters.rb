@@ -28,6 +28,21 @@ module OSVDBImport
       end
     end
 
+    # Format the Vulnerability information to follow dradis fields format
+    #   #[field]#
+    #   content
+    #   #[field]#
+    #   content
+    #   ...
+    def self.from_OSVDB_to_dradis(result_set)
+      result_set.collect do |record|
+        {
+          :title => record['title'],
+          :description => record.collect do |key, value| "#[#{key}]#\n#{value}\n" end.join
+        }
+      end
+    end
+
     public 
     
     # GeneralSearch Filter: Internally uses the "Find Vulns by custom query" 
@@ -54,7 +69,7 @@ module OSVDBImport
         logger.info{ "Running a general search in the OSVDB with the query: #{query}" }
         
         results = OSVDB::GeneralSearch(:API_key => CONF['API_key'], :query => query)
-        return results.collect do |record| { :title => record['title'], :description => record['description'] } end
+        return Filters::from_OSVDB_to_dradis( results)
       end
     end
  
@@ -80,7 +95,7 @@ module OSVDBImport
         logger.info{ "Running a OSVDB ID lookup on: #{query}" }
         results = OSVDB::IDLookup( :API_key => CONF['API_key'], :osvdb_id => query )
 
-        return results.collect do |record| { :title => record['title'], :description => record['description'] } end
+        return Filters::from_OSVDB_to_dradis( results)
       end
     end
     
