@@ -30,7 +30,11 @@ module OSVDB
           # more than one
           records = result_set['vulnerabilities']
         else
-          records << result_set['vulnerability']
+          if result_set.key?('vulnerability')
+            records << result_set['vulnerability']
+          else
+            raise 'Query returned an empty result set'
+          end
         end
 
       end
