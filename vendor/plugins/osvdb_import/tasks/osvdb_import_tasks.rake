@@ -7,10 +7,14 @@ namespace :import do
       logger = Logger.new(STDOUT)
       logger.level = Logger::DEBUG
 
-      p args
-      p OSVDBImport::Filters::GeneralSearch.run( 
+      results = OSVDBImport::Filters::GeneralSearch.run( 
                                                   :query => args[:query],
                                                   :logger => logger )
+
+      logger.info{ "Total number of records: #{results.size}\n" }
+      results.each do |record|
+        puts "#{record[:title]}\n\t#{record[:description]}"
+      end
     end
 
   end
