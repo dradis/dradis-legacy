@@ -1,5 +1,6 @@
 # OsvdbImport
 
+require 'osvdb'
 require 'osvdb_import/filters'
 require 'osvdb_import/meta'
 
