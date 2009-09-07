@@ -18,6 +18,18 @@ module OSVDBImport
     CONF_FILE = File.join(RAILS_ROOT, 'config', 'osvdb_import.yml')
     CONF = YAML::load( File.read CONF_FILE )
 
+    private
+    def self.validate_API_key()
+      if ( CONF['API_key'] == BAD_API_KEY )
+        raise "Invalid API key detected in [#{CONF_FILE}]. " +
+          "Please register for an OSVDB API key at: \n\t" +
+          'http://osvdb.org/account/signup'
+          
+      end
+    end
+
+    public 
+    
     # GeneralSearch Filter: Internally uses the "Find Vulns by custom query" 
     # API to get vulnerabilities by a custom query. Returns a maximum of 30 
     # vulns per request.
@@ -27,7 +39,14 @@ module OSVDBImport
 
       
       def self.run(params={})
-        p CONF
+        # Ensure that we have a valid OSVDB API key
+        begin
+          Filters::validate_API_key()
+        rescue Exception => e
+          return [ 
+            { :title => 'Error in OSVDB API key', :description => e.message} 
+          ]
+        end
 
         logger = params.fetch( :logger, RAILS_DEFAULT_LOGGER )        
         query = params.fetch( :query, '')
@@ -46,6 +65,14 @@ module OSVDBImport
       NAME = 'OSVDB ID Lookup' 
 
       def self.run(params={})
+        # Ensure that we have a valid OSVDB API key
+        begin
+          Filters::validate_API_key()
+        rescue Exception => e
+          return [ 
+            { :title => 'Error in OSVDB API key', :description => e.message} 
+          ]
+        end
 
       end
     end
