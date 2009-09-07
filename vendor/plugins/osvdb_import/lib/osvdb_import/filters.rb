@@ -69,7 +69,7 @@ module OSVDBImport
         logger.info{ "Running a general search in the OSVDB with the query: #{query}" }
         
         results = OSVDB::GeneralSearch(:API_key => CONF['API_key'], :query => query)
-        return Filters::from_OSVDB_to_dradis( results)
+        return Filters::from_OSVDB_to_dradis( results )
       end
     end
  
