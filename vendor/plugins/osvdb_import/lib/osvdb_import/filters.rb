@@ -49,12 +49,12 @@ module OSVDBImport
         end
 
         logger = params.fetch( :logger, RAILS_DEFAULT_LOGGER )        
-        query = params.fetch( :query, '')
-        url = "http://osvdb.org/api/vulns_by_custom_search/<your_API_key>/?request=#{CGI::escape(query)}&order=osvdb_id"
+        query = CGI::escape( params.fetch( :query, '') )
 
         logger.info{ "Running a general search in the OSVDB with the query: #{query}" }
-        logger.debug{ "URL is: #{url}" }
         
+        results = OSVDB::GeneralSearch(:API_key => CONF['API_key'], :query => query)
+        return results.collect do |record| { :title => record['title'], :description => record['description'] } end
       end
     end
  
@@ -74,6 +74,13 @@ module OSVDBImport
           ]
         end
 
+        logger = params.fetch( :logger, RAILS_DEFAULT_LOGGER )        
+        query = CGI::escape( params.fetch( :query, '1234') )
+
+        logger.info{ "Running a OSVDB ID lookup on: #{query}" }
+        results = OSVDB::IDLookup( :API_key => CONF['API_key'], :osvdb_id => query )
+
+        return results.collect do |record| { :title => record['title'], :description => record['description'] } end
       end
     end
     
