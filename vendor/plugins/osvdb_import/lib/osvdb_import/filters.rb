@@ -11,10 +11,6 @@
 # http://osvdb.org/account/signup
 
 module OSVDBImport  
-  BAD_API_KEY = '<your_API_key>'
-  CONF_FILE = File.join(RAILS_ROOT, 'config', 'osvdb_import.yml')
-  CONF = YAML::load( File.read CONF_FILE )
- 
   # complete this with the different filters that your import plugin defines
   module Filters
 
