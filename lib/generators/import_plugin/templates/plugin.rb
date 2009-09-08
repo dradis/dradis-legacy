@@ -3,6 +3,11 @@
 require '<%= file_name %>/filters'
 require '<%= file_name %>/meta'
 
+module <%= class_name %>
+  CONF_FILE = File.join(RAILS_ROOT, 'config', '<%= file_name %>.yml')
+  CONF = YAML::load( File.read CONF_FILE ) 
+end
+
 # This includes the import plugin module in the dradis import plugin repository
 module Plugins
   module Import

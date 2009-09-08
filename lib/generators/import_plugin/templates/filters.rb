@@ -24,8 +24,6 @@ module <%= class_name %>
     # Your filters go here. Feel free to rename
     module <%= class_name %>Filter
     NAME = 'Dummy Filter: Reads a value from the config file'
-      CONF_FILE = File.join(RAILS_ROOT, 'config', '<%= file_name %>.yml')
-      CONF = YAML::load( File.read CONF_FILE ) 
       
       def self.run(params={})
         records = []
