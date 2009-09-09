@@ -72,4 +72,6 @@ noscript p {
   padding-left: 1.5em;
 }
 
+#first_render .portlet li strong { font-weight: bold; }
+
 .x-grid3-row-body { overflow: scroll; }
