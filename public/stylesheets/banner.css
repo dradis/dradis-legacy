@@ -87,7 +87,7 @@ div.text form
   width: 300px;
   margin: 0 auto 0 auto;
 }
-#login, #password, #password_value, #password_confirm_value
+input.text, input.password
 {
   font-size: 13px;
   margin-bottom: 5px;
@@ -99,7 +99,7 @@ div.text form
   background-repeat: repeat-x;
   background-position: top;
 }
-#login:focus, #password:focus, #password_value:focus, #password_confirm_value:focus
+input.text:focus, input.password:focus
 {
   background-image: none;
   background-color: #ffffff;
@@ -140,7 +140,7 @@ div.text form
   padding: 0;
 }
 
-#server_init form .form_group div {
+#server_init form .form_group div, fieldset div {
   padding-left: 150px;
 }
 
@@ -154,7 +154,7 @@ div.text form
 }
 
 /* http://fecklessmind.com/2009/01/23/how-to-reliable-css-forms/ */
-fieldset { clear: both; border: 0; border-top: 1px solid #ddd; color: #3D5919; }
+fieldset { clear: both; border: 0; border-top: 1px solid #ddd; color: #3D5919; width: 80%; margin: 1ex auto;}
 
 legend {padding: 0 0 1.286em; font-size: 1.167em; font-weight: 700; }
 fieldset fieldset legend {padding: 0 0 1.5em; font-size: 1em;}
