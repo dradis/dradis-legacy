@@ -1,10 +1,10 @@
 <p>You will only be able to log in if you know this server's password.</p>
 <% form_tag session_path do -%>
 <p><label for="login">Login</label><br/>
-<%= text_field_tag 'login', '[choose a username]', :style => 'color: #777;' %></p>
+<%= text_field_tag 'login', '[choose a username]', :style => 'color: #777;', :class => 'text' %></p>
 
 <p><label for="password">Password</label><br/>
-<%= password_field_tag 'password' %></p>
+<%= password_field_tag 'password', nil, :class => 'password' %></p>
 
 <!-- Uncomment this if you want this functionality
 <p><label for="remember_me">Remember me:</label>
