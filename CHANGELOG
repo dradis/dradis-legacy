@@ -1,7 +1,7 @@
 v2.x (xx of xxx 2009)
  - sample VulnDB import plugin
 
-v2.4 (xx of xxx 2009)
+v2.4 (10 of September 2009)
  - drag'n'drop your notes
  - new Rake tasks to backup the project, reset the environment, etc.
  - better upload plugin feedback in case of exception
@@ -9,6 +9,7 @@ v2.4 (xx of xxx 2009)
  - Nmap Upload now uses the Nmap::Parser library
  - notification icon displayed in the attachments tab when a node has 
    attachments
+ - new plugin to import data from the OSVDB
 
 v2.3 (5th of August 2009)
  - expand / collapse buttons in the tree
