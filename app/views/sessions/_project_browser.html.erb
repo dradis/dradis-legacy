@@ -21,7 +21,7 @@
       <td class="title" style="padding-left: 36px;">
         <%= link_to h("Revision ##{revision.attributes['number']}"), "javascript:return;", :class => "icon icon-package" %>
       </td>
-      <td><%= radio_button_tag 'revision', "#{project.id}_#{revision.id}" %></td>
+      <td><%= radio_button_tag 'revision', "#{project.id}_#{revision.id}", nil, :onclick => 'revisionClick(this.value);' %></td>
     </tr>
     <% end %>
   <% end %>

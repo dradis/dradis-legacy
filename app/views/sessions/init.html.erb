@@ -26,17 +26,19 @@
                   <label>Checkout project</label>
                   <%= radio_button_tag 'mode', 'meta-server', !@new_project,
                           :onclick=>"javascript:$(meta_server).show();" %>
+
+                  <%= hidden_field_tag 'revision', nil %>
                 </div>
               </div>
-              <div class="form_group" id="meta_server">
+              <div class="right clear"><%= submit_tag 'Initialize', :id => 'init', :class => 'submit' %></div>
+              <% end -%>
+              <div id="meta_server">
               <% if @projects %>
                 <%= render :partial => 'project_browser' %>
               <% else %>
                 <%= render :partial => 'meta_server' %>
               <% end %>
               </div>
-              <div class="right clear"><%= submit_tag 'Initialize', :id => 'init', :class => 'submit' %></div>
-              <% end -%>
 
             </div>
             <script type="text/javascript">

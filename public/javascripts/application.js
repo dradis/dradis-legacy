@@ -39,4 +39,7 @@ function projectClick(id) {
     */
 }
 
-
+function revisionClick(id){
+  var rev = $('revision');
+  rev.value = id;
+}
