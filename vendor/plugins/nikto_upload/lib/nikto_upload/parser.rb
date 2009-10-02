@@ -101,7 +101,7 @@ module Nikto
       out << ")"
       out << " - #{@uri[:text]}" if  @uri
       out << " | #{@iplink[:text]}" if @iplink
-      out << ":\n"
+      out << "\n"
       out << "\t\t\t#{@description[:text]}\n\n"
     end
   end
