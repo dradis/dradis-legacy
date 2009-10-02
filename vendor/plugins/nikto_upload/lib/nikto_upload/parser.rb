@@ -14,6 +14,7 @@
 
 require 'rexml/document'
 
+module NiktoUpload
 module Nikto
   class Parser
     # Details of the Nikto scan
@@ -312,6 +313,7 @@ module Nikto
 
   end # Xml
 end # Nikto
+end # NiktoUpload
 
 if __FILE__ == $0
   if ARGV.size != 1
