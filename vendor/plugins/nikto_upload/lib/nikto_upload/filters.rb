@@ -16,13 +16,17 @@ module NiktoUpload
 
     category = Category.find_or_create_by_name('Nikto output')
 
-    scan_node = Node.create( :label => "#{niktoscan.siteip} - Nikto scan" )    
-    Note.create( 
-      :node => scan_node,
-      :author => 'Nikto',
-      :category => category,
-      :text => niktoscan.to_s
-    )
+    niktoscan.scans.each do |scan|
+      scan_node = Node.create( :label => "#{scan.siteip} - Nikto scan" )    
+      @@logger.debug{ "Adding #{scan_node.label}" }
+      Note.create( 
+        :node => scan_node,
+        :author => 'Nikto',
+        :category => category,
+        :text => scan.to_s
+      )
+    end
+
     @@logger.debug{ 'Nikto scan successfully imported' }
 
     return true

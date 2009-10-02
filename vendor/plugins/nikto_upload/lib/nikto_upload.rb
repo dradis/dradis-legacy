@@ -1,5 +1,6 @@
 # NiktoUpload
 
+require 'nikto_upload/parser'
 require 'nikto_upload/filters'
 require 'nikto_upload/meta'
 
