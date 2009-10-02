@@ -57,7 +57,7 @@ class Attachment < File
   require 'fileutils'
   # Set the path to the attachment storage
   AttachmentPwd = ENV["RAILS_ENV"] == "test" ? File.join(RAILS_ROOT, 'tmp', 'attachments') : File.join( RAILS_ROOT, 'attachments')
-  FileUtils.mkdir(File.dirname(AttachmentPwd)) unless File.exists?(File.dirname(AttachmentPwd))
+  FileUtils.mkdir(AttachmentPwd) unless File.exists?(AttachmentPwd)
 
   attr_accessor :filename, :node_id, :tempfile
   attr_reader :id
