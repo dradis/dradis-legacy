@@ -10,10 +10,21 @@ module NiktoUpload
     file_content = File.read( params[:file].fullpath )
     @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
 
-    @@logger.debug{ 'Parsing Nmap output...' }
+    @@logger.debug{ 'Parsing Nikto output...' }
     niktoscan = Nikto::Parser.parsestring( file_content )
     @@logger.debug{ 'Done.' }
 
+    category = Category.find_or_create_by_name('Nikto output')
 
+    scan_node = Node.create( :label => "#{niktoscan.siteip} - Nikto scan" )    
+    Note.create( 
+      :node => scan_node,
+      :author => 'Nikto',
+      :category => category,
+      :text => niktoscan.to_s
+    )
+    @@logger.debug{ 'Nikto scan successfully imported' }
+
+    return true
   end
 end
