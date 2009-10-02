@@ -19,11 +19,7 @@ module NmapUpload
     @@logger.debug{ 'Done.' }
 
     # get the "nmap output" category instance or create it if it does not exist
-    category = Category.find_by_name('Nmap output') 
-    if (category.nil?)
-      category = Category.new( :name => 'Nmap output')
-      category.save
-    end
+    category = Category.find_or_create_by_name('Nmap output') 
 
     # TODO: do something with the Nmap::Parser::Session information
     
