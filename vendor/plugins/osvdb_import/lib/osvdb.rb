@@ -23,7 +23,7 @@ module OSVDB
     records = []
     begin
       Net::HTTP.start(url.host, url.port) do |http|
-        res = http.get( url.path )
+        res = http.get( url.request_uri )
         result_set = Hash.from_xml( res.body )
 
         if result_set.key?('vulnerabilities')
