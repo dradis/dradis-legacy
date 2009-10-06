@@ -324,7 +324,7 @@ if __FILE__ == $0
   filename = ARGV[0]
   print "Parsing #{filename} ..."
 
-  niktoscan = Nikto::Parser.parsestring( File.read( filename ) )
+  niktoscan = NiktoUpload::Nikto::Parser.parsestring( File.read( filename ) )
 
   puts ' done.'
 
