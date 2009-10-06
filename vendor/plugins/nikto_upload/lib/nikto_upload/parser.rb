@@ -44,7 +44,7 @@ module Nikto
     end
 
     def parse(xml)
-      parser = Xml::Parser.new()
+      parser = XML::Parser.new()
       REXML::Document.parse_stream(xml, parser)
 
       raise IOError, 'Error parsing XML' unless parser.completed?
@@ -175,7 +175,7 @@ module Nikto
     # Nikto version used to scan
     attr_reader :nikto_version
 
-    # Xml version of Nikto's output
+    # XML version of Nikto's output
     attr_reader :xml_version
 
     def initialize(detailsinfo)
@@ -190,7 +190,7 @@ module Nikto
     end
   end
 
-  module Xml
+  module XML
     class TagGroup < Array
     	def each_tag(name)
   		  self.each { |tag| yield tag if match(tag, name) }
@@ -311,7 +311,7 @@ module Nikto
 
     end
 
-  end # Xml
+  end # XML
 end # Nikto
 end # NiktoUpload
 
