@@ -1,11 +1,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
+root:
   id: 1
   type_id: 1
-  label: MyString
-
-two:
-  id: 2
-  type_id: 1
-  label: MyString
+  label: root node

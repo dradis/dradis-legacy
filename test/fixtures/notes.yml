@@ -1,13 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  author: MyString
-  text: MyText
+  author: etd test 
+  text: This is a dummy note, assigned to the default category
   node_id: 1
   category_id: 1
 
 two:
-  author: MyString
-  text: MyText
+  author: etd test
+  text: This note is for the report!
   node_id: 1
-  category_id: 1
+  category_id: 2
