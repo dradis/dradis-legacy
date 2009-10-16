@@ -1,5 +1,6 @@
 # BurpUpload
 
+require 'burp_upload/parser'
 require 'burp_upload/filters'
 require 'burp_upload/meta'
 
