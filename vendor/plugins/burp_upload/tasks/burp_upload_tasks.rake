@@ -9,7 +9,7 @@ end
 namespace :upload do
 
   desc 'Explain here what the task does'
-  task :burp_upload, :file, :needs => :environment do |t, args|
+  task :burp, :file, :needs => :environment do |t, args|
 
     # your initialization goes here
     filename = args[:file]
