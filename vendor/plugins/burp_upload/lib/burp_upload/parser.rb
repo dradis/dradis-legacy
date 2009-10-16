@@ -201,7 +201,6 @@ module BurpUpload
         private
   	    # We don't want to store anything we don't care about!
       	IGNORED = [
-          :requestresponse, :request, :response
       	]
 
   	    def ignored(name)
