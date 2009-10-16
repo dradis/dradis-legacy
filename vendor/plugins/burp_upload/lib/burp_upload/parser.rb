@@ -61,9 +61,11 @@ module BurpUpload
 
     class Issue
       attr_reader :serialNumber
+      attr_reader :type
       attr_reader :name
       attr_reader :host
       attr_reader :path
+      attr_reader :location
       attr_reader :severity
       attr_reader :confidence
       attr_reader :issueBackground
@@ -78,9 +80,11 @@ module BurpUpload
 
       def parse(issue)
         @serialNumber = issue[:kids].find_tag(:serialNumber)
+        @type = issue[:kids].find_tag(:type)
         @name = issue[:kids].find_tag(:name)
         @host = issue[:kids].find_tag(:host)
         @path = issue[:kids].find_tag(:path)
+        @location = issue[:kids].find_tag(:location)
         @severity = issue[:kids].find_tag(:severity)
         @confidence = issue[:kids].find_tag(:confidence)
         @issueBackground = issue[:kids].find_tag(:issueBackground)
@@ -93,6 +97,7 @@ module BurpUpload
       def to_s
         out = "\t\tIssue "
         out << @serialNumber[:text] if @serialNumber
+        out << " | #{@type[:text]}" if @type
         out << " | #{@severity[:text]}" if @severity
         out << " | #{@confidence[:text]}" if @confidence
         out << "\n\t\t\t"
@@ -149,7 +154,6 @@ module BurpUpload
           name = tag.to_sym
   
           return if ignored(name)
-          puts "<#{tag}>"
 
           kv = Tag.new(name, attrs)
         
@@ -166,7 +170,6 @@ module BurpUpload
           name = tag.to_sym
       
           return if ignored(name)
-          puts "</#{tag}>"
 
           last = @loc.pop
           case name
