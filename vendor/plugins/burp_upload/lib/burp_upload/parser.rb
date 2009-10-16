@@ -188,6 +188,9 @@ module BurpUpload
           end
         end
 
+        # Treat CDATA sections just like text
+        alias_method :cdata, :text
+
         def method_missing(sym, *args)
         end
 
