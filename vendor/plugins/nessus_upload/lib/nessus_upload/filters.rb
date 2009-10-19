@@ -39,7 +39,7 @@ def self.parse_xml_output(content)
 	
 		
 		# Step through each report item for this host
-		REXML::XPath.each(host, "//ReportItem") do |report_node| # TODO: Improve me...
+		REXML::XPath.each(host, "#{host.xpath}//ReportItem") do |report_node| # TODO: Improve me...
 			
 			report_item = NessusReportItem.new()
 			
