@@ -8,11 +8,11 @@ xml.rss("version" => "2.0") do
 
     for item in @items
       xml.item do
-        xml.pubDate item.date
-        xml.title item.title
-        xml.description do
-          xml << item.description
-        end
+        xml.pubDate item[:date]
+        xml.title item[:title]
+#        xml.description do
+#          xml << item.description
+#        end
       end
     end
   end
