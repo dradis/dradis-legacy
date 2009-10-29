@@ -19,6 +19,7 @@ ActionController::Routing::Routes.draw do |map|
   #   map.resources :products
   map.resources :configurations
   map.resources :categories
+  map.resources :rss_feeds
 
   # Sample resource route with options:
   #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
