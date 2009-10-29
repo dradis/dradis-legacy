@@ -1,0 +1,19 @@
+xml.instruct!
+xml.rss("version" => "2.0") do
+  xml.channel do
+    xml.title "dradis rss feed"
+    xml.link "/home/rss"
+    xml.description "This feed containt the latest updates to the dradis knowledge base"
+    xml.language "en-gb"
+
+    for rss_feed in @rss_feeds
+      xml.item do
+        xml.pubDate rss_feed.actioned_at
+        xml.title rss_feed.title
+#        xml.description do
+#          xml << item.description
+#        end
+      end
+    end
+  end
+end
