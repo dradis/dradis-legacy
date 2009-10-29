@@ -1,4 +1,4 @@
-class RssFeedsController < ApplicationController
+class FeedsController < ApplicationController
 
   def index
     @rss_feeds = RssFeed.find(:all, :limit => 20)
