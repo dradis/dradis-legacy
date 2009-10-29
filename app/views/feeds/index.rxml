@@ -8,7 +8,7 @@ xml.rss("version" => "2.0") do
 
     for feed in @feeds
       xml.item do
-        xml.pubDate feed.actioned_at
+        xml.pubDate feed.actioned_at.strftime("%a, %d %b %Y %H:%M:%S %z")
         xml.title feed.title
         xml.description feed.value
 #        xml.description do

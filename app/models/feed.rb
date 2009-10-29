@@ -3,7 +3,7 @@ class Feed < ActiveRecord::Base
   ValueAccessors = [:name, :title, :label, :text]
 
   def title
-    "#{self.action.humanize} a #{self.resource} on #{self.actioned_at.strftime("%Y-%m-%d %H:%M:%S")}"
+    "#{self.resource.humanize} #{self.action}"
   end
 
   def description
