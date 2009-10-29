@@ -1,4 +1,4 @@
-class CreateRssFeeds < ActiveRecord::Migration
+class CreateFeeds < ActiveRecord::Migration
   def self.up
     create_table :feeds do |t|
       t.string :action
@@ -12,6 +12,6 @@ class CreateRssFeeds < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :rss_feeds
+    drop_table :feeds
   end
 end
