@@ -6,10 +6,11 @@ xml.rss("version" => "2.0") do
     xml.description "This feed containt the latest updates to the dradis knowledge base"
     xml.language "en-gb"
 
-    for rss_feed in @rss_feeds
+    for feed in @feeds
       xml.item do
-        xml.pubDate rss_feed.actioned_at
-        xml.title rss_feed.title
+        xml.pubDate feed.actioned_at
+        xml.title feed.title
+        xml.description feed.value
 #        xml.description do
 #          xml << item.description
 #        end
