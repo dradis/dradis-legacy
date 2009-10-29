@@ -8,6 +8,9 @@ class RevisionObserver < ActiveRecord::Observer
 
   def after_save(record)
     Configuration.increment_revision()
+    RssFeed.create(:action => 'create',
+      :actioned_at => record.updated_at,
+      :resource => record.class.to_s.downcase)
   end
 
   def after_destroy(record)
