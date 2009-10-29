@@ -39,12 +39,25 @@ class AttachmentsController < ApplicationController
     # at the fullstop so we join it again
     filename = params[:id]
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
+
+    # Figure out the best way of displaying the file (by default send the it as
+    # an attachment).
     extname = File.extname(filename)[1..-1]
-    mime_type = Mime::Type.lookup_by_extension(extname)
-    content_type = mime_type.to_s unless mime_type.nil?
+    disposition = 'attachment'
+    if extname
+      # account for the possibility of this being an image and present the
+      # attachment inline
+      mime_type = Mime::Type.lookup_by_extension(extname)
+      content_type = mime_type.to_s unless mime_type.nil?
+      if content_type.match('image')
+        disposition = 'inline'
+      end
+    end
+
     send_data(@attachment.read, :type => content_type,
       :filename => @attachment.filename,
-      :disposition => content_type.match('image') ? 'inline' : 'attachment')
+      :disposition => disposition)
+
     @attachment.close
   end
 
