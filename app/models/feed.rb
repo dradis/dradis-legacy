@@ -1,6 +1,6 @@
-class RssFeed < ActiveRecord::Base
+class Feed < ActiveRecord::Base
 
-  RssValueAccessors = [:name, :title, :label, :text]
+  ValueAccessors = [:name, :title, :label, :text]
 
   def title
     "#{self.action.humanize} a #{self.resource} on #{self.actioned_at.strftime("%Y-%m-%d %H:%M:%S")}"
@@ -11,7 +11,7 @@ class RssFeed < ActiveRecord::Base
   end
 
   def self.extract_rss_value(record)
-    RssValueAccessors.each do |accessor|
+    ValueAccessors.each do |accessor|
       next unless record.respond_to? accessor
       return record.send accessor
     end
