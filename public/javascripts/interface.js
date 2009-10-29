@@ -25,32 +25,31 @@ var dradisoverview = new Ext.Panel({
   contentEl: 'first_render'
 })
 
-var dradisstatus = new Ext.StatusBar({
-  region: 'south',
-  defaultText: '',
-  welcome:{},
-  items: [
-    {
-      text:'what\'s new in this version?',
-      enableToggle:true,
-      listeners:{
-        toggle:function(){
-          if ( dradistabs.items.length != 4 ) {
-            this.welcome = new Ext.Panel({ 
-                                contentEl:'first_render', 
-                                title: 'What\'s new?', 
-                                autoScroll: true, 
-                                bodyStyle: 'background: #FFF url(/images/logo_small.png) no-repeat right bottom;'
-                              });
-            dradistabs.add(this.welcome);
-            dradistabs.setActiveTab(this.welcome);
-          } else {
-            dradistabs.remove(this.welcome, false);
+var dradisstatus = new Ext.ux.StatusBar({
+    id: 'dradis-status',
+    defaultText: '',
+    items: [
+      {
+        text:'what\'s new in this version?',
+        enableToggle:true,
+        listeners:{
+          toggle:function(){
+            if ( dradistabs.items.length != 4 ) {
+              this.welcome = new Ext.Panel({ 
+                                  contentEl:'first_render', 
+                                  title: 'What\'s new?', 
+                                  autoScroll: true, 
+                                  bodyStyle: 'background: #FFF url(/images/logo_small.png) no-repeat right bottom;'
+                                });
+              dradistabs.add(this.welcome);
+              dradistabs.setActiveTab(this.welcome);
+            } else {
+              dradistabs.remove(this.welcome, false);
+            }
           }
         }
       }
-    }
-  ]
+    ]
 });
 
 var plugins = new dradis.plugins.PluginManager();
@@ -121,10 +120,9 @@ uploaders.on('uploadfailure', function(response){
   });
 });
 
-
 // --- all-purpose general Ajax handlers to update the Status bar message
-Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
-Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); }); 
+Ext.Ajax.on('beforerequest', function(){ Ext.getCmp('dradis-status').showBusy(); }); 
+Ext.Ajax.on('requestcomplete', function(){ Ext.getCmp('dradis-status').clearStatus({useDefaults:true}); }); 
 
 
 /*
@@ -171,7 +169,11 @@ Ext.onReady(function() {
       },
       nodestree,
       dradistabs,
-      dradisstatus
+      new Ext.Panel({
+        region: 'south',
+        welcome:{},
+        bbar: dradisstatus
+      })
         //{
         // console? do we need this?
         //region: 'south',

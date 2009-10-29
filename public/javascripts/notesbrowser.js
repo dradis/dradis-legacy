@@ -124,7 +124,7 @@ var store = new Ext.data.GroupingStore({
 });
 
 // ------------------------------------------------------------------ grid
-var expander = new Ext.grid.RowExpander({
+var expander = new Ext.ux.grid.RowExpander({
   tpl: new Ext.Template( '<p><b>Full text</b>:</p>', '<pre>{text:htmlEncode}</pre>')
 });
 

@@ -185,13 +185,28 @@ Ext.ux.UploadPanel = Ext.extend(Ext.Panel, {
 		// {{{
 		// create buttons
 		// add (file browse button) configuration
-		var addCfg = {
-			 xtype:'browsebutton'
-			,text:this.addText + '...'
-			,iconCls:this.addIconCls
-			,scope:this
-			,handler:this.onAddFile
-		};
+/*
+      var addCfg = {
+            buttonCfg: {
+                hideLabel: true
+                ,iconCls:this.addIconCls
+            }
+            ,buttonText:this.addText + '...'
+            ,buttonOnly: true //no textfield
+            ,listeners: { 
+                fileselected: {fn:this.onAddFile, scope:this}
+            }
+            ,style: { display: 'none' } //IE hack - can't use visibility b/c IE buffers the space
+            ,xtype:'fileuploadfield'
+	};
+*/
+    var addCfg = {
+      xtype:'browsebutton',
+      iconCls: this.addIconCls,
+      text: this.addText + '...',
+      handler: this.onAddFile,
+      scope: this
+    };
 
 		// upload button configuration
 		var upCfg = {
@@ -402,9 +417,11 @@ Ext.ux.UploadPanel = Ext.extend(Ext.Panel, {
 	,onRender:function() {
 		// call parent
 		Ext.ux.UploadPanel.superclass.onRender.apply(this, arguments);
+    this.getTopToolbar().doLayout(false, true);
 
 		// save useful references
 		var tb = 'tbar' === this.buttonsAt ? this.getTopToolbar() : this.getBottomToolbar();
+    tb.doLayout(false,true);
 		this.addBtn = Ext.getCmp(tb.items.first().id);
 		this.uploadBtn = Ext.getCmp(tb.items.itemAt(1).id);
 		this.removeAllBtn = Ext.getCmp(tb.items.last().id);
@@ -497,11 +514,14 @@ Ext.ux.UploadPanel = Ext.extend(Ext.Panel, {
 	 * @param {Ext.ux.BrowseButton}
 	 */
 	,onAddFile:function(bb) {
-		if(true !== this.eventsSuspended && false === this.fireEvent('beforefileadd', this, bb.getInputFile())) {
-			return;
-		}
-		var inp = bb.detachInputFile();
-		inp.addClass('x-hidden');
+    //var inp = fu.getFileInput();
+    if(true !== this.eventsSuspended && false === this.fireEvent('beforefileadd', this, inp)) {
+      return;
+    }
+    //fu.detachFileInput();
+
+    var inp = bb.detachInputFile();
+    inp.addClass('x-hidden');
 		var fileName = this.getFileName(inp);
 
 		// create new record and add it to store
@@ -529,6 +549,7 @@ Ext.ux.UploadPanel = Ext.extend(Ext.Panel, {
 
 	} // eo onAddFile
 	// }}}
+
 	// {{{
 	/**
 	 * destroys child components
@@ -736,6 +757,7 @@ Ext.ux.UploadPanel = Ext.extend(Ext.Panel, {
 	,syncShadow:function() {
 		if(this.contextmenu && this.contextmenu.shadow) {
 			this.contextmenu.getEl().shadow.show(this.contextmenu.getEl());
+      this.ownerCt.doLayout();
 		}
 	} // eo function syncShadow
 	// }}}

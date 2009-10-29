@@ -192,7 +192,11 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 			}]
 		});
 		if(record) {
-			record.set('form', form);
+      if (Ext.isIE) {
+  			record.set('form', undefined);
+      } else {
+        record.set('form', form);
+      }
 			record.set('progressId', progressId);
 		}
 		else {
@@ -206,7 +210,8 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 	,deleteForm:function(form, record) {
 		form.remove();
 		if(record) {
-			record.set('form', null);
+			//record.set('form', null);
+      delete record.form;
 		}
 	} // eo function deleteForm
 	// }}}
@@ -234,7 +239,8 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 	 */
 	,getIframe:function(record) {
 		var iframe = null;
-		var form = record.get('form');
+		//var form = record.get('form');
+    var form = record.form;
 		if(form && form.dom && form.dom.target) {
 			iframe = Ext.get(form.dom.target);
 		}

@@ -10,13 +10,19 @@
     <%= stylesheet_link_tag 'icons.css' %>
 
     <!-- 3rd party extensions -->
-    <%= javascript_include_tag 'data-view-plugins', 'ux/Ext.ux.form.BrowseButton.js', 'ux/Ext.ux.FileUploader.js', 'ux/Ext.ux.UploadPanel.js' %>
+    <%= javascript_include_tag 'ux/Ext.ux.StatusBar.js',
+                                'ux/Ext.ux.grid.RowExpander.js',
+                                'data-view-plugins', 
+                                'ux/Ext.ux.form.BrowseButton.js', 
+                                'ux/Ext.ux.form.FileUploadField.js',
+                                'ux/Ext.ux.FileUploader.js', 
+                                'ux/Ext.ux.UploadPanel.js' %>
     <%= stylesheet_link_tag 'filetype.css', 'file-upload' %>
 
     <!-- Custom CSS and Libs -->
-    <%= javascript_include_tag 'FileUploadField', 'dx/dradis.plugins.PluginManager.js',
+    <%= javascript_include_tag 'dx/dradis.plugins.PluginManager.js',
                                 'dx/dradis.plugins.UploadFormPanel.js' %>
-    <%= javascript_include_tag 'thebrain', 'nodestree', 'RowExpander', 'notesbrowser', 'importer', 'attachmentsviewer', 'interface' %>
+    <%= javascript_include_tag 'thebrain', 'nodestree', 'notesbrowser', 'importer', 'attachmentsviewer', 'interface' %>
     <%= stylesheet_link_tag 'dradis.css' %>
 
   </head>
