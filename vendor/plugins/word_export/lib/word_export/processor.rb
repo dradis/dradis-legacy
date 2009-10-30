@@ -11,7 +11,6 @@ module WordExport
       :logger_name => 'WordExport',
       # TODO: can we do better than this? i.e. __FILE__ ?
       :template => './vendor/plugins/word_export/template.xml',
-      :template => '/tmp/final-template.xml',
       #FIXME:category_name => REPORTING_CATEGORY_NAME,
       :required_fields => ['Title', 'Description', 'Recommendation'],
     }
