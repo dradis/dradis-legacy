@@ -15,7 +15,7 @@ module Core
   module VERSION #:nodoc:
     MAJOR = 2
     MINOR = 4
-    TINY  = 0
+    TINY  = 1
 
     STRING = [MAJOR, MINOR, TINY].join('.')
     def VERSION.string
