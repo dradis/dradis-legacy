@@ -1,10 +1,10 @@
 v2.x (xx of xxx 2009)
  - sample VulnDB import plugin
 
-v2.5 (xx of xxx 2009)
- - bugs fixed: #2881746, #2888245
+v2.4.1 (31st of October 2009)
+ - bugs fixed: #2881746, #2888245, #2889402
 
-v2.4 (10 of September 2009)
+v2.4 (10th of September 2009)
  - drag'n'drop your notes
  - new Rake tasks to backup the project, reset the environment, etc.
  - better upload plugin feedback in case of exception
