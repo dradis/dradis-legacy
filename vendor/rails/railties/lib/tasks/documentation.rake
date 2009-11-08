@@ -9,6 +9,7 @@ namespace :doc do
     rdoc.rdoc_files.include('doc/README_FOR_APP')
     rdoc.rdoc_files.include('app/**/*.rb')
     rdoc.rdoc_files.include('lib/**/*.rb')
+    rdoc.rdoc_files.exclude('lib/generators/**/templates/')
   }
 
   desc "Generate documentation for the Rails framework"
