@@ -1,2 +1,2 @@
-module NodesHelper
+module NodesHelper # :nodoc:
 end

@@ -1,2 +1,2 @@
-module SessionsHelper
+module SessionsHelper # :nodoc:
 end

@@ -1,2 +1,2 @@
-module ImportHelper
+module ImportHelper # :nodoc:
 end

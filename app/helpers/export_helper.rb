@@ -1,2 +1,2 @@
-module ExportHelper
+module ExportHelper # :nodoc:
 end

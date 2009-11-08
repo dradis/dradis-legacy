@@ -1,2 +1,2 @@
-module FeedsHelper
+module FeedsHelper # :nodoc:
 end

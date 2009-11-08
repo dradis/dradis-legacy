@@ -1,2 +1,2 @@
-module ConfigurationsHelper
+module ConfigurationsHelper # :nodoc:
 end

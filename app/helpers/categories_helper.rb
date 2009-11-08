@@ -1,2 +1,2 @@
-module CategoriesHelper
+module CategoriesHelper # :nodoc:
 end

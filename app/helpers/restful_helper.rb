@@ -1,2 +1,2 @@
-module RestfulHelper
+module RestfulHelper # :nodoc:
 end

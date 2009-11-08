@@ -1,2 +1,2 @@
-module HomeHelper
+module HomeHelper # :nodoc:
 end

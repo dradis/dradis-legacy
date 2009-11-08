@@ -1,2 +1,2 @@
-module NotesHelper
+module NotesHelper # :nodoc:
 end
