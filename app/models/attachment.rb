@@ -15,6 +15,12 @@
 =end
 
 
+# ==Description
+# This class in an abstraction layer to the <tt>attachments/</tt> folder. It allows
+# access to the folder content in a way that mimics the working of ActiveRecord
+#
+# The Attachment class inherits from the ruby core File class
+#
 # Folder structure
 # The attachement folder structure example:
 # AttachmentPWD
@@ -29,12 +35,14 @@
 #        - 1.icon.gif
 #        - 2.another_icon.gif
 #
-# General usage:
-# attachment = Attachment.new("images/my_image.gif", :node_id => 1)
+# ==General usage
+#   attachment = Attachment.new("images/my_image.gif", :node_id => 1)
+#
 # This will create an instance of an attachment that belongs to node with ID = 0
 # Nothing has bee saved yet
 #
-# attachment.save
+#   attachment.save
+#
 # This will save the attachment in the attachment directory structure
 #
 # You can inspect the saved instance:
@@ -43,13 +51,13 @@
 #   attachment.filename
 #   attachment.fullpath
 #
-# attachments = Attachment.find(:all)
+#   attachments = Attachment.find(:all)
 # Creates an array instance that contains all the attachments
 #
-# Attachment.find(:all, :conditions => {:node_id => 1})
+#   Attachment.find(:all, :conditions => {:node_id => 1})
 # Creates an array instance that contains all the attachments for node with ID=1
 #
-# Attachment.find('test.gif', :conditions => {:node_id => 1})
+#   Attachment.find('test.gif', :conditions => {:node_id => 1})
 # Retrieves the test.gif image that is associated with node 1
 
 class Attachment < File

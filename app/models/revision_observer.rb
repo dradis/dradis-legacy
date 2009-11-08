@@ -1,11 +1,10 @@
-# 12/12/2008
-
 # This class observes changes made to the Resources of the application and
 # increses the revision number every time a change is made.
-# TODO: create an RSS-like feed so users can be aware of the latest changes
+#-- TODO: create an RSS-like feed so users can be aware of the latest changes
 class RevisionObserver < ActiveRecord::Observer
   observe :node, :note, :category
 
+  # This method is called every time an object of the observed classes is saved.
   def after_save(record)
     Configuration.increment_revision()
     Feed.create(:action => 'created',
@@ -14,6 +13,7 @@ class RevisionObserver < ActiveRecord::Observer
       :value => Feed.extract_rss_value(record))
   end
 
+  # This method is called every time an object of the observed classes is deleted.
   def after_destroy(record)
     Configuration.increment_revision()
     Feed.create(:action => 'deleted',

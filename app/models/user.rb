@@ -1,5 +1,7 @@
 require 'digest/sha1'
 require 'digest/sha2'
+
+# Deprecated class. This class is not used and will be removed soon.
 class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
