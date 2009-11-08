@@ -48,7 +48,7 @@ class ConfigurationsController < ApplicationController
     respond_to do |format|
       format.html { head :method_not_allowed }
 
-      if @node.update_attributes(params[:node])
+      if @config.update_attributes(params[:config])
         format.xml { render :xml => @config.to_xml }
       else
         format.xml { render :xml => @config.errors.to_xml, :status => :unprocessable_entity }
@@ -70,6 +70,7 @@ class ConfigurationsController < ApplicationController
     end
   end
   
+  private
   def find_or_initialize_config
     if params[:id]
       unless @config = Configuration.find_by_id(params[:id])
