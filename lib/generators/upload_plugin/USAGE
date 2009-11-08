@@ -14,7 +14,7 @@ Note:
 Example:
     `./script/generate upload_plugin Nessus`
 
-    creates a standard browser_filters plugin:
+    creates a standard upload plugin:
         vendor/plugins/nessus_upload/README
         vendor/plugins/nessus_upload/init.rb
         vendor/plugins/nessus_upload/install.rb

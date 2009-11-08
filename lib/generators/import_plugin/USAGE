@@ -12,9 +12,9 @@ Note:
     export pugin requirements.
 
 Example:
-    `./script/generate plugin Wiki`
+    `./script/generate import_plugin Wiki`
 
-    creates a standard browser_filters plugin:
+    creates a standard import plugin:
         vendor/plugins/wiki_import/README
         vendor/plugins/wiki_import/init.rb
         vendor/plugins/wiki_import/install.rb
