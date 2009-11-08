@@ -11,7 +11,7 @@
 **
 =end
 
-module Core
+module Core #:nodoc:
   module VERSION #:nodoc:
     MAJOR = 2
     MINOR = 5
