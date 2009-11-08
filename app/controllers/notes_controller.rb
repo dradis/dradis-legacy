@@ -77,6 +77,7 @@ class NotesController < ApplicationController
     end
   end
   
+  private
   def find_or_initialize_node
     if params[:node_id]
       unless @node = Node.find_by_id(params[:node_id])
