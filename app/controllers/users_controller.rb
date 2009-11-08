@@ -1,3 +1,4 @@
+# This controller is deprecated and will be removed soon.
 class UsersController < ApplicationController
   # render new.rhtml
   def new

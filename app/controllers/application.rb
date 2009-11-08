@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   # require SSL, always
   before_filter :ensure_ssl
   
-  def ensure_ssl
+  def ensure_ssl # :nodoc:
     redirect_to( url_for, params.merge({:protocol => 'https://'}) )unless (request.ssl? || local_request?)
   end  
   

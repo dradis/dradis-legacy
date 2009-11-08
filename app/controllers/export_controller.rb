@@ -17,15 +17,22 @@ module Plugins
   end
 end
 
-# The ExportContoller will be the centralised point from which all the 
-# functionality exposed by plugins is made available to the user.
+# The ExportController provides access to the different export plugins that 
+# have been deployed in the dradis server.
+#
+# Each export plugin will include itself in the Plugins::Export module and this
+# controller will include it so all the functionality provided by the different
+# plugins is exposed.
+#
+# A convenience list method is provided that will return all the currently
+# loaded plugins.
 class ExportController < ApplicationController
   include Plugins::Export
   before_filter :login_required
   before_filter :prepare_params, :except => [:list]
 
   # This method provides a list of all the available export options. It 
-  # assumes that each export plugin inclides instance methods in the
+  # assumes that each export plugin includes sub-modules in the  
   # Plugins::Export mixing.
   def list
     respond_to do |format|

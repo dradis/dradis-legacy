@@ -1,9 +1,22 @@
+# This mixing provides REST operations for a given resource. When the mixin is
+# included, the ClassMethods module is added to the class that includes it.
 module RESTOperations
+
+  # React to the event of this mixin being included. The including (base) class
+  # will be extended with the methods defined in the ClassMethod module.
   def self.included(base)
     base.extend(ClassMethods)
   end
 
+  # This module provides a number of REST methods to handle the 
+  # show/create/update/destroy operations associated with a REST resource.
   module ClassMethods
+
+    # When the base class calls this method, a series of code templates are 
+    # applied and new instance methods for show/create/update/destroy operations
+    # are added to it.
+    #
+    # Base classes include: NotesController and CategoriesController
     def rest_operations_for(model_symbol, options={})
       # The Class of the model we are RESTing
       model_klass = eval(model_symbol.to_s.capitalize)
@@ -120,10 +133,13 @@ module RESTOperations
   end
 end
 
+# A sub-class that includes the RESTOperations mixin by default
 class RestfulController < ApplicationController
   after_filter :update_revision_if_modified, :except => [ :index , :show]
   include RESTOperations  
   
+  # If as the result of any operation in this controller an object was modified,
+  # ensure that the current revision number is incremented.
   def update_revision_if_modified
     return unless @modified
     Configuration.increment_revision

@@ -9,10 +9,10 @@ class SessionsController < ApplicationController
   before_filter :ensure_valid_password, :only => :setup
   before_filter :ensure_valid_metaserver_settings, :only => :setup
   
-  # ------------------------------------------------------------- test password
-  # render init.rhtml
+  # Initialise the session, clear any objects that might currently exist and
+  # present the session start up configuration HTML form.
   def init
-    unless Configuration.password.match('dradis')
+    unless (Configuration.password == 'improvable_dradis')
       redirect_to :action => :new
     end
     @projects = nil
@@ -23,6 +23,9 @@ class SessionsController < ApplicationController
     end
   end
 
+  # If the user chooses 'Change Meta-Server', this method will reset all the
+  # internal variables so she can start choosing a new Meta-Server from the
+  # begining.
   def change_metaserver
     session[:meta_server] = nil
     render :update do |page|
@@ -30,6 +33,8 @@ class SessionsController < ApplicationController
     end
   end
 
+  # When the user chooses 'Checkout from Meta-Server' this action will retrieve
+  # the available projects from the Meta-Server for the user to choose from.
   def get_projects
     render :update do |page|
       @projects = nil
@@ -50,7 +55,7 @@ class SessionsController < ApplicationController
   # that the ensure_valid_password and ensure_valid_metaserver_settings filters
   # have performed the necessary validation of the supplied input
   def setup
-    unless Configuration.password.match('dradis')
+    unless (Configuration.password == 'improvable_dradis')
       redirect_to :action => :new
       return
     end
@@ -88,11 +93,12 @@ class SessionsController < ApplicationController
     redirect_to :action => :new
   end
 
-  # -------------------------------------------------------------- user session
-  # render new.rhtml
+  # Present the login form
   def new
   end
 
+  # Create a new session for the :login user if the :password matches the one
+  # configured in this instance (see Configuration.password)
   def create
     usr = params.fetch(:login, nil)
     pwd = params.fetch(:password, nil)
@@ -107,6 +113,7 @@ class SessionsController < ApplicationController
     end
   end
   
+  # Logout action. Reset the session.
   def destroy
     #self.current_user.forget_me if logged_in?
     #cookies.delete :auth_token

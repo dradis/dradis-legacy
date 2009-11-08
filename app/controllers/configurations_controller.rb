@@ -1,9 +1,12 @@
+# Internal application Configuration settings are handled through this 
+# REST-enabled controller.
 class ConfigurationsController < ApplicationController
   before_filter :login_required
   before_filter :find_or_initialize_config, :except => [ :index ]
 
-  # GET /nodes
-  # Formats: xml
+  # Get all the Configuration objects. It only supports XML format. Sample 
+  # request:
+  # https://localhost:3004/configurations.xml
   def index
     @configs = Configuration.find(:all)
     respond_to do |format|
@@ -13,8 +16,8 @@ class ConfigurationsController < ApplicationController
     end
   end
 
-  # POST /nodes
-  # Formats: xml
+  # Create a new Configuration object and store it in the database. Only
+  # supports XML format.
   def create
     respond_to do |format|
       format.html { head :method_not_allowed }
@@ -33,8 +36,7 @@ class ConfigurationsController < ApplicationController
     end
   end
   
-  # GET /node/<id>
-  # Formats: xml
+  # Retrieve a  Configuration object. Only supports XML format.
   def show
     respond_to do |format|
       format.html { head :method_not_allowed }
@@ -42,8 +44,8 @@ class ConfigurationsController < ApplicationController
     end
   end
   
-  # PUT /node/<id>
-  # Formats: xml
+  # Update the attributes (name, value) of a Configurarion object. Only
+  # supports XML format.
   def update
     respond_to do |format|
       format.html { head :method_not_allowed }
@@ -56,8 +58,8 @@ class ConfigurationsController < ApplicationController
     end
   end
   
-  # DELETE /nodes/<id>
-  # Formats: xml
+  # Delete a give configuration from the back-end dabatase. Only
+  # supports XML format.
   def destroy
     respond_to do |format|
       format.html { head :method_not_allowed }
@@ -71,6 +73,8 @@ class ConfigurationsController < ApplicationController
   end
   
   private
+  # This filter locates a Configuration object based on the :id passed as a
+  # parameter in the request. If the :id is invalid an error page is rendered.
   def find_or_initialize_config
     if params[:id]
       unless @config = Configuration.find_by_id(params[:id])

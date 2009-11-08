@@ -1,3 +1,5 @@
+# This controller exposes the REST operations required to manage the Note
+# resource.
 class NotesController < ApplicationController
   before_filter :login_required
   before_filter :find_or_initialize_node
@@ -5,8 +7,8 @@ class NotesController < ApplicationController
   
   after_filter :update_revision_if_modified, :except => [ :index , :show]
 
-  # GET /nodes
-  # Formats: xml
+  # Retrieve the list of Note objects associated with a given Node.
+  # Formats supported: XML, JSON
   def index
     @notes = Note.find(:all, :conditions => {:node_id => @node.id})
     respond_to do |format|
@@ -17,8 +19,8 @@ class NotesController < ApplicationController
     end
   end
 
-  # POST /notes
-  # Formats: xml
+  # Create a new Note for the associated Node.
+  # Formats supported: XML
   def create
     respond_to do |format|
       format.html { head :method_not_allowed }
@@ -38,8 +40,8 @@ class NotesController < ApplicationController
     end
   end
   
-  # GET /note/<id>
-  # Formats: xml
+  # Retrieve a Note given its :id
+  # Formats supported: XML
   def show
     respond_to do |format|
       format.html { head :method_not_allowed }
@@ -47,8 +49,8 @@ class NotesController < ApplicationController
     end
   end
   
-  # PUT /note/<id>
-  # Formats: xml
+  # Update the attributes of a Note
+  # Formats supported: XML
   def update
     respond_to do |format|
       format.html { head :method_not_allowed }
@@ -62,8 +64,8 @@ class NotesController < ApplicationController
     end
   end
   
-  # DELETE /notes/<id>
-  # Formats: xml
+  # Remove a Note from the back-end database.
+  # Formats supported: XML
   def destroy
     respond_to do |format|
       format.html { head :method_not_allowed }
@@ -78,6 +80,9 @@ class NotesController < ApplicationController
   end
   
   private
+  # For most of the operations of this controller we need to identify the Node
+  # we are working with. This filter sets the @node instance variable if the 
+  # give :node_id is valid.
   def find_or_initialize_node
     if params[:node_id]
       unless @node = Node.find_by_id(params[:node_id])
@@ -87,6 +92,9 @@ class NotesController < ApplicationController
       render_optional_error_file :not_found
     end
   end
+
+  # Once a valid @node is set by the previous filter we look for the Note we
+  # are going to be working with based on the :id passed by the user.
   def find_or_initialize_note
     if params[:id]
       unless @note = Note.find_by_id(params[:id])
@@ -98,6 +106,8 @@ class NotesController < ApplicationController
     end
   end
 
+  # This is an sfter_filter that increments the current revision if a note was
+  # modified as a result of any of the operations exposed by this controller.
   def update_revision_if_modified
     return unless @modified
     Configuration.increment_revision

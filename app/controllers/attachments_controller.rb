@@ -1,6 +1,9 @@
+# Each Node of the repository can have multiple Attachments associated with it.
+# This controller is used to handle REST operations for the attachments.
 class AttachmentsController < ApplicationController
   before_filter :login_required
 
+  # Retrieve all the associated attachments for a given :node_id
   def index
     @attachments = Node.find(params[:node_id]).attachments
     respond_to do |format|
@@ -10,6 +13,8 @@ class AttachmentsController < ApplicationController
     @attachments.each do |a| a.close end
   end
 
+  # Create a new attachment for a give :node_id using a file that has been 
+  # submitted using an HTML form POST request.
   def create
     # TODO: what happens with files if they already exist?
     @attachment = Attachment.new(params['attachment_file'].original_filename, :node_id => params[:node_id])
@@ -22,8 +27,8 @@ class AttachmentsController < ApplicationController
     render :text => {:success => true}.to_json
   end
 
-  # PUT /node/<id>
-  # Formats: xml
+  # It is possible to rename attachments and this function provides that
+  # functionality.
   def update
     attachment = Attachment.find(params[:id], :conditions => {:node_id => Node.find(params[:node_id]).id})
     attachment.close
@@ -34,6 +39,11 @@ class AttachmentsController < ApplicationController
     end
     redirect_to :action => 'show', :id => params[:rename]
   end
+
+  # This function will send the Attachment file to the browser. It will try to 
+  # figure out if the file is an image in which case the attachment will be 
+  # displayed inline. By default the <tt>Content-disposition</tt> will be set to
+  # +attachment+.
   def show
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
@@ -61,6 +71,9 @@ class AttachmentsController < ApplicationController
     @attachment.close
   end
 
+  # Invoke this method to delete an Attachment from the server. It receives the
+  # attachment's file name in the :id parameter and the corresponding node in
+  # the :node_id parameter.
   def destroy
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again

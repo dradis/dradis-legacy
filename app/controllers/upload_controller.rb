@@ -1,11 +1,20 @@
-# The UploadContoller will be the centralised point from which all the 
-# functionality exposed by uploader plugins is made available to the user.
+# The UploadController provides access to the different upload plugins that 
+# have been deployed in the dradis server.
+#
+# Each upload plugin will include itself in the Plugins::Upload module and this
+# controller will include it so all the functionality provided by the different
+# plugins is exposed.
+#
+# A convenience list method is provided that will return all the currently
+# loaded plugins of this category.
 class UploadController < ApplicationController
   include Plugins::Upload
   before_filter :login_required
   before_filter :validate_uploader, :only => :import
 
   private
+  # Ensure that the requested :uploader is valid and has been included in the
+  # Plugins::Upload mixin
   def validate_uploader()
     valid_uploaders = Plugins::Upload::included_modules.collect do |m| m.name; end
     if (params.key?(:uploader) && valid_uploaders.include?(params[:uploader])) 
@@ -36,6 +45,9 @@ class UploadController < ApplicationController
     end
   end
 
+  # This method handles the execution flow to the requested :uploader. It first
+  # copies the uploaded file into the configured uploads node (see
+  # Configuration.uploadsNode). Then the request is passed to the chosen plugin.
   def import 
     # create an 'Imported files' node
     uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
