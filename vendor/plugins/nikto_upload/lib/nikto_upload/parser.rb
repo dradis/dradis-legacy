@@ -47,7 +47,7 @@ module Nikto
       parser = XML::Parser.new()
       REXML::Document.parse_stream(xml, parser)
 
-      raise IOError, 'Error parsing XML' unless parser.completed?
+      raise IOError, 'Error parsing XML. Parsing ended before </niktoscan> tag was reached.' unless parser.completed?
 
       @details = parser.details
       @scans = parser.scans
