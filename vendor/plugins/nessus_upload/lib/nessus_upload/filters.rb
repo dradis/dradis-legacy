@@ -47,7 +47,7 @@ def self.parse_xml_output(content)
 			report_item.severity		= report_node.elements['severity'].text
 			report_item.plugin_name	= report_node.elements['pluginName'].text
 			report_item.plugin_id	= report_node.elements['pluginID'].text
-			report_item.plugin_data	= report_node.elements['data'].text.gsub(/\\n/, "\n").strip
+			report_item.plugin_data	= report_node.elements['data'].text.gsub(/\\n/, "\n").strip unless report_node.elements['data'].nil?
 			
 			
 			# Check if the report_items hash already contains a array on the selected port
