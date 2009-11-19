@@ -7,6 +7,7 @@ var nodestree = new dradis.NodesTree();
 var notesbrowser = new dradis.NotesBrowser();
 var importer = new dradis.importer.Panel();
 var attachments = new dradis.attachments.AttachmentsPanel();
+var feeds = new dradis.feeds.Panel();
 
 var dradistabs = new Ext.TabPanel({
   region: 'center',
@@ -168,7 +169,14 @@ Ext.onReady(function() {
         ]
       },
       nodestree,
-      dradistabs,
+      new Ext.Panel({
+          layout: 'border',
+          region: 'center',
+          items: [
+              dradistabs,
+              feeds
+          ]
+      }),
       new Ext.Panel({
         region: 'south',
         welcome:{},
