@@ -6,10 +6,17 @@ class FeedsController < ApplicationController
   # The general feed contains items for every object that has been created,
   # updated or destroyed.
   def index
-    @feeds = Feed.find(:all, :limit => 20)
-
-    response.headers['Content-Type'] = 'application/rss+xml'
-    render :action => 'index', :layout => false
+    @feeds = Feed.find(:all, :limit => 20, :order => "updated_at DESC")
+    
+    respond_to do |format|
+      format.html {
+        response.headers['Content-Type'] = 'application/rss+xml'
+        render :action => 'index', :layout => false
+      }
+      format.xml { render :xml => @feeds.to_xml }
+      format.json { render :json => @feeds.to_json(:methods => [:title, :stamp]) }
+    end
+    
   end
 
 end
