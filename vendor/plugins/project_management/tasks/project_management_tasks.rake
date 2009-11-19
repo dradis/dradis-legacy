@@ -50,3 +50,63 @@ namespace :project do
 
   end
 end
+
+
+namespace :metaserver do
+  desc 'Commit project to the Meta-Server'
+  task :commit => :environment do
+
+    # TODO: This should made use of a new ProjectExport::MetaServer module
+
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::DEBUG
+
+      # Step 1: Find the right Project to commit a new Revision to
+      # FIXME: Hard coded MetaServer config? You can do better than this!
+      Project.site_from_metaserver( MetaServer.new( 
+                                      'host' => '192.168.49.128',
+                                      'port' => '4000',
+                                      'user' => 'etd',
+                                      'password' => 'etd001') 
+                                  )
+
+      project = nil
+      mode = Configuration.find_by_name('mode').value
+      if (mode == 'new')
+        title = "NewProject_#{DateTime.now.strftime('%Y-%m-%d')}"
+
+        puts "This project was not checked out from a Meta-Server. Please provide a project name:"
+        response = STDIN.gets("\n").chomp
+        if !response.empty?
+          title = response
+        end  
+
+        print "Creating new project... "
+        project = Project.new
+        project.attributes[:title] = title 
+        project.save
+        puts "done."
+      else
+        print "This project was checked out from a Meta-Server. Locating... "
+        project = Project.find( Configuration.find_by_name('project').value.to_i )
+        puts "found."
+      end
+      puts "Project tile is: #{project.attributes[:title]}"
+
+      # Step 2: create the project package in ./tmp/
+      filename = File.join(RAILS_ROOT, 'tmp', 'dradis-export.zip')
+      logger.debug{ "Creating project package in [#{filename}]" }
+      ProjectExport::Processor.full_project( :filename => filename)
+      contents = Base64::encode64( File.read( filename ) )
+      File.delete( filename )
+
+      # Step 3: send it over to the Meta-Server
+      logger.debug{ "Adding new revision..." }
+      project.post( :add_revision, {}, {:package => contents}.to_xml(:root => 'revision') )
+      logger.debug{ "Done" }
+
+      
+
+    logger.close
+  end
+end
