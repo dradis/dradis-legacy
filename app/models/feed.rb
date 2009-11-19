@@ -12,6 +12,11 @@ class Feed < ActiveRecord::Base
     "#{self.value}"
   end
 
+  # Who and when
+  def stamp
+    "by #{self.user} on #{self.updated_at.strftime("%d %B %Y at %H:%M:%S")}"
+  end
+
   # Helper method to automagically fill in the item's attributes
   def self.extract_rss_value(record)
     ValueAccessors.each do |accessor|
