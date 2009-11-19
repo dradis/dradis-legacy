@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 6) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(:version => 5) do
 
   create_table "configurations", :force => true do |t|
     t.string   "name"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "feeds", :force => true do |t|
+    t.string   "action"
+    t.string   "user"
+    t.datetime "actioned_at"
+    t.string   "resource"
     t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
