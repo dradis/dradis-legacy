@@ -38,6 +38,8 @@ module ProjectExport
     # project depending on how this project was started (see SessionController#setup).
     def metaserver_commit 
 
+      #TODO: Extract this to a ProjectExport::MetaServer module!
+
       # Step 1: Find the right Project to commit a new Revision to
       # FIXME: Hard coded MetaServer config? You can do better than this!
       Project.site_from_metaserver( MetaServer.new( 
@@ -65,6 +67,8 @@ module ProjectExport
 
       # Step 3: send it over to the Meta-Server
       project.post( :add_revision, {}, {:package => contents}.to_xml(:root => 'revision') )
+
+      # TODO: Step 4: Update the Configuration property 'project'
 
       redirect_to :back
     end
