@@ -7,6 +7,7 @@ dradis.feeds.Panel=Ext.extend(Ext.Panel, {
   title:'Feeds',
   frame: true,
   layout: 'fit',
+  region: 'south',
   template:  new Ext.XTemplate(
     '<tpl for=".">',
         '<div style="border-bottom: 1px solid #6592CB;"><span style="font-weight:bold">{title}</span> {stamp}</div>',
@@ -26,7 +27,7 @@ dradis.feeds.Panel=Ext.extend(Ext.Panel, {
   initComponent: function(){
     // Called during component initialization
     var config ={
-        region: 'south',
+        
         collapsible: true,
         collapsed: true,
         height: 150,
