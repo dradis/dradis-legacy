@@ -8,12 +8,6 @@ module WikiImport
     # http://www.mediawiki.org/wiki/API for further reference.
     module FullTextSearch
       NAME = 'Search in all fields of the wiki'
-      # TODO: is there a better way of storing the configuration?
-      CONF = { 
-        'host' => 'localhost',
-        'port' => 80,
-        'path' => '/mediawiki-1.14.0/api.php'
-      }
 
       def self.run(params={})
         records = []

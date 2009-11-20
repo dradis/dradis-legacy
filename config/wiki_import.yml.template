@@ -1,0 +1,4 @@
+host: localhost
+port: 80
+path: /mediawiki-1.14.0/api.php
+fields: [Title, Description, Recommendation]
