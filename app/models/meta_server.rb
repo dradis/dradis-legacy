@@ -8,8 +8,8 @@
 # Objects of this class are never persisted in the DB and only live in memory
 # associated with a user's session.
 class MetaServer
-  attr_reader  :host, :port, :user, :password
-  attr_writer  :host, :port, :user, :password
+  attr_reader  :host, :port, :user, :password, :path
+  attr_writer  :host, :port, :user, :password, :path
 
   # To create a MetaServer object you need to provide a configuration Hash 
   # containing the following items:
@@ -27,6 +27,11 @@ class MetaServer
     @port = attributes.fetch( 'port', '' )
     @user = attributes.fetch( 'user', '' )
     @password = attributes.fetch( 'password', '' )
+
+    # Maybe the Meta-Server is configured in a sub-path. Add a trailing slash
+    # if it is missing.
+    @path = attributes.fetch( 'path', '/' )
+    @path.sub!(/\?|\z/) { "/" + $& } unless @path[-1]==?/
   end
 
 
@@ -45,7 +50,7 @@ class MetaServer
     @site_url << @host
     @site_url << ':'
     @site_url << @port.to_s
-    @site_url << '/'
+    @site_url << @path 
 
     return @site_url
   end
