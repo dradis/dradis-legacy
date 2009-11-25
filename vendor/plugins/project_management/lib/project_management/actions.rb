@@ -37,40 +37,18 @@ module ProjectExport
     # the Meta-Server either as a new Project or a new Revision of an old 
     # project depending on how this project was started (see SessionController#setup).
     def metaserver_commit 
-
-      #TODO: Extract this to a ProjectExport::MetaServer module!
-
-      # Step 1: Find the right Project to commit a new Revision to
-      # FIXME: Hard coded MetaServer config? You can do better than this!
-      Project.site_from_metaserver( MetaServer.new( 
-                                      'host' => '192.168.49.128',
-                                      'port' => '4000',
-                                      'user' => 'etd',
-                                      'password' => 'etd001') 
-                                  )
-
-      project = nil
-      mode = Configuration.find_by_name('mode').value
-      if (mode == 'new')
-        project = Project.new
-        project.attributes[:title] = "NewProject_#{DateTime.now.strftime('%Y-%m-%d')}"
-        project.save
-      else
-        project = Project.find( Configuration.find_by_name('project').value.to_i )
+      #TODO: Should we consider restricting this to requests from 'localhost'?
+      # At the end of the day this will use the settings in config/project_management.yml
+      # to submit the project. The file would contain the credentials of the
+      # dradis server owner
+      begin
+        MetaServerProcessor.commit
+        flash[:notice] = 'Project successfully sent to the Meta-Server'
+      rescue Exception => e
+        flash[:error] = e.message
+        flash[:error] << ". Verify your connection settings in #{ProjectManagement::CONF_FILE}"
       end
-
-      # Step 2: create the project package in ./tmp/
-      filename = File.join(RAILS_ROOT, 'tmp', 'dradis-export.zip')
-      Processor.full_project( :filename => filename)
-      contents = Base64::encode64( File.read( filename ) )
-      File.delete( filename )
-
-      # Step 3: send it over to the Meta-Server
-      project.post( :add_revision, {}, {:package => contents}.to_xml(:root => 'revision') )
-
-      # TODO: Step 4: Update the Configuration property 'project'
-
-      redirect_to :back
+      redirect_to root_path 
     end
   end
 end
