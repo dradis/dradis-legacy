@@ -44,7 +44,7 @@ class MetaServer
     @site_url << '@'
     @site_url << @host
     @site_url << ':'
-    @site_url << @port
+    @site_url << @port.to_s
     @site_url << '/'
 
     return @site_url
