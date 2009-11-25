@@ -49,7 +49,6 @@ module ProjectExport
       logger.debug{ 'Done' }
 
       # Step 3: send it over to the Meta-Server
-      debugger
       logger.debug{ 'Adding new revision...' }
       project.post( :add_revision, {}, {:package => contents}.to_xml(:root => 'revision') )
       logger.debug{ 'Done' }
