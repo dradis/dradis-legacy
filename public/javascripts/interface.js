@@ -201,6 +201,28 @@ Ext.onReady(function() {
     dradisstatus.items.get(0).toggle();
   }
 
+  // This is how rails provides feedback, through the flash[:notice] and 
+  // flash[:error] variables. Checkout the ./app/views/postauth.html.erb
+  // to locate the corresponding <div> elements
+  var notice = Ext.getDom('notice');
+  if ( notice != null){
+    Ext.Msg.show({
+      title: 'Notice', 
+      msg: notice.innerHTML,
+      icon: Ext.Msg.INFO
+    });
+  }
+  var error = Ext.getDom('error');
+  if ( error != null){
+    Ext.Msg.show({
+      title: 'Error', 
+      msg: error.innerHTML,
+      icon: Ext.Msg.ERROR
+    });
+
+  }
+
+
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
   plugins.refresh();
 });
