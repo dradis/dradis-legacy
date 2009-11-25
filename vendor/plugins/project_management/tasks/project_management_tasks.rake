@@ -1,5 +1,13 @@
 require 'logger'
 
+# TODO: this fixes the assumption of the plugin that it will be receiving an 
+#       as the :file parameter Attachment
+class File
+  def fullpath
+    File.expand_path self.path
+  end
+end
+
 namespace :export do
 
   # ------------------------------------------------------------ project:export
@@ -74,22 +82,34 @@ namespace :upload do
 
     # This task will load into the current database the contents of the template
     # file passed as the first argument
-    desc 'Import the contents of a template file into the current project'
-    task :template => :environment do
+    desc 'Upload the contents of a template file into the current project'
+    task :template, :file, :needs => :environment do |t, args|
+
+      filename = args[:file] 
       logger = Logger.new(STDOUT)
       logger.level = Logger::DEBUG
-      ProjectTemplateUpload::import(:logger => logger, :file => Attachment.new(:filename =>'dradis-template.xml', :node_id => 1))
+
+      fail "Please provide a file: rake 'upload:project:template[<file>]'" if filename.nil?
+      fail "File [#{filename}] does not exist" unless File.exists?(filename)
+
+      ProjectTemplateUpload::import(:logger => logger, :file => File.new(filename) )
       logger.close
     end
 
     # The reverse operation to the project:export:zip task. From a zipped 
     # project package extract the contents of the archive and populate the 
     # dradis DB and attachments with them.
-    desc 'Import the contents of a project package'
-    task :zip => :environment do
+    desc 'Upload the contents of a project package'
+    task :zip, :file, :needs => :environment do |t, args|
+      
+      filename = args[:file]
       logger = Logger.new(STDOUT)
       logger.level = Logger::DEBUG
-      ProjectPackageUpload::import(:logger => logger, :file => Attachment.new(:filename =>'dradis-export.zip', :node_id => 1))
+
+      fail "Please provide a file: rake 'upload:project:zip[<file>]'" if filename.nil?
+      fail "File [#{filename}] does not exist" unless File.exists?(filename)
+
+      ProjectPackageUpload::import(:logger => logger, :file => File.new(filename) )
       logger.close
     end
 
