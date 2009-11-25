@@ -1,5 +1,5 @@
 v2.x (xx of xxx 2009)
- - sample VulnDB import plugin
+ - rake dradis:reset now creates a backup of the project by default
 
 v2.4.1 (31st of October 2009)
  - bugs fixed: #2881746, #2888245, #2889402
