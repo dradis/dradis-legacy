@@ -67,8 +67,13 @@ Rails::Initializer.run do |config|
        (File.basename($0) == 'rake') && 
        (%w{create drop migrate reset}.any? { |task| ARGV.include?("db:#{task}")||ARGV.include?("dradis:#{task}") })
      ) 
-    # running rake, disable import/export plugins
-    config.plugins = [ ]
+    # Running rake, disable import/export plugins. See r874
+    # http://dradis.svn.sourceforge.net/viewvc/dradis/server/trunk/config/environment.rb?view=log#rev874
+    # 
+    # At least include the project_management plugin that will allow us to 
+    # create a project package (for backup) and is known not to interact with 
+    # the DB
+    config.plugins = [:acts_as_tree, :project_management ]
   else
     config.active_record.observers = :revision_observer 
   end
