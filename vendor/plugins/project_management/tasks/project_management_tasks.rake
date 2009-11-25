@@ -2,58 +2,39 @@ require 'logger'
 
 namespace :project do
 
-  # This task will dump the contents of the database into an XML file that can
-  # be later re-used and imported into new projects.
-  desc 'Save the current database structure as a template'
-  task :as_template => :environment do
-    logger = Logger.new(STDOUT)
-    logger.level = Logger::DEBUG
-    template = ProjectExport::Processor.db_only(:logger => logger)
-    f = File.new('dradis-template.xml', 'w')
-    f.write template
-    f.close
-    logger.info{ "Template file created at:\n\t#{ File.expand_path( f.path ) }" }
-    logger.close
-  end
+  # ------------------------------------------------------------ project:export
+  #
+  # Export tasks, including as a template, zip file or to the meta-server 
+  namespace :export do
 
-  # This task will load into the current database the contents of the template
-  # file passed as the first argument
-  desc 'Import the contents of a template file into the current project'
-  task :import_template => :environment do
-    logger = Logger.new(STDOUT)
-    logger.level = Logger::DEBUG
-    ProjectTemplateUpload::import(:logger => logger, :file => Attachment.new(:filename =>'dradis-template.xml', :node_id => 1))
-    logger.close
-  end
+    # This task will dump the contents of the database into an XML file that can
+    # be later re-used and imported into new projects.
+    desc 'Save the current database structure as a template'
+    task :template => :environment do
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::DEBUG
+      template = ProjectExport::Processor.db_only(:logger => logger)
+      f = File.new('dradis-template.xml', 'w')
+      f.write template
+      f.close
+      logger.info{ "Template file created at:\n\t#{ File.expand_path( f.path ) }" }
+      logger.close
+    end
 
-  # Save the current project into a Zip file. The archive will contain an XML
-  # file with the contents of the database (categories, nodes and notes) and
-  # all the attachments that have been uploaded into the system.
-  desc 'Save the project information into a Zip file.'
-  task :as_zip => :environment do
-    logger = Logger.new(STDOUT)
-    logger.level = Logger::DEBUG
-    ProjectExport::Processor.full_project(:logger => logger, :filename => 'dradis-export.zip')
-    logger.info{ "Template file created at:\n\t#{ File.expand_path( 'dradis-export.zip' ) }" }
-    logger.close
-  end
+    # Save the current project into a Zip file. The archive will contain an XML
+    # file with the contents of the database (categories, nodes and notes) and
+    # all the attachments that have been uploaded into the system.
+    desc 'Save the project information into a Zip file.'
+    task :zip => :environment do
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::DEBUG
+      ProjectExport::Processor.full_project(:logger => logger, :filename => 'dradis-export.zip')
+      logger.info{ "Template file created at:\n\t#{ File.expand_path( 'dradis-export.zip' ) }" }
+      logger.close
+    end
 
-  # The reverse operation to the as_zip task. From a zipped project package
-  # extract the contents of the archive and populate the dradis DB and
-  # attachments with them.
-  desc 'Import the contents of a project package'
-  task :import_project_zip => :environment do
-    logger = Logger.new(STDOUT)
-    logger.level = Logger::DEBUG
-    ProjectPackageUpload::import(:logger => logger, :file => Attachment.new(:filename =>'dradis-export.zip', :node_id => 1))
-    logger.close
-
-  end
-
-
-  namespace :metaserver do
     desc 'Commit project to the Meta-Server'
-    task :commit => :environment do
+    task :metaserver => :environment do
       logger = Logger.new(STDOUT)
       logger.level = Logger::DEBUG
 
@@ -82,5 +63,34 @@ namespace :project do
       logger.close
     end
 
-  end # metaserver: namespace
-end # project: namespace
+  end # /export namespace
+
+  # ------------------------------------------------------------ project:import
+  #
+  # Import tasks, load a template or a project package into this instance
+  namespace :import do
+
+    # This task will load into the current database the contents of the template
+    # file passed as the first argument
+    desc 'Import the contents of a template file into the current project'
+    task :template => :environment do
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::DEBUG
+      ProjectTemplateUpload::import(:logger => logger, :file => Attachment.new(:filename =>'dradis-template.xml', :node_id => 1))
+      logger.close
+    end
+
+    # The reverse operation to the project:export:zip task. From a zipped 
+    # project package extract the contents of the archive and populate the 
+    # dradis DB and attachments with them.
+    desc 'Import the contents of a project package'
+    task :zip => :environment do
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::DEBUG
+      ProjectPackageUpload::import(:logger => logger, :file => Attachment.new(:filename =>'dradis-export.zip', :node_id => 1))
+      logger.close
+    end
+
+  end # /import namespace
+
+end # /project namespace
