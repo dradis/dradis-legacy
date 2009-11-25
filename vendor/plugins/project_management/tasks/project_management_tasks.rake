@@ -1,11 +1,11 @@
 require 'logger'
 
-namespace :project do
+namespace :export do
 
   # ------------------------------------------------------------ project:export
   #
   # Export tasks, including as a template, zip file or to the meta-server 
-  namespace :export do
+  namespace :project do
 
     # This task will dump the contents of the database into an XML file that can
     # be later re-used and imported into new projects.
@@ -63,12 +63,14 @@ namespace :project do
       logger.close
     end
 
-  end # /export namespace
+  end # /project namespace
+end # /export namespace
 
+namespace :upload do
   # ------------------------------------------------------------ project:import
   #
-  # Import tasks, load a template or a project package into this instance
-  namespace :import do
+  # Upload tasks, load a template or a project package into this instance
+  namespace :project do
 
     # This task will load into the current database the contents of the template
     # file passed as the first argument
@@ -91,6 +93,6 @@ namespace :project do
       logger.close
     end
 
-  end # /import namespace
+  end # /project namespace
 
-end # /project namespace
+end # /upload namespace
