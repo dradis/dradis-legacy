@@ -39,7 +39,7 @@ namespace :dradis do
     puts 'Backup complete.'
   end
 
-  desc 'Drops the database, removes the attachments and recreates the DB.'
-  task :reset => ['db:migrate:reset', 'dradis:attachments:drop'] do
+  desc 'Creates a backup. Drops the database, removes the attachments and recreates the DB.'
+  task :reset => ['backup', 'db:migrate:reset', 'dradis:attachments:drop'] do
   end
 end
