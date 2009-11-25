@@ -209,6 +209,7 @@ Ext.onReady(function() {
     Ext.Msg.show({
       title: 'Notice', 
       msg: notice.innerHTML,
+      buttons: Ext.Msg.OK,
       icon: Ext.Msg.INFO
     });
   }
@@ -217,6 +218,7 @@ Ext.onReady(function() {
     Ext.Msg.show({
       title: 'Error', 
       msg: error.innerHTML,
+      buttons: Ext.Msg.OK,
       icon: Ext.Msg.ERROR
     });
 
