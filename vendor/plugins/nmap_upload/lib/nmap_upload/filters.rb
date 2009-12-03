@@ -20,6 +20,7 @@ module NmapUpload
 
     # get the "nmap output" category instance or create it if it does not exist
     category = Category.find_or_create_by_name('Nmap output') 
+    parent = Node.create( :label => "#{ File.basename( params[:file].fullpath ) } - Nmap scan")
 
     # TODO: do something with the Nmap::Parser::Session information
     
@@ -28,7 +29,7 @@ module NmapUpload
     parser.hosts do |host|
       host_label = host.addr
       host_label = "#{host_label} (#{host.hostname})" if host.hostname
-      host_node = Node.new( :label => host_label)
+      host_node = Node.new( :label => host_label, :parent_id => parent.id)
       host_node.save
 
       # add the nmap output for the host as notes to the node
