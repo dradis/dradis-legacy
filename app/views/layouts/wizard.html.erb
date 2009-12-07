@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>First Time User's Wizard</title>
+    <style>
+      /*html, body  {margin: 0; padding: 2px; color: #000; background-color: #fff; }*/
+      body {
+        /*background-color: #4B7399;*/
+        font-family: Verdana, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+      }
+
+      a img { border: none; }
+      a { color: #0000FF; }
+
+      #container {
+        width: 75%;
+        margin: 0 auto;
+        background-color: #FFF;
+        padding: 20px 40px;
+        border: solid 1px #CCC;
+        margin-top: 20px;
+      }
+
+      div { 
+        background-color: #eed; 
+        padding: 1ex;
+        margin-bottom: 1ex;
+      }
+
+
+    </style>
+    <%= javascript_include_tag 'prototype' %>
+  </head>
+  <body>
+    <div id="container"> 
+<%= @content_for_layout %>
+    </div>
+
+  </body>
+</html>

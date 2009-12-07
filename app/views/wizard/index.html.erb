@@ -1,0 +1,31 @@
+<h1>First Time Wizard</h1>
+
+<ul>
+  <li><a href="">What is the Dradis Framework?</a></li>
+  <li><a href="">How to report an issue or create a feature request?</a></li>
+</ul>
+
+<div>
+
+<h2>What is the Dradis Framework?</h2>
+</div>
+
+<div>
+<h2>Users and Password</h2>
+</div>
+
+<div>
+<h2>Where is the information stored?</h2>
+</div>
+
+<div>
+<a name="latest"></a>
+<h2>Are you running the latest Dradis?</h2>
+<blink style="color:red;">Log in to enable this feature!</blink>
+<p>The version of the framework you are running is <%= Core::VERSION::STRING %>.</p> 
+<p><span id="latest_version"><%= link_to_remote 'Click here', :url => {:action => :check_version}, :update => 'latest_version' %> to check the latest stable version online.</span></p>
+<p>Alternatively, verify the <a href="http://dradisframework.org/latest.html">latest version</a> of the Framework yourself.</p>
+</div>
+
+
+  <a href="">How to report an issue or create a feature request?</a>
