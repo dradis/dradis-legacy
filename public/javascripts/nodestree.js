@@ -12,7 +12,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
   region: 'west',
   width: 300,
   autoScroll: true,
-  border: false,
+  //border: false,
   split: true,
   useArrows:true,
   animate:true,
