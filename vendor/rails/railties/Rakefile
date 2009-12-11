@@ -2,7 +2,6 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
-require 'rake/contrib/rubyforgepublisher'
 
 require 'date'
 require 'rbconfig'
@@ -28,7 +27,8 @@ task :default => :test
 ## we can see the failures
 task :test do 
   Dir['test/**/*_test.rb'].all? do |file|
-    system("ruby #{file}")
+    ruby = File.join(*RbConfig::CONFIG.values_at('bindir', 'RUBY_INSTALL_NAME'))
+    system(ruby, '-Itest', file)
   end or raise "Failures"
 end
 
@@ -44,7 +44,7 @@ BASE_DIRS = %w(
   app
   config/environments
   config/initializers
-  components
+  config/locales
   db
   doc
   log
@@ -53,7 +53,6 @@ BASE_DIRS = %w(
   public
   script
   script/performance
-  script/process
   test
   vendor
   vendor/plugins
@@ -71,7 +70,7 @@ LOG_FILES    = %w( server.log development.log test.log production.log )
 HTML_FILES   = %w( 422.html 404.html 500.html index.html robots.txt favicon.ico images/rails.png
                    javascripts/prototype.js javascripts/application.js
                    javascripts/effects.js javascripts/dragdrop.js javascripts/controls.js )
-BIN_FILES    = %w( about console destroy generate performance/benchmarker performance/profiler process/reaper process/spawner process/inspector runner server plugin )
+BIN_FILES    = %w( about console destroy generate performance/benchmarker performance/profiler runner server plugin )
 
 VENDOR_LIBS = %w( actionpack activerecord actionmailer activesupport activeresource railties )
 
@@ -160,7 +159,6 @@ end
 
 # Copy Ties Content -----------------------------------------------------------------------
 
-# :link_apache_config
 desc "Make copies of all the default content of ties"
 task :copy_ties_content => [ 
   :copy_rootfiles, :copy_dispatches, :copy_html_files, :copy_application,
@@ -175,9 +173,6 @@ task :copy_dispatches do
 
   copy_with_rewritten_ruby_path("dispatches/dispatch.fcgi", "#{PKG_DESTINATION}/public/dispatch.fcgi")
   chmod 0755, "#{PKG_DESTINATION}/public/dispatch.fcgi"
-
-  # copy_with_rewritten_ruby_path("dispatches/gateway.cgi", "#{PKG_DESTINATION}/public/gateway.cgi")
-  # chmod 0755, "#{PKG_DESTINATION}/public/gateway.cgi"
 end
 
 task :copy_html_files do
@@ -185,7 +180,7 @@ task :copy_html_files do
 end
 
 task :copy_application do
-  cp "helpers/application.rb", "#{PKG_DESTINATION}/app/controllers/application.rb"
+  cp "helpers/application_controller.rb", "#{PKG_DESTINATION}/app/controllers/application_controller.rb"
   cp "helpers/application_helper.rb", "#{PKG_DESTINATION}/app/helpers/application_helper.rb"
 end
 
@@ -193,20 +188,25 @@ task :copy_configs do
   app_name = "rails"
   socket = nil
   require 'erb'
-  File.open("#{PKG_DESTINATION}/config/database.yml", 'w') {|f| f.write ERB.new(IO.read("configs/databases/mysql.yml"), nil, '-').result(binding)}
+  File.open("#{PKG_DESTINATION}/config/database.yml", 'w') {|f| f.write ERB.new(IO.read("configs/databases/sqlite3.yml"), nil, '-').result(binding)}
   
   cp "configs/routes.rb", "#{PKG_DESTINATION}/config/routes.rb"
 
-  cp "configs/apache.conf", "#{PKG_DESTINATION}/public/.htaccess"
+  cp "configs/initializers/backtrace_silencers.rb", "#{PKG_DESTINATION}/config/initializers/backtrace_silencers.rb"
+  cp "configs/initializers/inflections.rb",         "#{PKG_DESTINATION}/config/initializers/inflections.rb"
+  cp "configs/initializers/mime_types.rb",          "#{PKG_DESTINATION}/config/initializers/mime_types.rb"
+  cp "configs/initializers/new_rails_defaults.rb",  "#{PKG_DESTINATION}/config/initializers/new_rails_defaults.rb"
 
-  cp "configs/initializers/inflections.rb", "#{PKG_DESTINATION}/config/initializers/inflections.rb"
-  cp "configs/initializers/mime_types.rb",  "#{PKG_DESTINATION}/config/initializers/mime_types.rb"
+  cp "configs/locales/en.yml", "#{PKG_DESTINATION}/config/locales/en.yml"
+
+  cp "configs/seeds.rb", "#{PKG_DESTINATION}/db/seeds.rb"
 
   cp "environments/boot.rb",        "#{PKG_DESTINATION}/config/boot.rb"
-  cp "environments/environment.rb", "#{PKG_DESTINATION}/config/environment.rb"
+  File.open("#{PKG_DESTINATION}/config/environment.rb", 'w') {|f| f.write ERB.new(IO.read("environments/environment.rb"), nil, '-').result(binding)}
   cp "environments/production.rb",  "#{PKG_DESTINATION}/config/environments/production.rb"
   cp "environments/development.rb", "#{PKG_DESTINATION}/config/environments/development.rb"
   cp "environments/test.rb",        "#{PKG_DESTINATION}/config/environments/test.rb"
+
 end
 
 task :copy_binfiles do
@@ -231,12 +231,6 @@ task :copy_app_doc_readme do
   cp "doc/README_FOR_APP", "#{PKG_DESTINATION}/doc/README_FOR_APP"
 end
 
-task :link_apache_config do
-  chdir(File.join(PKG_DESTINATION, 'config')) {
-    ln_s "../public/.htaccess", "apache.conf"
-  }
-end
-
 def copy_with_rewritten_ruby_path(src_file, dest_file)
   ruby = File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
 
@@ -253,6 +247,11 @@ def copy_with_rewritten_ruby_path(src_file, dest_file)
   end
 end
 
+desc 'Generate guides (for authors), use ONLY=foo to process just "foo.textile"'
+task :generate_guides do
+  ruby "guides/rails_guides.rb"
+end
+
 
 # Generate documentation ------------------------------------------------------------------
 
@@ -264,7 +263,7 @@ task :generate_rails_framework_doc do
 end
 
 task :generate_app_doc do
-  File.cp "doc/README_FOR_APP", "#{PKG_DESTINATION}/doc/README_FOR_APP"
+  cp "doc/README_FOR_APP", "#{PKG_DESTINATION}/doc/README_FOR_APP"
   system %{cd #{PKG_DESTINATION}; rake doc:app}
 end
 
@@ -273,9 +272,10 @@ Rake::RDocTask.new { |rdoc|
   rdoc.title    = "Railties -- Gluing the Engine to the Rails"
   rdoc.options << '--line-numbers' << '--inline-source' << '--accessor' << 'cattr_accessor=object'
   rdoc.options << '--charset' << 'utf-8'
-  rdoc.template = "#{ENV['template']}.rb" if ENV['template']
+  rdoc.template = ENV['template'] ? "#{ENV['template']}.rb" : '../doc/template/horo'
   rdoc.rdoc_files.include('README', 'CHANGELOG')
   rdoc.rdoc_files.include('lib/*.rb')
+  rdoc.rdoc_files.include('lib/rails/*.rb')
   rdoc.rdoc_files.include('lib/rails_generator/*.rb')
   rdoc.rdoc_files.include('lib/commands/**/*.rb')
 }
@@ -296,6 +296,7 @@ PKG_FILES = FileList[
   'doc/**/*', 
   'dispatches/**/*', 
   'environments/**/*', 
+  'guides/**/*', 
   'helpers/**/*', 
   'generators/**/*', 
   'html/**/*', 
@@ -312,17 +313,17 @@ spec = Gem::Specification.new do |s|
     on top of either MySQL, PostgreSQL, SQLite, DB2, SQL Server, or Oracle with eRuby- or Builder-based templates.
   EOF
 
-  s.add_dependency('rake', '>= 0.7.2')
-  s.add_dependency('activesupport',    '= 2.0.2' + PKG_BUILD)
-  s.add_dependency('activerecord',     '= 2.0.2' + PKG_BUILD)
-  s.add_dependency('actionpack',       '= 2.0.2' + PKG_BUILD)
-  s.add_dependency('actionmailer',     '= 2.0.2' + PKG_BUILD)
-  s.add_dependency('activeresource',   '= 2.0.2' + PKG_BUILD)
+  s.add_dependency('rake', '>= 0.8.3')
+  s.add_dependency('activesupport',    '= 2.3.5' + PKG_BUILD)
+  s.add_dependency('activerecord',     '= 2.3.5' + PKG_BUILD)
+  s.add_dependency('actionpack',       '= 2.3.5' + PKG_BUILD)
+  s.add_dependency('actionmailer',     '= 2.3.5' + PKG_BUILD)
+  s.add_dependency('activeresource',   '= 2.3.5' + PKG_BUILD)
 
   s.rdoc_options << '--exclude' << '.'
   s.has_rdoc = false
 
-  s.files = PKG_FILES.to_a.delete_if {|f| f.include?('.svn')}
+  s.files = PKG_FILES.to_a.delete_if {|f| f =~ %r{\.svn|guides/output}}
   s.require_path = 'lib'
   s.bindir = "bin"                               # Use these for applications.
   s.executables = ["rails"]
@@ -340,14 +341,23 @@ end
 
 
 # Publishing -------------------------------------------------------
-desc "Publish the API documentation"
+desc "Publish the rails gem"
 task :pgem => [:gem] do 
-  Rake::SshFilePublisher.new("davidhh@wrath.rubyonrails.org", "public_html/gems/gems", "pkg", "#{PKG_FILE_NAME}.gem").upload
-  `ssh davidhh@wrath.rubyonrails.org './gemupdate.sh'`
+  Rake::SshFilePublisher.new("gems.rubyonrails.org", "/u/sites/gems/gems", "pkg", "#{PKG_FILE_NAME}.gem").upload
+  `ssh gems.rubyonrails.org '/u/sites/gems/gemupdate.sh'`
+end
+
+desc "Publish the guides"
+task :pguides => :generate_guides do
+  mkdir_p 'pkg'
+  `tar -czf pkg/guides.gz guides/output`
+  Rake::SshFilePublisher.new("web.rubyonrails.org", "/u/sites/guides.rubyonrails.org/public", "pkg", "guides.gz").upload
+  `ssh web.rubyonrails.org 'cd /u/sites/guides.rubyonrails.org/public/ && tar -xvzf guides.gz && mv guides/output/* . && rm -rf guides*'`
 end
 
 desc "Publish the release files to RubyForge."
 task :release => [ :package ] do
+  require 'rake/contrib/rubyforgepublisher'
   require 'rubyforge'
 
   packages = %w( gem ).collect{ |ext| "pkg/#{PKG_NAME}-#{PKG_VERSION}.#{ext}" }

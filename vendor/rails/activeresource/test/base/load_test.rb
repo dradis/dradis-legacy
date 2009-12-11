@@ -1,4 +1,4 @@
-require "#{File.dirname(__FILE__)}/../abstract_unit"
+require 'abstract_unit'
 require "fixtures/person"
 require "fixtures/street_address"
 
@@ -10,6 +10,29 @@ module Highrise
   class Comment < ActiveResource::Base
     self.site = "http://37s.sunrise.i:3000"
   end
+
+  module Deeply
+    module Nested
+
+      class Note < ActiveResource::Base
+        self.site = "http://37s.sunrise.i:3000"
+      end
+
+       class Comment < ActiveResource::Base
+         self.site = "http://37s.sunrise.i:3000"
+       end
+
+       module TestDifferentLevels
+
+         class Note < ActiveResource::Base
+           self.site = "http://37s.sunrise.i:3000"
+         end
+
+       end
+
+    end
+  end
+
 end
 
 
@@ -26,7 +49,9 @@ class BaseLoadTest < Test::Unit::TestCase
       :id => 1, :state => { :id => 1, :name => 'Oregon',
         :notable_rivers => [
           { :id => 1, :name => 'Willamette' },
-          { :id => 2, :name => 'Columbia', :rafted_by => @matz }] }}}
+          { :id => 2, :name => 'Columbia', :rafted_by => @matz }],
+        :postal_codes => [ 97018, 1234567890 ],
+        :places => [ "Columbia City", "Unknown" ]}}}
 
     @person = Person.new
   end
@@ -61,7 +86,7 @@ class BaseLoadTest < Test::Unit::TestCase
   end
 
   def test_load_collection_with_unknown_resource
-    Person.send!(:remove_const, :Address) if Person.const_defined?(:Address)
+    Person.__send__(:remove_const, :Address) if Person.const_defined?(:Address)
     assert !Person.const_defined?(:Address), "Address shouldn't exist until autocreated"
     addresses = silence_warnings { @person.load(:addresses => @addresses).addresses }
     assert Person.const_defined?(:Address), "Address should have been autocreated"
@@ -77,7 +102,7 @@ class BaseLoadTest < Test::Unit::TestCase
   end
 
   def test_load_collection_with_single_unknown_resource
-    Person.send!(:remove_const, :Address) if Person.const_defined?(:Address)
+    Person.__send__(:remove_const, :Address) if Person.const_defined?(:Address)
     assert !Person.const_defined?(:Address), "Address shouldn't exist until autocreated"
     addresses = silence_warnings { @person.load(:addresses => [ @first_address ]).addresses }
     assert Person.const_defined?(:Address), "Address should have been autocreated"
@@ -102,10 +127,35 @@ class BaseLoadTest < Test::Unit::TestCase
     assert_kind_of Person::Street::State::NotableRiver, rivers.first
     assert_equal @deep[:street][:state][:notable_rivers].first[:id], rivers.first.id
     assert_equal @matz[:id], rivers.last.rafted_by.id
+
+    postal_codes = state.postal_codes
+    assert_kind_of Array, postal_codes
+    assert_equal 2, postal_codes.size
+    assert_kind_of Fixnum, postal_codes.first
+    assert_equal @deep[:street][:state][:postal_codes].first, postal_codes.first
+    assert_kind_of Numeric, postal_codes.last
+    assert_equal @deep[:street][:state][:postal_codes].last, postal_codes.last
+
+    places = state.places
+    assert_kind_of Array, places
+    assert_kind_of String, places.first
+    assert_equal @deep[:street][:state][:places].first, places.first
   end
   
   def test_nested_collections_within_the_same_namespace
     n = Highrise::Note.new(:comments => [{ :name => "1" }])
     assert_kind_of Highrise::Comment, n.comments.first
   end
+
+  def test_nested_collections_within_deeply_nested_namespace
+    n = Highrise::Deeply::Nested::Note.new(:comments => [{ :name => "1" }])
+    assert_kind_of Highrise::Deeply::Nested::Comment, n.comments.first
+  end
+
+  def test_nested_collections_in_different_levels_of_namespaces
+    n = Highrise::Deeply::Nested::TestDifferentLevels::Note.new(:comments => [{ :name => "1" }])
+    assert_kind_of Highrise::Deeply::Nested::Comment, n.comments.first
+  end
+
+
 end

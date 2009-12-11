@@ -5,7 +5,6 @@ namespace :rails do
       deps = %w(actionpack activerecord actionmailer activesupport activeresource)
       require 'rubygems'
       require 'rubygems/gem_runner'
-      Gem.manage_gems
 
       rails = (version = ENV['VERSION']) ?
         Gem.cache.find_name('rails', "= #{version}").first :
@@ -38,37 +37,38 @@ namespace :rails do
       end
     end
 
-    desc "Lock to latest Edge Rails or a specific revision with REVISION=X (ex: REVISION=4021) or a tag with TAG=Y (ex: TAG=rel_1-1-0)"
+    desc 'Lock to latest Edge Rails, for a specific release use RELEASE=1.2.0'
     task :edge do
-      $verbose = false
-      `svn --version` rescue nil
-      unless !$?.nil? && $?.success?
-        $stderr.puts "ERROR: Must have subversion (svn) available in the PATH to lock this application to Edge Rails"
-        exit 1
-      end
-            
-      rm_rf   "vendor/rails"
-      mkdir_p "vendor/rails"
-      
-      svn_root = "http://dev.rubyonrails.org/svn/rails/"
+      require 'open-uri'
+      version = ENV["RELEASE"] || "edge"
+      target  = "rails_#{version}.zip"
+      commits = "http://github.com/api/v1/yaml/rails/rails/commits/master"
+      url     = "http://dev.rubyonrails.org/archives/#{target}"
 
-      if ENV['TAG']
-        rails_svn = "#{svn_root}/tags/#{ENV['TAG']}"
-        touch "vendor/rails/TAG_#{ENV['TAG']}"
-      else
-        rails_svn = "#{svn_root}/trunk"
+      chdir 'vendor' do
+        latest_revision = YAML.load(open(commits))["commits"].first["id"]
 
-        if ENV['REVISION'].nil?
-          ENV['REVISION'] = /^r(\d+)/.match(%x{svn -qr HEAD log #{svn_root}})[1]
-          puts "REVISION not set. Using HEAD, which is revision #{ENV['REVISION']}."
+        puts "Downloading Rails from #{url}"
+        File.open('rails.zip', 'wb') do |dst|
+          open url do |src|
+            while chunk = src.read(4096)
+              dst << chunk
+            end
+          end
         end
 
-        touch "vendor/rails/REVISION_#{ENV['REVISION']}"
+        puts 'Unpacking Rails'
+        rm_rf 'rails'
+        `unzip rails.zip`
+        %w(rails.zip rails/Rakefile rails/cleanlogs.sh rails/pushgems.rb rails/release.rb).each do |goner|
+          rm_f goner
+        end
+
+        touch "rails/REVISION_#{latest_revision}"
       end
 
-      for framework in %w(railties actionpack activerecord actionmailer activesupport activeresource)
-        system "svn export #{rails_svn}/#{framework} vendor/rails/#{framework}" + (ENV['REVISION'] ? " -r #{ENV['REVISION']}" : "")
-      end
+      puts 'Updating current scripts, javascripts, and configuration settings'
+      Rake::Task['rails:update'].invoke
     end
   end
 
@@ -78,7 +78,13 @@ namespace :rails do
   end
 
   desc "Update both configs, scripts and public/javascripts from Rails"
-  task :update => [ "update:scripts", "update:javascripts", "update:configs" ]
+  task :update => [ "update:scripts", "update:javascripts", "update:configs", "update:application_controller" ]
+
+  desc "Applies the template supplied by LOCATION=/path/to/template"
+  task :template do
+    require 'rails_generator/generators/applications/app/template_runner'
+    Rails::TemplateRunner.new(ENV["LOCATION"])
+  end
 
   namespace :update do
     desc "Add new scripts to the application script/ directory"
@@ -105,7 +111,7 @@ namespace :rails do
       require 'railties_path'  
       project_dir = RAILS_ROOT + '/public/javascripts/'
       scripts = Dir[RAILTIES_PATH + '/html/javascripts/*.js']
-      scripts.reject!{|s| File.basename(s) == 'application.js'} if File.exists?(project_dir + 'application.js')
+      scripts.reject!{|s| File.basename(s) == 'application.js'} if File.exist?(project_dir + 'application.js')
       FileUtils.cp(scripts, project_dir)
     end
 
@@ -113,6 +119,25 @@ namespace :rails do
     task :configs do
       require 'railties_path'  
       FileUtils.cp(RAILTIES_PATH + '/environments/boot.rb', RAILS_ROOT + '/config/boot.rb')
+    end
+    
+    desc "Rename application.rb to application_controller.rb"
+    task :application_controller do
+      old_style = RAILS_ROOT + '/app/controllers/application.rb'
+      new_style = RAILS_ROOT + '/app/controllers/application_controller.rb'
+      if File.exists?(old_style) && !File.exists?(new_style)
+        FileUtils.mv(old_style, new_style)
+        puts "#{old_style} has been renamed to #{new_style}, update your SCM as necessary"
+      end
+    end
+    
+    desc "Generate dispatcher files in RAILS_ROOT/public"
+    task :generate_dispatchers do
+      require 'railties_path'
+      FileUtils.cp(RAILTIES_PATH + '/dispatches/config.ru', RAILS_ROOT + '/config.ru')
+      FileUtils.cp(RAILTIES_PATH + '/dispatches/dispatch.fcgi', RAILS_ROOT + '/public/dispatch.fcgi')
+      FileUtils.cp(RAILTIES_PATH + '/dispatches/dispatch.rb', RAILS_ROOT + '/public/dispatch.rb')
+      FileUtils.cp(RAILTIES_PATH + '/dispatches/dispatch.rb', RAILS_ROOT + '/public/dispatch.cgi')
     end
   end
 end

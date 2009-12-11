@@ -1,20 +1,19 @@
-require "#{File.dirname(__FILE__)}/../abstract_unit"
-require "#{File.dirname(__FILE__)}/../testing_sandbox"
+require 'abstract_unit'
+require 'testing_sandbox'
 
 # The exhaustive tests are in test/controller/html/sanitizer_test.rb.
 # This tests the that the helpers hook up correctly to the sanitizer classes.
-class SanitizeHelperTest < Test::Unit::TestCase
-  include ActionView::Helpers::SanitizeHelper
-  include ActionView::Helpers::TagHelper
+class SanitizeHelperTest < ActionView::TestCase
+  tests ActionView::Helpers::SanitizeHelper
   include TestingSandbox
 
   def test_strip_links
     assert_equal "Dont touch me", strip_links("Dont touch me")
     assert_equal "<a<a", strip_links("<a<a")
     assert_equal "on my mind\nall day long", strip_links("<a href='almost'>on my mind</a>\n<A href='almost'>all day long</A>")
-    assert_equal "0wn3d", strip_links("<a href='http://www.rubyonrails.com/'><a href='http://www.rubyonrails.com/' onlclick='steal()'>0wn3d</a></a>") 
-    assert_equal "Magic", strip_links("<a href='http://www.rubyonrails.com/'>Mag<a href='http://www.ruby-lang.org/'>ic") 
-    assert_equal "FrrFox", strip_links("<href onlclick='steal()'>FrrFox</a></href>") 
+    assert_equal "0wn3d", strip_links("<a href='http://www.rubyonrails.com/'><a href='http://www.rubyonrails.com/' onlclick='steal()'>0wn3d</a></a>")
+    assert_equal "Magic", strip_links("<a href='http://www.rubyonrails.com/'>Mag<a href='http://www.ruby-lang.org/'>ic")
+    assert_equal "FrrFox", strip_links("<href onlclick='steal()'>FrrFox</a></href>")
     assert_equal "My mind\nall <b>day</b> long", strip_links("<a href='almost'>My mind</a>\n<A href='almost'>all <b>day</b> long</A>")
     assert_equal "all <b>day</b> long", strip_links("<<a>a href='hello'>all <b>day</b> long<</A>/a>")
   end
@@ -40,7 +39,16 @@ class SanitizeHelperTest < Test::Unit::TestCase
     %{This is a test.\n\n\nIt no longer contains any HTML.\n}, strip_tags(
     %{<title>This is <b>a <a href="" target="_blank">test</a></b>.</title>\n\n<!-- it has a comment -->\n\n<p>It no <b>longer <strong>contains <em>any <strike>HTML</strike></em>.</strong></b></p>\n}))
     assert_equal "This has a  here.", strip_tags("This has a <!-- comment --> here.")
-    [nil, '', '   '].each { |blank| assert_equal blank, strip_tags(blank) }
+    [nil, '', '   '].each do |blank|
+      stripped = strip_tags(blank)
+      assert_equal blank, stripped
+      assert stripped.html_safe? unless blank.nil?
+    end
+    assert strip_tags("<script>").html_safe?
+  end
+
+  def test_sanitize_is_marked_safe
+    assert sanitize("<html><script></script></html>").html_safe?
   end
 
   def assert_sanitized(text, expected = nil)

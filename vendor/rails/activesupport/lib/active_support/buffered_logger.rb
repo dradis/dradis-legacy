@@ -13,6 +13,8 @@ module ActiveSupport
 
     MAX_BUFFER_SIZE = 1000
 
+    ##
+    # :singleton-method:
     # Set to false to disable the silencer
     cattr_accessor :silencer
     self.silencer = true
@@ -33,12 +35,12 @@ module ActiveSupport
 
     attr_accessor :level
     attr_reader :auto_flushing
-    attr_reader :buffer
 
     def initialize(log, level = DEBUG)
       @level         = level
-      @buffer        = []
+      @buffer        = {}
       @auto_flushing = 1
+      @guard = Mutex.new
 
       if log.respond_to?(:write)
         @log = log
@@ -46,6 +48,7 @@ module ActiveSupport
         @log = open(log, (File::WRONLY | File::APPEND))
         @log.sync = true
       else
+        FileUtils.mkdir_p(File.dirname(log))
         @log = open(log, (File::WRONLY | File::APPEND | File::CREAT))
         @log.sync = true
         @log.write("# Logfile created on %s" % [Time.now.to_s])
@@ -58,20 +61,20 @@ module ActiveSupport
       # If a newline is necessary then create a new message ending with a newline.
       # Ensures that the original message is not mutated.
       message = "#{message}\n" unless message[-1] == ?\n
-      @buffer << message
+      buffer << message
       auto_flush
       message
     end
 
     for severity in Severity.constants
       class_eval <<-EOT, __FILE__, __LINE__
-        def #{severity.downcase}(message = nil, progname = nil, &block)
-          add(#{severity}, message, progname, &block)
-        end
-
-        def #{severity.downcase}?
-          #{severity} >= @level
-        end
+        def #{severity.downcase}(message = nil, progname = nil, &block)  # def debug(message = nil, progname = nil, &block)
+          add(#{severity}, message, progname, &block)                    #   add(DEBUG, message, progname, &block)
+        end                                                              # end
+                                                                         #
+        def #{severity.downcase}?                                        # def debug?
+          #{severity} >= @level                                          #   DEBUG >= @level
+        end                                                              # end
       EOT
     end
 
@@ -90,7 +93,16 @@ module ActiveSupport
     end
 
     def flush
-      @log.write(@buffer.slice!(0..-1).to_s) unless @buffer.empty?
+      @guard.synchronize do
+        unless buffer.empty?
+          old_buffer = buffer
+          @log.write(old_buffer.join)
+        end
+
+        # Important to do this even if buffer was empty or else @buffer will
+        # accumulate empty arrays for each request where nothing was logged.
+        clear_buffer
+      end
     end
 
     def close
@@ -101,7 +113,15 @@ module ActiveSupport
 
     protected
       def auto_flush
-        flush if @buffer.size >= @auto_flushing
+        flush if buffer.size >= @auto_flushing
+      end
+
+      def buffer
+        @buffer[Thread.current] ||= []
+      end
+
+      def clear_buffer
+        @buffer.delete(Thread.current)
       end
   end
 end

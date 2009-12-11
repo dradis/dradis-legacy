@@ -98,7 +98,11 @@ var store = new Ext.data.GroupingStore({
   url: '/nodes/1/notes.json',
   reader: new Ext.data.JsonReader({
                 id:'id',
-                fields:[ 'text', 'author', 'category_id', 'node_id', 'updated_at', 'created_at' ]
+                fields:[ 
+                  'text', 'author', 'category_id', 'node_id', 
+                  {name: 'updated_at', type: 'date', dateFormat: 'c' }, 
+                  {name: 'created_at', type: 'date', dateFormat: 'c' } 
+                ]
               }),
   sortInfo:{field: 'text', direction: "ASC"},
   groupField: 'category_id',

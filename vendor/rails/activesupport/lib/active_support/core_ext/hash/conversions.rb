@@ -1,52 +1,50 @@
 require 'date'
-require 'cgi'
-require 'base64'
-require 'builder'
-require 'xmlsimple'
-
-# Locked down XmlSimple#xml_in_string
-class XmlSimple
-  # Same as xml_in but doesn't try to smartly shoot itself in the foot.
-  def xml_in_string(string, options = nil)
-    handle_options('in', options)
-
-    @doc = parse(string)
-    result = collapse(@doc.root)
-
-    if @options['keeproot']
-      merge({}, @doc.root.name, result)
-    else
-      result
-    end
-  end
-
-  def self.xml_in_string(string, options = nil)
-    new.xml_in_string(string, options)
-  end
-end
+require 'active_support/core_ext/module/attribute_accessors'
 
 module ActiveSupport #:nodoc:
+  # these accessors are here because people using ActiveResource and REST to integrate with other systems
+  # have to be able to control the default behavior of rename_key. dasherize_xml is set to true to emulate
+  # existing behavior. In a future version it should be set to false by default.
+  mattr_accessor :dasherize_xml
+  mattr_accessor :camelize_xml
+  self.dasherize_xml = true
+  self.camelize_xml  = false
   module CoreExtensions #:nodoc:
     module Hash #:nodoc:
       module Conversions
+        # This module exists to decorate files deserialized using Hash.from_xml with
+        # the <tt>original_filename</tt> and <tt>content_type</tt> methods.
+        module FileLike #:nodoc:
+          attr_writer :original_filename, :content_type
+
+          def original_filename
+            @original_filename || 'untitled'
+          end
+
+          def content_type
+            @content_type || 'application/octet-stream'
+          end
+        end
+
         XML_TYPE_NAMES = {
           "Symbol"     => "symbol",
           "Fixnum"     => "integer",
           "Bignum"     => "integer",
           "BigDecimal" => "decimal",
           "Float"      => "float",
+          "TrueClass"  => "boolean",
+          "FalseClass" => "boolean",
           "Date"       => "date",
           "DateTime"   => "datetime",
           "Time"       => "datetime",
-          "TrueClass"  => "boolean",
-          "FalseClass" => "boolean"
+          "ActiveSupport::TimeWithZone" => "datetime"
         } unless defined?(XML_TYPE_NAMES)
 
         XML_FORMATTING = {
           "symbol"   => Proc.new { |symbol| symbol.to_s },
           "date"     => Proc.new { |date| date.to_s(:db) },
           "datetime" => Proc.new { |time| time.xmlschema },
-          "binary"   => Proc.new { |binary| Base64.encode64(binary) },
+          "binary"   => Proc.new { |binary| ActiveSupport::Base64.encode64(binary) },
           "yaml"     => Proc.new { |yaml| yaml.to_yaml }
         } unless defined?(XML_FORMATTING)
 
@@ -56,19 +54,19 @@ module ActiveSupport #:nodoc:
           XML_PARSING = {
             "symbol"       => Proc.new  { |symbol|  symbol.to_sym },
             "date"         => Proc.new  { |date|    ::Date.parse(date) },
-            "datetime"     => Proc.new  { |time|    ::Time.parse(time).utc },
+            "datetime"     => Proc.new  { |time|    ::Time.parse(time).utc rescue ::DateTime.parse(time).utc },
             "integer"      => Proc.new  { |integer| integer.to_i },
             "float"        => Proc.new  { |float|   float.to_f },
             "decimal"      => Proc.new  { |number|  BigDecimal(number) },
             "boolean"      => Proc.new  { |boolean| %w(1 true).include?(boolean.strip) },
             "string"       => Proc.new  { |string|  string.to_s },
             "yaml"         => Proc.new  { |yaml|    YAML::load(yaml) rescue yaml },
-            "base64Binary" => Proc.new  { |bin|     Base64.decode64(bin) },
-            # FIXME: Get rid of eval and institute a proper decorator here
+            "base64Binary" => Proc.new  { |bin|     ActiveSupport::Base64.decode64(bin) },
             "file"         => Proc.new do |file, entity|
-              f = StringIO.new(Base64.decode64(file))
-              eval "def f.original_filename() '#{entity["name"]}' || 'untitled' end"
-              eval "def f.content_type()      '#{entity["content_type"]}' || 'application/octet-stream' end"
+              f = StringIO.new(ActiveSupport::Base64.decode64(file))
+              f.extend(FileLike)
+              f.original_filename = entity['name']
+              f.content_type = entity['content_type']
               f
             end
           }
@@ -86,7 +84,7 @@ module ActiveSupport #:nodoc:
         # Converts a hash into a string suitable for use as a URL query string. An optional <tt>namespace</tt> can be
         # passed to enclose the param names (see example below).
         #
-        # ==== Example:
+        # ==== Examples
         #   { :name => 'David', :nationality => 'Danish' }.to_query # => "name=David&nationality=Danish"
         #
         #   { :name => 'David', :nationality => 'Danish' }.to_query('user') # => "user%5Bname%5D=David&user%5Bnationality%5D=Danish"
@@ -95,14 +93,18 @@ module ActiveSupport #:nodoc:
             value.to_query(namespace ? "#{namespace}[#{key}]" : key)
           end.sort * '&'
         end
+        
+        alias_method :to_param, :to_query
 
         def to_xml(options = {})
+          require 'builder' unless defined?(Builder)
+
+          options = options.dup
           options[:indent] ||= 2
           options.reverse_merge!({ :builder => Builder::XmlMarkup.new(:indent => options[:indent]),
                                    :root => "hash" })
           options[:builder].instruct! unless options.delete(:skip_instruct)
-          dasherize = !options.has_key?(:dasherize) || options[:dasherize]
-          root = dasherize ? options[:root].to_s.dasherize : options[:root].to_s
+          root = rename_key(options[:root].to_s, options)
 
           options[:builder].__send__(:method_missing, root) do
             each do |key, value|
@@ -129,7 +131,7 @@ module ActiveSupport #:nodoc:
                   else
                     type_name = XML_TYPE_NAMES[value.class.name]
 
-                    key = dasherize ? key.to_s.dasherize : key.to_s
+                    key = rename_key(key.to_s, options)
 
                     attributes = options[:skip_types] || value.nil? || type_name.nil? ? { } : { :type => type_name }
                     if value.nil?
@@ -140,7 +142,7 @@ module ActiveSupport #:nodoc:
                       XML_FORMATTING[type_name] ? XML_FORMATTING[type_name].call(value) : value,
                       attributes
                     )
-                end
+                  end
               end
             end
             
@@ -149,15 +151,17 @@ module ActiveSupport #:nodoc:
 
         end
 
+        def rename_key(key, options = {})
+          camelize  = options.has_key?(:camelize) ? options[:camelize]   : ActiveSupport.camelize_xml
+          dasherize = options.has_key?(:dasherize) ? options[:dasherize] : ActiveSupport.dasherize_xml
+          key = key.camelize if camelize
+          key = key.dasherize if dasherize
+          key
+        end
+
         module ClassMethods
           def from_xml(xml)
-            # TODO: Refactor this into something much cleaner that doesn't rely on XmlSimple
-            typecast_xml_value(undasherize_keys(XmlSimple.xml_in_string(xml,
-              'forcearray'   => false,
-              'forcecontent' => true,
-              'keeproot'     => true,
-              'contentkey'   => '__content__')
-            ))
+            typecast_xml_value(unrename_keys(XmlMini.parse(xml)))
           end
 
           private
@@ -195,8 +199,9 @@ module ActiveSupport #:nodoc:
                   elsif value.blank? || value['nil'] == 'true'
                     nil
                   # If the type is the only element which makes it then 
-                  # this still makes the value nil
-                  elsif value['type'] && value.size == 1
+                  # this still makes the value nil, except if type is
+                  # a XML node(where type['value'] is a Hash)
+                  elsif value['type'] && value.size == 1 && !value['type'].is_a?(::Hash)
                     nil
                   else
                     xml_value = value.inject({}) do |h,(k,v)|
@@ -222,15 +227,15 @@ module ActiveSupport #:nodoc:
               end
             end
 
-            def undasherize_keys(params)
+            def unrename_keys(params)
               case params.class.to_s
                 when "Hash"
                   params.inject({}) do |h,(k,v)|
-                    h[k.to_s.tr("-", "_")] = undasherize_keys(v)
+                    h[k.to_s.tr("-", "_")] = unrename_keys(v)
                     h
                   end
                 when "Array"
-                  params.map { |v| undasherize_keys(v) }
+                  params.map { |v| unrename_keys(v) }
                 else
                   params
               end

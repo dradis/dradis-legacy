@@ -199,11 +199,10 @@ module ActiveResource
     alias_method :count, :size
     alias_method :length, :size
     
-    # Grabs errors from the XML response.
-    def from_xml(xml)
+    # Grabs errors from an array of messages (like ActiveRecord::Validations)
+    def from_array(messages)
       clear
       humanized_attributes = @base.attributes.keys.inject({}) { |h, attr_name| h.update(attr_name.humanize => attr_name) }
-      messages = Hash.from_xml(xml)['errors']['error'] rescue []
       messages.each do |message|
         attr_message = humanized_attributes.keys.detect do |attr_name|
           if message[0, attr_name.size + 1] == "#{attr_name} "
@@ -214,41 +213,39 @@ module ActiveResource
         add_to_base message if attr_message.nil?
       end
     end
+
+    # Grabs errors from the json response.
+    def from_json(json)
+      array = ActiveSupport::JSON.decode(json)['errors'] rescue []
+      from_array array
+    end
+
+    # Grabs errors from the XML response.
+    def from_xml(xml)
+      array = Array.wrap(Hash.from_xml(xml)['errors']['error']) rescue []
+      from_array array
+    end
   end
   
-  # Module to allow validation of ActiveResource objects, which creates an Errors instance for every resource.
-  # Methods are implemented by overriding +Base#validate+ or its variants   Each of these methods can inspect 
-  # the state of the object, which usually means  ensuring that a number of attributes have a certain value 
-  # (such as not empty, within a given range, matching a certain regular expression and so on).
+  # Module to support validation and errors with Active Resource objects. The module overrides
+  # Base#save to rescue ActiveResource::ResourceInvalid exceptions and parse the errors returned 
+  # in the web service response. The module also adds an +errors+ collection that mimics the interface 
+  # of the errors provided by ActiveRecord::Errors.
   #
   # ==== Example
   #
-  #   class Person < ActiveResource::Base
-  #      self.site = "http://www.localhost.com:3000/"
-  #      protected
-  #        def validate
-  #          errors.add_on_empty %w( first_name last_name )
-  #          errors.add("phone_number", "has invalid format") unless phone_number =~ /[0-9]*/
-  #        end
+  # Consider a Person resource on the server requiring both a +first_name+ and a +last_name+ with a 
+  # <tt>validates_presence_of :first_name, :last_name</tt> declaration in the model:
   #
-  #        def validate_on_create # is only run the first time a new object is saved
-  #          unless valid_member?(self)
-  #            errors.add("membership_discount", "has expired")
-  #          end
-  #        end
-  #
-  #        def validate_on_update
-  #          errors.add_to_base("No changes have occurred") if unchanged_attributes?
-  #        end
-  #   end
-  #   
-  #   person = Person.new("first_name" => "Jim", "phone_number" => "I will not tell you.")
-  #   person.save                         # => false (and doesn't do the save)
-  #   person.errors.empty?                # => false
-  #   person.errors.count                 # => 2
-  #   person.errors.on "last_name"        # => "can't be empty"
-  #   person.attributes = { "last_name" => "Halpert", "phone_number" => "555-5555" }
-  #   person.save                         # => true (and person is now saved to the remote service)
+  #   person = Person.new(:first_name => "Jim", :last_name => "")
+  #   person.save                   # => false (server returns an HTTP 422 status code and errors)
+  #   person.valid?                 # => false
+  #   person.errors.empty?          # => false
+  #   person.errors.count           # => 1
+  #   person.errors.full_messages   # => ["Last name can't be empty"]
+  #   person.errors.on(:last_name)  # => "can't be empty"
+  #   person.last_name = "Halpert"  
+  #   person.save                   # => true (and person is now saved to the remote service)
   #
   module Validations
     def self.included(base) # :nodoc:
@@ -262,7 +259,12 @@ module ActiveResource
       save_without_validation
       true
     rescue ResourceInvalid => error
-      errors.from_xml(error.response.body)
+      case error.response['Content-Type']
+      when /xml/
+        errors.from_xml(error.response.body)
+      when /json/
+        errors.from_json(error.response.body)
+      end
       false
     end
 

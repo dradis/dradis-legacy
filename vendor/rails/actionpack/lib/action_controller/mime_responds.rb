@@ -92,7 +92,7 @@ module ActionController #:nodoc:
       # with the remaining data.
       #
       # Note that you can define your own XML parameter parser which would allow you to describe multiple entities
-      # in a single request (i.e., by wrapping them all in a single root note), but if you just go with the flow
+      # in a single request (i.e., by wrapping them all in a single root node), but if you just go with the flow
       # and accept Rails' defaults, life will be much easier.
       #
       # If you need to use a MIME type which isn't supported by default, you can register your own handlers in
@@ -114,7 +114,11 @@ module ActionController #:nodoc:
         @request    = controller.request
         @response   = controller.response
 
-        @mime_type_priority = Array(Mime::Type.lookup_by_extension(@request.parameters[:format]) || @request.accepts)
+        if ActionController::Base.use_accept_header
+          @mime_type_priority = Array(Mime::Type.lookup_by_extension(@request.parameters[:format]) || @request.accepts)
+        else
+          @mime_type_priority = [@request.format]
+        end
 
         @order     = []
         @responses = {}
@@ -139,12 +143,27 @@ module ActionController #:nodoc:
           custom(@mime_type_priority.first, &block)
         end
       end
+      
+      def self.generate_method_for_mime(mime)
+        sym = mime.is_a?(Symbol) ? mime : mime.to_sym
+        const = sym.to_s.upcase
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def #{sym}(&block)                # def html(&block)
+            custom(Mime::#{const}, &block)  #   custom(Mime::HTML, &block)
+          end                               # end
+        RUBY
+      end
+
+      Mime::SET.each do |mime|
+        generate_method_for_mime(mime)
+      end
 
       def method_missing(symbol, &block)
-        mime_constant = symbol.to_s.upcase
-
-        if Mime::SET.include?(Mime.const_get(mime_constant))
-          custom(Mime.const_get(mime_constant), &block)
+        mime_constant = Mime.const_get(symbol.to_s.upcase)
+      
+        if Mime::SET.include?(mime_constant)
+          self.class.generate_method_for_mime(mime_constant)
+          send(symbol, &block)
         else
           super
         end

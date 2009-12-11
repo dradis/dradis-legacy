@@ -1,7 +1,6 @@
 # Donated by Florian Gross
 
 require 'webrick'
-require 'webrick/https'
 require 'cgi'
 require 'stringio'
 require 'dispatcher'
@@ -44,29 +43,14 @@ end
 # can change this behavior by setting ActionController::Base.allow_concurrency
 # to true.
 class DispatchServlet < WEBrick::HTTPServlet::AbstractServlet
-  REQUEST_MUTEX = Mutex.new
-
   # Start the WEBrick server with the given options, mounting the
   # DispatchServlet at <tt>/</tt>.
   def self.dispatch(options = {})
     Socket.do_not_reverse_lookup = true # patch for OS X
 
-    pkey = OpenSSL::PKey::RSA.new(File.open('config/ssl/server.key.insecure').read)
-    cert = OpenSSL::X509::Certificate.new(File.open('config/ssl/server.crt').read)
-
     params = { :Port        => options[:port].to_i,
                :ServerType  => options[:server_type],
-               :BindAddress => options[:ip],
-               :SSLEnable => true,
-               :SSLVerifyClient => OpenSSL::SSL::VERIFY_NONE,
-               :SSLCertificate => cert,
-               :SSLPrivateKey => pkey,
-               :SSLCertName => [ 
-                 [ 'CN', 'dradis.' + WEBrick::Utils::getservername ],
-                 #[ 'O', 'dradis framework [dradis.sourceforge.net]'],
-                 #[ 'OU', 'dradis server' ]
-               ]
-                }
+               :BindAddress => options[:ip] }
     params[:MimeTypes] = options[:mime_types] if options[:mime_types]
 
     server = WEBrick::HTTPServer.new(params)
@@ -87,15 +71,8 @@ class DispatchServlet < WEBrick::HTTPServlet::AbstractServlet
 
   def service(req, res) #:nodoc:
     unless handle_file(req, res)
-      begin
-        REQUEST_MUTEX.lock unless ActionController::Base.allow_concurrency
-        unless handle_dispatch(req, res)
-          raise WEBrick::HTTPStatus::NotFound, "`#{req.path}' not found."
-        end
-      ensure
-        unless ActionController::Base.allow_concurrency
-          REQUEST_MUTEX.unlock if REQUEST_MUTEX.locked?
-        end
+      unless handle_dispatch(req, res)
+        raise WEBrick::HTTPStatus::NotFound, "`#{req.path}' not found."
       end
     end
   end

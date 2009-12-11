@@ -1,4 +1,5 @@
-require "#{File.dirname(__FILE__)}/abstract_unit"
+# encoding: utf-8
+require 'abstract_unit'
 
 class FunkyPathMailer < ActionMailer::Base
   self.template_root = "#{File.dirname(__FILE__)}/fixtures/path.with.dots"
@@ -17,7 +18,6 @@ class TestMailer < ActionMailer::Base
     @recipients   = recipient
     @subject      = "[Signed up] Welcome #{recipient}"
     @from         = "system@loudthinking.com"
-    @sent_on      = Time.local(2004, 12, 12)
     @body["recipient"] = recipient
   end
 
@@ -36,6 +36,15 @@ class TestMailer < ActionMailer::Base
     sent_on    Time.local(2004, 12, 12)
     cc         "nobody@loudthinking.com"
     bcc        "root@loudthinking.com"
+    body       "Nothing to see here."
+  end
+
+  def different_reply_to(recipient)
+    recipients recipient
+    subject    "testing reply_to"
+    from       "system@loudthinking.com"
+    sent_on    Time.local(2008, 5, 23)
+    reply_to   "atraver@gmail.com"
     body       "Nothing to see here."
   end
 
@@ -209,7 +218,7 @@ class TestMailer < ActionMailer::Base
     end
     attachment :content_type => "application/octet-stream",:filename => "test.txt", :body => "test abcdefghijklmnopqstuvwxyz"
   end
-  
+
   def nested_multipart_with_body(recipient)
     recipients   recipient
     subject      "nested multipart with body"
@@ -263,6 +272,13 @@ class TestMailer < ActionMailer::Base
     headers      "return-path" => "another@somewhere.test"
   end
 
+  def body_ivar(recipient)
+    recipients   recipient
+    subject      "Body as a local variable"
+    from         "test@example.com"
+    body         :body => "foo", :bar => "baz"
+  end
+
   class <<self
     attr_accessor :received_body
   end
@@ -271,8 +287,6 @@ class TestMailer < ActionMailer::Base
     self.class.received_body = mail.body
   end
 end
-
-uses_mocha 'ActionMailerTest' do
 
 class ActionMailerTest < Test::Unit::TestCase
   include ActionMailer::Quoting
@@ -311,10 +325,11 @@ class ActionMailerTest < Test::Unit::TestCase
     assert_nothing_raised { created = TestMailer.create_nested_multipart(@recipient)}
     assert_equal 2,created.parts.size
     assert_equal 2,created.parts.first.parts.size
-    
+
     assert_equal "multipart/mixed", created.content_type
     assert_equal "multipart/alternative", created.parts.first.content_type
     assert_equal "bar", created.parts.first.header['foo'].to_s
+    assert_nil created.parts.first.charset
     assert_equal "text/plain", created.parts.first.parts.first.content_type
     assert_equal "text/html", created.parts.first.parts[1].content_type
     assert_equal "application/octet-stream", created.parts[1].content_type
@@ -340,12 +355,14 @@ class ActionMailerTest < Test::Unit::TestCase
   end
 
   def test_signed_up
+    Time.stubs(:now => Time.now)
+
     expected = new_mail
     expected.to      = @recipient
     expected.subject = "[Signed up] Welcome #{@recipient}"
     expected.body    = "Hello there, \n\nMr. #{@recipient}"
     expected.from    = "system@loudthinking.com"
-    expected.date    = Time.local(2004, 12, 12)
+    expected.date    = Time.now
 
     created = nil
     assert_nothing_raised { created = TestMailer.create_signed_up(@recipient) }
@@ -356,7 +373,7 @@ class ActionMailerTest < Test::Unit::TestCase
     assert_not_nil ActionMailer::Base.deliveries.first
     assert_equal expected.encoded, ActionMailer::Base.deliveries.first.encoded
   end
-  
+
   def test_custom_template
     expected = new_mail
     expected.to      = @recipient
@@ -372,7 +389,8 @@ class ActionMailerTest < Test::Unit::TestCase
   end
 
   def test_custom_templating_extension
-    #
+    assert ActionView::Template.template_handler_extensions.include?("haml"), "haml extension was not registered"
+
     # N.b., custom_templating_extension.text.plain.haml is expected to be in fixtures/test_mailer directory
     expected = new_mail
     expected.to      = @recipient
@@ -380,18 +398,10 @@ class ActionMailerTest < Test::Unit::TestCase
     expected.body    = "Hello there, \n\nMr. #{@recipient}"
     expected.from    = "system@loudthinking.com"
     expected.date    = Time.local(2004, 12, 12)
-    
+
     # Stub the render method so no alternative renderers need be present.
     ActionView::Base.any_instance.stubs(:render).returns("Hello there, \n\nMr. #{@recipient}")
-    
-    # If the template is not registered, there should be no parts.
-    created = nil
-    assert_nothing_raised { created = TestMailer.create_custom_templating_extension(@recipient) }
-    assert_not_nil created
-    assert_equal 0, created.parts.length
-    
-    ActionMailer::Base.register_template_extension('haml')
-    
+
     # Now that the template is registered, there should be one part. The text/plain part.
     created = nil
     assert_nothing_raised { created = TestMailer.create_custom_templating_extension(@recipient) }
@@ -418,7 +428,7 @@ class ActionMailerTest < Test::Unit::TestCase
     assert_not_nil ActionMailer::Base.deliveries.first
     assert_equal expected.encoded, ActionMailer::Base.deliveries.first.encoded
   end
-  
+
   def test_cc_bcc
     expected = new_mail
     expected.to      = @recipient
@@ -438,6 +448,31 @@ class ActionMailerTest < Test::Unit::TestCase
 
     assert_nothing_raised do
       TestMailer.deliver_cc_bcc @recipient
+    end
+
+    assert_not_nil ActionMailer::Base.deliveries.first
+    assert_equal expected.encoded, ActionMailer::Base.deliveries.first.encoded
+  end
+
+  def test_reply_to
+    expected = new_mail
+
+    expected.to       = @recipient
+    expected.subject  = "testing reply_to"
+    expected.body     = "Nothing to see here."
+    expected.from     = "system@loudthinking.com"
+    expected.reply_to = "atraver@gmail.com"
+    expected.date     = Time.local 2008, 5, 23
+
+    created = nil
+    assert_nothing_raised do
+      created = TestMailer.create_different_reply_to @recipient
+    end
+    assert_not_nil created
+    assert_equal expected.encoded, created.encoded
+
+    assert_nothing_raised do
+      TestMailer.deliver_different_reply_to @recipient
     end
 
     assert_not_nil ActionMailer::Base.deliveries.first
@@ -515,7 +550,7 @@ class ActionMailerTest < Test::Unit::TestCase
     TestMailer.deliver_signed_up(@recipient)
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_doesnt_raise_errors_when_raise_delivery_errors_is_false
     ActionMailer::Base.raise_delivery_errors = false
     TestMailer.any_instance.expects(:perform_delivery_test).raises(Exception)
@@ -534,7 +569,10 @@ class ActionMailerTest < Test::Unit::TestCase
   def test_delivery_logs_sent_mail
     mail = TestMailer.create_signed_up(@recipient)
     logger = mock()
-    logger.expects(:info).with("Sent mail:\n #{mail.encoded}")
+    logger.expects(:info).with("Sent mail to #{@recipient}")
+    logger.expects(:debug).with() do |logged_text|
+      logged_text =~ /\[Signed up\] Welcome/
+    end
     TestMailer.logger = logger
     TestMailer.deliver_signed_up(@recipient)
   end
@@ -634,7 +672,7 @@ EOF
     assert_not_nil ActionMailer::Base.deliveries.first
     assert_equal expected.encoded, ActionMailer::Base.deliveries.first.encoded
   end
-  
+
   def test_utf8_body_is_not_quoted
     @recipient = "Foo áëô îü <extended@example.net>"
     expected = new_mail "utf-8"
@@ -724,7 +762,7 @@ EOF
     mail = TestMailer.create_multipart_with_mime_version(@recipient)
     assert_equal "1.1", mail.mime_version
   end
-  
+
   def test_multipart_with_utf8_subject
     mail = TestMailer.create_multipart_with_utf8_subject(@recipient)
     assert_match(/\nSubject: =\?utf-8\?Q\?Foo_.*?\?=/, mail.encoded)
@@ -765,31 +803,35 @@ EOF
   end
 
   def test_implicitly_multipart_messages
+    assert ActionView::Template.template_handler_extensions.include?("bak"), "bak extension was not registered"
+
     mail = TestMailer.create_implicitly_multipart_example(@recipient)
-    assert_equal 6, mail.parts.length
+    assert_equal 3, mail.parts.length
     assert_equal "1.0", mail.mime_version
     assert_equal "multipart/alternative", mail.content_type
     assert_equal "text/yaml", mail.parts[0].content_type
     assert_equal "utf-8", mail.parts[0].sub_header("content-type", "charset")
-    assert_equal "text/plain", mail.parts[2].content_type
+    assert_equal "text/plain", mail.parts[1].content_type
+    assert_equal "utf-8", mail.parts[1].sub_header("content-type", "charset")
+    assert_equal "text/html", mail.parts[2].content_type
     assert_equal "utf-8", mail.parts[2].sub_header("content-type", "charset")
-    assert_equal "text/html", mail.parts[4].content_type
-    assert_equal "utf-8", mail.parts[4].sub_header("content-type", "charset")
   end
 
   def test_implicitly_multipart_messages_with_custom_order
+    assert ActionView::Template.template_handler_extensions.include?("bak"), "bak extension was not registered"
+
     mail = TestMailer.create_implicitly_multipart_example(@recipient, nil, ["text/yaml", "text/plain"])
-    assert_equal 6, mail.parts.length
+    assert_equal 3, mail.parts.length
     assert_equal "text/html", mail.parts[0].content_type
-    assert_equal "text/plain", mail.parts[2].content_type
-    assert_equal "text/yaml", mail.parts[4].content_type
+    assert_equal "text/plain", mail.parts[1].content_type
+    assert_equal "text/yaml", mail.parts[2].content_type
   end
 
   def test_implicitly_multipart_messages_with_charset
     mail = TestMailer.create_implicitly_multipart_example(@recipient, 'iso-8859-1')
 
     assert_equal "multipart/alternative", mail.header['content-type'].body
-    
+
     assert_equal 'iso-8859-1', mail.parts[0].sub_header("content-type", "charset")
     assert_equal 'iso-8859-1', mail.parts[1].sub_header("content-type", "charset")
     assert_equal 'iso-8859-1', mail.parts[2].sub_header("content-type", "charset")
@@ -816,7 +858,7 @@ EOF
     assert_equal "line #1\nline #2\nline #3\nline #4\n\n", mail.parts[0].body
     assert_equal "<p>line #1</p>\n<p>line #2</p>\n<p>line #3</p>\n<p>line #4</p>\n\n", mail.parts[1].body
   end
-  
+
   def test_headers_removed_on_smtp_delivery
     ActionMailer::Base.delivery_method = :smtp
     TestMailer.deliver_cc_bcc(@recipient)
@@ -838,7 +880,11 @@ EOF
     fixture = File.read(File.dirname(__FILE__) + "/fixtures/raw_email8")
     mail = TMail::Mail.parse(fixture)
     attachment = mail.attachments.last
-    assert_equal "01QuienTeDijat.Pitbull.mp3", attachment.original_filename
+
+    expected = "01 Quien Te Dij\212at. Pitbull.mp3"
+    expected.force_encoding(Encoding::ASCII_8BIT) if expected.respond_to?(:force_encoding)
+
+    assert_equal expected, attachment.original_filename
   end
 
   def test_wrong_mail_header
@@ -877,6 +923,8 @@ EOF
   def test_multipart_with_template_path_with_dots
     mail = FunkyPathMailer.create_multipart_with_template_path_with_dots(@recipient)
     assert_equal 2, mail.parts.length
+    assert_equal 'text/plain', mail.parts[0].content_type
+    assert_equal 'utf-8', mail.parts[0].charset
   end
 
   def test_custom_content_type_attributes
@@ -894,21 +942,51 @@ EOF
     ActionMailer::Base.delivery_method = :smtp
     TestMailer.deliver_return_path
     assert_match %r{^Return-Path: <another@somewhere.test>}, MockSMTP.deliveries[0][0]
+    assert_equal "another@somewhere.test", MockSMTP.deliveries[0][1].to_s
+  end
+
+  def test_body_is_stored_as_an_ivar
+    mail = TestMailer.create_body_ivar(@recipient)
+    assert_equal "body: foo\nbar: baz", mail.body
+  end
+
+  def test_starttls_is_enabled_if_supported
+    ActionMailer::Base.smtp_settings[:enable_starttls_auto] = true
+    MockSMTP.any_instance.expects(:respond_to?).with(:enable_starttls_auto).returns(true)
+    MockSMTP.any_instance.expects(:enable_starttls_auto)
+    ActionMailer::Base.delivery_method = :smtp
+    TestMailer.deliver_signed_up(@recipient)
+  end
+
+  def test_starttls_is_disabled_if_not_supported
+    ActionMailer::Base.smtp_settings[:enable_starttls_auto] = true
+    MockSMTP.any_instance.expects(:respond_to?).with(:enable_starttls_auto).returns(false)
+    MockSMTP.any_instance.expects(:enable_starttls_auto).never
+    ActionMailer::Base.delivery_method = :smtp
+    TestMailer.deliver_signed_up(@recipient)
+  end
+
+  def test_starttls_is_not_enabled
+    ActionMailer::Base.smtp_settings[:enable_starttls_auto] = false
+    MockSMTP.any_instance.expects(:respond_to?).never
+    MockSMTP.any_instance.expects(:enable_starttls_auto).never
+    ActionMailer::Base.delivery_method = :smtp
+    TestMailer.deliver_signed_up(@recipient)
+  ensure
+    ActionMailer::Base.smtp_settings[:enable_starttls_auto] = true
   end
 end
-
-end # uses_mocha
 
 class InheritableTemplateRootTest < Test::Unit::TestCase
   def test_attr
     expected = "#{File.dirname(__FILE__)}/fixtures/path.with.dots"
-    assert_equal expected, FunkyPathMailer.template_root
+    assert_equal expected, FunkyPathMailer.template_root.to_s
 
     sub = Class.new(FunkyPathMailer)
     sub.template_root = 'test/path'
 
-    assert_equal 'test/path', sub.template_root
-    assert_equal expected, FunkyPathMailer.template_root
+    assert_equal 'test/path', sub.template_root.to_s
+    assert_equal expected, FunkyPathMailer.template_root.to_s
   end
 end
 
@@ -935,5 +1013,69 @@ class MethodNamingTest < Test::Unit::TestCase
         TestMailer.deliver_send
       end
     end
+  end
+end
+
+class RespondToTest < Test::Unit::TestCase
+  class RespondToMailer < ActionMailer::Base; end
+
+  def setup
+    set_delivery_method :test
+  end
+
+  def teardown
+    restore_delivery_method
+  end
+
+  def test_should_respond_to_new
+    assert RespondToMailer.respond_to?(:new)
+  end
+
+  def test_should_respond_to_create_with_template_suffix
+    assert RespondToMailer.respond_to?(:create_any_old_template)
+  end
+
+  def test_should_respond_to_deliver_with_template_suffix
+    assert RespondToMailer.respond_to?(:deliver_any_old_template)
+  end
+
+  def test_should_not_respond_to_new_with_template_suffix
+    assert !RespondToMailer.respond_to?(:new_any_old_template)
+  end
+
+  def test_should_not_respond_to_create_with_template_suffix_unless_it_is_separated_by_an_underscore
+    assert !RespondToMailer.respond_to?(:createany_old_template)
+  end
+
+  def test_should_not_respond_to_deliver_with_template_suffix_unless_it_is_separated_by_an_underscore
+    assert !RespondToMailer.respond_to?(:deliverany_old_template)
+  end
+
+  def test_should_not_respond_to_create_with_template_suffix_if_it_begins_with_a_uppercase_letter
+    assert !RespondToMailer.respond_to?(:create_Any_old_template)
+  end
+
+  def test_should_not_respond_to_deliver_with_template_suffix_if_it_begins_with_a_uppercase_letter
+    assert !RespondToMailer.respond_to?(:deliver_Any_old_template)
+  end
+
+  def test_should_not_respond_to_create_with_template_suffix_if_it_begins_with_a_digit
+    assert !RespondToMailer.respond_to?(:create_1_template)
+  end
+
+  def test_should_not_respond_to_deliver_with_template_suffix_if_it_begins_with_a_digit
+    assert !RespondToMailer.respond_to?(:deliver_1_template)
+  end
+
+  def test_should_not_respond_to_method_where_deliver_is_not_a_suffix
+    assert !RespondToMailer.respond_to?(:foo_deliver_template)
+  end
+
+  def test_should_still_raise_exception_with_expected_message_when_calling_an_undefined_method
+    error = assert_raise NoMethodError do
+      RespondToMailer.not_a_method
+    end
+
+    assert_match /undefined method.*not_a_method/, error.message
   end
 end

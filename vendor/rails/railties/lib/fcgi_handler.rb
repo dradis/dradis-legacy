@@ -18,7 +18,6 @@ class RailsFCGIHandler
   attr_accessor :log_file_path
   attr_accessor :gc_request_period
 
-
   # Initialize and run the FastCGI instance, passing arguments through to new.
   def self.process!(*args, &block)
     new(*args, &block).process!
@@ -38,6 +37,8 @@ class RailsFCGIHandler
 
     # Safely install signal handlers.
     install_signal_handlers
+
+    @app = Dispatcher.new
 
     # Start error timestamp at 11 seconds ago.
     @last_error_on = Time.now - 11
@@ -68,43 +69,46 @@ class RailsFCGIHandler
     end
   end
 
-
   protected
     def process_each_request(provider)
-      cgi = nil
+      request = nil
 
-      provider.each_cgi do |cgi|
-        process_request(cgi)
+      catch :exit do
+        provider.each do |request|
+          process_request(request)
 
-        case when_ready
-          when :reload
-            reload!
-          when :restart
-            close_connection(cgi)
-            restart!
-          when :exit
-            close_connection(cgi)
-            break
+          case when_ready
+            when :reload
+              reload!
+            when :restart
+              close_connection(request)
+              restart!
+            when :exit
+              close_connection(request)
+              throw :exit
+          end
         end
       end
     rescue SignalException => signal
       raise unless signal.message == 'SIGUSR1'
-      close_connection(cgi)
+      close_connection(request)
     end
 
-    def process_request(cgi)
-      @when_ready = nil
+    def process_request(request)
+      @processing, @when_ready = true, nil
       gc_countdown
 
       with_signal_handler 'USR1' do
         begin
-          Dispatcher.dispatch(cgi)
+          ::Rack::Handler::FastCGI.serve(request, @app)
         rescue SignalException, SystemExit
           raise
         rescue Exception => error
           dispatcher_error error, 'unhandled dispatch error'
         end
       end
+    ensure
+      @processing = false
     end
 
     def logger
@@ -158,17 +162,29 @@ class RailsFCGIHandler
 
     def exit_handler(signal)
       dispatcher_log :info, "asked to stop ASAP"
-      @when_ready = :exit
+      if @processing
+        @when_ready = :exit
+      else
+        throw :exit
+      end
     end
 
     def reload_handler(signal)
       dispatcher_log :info, "asked to reload ASAP"
-      @when_ready = :reload
+      if @processing
+        @when_ready = :reload
+      else
+        reload!
+      end
     end
 
     def restart_handler(signal)
       dispatcher_log :info, "asked to restart ASAP"
-      @when_ready = :restart
+      if @processing
+        @when_ready = :restart
+      else
+        restart!
+      end
     end
 
     def restart!
@@ -181,7 +197,7 @@ class RailsFCGIHandler
       # close resources as they won't be closed by
       # the OS when using exec
       logger.close rescue nil
-      RAILS_DEFAULT_LOGGER.close rescue nil
+      Rails.logger.close rescue nil
 
       exec(command_line)
     end
@@ -217,7 +233,7 @@ class RailsFCGIHandler
       end
     end
 
-    def close_connection(cgi)
-      cgi.instance_variable_get("@request").finish if cgi
+    def close_connection(request)
+      request.finish if request
     end
 end
