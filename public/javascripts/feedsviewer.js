@@ -6,8 +6,8 @@ dradis.feeds.Panel=Ext.extend(Ext.Panel, {
   //props (overridable by caller)
   title:'Feeds',
   frame: true,
+  border: false,
   layout: 'fit',
-  region: 'south',
   template:  new Ext.XTemplate(
     '<tpl for=".">',
         '<div style="border-bottom: 1px solid #6592CB;"><span style="font-weight:bold">{title}</span> {stamp}</div>',
@@ -27,11 +27,11 @@ dradis.feeds.Panel=Ext.extend(Ext.Panel, {
   initComponent: function(){
     // Called during component initialization
     var config ={
-        
+        region: 'east',
         collapsible: true,
-        collapsed: true,
-        height: 150,
-        minHeight: 100,
+        //collapsed: true,
+        width: 150,
+        minWidth: 100,
         header: true,
         titleCollapse: false,
         items: new Ext.DataView({
