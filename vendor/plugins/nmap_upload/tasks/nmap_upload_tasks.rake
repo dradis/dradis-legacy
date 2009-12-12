@@ -7,7 +7,7 @@ class File
 end
 
 namespace :upload do
-  desc 'Upload an parse an nmap XML file'
+  desc 'Upload and parse an Nmap XML file'
   task :nmap, :file, :needs => :environment do |t, args|
 
     filename = args[:file]
