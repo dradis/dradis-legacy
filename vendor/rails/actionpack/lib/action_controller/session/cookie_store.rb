@@ -45,7 +45,8 @@ module ActionController
         :domain       => nil,
         :path         => "/",
         :expire_after => nil,
-        :httponly     => true
+        :httponly     => true,
+        :secure       => true
       }.freeze
 
       ENV_SESSION_KEY = "rack.session".freeze
