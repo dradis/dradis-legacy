@@ -13,11 +13,4 @@ class ApplicationController < ActionController::Base
   
   filter_parameter_logging :password, :password_confirmation
 
-  # require SSL, always
-  before_filter :ensure_ssl
-  
-  def ensure_ssl # :nodoc:
-    redirect_to( url_for, params.merge({:protocol => 'https://'}) )unless (request.ssl? || local_request?)
-  end  
-  
 end
