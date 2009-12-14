@@ -1,31 +1,107 @@
-<h1>First Time Wizard</h1>
-
-<ul>
-  <li><a href="">What is the Dradis Framework?</a></li>
-  <li><a href="">How to report an issue or create a feature request?</a></li>
+<ul class="tab">
+<li class="active"><a href="home.html"><span>Welcome</span></a></li>
+  <li><a href=""><span>Users and Passwords</span></a></li>
+  <li><a href=""><span>Interface</span></a></li>
+  <li><a href=""><span>Plugins</span></a></li>
+  <li><a href=""><span>Community / Help</span></a></li>
 </ul>
 
-<div>
-
-<h2>What is the Dradis Framework?</h2>
+<div class="post">
+  <div class="header">
+    <h2>Welcome</h2>
+  </div>
+  <div class="content">
+    <img src="/images/logo_small.png" class="picA floatleft" alt="" />
+  &nbsp;
+  </div>
+  <div class="footer">
+    <ul>
+      <li class="readmore"><a href="#">Read more</a></li>
+    </ul>
+  </div>
 </div>
 
-<div>
-<h2>Users and Password</h2>
+<!--
+<div class="post">
+  <div class="header">
+    <h2>Users and Passwords</h2>
+  </div>
+  <div class="content">
+  &nbsp;
+  </div>
+  <div class="footer">
+    <ul>
+      <li class="readmore"><a href="#">Read more</a></li>
+    </ul>
+  </div>
+
 </div>
 
-<div>
-<h2>Where is the information stored?</h2>
+<div class="post">
+  <div class="header">
+    <h2>Interface</h2>
+  </div>
+  <div class="content">
+  &nbsp;
+  </div>
+  <div class="footer">
+    <ul>
+      <li class="readmore"><a href="#">Read more</a></li>
+    </ul>
+  </div>
+
 </div>
 
-<div>
+<div class="post">
+  <div class="header">
+    <h2>Plugins</h2>
+  </div>
+  <div class="content">
+  &nbsp;
+  </div>
+  <div class="footer">
+    <ul>
+      <li class="readmore"><a href="#">Read more</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="post">
+  <div class="header">
+    <h2>Community / Help</h2>
+  </div>
+  <div class="content">
+  &nbsp;
+  </div>
+  <div class="footer">
+    <ul>
+      <li class="readmore"><a href="#">Read more</a></li>
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="post">
 <a name="latest"></a>
-<h2>Are you running the latest Dradis?</h2>
-<blink style="color:red;">Log in to enable this feature!</blink>
-<p>The version of the framework you are running is <%= Core::VERSION::STRING %>.</p> 
-<p><span id="latest_version"><%= link_to_remote 'Click here', :url => {:action => :check_version}, :update => 'latest_version' %> to check the latest stable version online.</span></p>
-<p>Alternatively, verify the <a href="http://dradisframework.org/latest.html">latest version</a> of the Framework yourself.</p>
+  <div class="header">
+    <h2>Are you running the latest Dradis?</h2>
+  </div>
+  <div class="content">
+    <blink style="color:red;">Log in to enable this feature!</blink>
+    <p>The version of the framework you are running is <%= Core::VERSION::STRING %>.</p> 
+    <p><span id="latest_version"><%= link_to_remote 'Click here', :url => {:action => :check_version}, :update => 'latest_version' %> to check the latest stable version online.</span></p>
+    <p>Alternatively, verify the <a href="http://dradisframework.org/latest.html">latest version</a> of the Framework yourself.</p>
+  </div>
+  <div class="footer">
+    <ul>
+      <li class="readmore"><a href="#">Read more</a></li>
+    </ul>
+  </div>
+
+
 </div>
 
 
   <a href="">How to report an issue or create a feature request?</a>
+-->
