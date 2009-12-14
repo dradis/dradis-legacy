@@ -12,7 +12,9 @@ var feeds = new dradis.feeds.Panel();
 var dradistabs = new Ext.TabPanel({
   region: 'center',
   tabPosition: 'bottom',
+  border: false,
   deferredRender: false,
+  //margins: '0 5 0 0',
   items: [
     notesbrowser,
     importer,
@@ -169,19 +171,14 @@ Ext.onReady(function() {
         ]
       },
       nodestree,
-      new Ext.Panel({
-          layout: 'border',
-          region: 'center',
-          items: [
-              dradistabs,
-              feeds
-          ]
-      }),
+      dradistabs,
       new Ext.Panel({
         region: 'south',
+        border: false,
         welcome:{},
         bbar: dradisstatus
-      })
+      }),
+      feeds
         //{
         // console? do we need this?
         //region: 'south',
