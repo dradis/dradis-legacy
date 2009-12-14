@@ -8,7 +8,7 @@ module WordExport
     # the resulting Word XML document using rails' send_data function.
     def generate_report(params={})
       doc = Processor.generate() 
-      send_data(doc, :filename => 'report.xml', :type => :xml)
+      send_data(doc.to_s, :filename => 'report.xml', :type => :xml)
     end
 
     # Provide this action so users can download the instructions and get to know
