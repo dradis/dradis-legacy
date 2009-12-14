@@ -1,5 +1,10 @@
 v2.x (xx of xxx 2009)
- - rake dradis:reset now creates a backup of the project by default
+ - improved 'First Time' introduction
+ - keep track of all the activity with the built-in RSS feed
+ - new Rake task: dradis:backup
+ - Rake dradis:reset now creates a backup of the project by default
+ - the Nmap Upload plugin organizes the nodes in a more structured way
+ - upgraded libraries: ExtJS 3.0, Rails 2.3.5
 
 v2.4.1 (31st of October 2009)
  - bugs fixed: #2881746, #2888245, #2889402
