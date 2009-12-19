@@ -5,9 +5,18 @@ class RevisionObserver < ActiveRecord::Observer
   observe :node, :note, :category
 
   # This method is called every time an object of the observed classes is saved.
-  def after_save(record)
+  def after_create(record)
     Configuration.increment_revision()
     Feed.create(:action => 'created',
+      :actioned_at => record.updated_at,
+      :resource => record.class.to_s.downcase,
+      :value => Feed.extract_rss_value(record))
+  end
+
+  # This method is called every time an object of the observed classes is saved.
+  def after_update(record)
+    Configuration.increment_revision()
+    Feed.create(:action => 'updated',
       :actioned_at => record.updated_at,
       :resource => record.class.to_s.downcase,
       :value => Feed.extract_rss_value(record))
