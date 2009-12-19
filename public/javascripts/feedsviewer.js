@@ -60,9 +60,15 @@ dradis.feeds.Panel=Ext.extend(Ext.Panel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
-  }
+  },
 
+  // The refresh method is used to updated the RSS feeds to the latest info
+  refresh: function() {
+    dradis.feeds.Panel.prototype.dataStore.load();
+  }
   // other methods/actions
 });
 
+// Refresh the RSS feeds every 10seconds
+Ext.TaskMgr.start({ run: dradis.feeds.Panel.prototype.refresh, interval: 10000 });
 Ext.reg('feeds', dradis.feeds.Panel);
