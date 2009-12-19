@@ -4,17 +4,18 @@ class Feed < ActiveRecord::Base
 
   # This item's title
   def title
-    "#{self.resource.humanize} #{self.action}"
+    "#{self.resource.humanize}, #{self.description}, #{self.action}"
   end
 
   # The description of the item
   def description
-    "#{self.value}"
+    description = self.value.size > 10 ? "#{self.value[0..9]}..." : "#{self.value}"
+    return description
   end
 
   # Who and when
   def stamp
-    "by #{self.user} on #{self.updated_at.strftime("%d %B %Y at %H:%M:%S")}"
+    "on #{self.updated_at.strftime("%d %B %Y at %H:%M:%S")}"
   end
 
   # Helper method to automagically fill in the item's attributes
