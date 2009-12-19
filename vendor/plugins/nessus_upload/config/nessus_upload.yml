@@ -1,8 +1,108 @@
-add_host_details: true               
-parse_host_details: true 
-add_title: true
-add_data: true
-parse_data: true
-add_pluginID: false
-add_severity: false
 
+
+# parameter:  add_ports_nmap_style
+# default: true
+# description:
+# if this parameter is set to true will create a new
+# port node in the style of the nmap plugin, for example
+# 123/udp
+# 80/tcp
+# general/icmp
+# This setting is important if you want to merge nmap/nessus reports
+add_ports_nmap_style: true
+
+# parameter:  add_output_to_existing_node
+# default: true
+# description:
+# if this parameter is set to true the nessus importer checks
+# if the host/port node already exists. If this is the case the
+# entry will be added to this node, otherwise a new node is created
+# This setting is important if you want to merge nmap/nessus reports
+add_output_to_existing_node: true
+
+# parameter:  avoid_node_dublicates
+# default: true
+# description:
+# if this parameter is set to true the nessus importer checks
+# if there is already a identical note for the host/port
+# if this is the case, the note is not added a second time
+avoid_note_dublicates: true
+
+
+# parameter:  skip_empty_entries
+# default: true
+# description:
+# if this parameter is set to true will skip plugins
+# that don't have any data (grey ports in the nessus client)
+skip_empty_entries: true
+
+# parameter:  add_host_details
+# default: true
+# description:
+# if this parameter is set to true, the nessus importer adds
+# the general host information as a note.
+add_host_details: true               
+
+# parameter:  parse_host_details
+# default: true
+# description:
+# if this parameter is set to true the nessus importer 
+# parses the general host information, which simplify the formating in 
+# word document. 
+#
+# Note: 
+# This parameter is only works in combination with 
+# add_host_details: true
+parse_host_details: true 
+
+# parameter:  add_title
+# default: true
+# description:
+# if this parameter is set to true the nessus importer adds
+# the name of the plugin as the title in the note
+#
+# example:
+##[Title]#
+# bla bla bla
+add_title: true
+
+# parameter:  add_data
+# default: true
+# description:
+# if this parameter is set to true the nessus importer 
+# adds the plugin output as a note..
+add_data: true
+
+# parameter:  parse_data
+# default: true
+# description:
+# if this parameter is set to true the nessus importer 
+# parses the plugin output, which simlifies the formating in 
+# word document. 
+#
+# Note: 
+# This parameter is only works in combination with 
+# add_data: true
+parse_data: true
+
+# parameter:  add_pluginID
+# default: false
+# description:
+# if this parameter is set to true the importer will add the ID of
+# the Nessus plugin to the note
+#
+# example:
+# #[PluginID]#
+# 11011
+add_pluginID: false
+
+# parameter:  add_severity
+# default: false
+# description:
+# if this parameter is set to true the importer will add the severity
+# from the scan output to the note
+#
+# example:
+# #[Severity]#
+# 1
+add_severity: false

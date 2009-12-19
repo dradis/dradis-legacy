@@ -40,7 +40,10 @@ def self.parse_xml_output(content)
 		
 		# Step through each report item for this host
 		REXML::XPath.each(host, "#{host.xpath}//ReportItem") do |report_node| # TODO: Improve me...
-			
+	
+			# skip empty stuff (grey ports in the nessus client)
+			next if  CONFIG['skip_empty_entries'] and report_node.elements['data'].nil?
+
 			report_item = NessusReportItem.new()
 			
 			report_item.port 		= report_node.elements['port'].text
@@ -82,67 +85,107 @@ end
 	end
 
 	results.each do |host|
-		host_node = Node.new( :label => host.host_name)
-		host_node.save
-
+		
+		# Check if the user wants to add to a existing node or create a new one
+		if CONFIG['add_output_to_existing_node'] then
+			
+			host_node = Node.find(
+				:first,
+				:conditions => {:label => host.host_name, :parent_id => nil}
+			)
+		end
+		
+		
+		# ActiveRecord didn't find the host_node, or the user wan't to create a new one...
+		if host_node.nil? then
+			host_node = Node.new( :label => host.host_name)
+			host_node.save	
+		end
+		
 		# Depending on the configuration file, we add a note which contains additional 
 		# information about the host...
 		if CONFIG['add_host_details'] then
 			
 			
-			node_content = ""
+			note_content = ""
 			if CONFIG['parse_host_details'] then
-				node_content << "\n#[Start]#\n #{host.start_time}\n"
-				node_content << "\n#[Finish]#\n #{host.stop_time}\n"
-				node_content << "\n#[Host name]#\n #{host.host_name}\n"
-				node_content << "\n#[DNS name]#\n #{host.dns_name}\n"
-				node_content << "\n#[Netbios name]#\n #{host.netbios_name}\n"
-				node_content << "\n#[OS]#\n #{host.os_name}\n"
-				node_content << "\n#[MAC Address]#\n #{host.mac_address}\n"
-				node_content << "\n#[Open Ports]#\n #{host.open_ports}\n"
+				note_content << "\n#[Start]#\n #{host.start_time}\n"
+				note_content << "\n#[Finish]#\n #{host.stop_time}\n"
+				note_content << "\n#[Host name]#\n #{host.host_name}\n"
+				note_content << "\n#[DNS name]#\n #{host.dns_name}\n"
+				note_content << "\n#[Netbios name]#\n #{host.netbios_name}\n"
+				note_content << "\n#[OS]#\n #{host.os_name}\n"
+				note_content << "\n#[MAC Address]#\n #{host.mac_address}\n"
+				note_content << "\n#[Open Ports]#\n #{host.open_ports}\n"
 			else
-				node_content << "Start: #{host.start_time}\n"
-				node_content << "Finish: #{host.stop_time}\n"
-				node_content << "Host name: #{host.host_name}\n"
-				node_content << "DNS name: #{host.dns_name}\n"
-				node_content << "Netbios name: #{host.netbios_name}\n"
-				node_content << "OS: #{host.os_name}\n"
-				node_content << "MAC Address: #{host.mac_address}\n"
-				node_content << "Open Ports: #{host.open_ports}\n"
+				note_content << "Start: #{host.start_time}\n"
+				note_content << "Finish: #{host.stop_time}\n"
+				note_content << "Host name: #{host.host_name}\n"
+				note_content << "DNS name: #{host.dns_name}\n"
+				note_content << "Netbios name: #{host.netbios_name}\n"
+				note_content << "OS: #{host.os_name}\n"
+				note_content << "MAC Address: #{host.mac_address}\n"
+				note_content << "Open Ports: #{host.open_ports}\n"
 			end
 			
-			Note.new(
-				:node_id => host_node.id,
-				:author => 'Nessus Import',
-				:category_id => category.id,
-				:text => node_content
-			).save	
+			if CONFIG['avoid_note_dublicates'] then
+				current_note = Note.find(
+					:first,
+					:conditions => {:text => note_content, :node_id => host_node.id }
+				)
+			end
+			
+			if current_note.nil? then
+				Note.new(
+					:node_id => host_node.id,
+					:author => 'Nessus Import',
+					:category_id => category.id,
+					:text => note_content
+				).save	
+			end
 			
 		end
 
 		# step through each report_item and create a new port_node
 		host.report_items.each do |port, report_items|
 			# Add a node for the port
-			port_node = Node.new(:parent_id => host_node.id, :label => port)
-			port_node.save
 			
+			if CONFIG['add_ports_nmap_style'] and port =~ /\((.*)\)$/ 
+                                port = $1
+                        end
+
+
+			# Check if the user wants to add to a existing node or create a new one
+			if CONFIG['add_output_to_existing_node'] then
+			
+				port_node = Node.find(
+					:first,
+					:conditions => {:parent_id => host_node.id, :label => port}
+			)
+			end
+		
+			# ActiveRecord didn't find the host_node, or the user wan't to create a new one...
+			if port_node.nil? then
+				port_node = Node.new(:parent_id => host_node.id, :label => port)
+				port_node.save
+			end
 			
 
 			
 			report_items.each do |report_item|
-				node_content = ""
+				note_content = ""
 				
 				# Create the node text, this is ugly code, maybe we can find something 
 				# which works better...
 				
 				if CONFIG['add_title'] then 
-					node_content = "#[Title]#\n"
-					node_content << report_item.plugin_name
+					note_content = "#[Title]#\n"
+					note_content << report_item.plugin_name
 				end
 				
 				if CONFIG['add_data'] and CONFIG['parse_data'] == false
-					node_content << "\n\n#[Data]#\n"
-					node_content << report_item.plugin_data
+					note_content << "\n\n#[Data]#\n"
+					note_content << report_item.plugin_data
 				end
 				
 				if CONFIG['add_data'] and CONFIG['parse_data'] 
@@ -157,26 +200,44 @@ end
 					# case we add "#[Description]#" by ourself
 					report_item.plugin_data.insert(0, "#\n\n#[Description]#\n") if report_item.plugin_data[0,4] != "\n\n#["
 
-					node_content << report_item.plugin_data
+					note_content << report_item.plugin_data
 				end
 				
 				if CONFIG['add_severity'] then
-					node_content << "\n\n#[Severity]#\n"
-					node_content << report_item.severity
+					note_content << "\n\n#[Severity]#\n"
+					note_content << report_item.severity
 				end
 				
 				if CONFIG['add_pluginID'] then
-					node_content << "\n\n#[PluginID]#\n"
-					node_content << report_item.plugin_id
+					note_content << "\n\n#[PluginID]#\n"
+					note_content << report_item.plugin_id
 				end
+			
+			
+				# Check if the user wants to add to a existing node or create a new one
+				if CONFIG['avoid_note_dublicates'] then
+			
+					current_note = Note.find(
+						:first,
+						:conditions => {:node_id => port_node.id, :text => note_content}
+				)
+				end
+		
+				# ActiveRecord didn't find the host_node, or the user wan't to create a new one...
+				if current_note.nil? then
+					
+					#add the nessus output for the host as notes to the node
+					Note.new(
+						:node_id => port_node.id,
+						:author => 'Nessus Import',
+						:category_id => category.id,
+						:text => note_content
+					).save	
+
+				end
+							
 				
-				#add the nessus output for the host as notes to the node
-				Note.new(
-					:node_id => port_node.id,
-					:author => 'Nessus Import',
-					:category_id => category.id,
-					:text => node_content
-				).save	
+
 			end
 			
 		end
