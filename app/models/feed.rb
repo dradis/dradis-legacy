@@ -9,7 +9,7 @@ class Feed < ActiveRecord::Base
 
   # The description of the item
   def description
-    description = self.value.size > 10 ? "#{self.value[0..9]}..." : "#{self.value}"
+    description = self.value.size > 10 ? "#{self.value[0..7]}..." : "#{self.value}"
     return description
   end
 
