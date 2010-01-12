@@ -269,7 +269,7 @@ statusBar.setStatus({
         if(o.clear){
             var c = o.clear,
                 wait = this.autoClear,
-                defaults = {useDefaults: true, anim: true};
+                defaults = {useDefaults: true, anim: false};
 
             if(typeof c == 'object'){
                 c = Ext.applyIf(c, defaults);
@@ -312,7 +312,7 @@ statusBar.setStatus({
 
         var text = o.useDefaults ? this.defaultText : '',
             iconCls = o.useDefaults ? (this.defaultIconCls ? this.defaultIconCls : '') : '';
-
+/*
         if(o.anim){
             this.statusEl.fadeOut({
                 remove: false,
@@ -327,6 +327,7 @@ statusBar.setStatus({
                 }
             });
         }else{
+*/
             // hide/show the el to avoid jumpy text or icon
             this.statusEl.hide();
 	        this.setStatus({
@@ -334,7 +335,9 @@ statusBar.setStatus({
 	            iconCls: iconCls
 	        });
             this.statusEl.show();
+/*
         }
+*/
         return this;
     },
 
