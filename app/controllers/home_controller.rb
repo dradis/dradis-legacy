@@ -16,11 +16,12 @@ class HomeController < ApplicationController
       format.html { head :method_not_allowed }
       format.json { 
         # gracefully handle RedCloth absence
-        output = params[:text] 
+        output = '' 
         begin
           require 'RedCloth'
-          output = RedCloth.new(output, [:filter_html]).to_html 
+          output = RedCloth.new(params[:text], [:filter_html]).to_html 
         rescue Exception
+          output = "<pre style=\"background-color: #fff;\">#{ CGI::escapeHTML(params[:text]) }</pre>"
         end
 
         render :json => { 
