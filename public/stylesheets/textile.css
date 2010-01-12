@@ -1,0 +1,18 @@
+.preview { padding: 10px;  }
+
+.preview h1 { 
+  border-bottom: 1px solid #ccc;
+  margin: 2ex 0;
+}
+
+.preview p { margin-bottom: 2ex; }
+
+.preview li { margin-left: 40px; }
+.preview ul { list-style-type: square; }
+.preview ol { list-style-type: decimal; }
+.preview ul, ol { margin-bottom: 2ex; }
+
+.preview strong { font-weight: bold; }
+.preview em { font-style: italic; }
+
+.preview pre { background-color: #ccc; }

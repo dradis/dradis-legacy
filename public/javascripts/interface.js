@@ -4,7 +4,7 @@ Ext.BLANK_IMAGE_URL = '/images/default/s.gif';
 
 // ------------------------------------------------------- custom ExtJS widgets
 var nodestree = new dradis.NodesTree();
-var notesbrowser = new dradis.NotesBrowser();
+var notesbrowser = new dradis.notes.NotesBrowserPanel();
 var importer = new dradis.importer.Panel();
 var attachments = new dradis.attachments.AttachmentsPanel();
 var feeds = new dradis.feeds.Panel();
@@ -82,8 +82,6 @@ nodestree.on('notesdrop', function(drop_ev) {
   for(var i = 0, len = notes.length; i < len; i++){
     notesbrowser.moveNoteToNode(notes[i].id, node_id);
   }
-
-  setTimeout( 'notesbrowser.refresh();', 3000);
 });
 
 attachments.on('load', function(store, records, options){

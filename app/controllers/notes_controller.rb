@@ -15,7 +15,11 @@ class NotesController < ApplicationController
       format.html { head :method_not_allowed }
       
       format.xml { render :xml => @notes.to_xml}
-      format.json { render :json => @notes.to_json(:include => :category)}
+      format.json { 
+        render :json => { :success => true,
+                          :data => @notes#.to_json(:include => :category)
+                        }
+      }
     end
   end
 
@@ -31,10 +35,17 @@ class NotesController < ApplicationController
           headers['Location'] = node_notes_url(@note.id)
           render :xml => @note.to_xml, :status => :created 
         }
+        format.json {
+          render :json => { :success => true }
+        }
       else
         format.xml { 
           render :xml => @note.errors.to_xml, 
           :status => :unprocessable_entity 
+        }
+        format.json{ 
+          render :json => { :succes => false, :errors => @note.errors }, 
+            :status => :unprocessable_entity 
         }
       end
     end
@@ -55,11 +66,13 @@ class NotesController < ApplicationController
     respond_to do |format|
       format.html { head :method_not_allowed }
 
-      if @note.update_attributes(params[:note])
+      if @note.update_attributes(params[:note] || ActiveSupport::JSON.decode(params[:data]) )
         @modified = true
         format.xml { render :xml => @note.to_xml }
+        format.json{ render :json => { :success => true }.to_json }
       else
         format.xml { render :xml => @note.errors.to_xml, :status => :unprocessable_entity }
+        format.json{ render :json => @note.errors.to_json, :status => :unprocessable_entity }
       end
     end
   end
@@ -73,8 +86,10 @@ class NotesController < ApplicationController
       if @note.destroy
         @modified = true
         format.xml { head :ok }
+        format.json{ render :json => {:success => true} }
       else
         format.xml { render :xml => @note.errors.to_xml, :status => :unprocessable_entity }
+        format.json{ render :json => { :success => false, :errors => @note.errors } }
       end
     end
   end
@@ -101,7 +116,7 @@ class NotesController < ApplicationController
         render_optional_error_file :not_found
       end
     else
-      @note = Note.new(params[:note])
+      @note = Note.new(params[:note] || ActiveSupport::JSON.decode(params[:data]))
       @note.node = @node
     end
   end

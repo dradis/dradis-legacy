@@ -70,5 +70,6 @@ dradis.feeds.Panel=Ext.extend(Ext.Panel, {
 });
 
 // Refresh the RSS feeds every 10seconds
-Ext.TaskMgr.start({ run: dradis.feeds.Panel.prototype.refresh, interval: 10000 });
+//FIXME: This creates the callback even if no object has been created!
+//Ext.TaskMgr.start({ run: dradis.feeds.Panel.prototype.refresh, interval: 10000 });
 Ext.reg('feeds', dradis.feeds.Panel);

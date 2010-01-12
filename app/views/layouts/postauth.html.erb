@@ -21,9 +21,14 @@
 
     <!-- Custom CSS and Libs -->
     <%= javascript_include_tag 'dx/dradis.plugins.PluginManager.js',
-                                'dx/dradis.plugins.UploadFormPanel.js' %>
-    <%= javascript_include_tag 'thebrain', 'nodestree', 'notesbrowser', 'importer', 'attachmentsviewer', 'feedsviewer', 'interface' %>
+                                'dx/dradis.plugins.UploadFormPanel.js',
+                                'dx/dradis.notes.NotePreviewPanel.js',
+                                'dx/dradis.notes.NoteEditorWindow.js',
+                                'dx/dradis.notes.NotesBrowserPanel.js',
+                                :cache => 'dradis_extjs.js' %>
+    <%= javascript_include_tag 'thebrain', 'nodestree', 'importer', 'attachmentsviewer', 'feedsviewer', 'interface' %>
     <%= stylesheet_link_tag 'dradis.css' %>
+    <%= stylesheet_link_tag 'textile.css' %>
 
     <!-- RSS feed -->
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/feeds" />
