@@ -86,7 +86,7 @@ function updatenode(node, callback){
 
 //------------------------------------------------------------------------ revision poller
 
-function checkrevision() {
+function checkrevision(interval) {
   // prevent further requests
   // this may be better done with Ext's TaskRunner
   if (dradis.revision == -1) { return; }
@@ -102,9 +102,12 @@ function checkrevision() {
                 dradisstatus.setStatus({ 
                   text: 'There is a new revision in the server. Please refresh.'
                 });
+
                 // prevent further requests
                 // this may be better done with Ext's TaskRunner
                 dradis.revision = -1;
+
+                Ext.TaskMgr.stopAll();
               }
     },
     failure: function(response, options) {
