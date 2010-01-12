@@ -2,12 +2,12 @@
   <head>
     <title><%= Core::VERSION::string %></title>
     <!-- Ext CSS and Libs -->
-    <%= javascript_include_tag 'adapter/ext/ext-base.js' %>
-    <%= javascript_include_tag 'ext-all.js' %>
-    <%= stylesheet_link_tag 'ext-all.css' %>
-    <%= stylesheet_link_tag 'attachments.css' %>
-    <%= stylesheet_link_tag 'filetype.css' %>
-    <%= stylesheet_link_tag 'icons.css' %>
+    <%= javascript_include_tag 'adapter/ext/ext-base', 'ext-all', :cache => 'extjs' %>
+    <%= stylesheet_link_tag 'ext-all', 
+                            'attachments',
+                            'icons',
+                            'filetype', 'file-upload',
+                            :cache => 'extjs_styles' %>
 
     <!-- 3rd party extensions -->
     <%= javascript_include_tag 'ux/Ext.ux.StatusBar.js',
@@ -16,8 +16,8 @@
                                 'ux/Ext.ux.form.BrowseButton.js', 
                                 'ux/Ext.ux.form.FileUploadField.js',
                                 'ux/Ext.ux.FileUploader.js', 
-                                'ux/Ext.ux.UploadPanel.js' %>
-    <%= stylesheet_link_tag 'filetype.css', 'file-upload' %>
+                                'ux/Ext.ux.UploadPanel.js',
+                                :cache => 'extjs-ux' %>
 
     <!-- Custom CSS and Libs -->
     <%= javascript_include_tag 'dx/dradis.plugins.PluginManager.js',
@@ -25,10 +25,17 @@
                                 'dx/dradis.notes.NotePreviewPanel.js',
                                 'dx/dradis.notes.NoteEditorWindow.js',
                                 'dx/dradis.notes.NotesBrowserPanel.js',
-                                :cache => 'dradis_extjs.js' %>
-    <%= javascript_include_tag 'thebrain', 'nodestree', 'importer', 'attachmentsviewer', 'feedsviewer', 'interface' %>
-    <%= stylesheet_link_tag 'dradis.css' %>
-    <%= stylesheet_link_tag 'textile.css' %>
+                                :cache => 'extjs-dradis' %>
+
+    <%= javascript_include_tag 'thebrain', 
+                                'nodestree', 
+                                'importer', 
+                                'attachmentsviewer', 
+                                'feedsviewer', 
+                                'interface', 
+                                :cache => 'extjs-old' %>
+
+    <%= stylesheet_link_tag 'dradis', 'textile', :cache => 'styles' %>
 
     <!-- RSS feed -->
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/feeds" />
