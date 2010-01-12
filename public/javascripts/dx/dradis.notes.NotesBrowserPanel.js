@@ -168,7 +168,14 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
         groupField: 'category_id'
       }),
       columns: [
-        {id:'text',header: 'Text', width: 180, sortable: true, dataIndex: 'text'},
+        {
+          id:'text',
+          header: 'Text', 
+          width: 180, 
+          sortable: true, 
+          dataIndex: 'text',
+          renderer: Ext.util.Format.htmlEncode
+        },
         {
           header: 'Category', 
           width: 40, 
