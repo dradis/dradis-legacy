@@ -1,8 +1,10 @@
 v2.x (xx of xxx 2009)
+ - improved Note editor (supports formatting)
  - improved 'First Time' introduction
  - keep track of all the activity with the built-in RSS feed
  - new Rake task: dradis:backup
  - Rake dradis:reset now creates a backup of the project by default
+ - Rake dradis:reset now clears the old log files
  - the Nmap Upload plugin organizes the nodes in a more structured way
  - upgraded libraries: ExtJS 3.0, Rails 2.3.5
 
