@@ -40,6 +40,6 @@ namespace :dradis do
   end
 
   desc 'Creates a backup. Drops the database, removes the attachments and recreates the DB.'
-  task :reset => ['backup', 'db:migrate:reset', 'dradis:attachments:drop'] do
+  task :reset => ['backup', 'db:migrate:reset', 'dradis:attachments:drop', 'log:clear'] do
   end
 end
