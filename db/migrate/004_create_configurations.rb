@@ -6,10 +6,6 @@ class CreateConfigurations < ActiveRecord::Migration
 
       t.timestamps
     end
-    Configuration.new(:name=>'revision', :value=>'0').save
-    Configuration.new(:name=>'password', :value=>'improvable_dradis').save
-    Configuration.new(:name=>'uploads_node', :value=>'Uploaded files').save
-    Configuration.new(:name=>'emails_node', :value=>'Emailed notes').save
   end
 
   def self.down
