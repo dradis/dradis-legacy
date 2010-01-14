@@ -40,6 +40,31 @@ namespace :dradis do
   end
 
   desc 'Creates a backup. Drops the database, removes the attachments and recreates the DB.'
-  task :reset => ['backup', 'db:migrate:reset', 'dradis:attachments:drop', 'log:clear'] do
+  task :reset do #=> ['backup', 'db:reset', 'dradis:attachments:drop', 'log:clear'] do
+    init_all = false
+    Dir['config/*.template'].each do |template|
+      config = File.join( 'config', File.basename(template, '.template') )
+      if !(File.exists?( config ))
+        if (init_all)
+          puts "Initilizing #{config}..."
+          FileUtils.cp(template, config)
+        else
+          puts "The config file [#{template}] was found not to be ready to use."
+          puts "Do you want to initialize it? [y]es | [n]o | initialize [A]ll"
+          response = STDIN.gets.chomp.downcase
+          response = 'Y' if ( response.blank? || !['y', 'n', 'a'].include?(response) )
+
+          if response == 'n'
+            next
+          else
+            puts "Initilizing #{config}..."
+            FileUtils.cp(template, config)
+            if (response == 'a')
+              init_all = true
+            end
+          end
+        end
+      end
+    end
   end
 end
