@@ -11,6 +11,10 @@
 
       body{padding:10px; font-family: "trebuchet ms", helvetica, sans-serif;}
       h1{border-bottom: 1px solid #CCC; margin:2ex 0; font-size: 120%; font-weight: bold; }
+      li{margin-left: 40px;}
+      ul{list-style-type: square;}
+      ol{list-style-type: decimal;}
+      ul, ol{margin-bottom: 2ex;}
       .note{margin-bottom: 2ex;}
       #footer{border-top: 1px solid #ccc;text-align: right;padding-right: 69px;min-height: 64px;height: auto !important;height: 64px;background: url('../images/logo_tiny.png') 100% 50% no-repeat;}
     </style>
@@ -19,7 +23,11 @@
     <h1><%= title %></h1>
 
     <% for note in notes %>
+      <% if defined?(RedCloth) %>
+    <div class="note"><%= RedCloth.new(note.text, [:filter_html]).to_html %></div>
+      <% else %>
     <div class="note"><%= note.text %></div>
+      <% end %>
     <% end %>
 
     <div id="footer">
