@@ -1,0 +1,12 @@
+HtmlExport
+==========
+
+This plugin generates an HTML report for the notes in the repository.
+
+The template used can be found in './vendor/plugins/html_export/template.html.erb'
+
+Copyright (c) 2010 Daniel Martin Gomez
+
+Released under the terms of the GNU General Public License version 2.0 as 
+published by the Free Software Foundation and appearing in the file LICENSE 
+included in the packaging of this file.
