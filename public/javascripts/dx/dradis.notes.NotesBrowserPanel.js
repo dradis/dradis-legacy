@@ -367,8 +367,8 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
   // Toolbar button handlers
   onAddNote: function(){
       this.note = undefined;
-      this.editor.clear();
       this.editor.show();
+      this.editor.clear();
       this.editor.center();
   },
 
