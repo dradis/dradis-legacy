@@ -51,7 +51,12 @@ var dradisstatus = new Ext.ux.StatusBar({
             }
           }
         }
+      },
+      {
+        id: 'rss-icon',
+        iconCls: 'rss-off'
       }
+
     ]
 });
 

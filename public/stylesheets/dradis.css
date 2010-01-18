@@ -25,6 +25,15 @@ noscript p {
   background-image: url(../images/silk/exclamation.png) !important;
   background-repeat: no-repeat; 
 }
+
+.rss-off {
+  background-image: url(../images/silk/feed.png) !important;
+}
+
+.rss-on {
+  background-image: url(../images/silk/feed_add.png) !important;
+}
+
 .talleditor { height: 240px; }
 
 #first_render {
