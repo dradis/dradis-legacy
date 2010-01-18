@@ -122,8 +122,8 @@ uploaders.on('uploadfailure', function(response){
 });
 
 // --- all-purpose general Ajax handlers to update the Status bar message
-Ext.Ajax.on('beforerequest', function(){ Ext.getCmp('dradis-status').showBusy(); }); 
-Ext.Ajax.on('requestcomplete', function(){ Ext.getCmp('dradis-status').clearStatus({useDefaults:true}); }); 
+Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
+Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); }); 
 
 
 /*
