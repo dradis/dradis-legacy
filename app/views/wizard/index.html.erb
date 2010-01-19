@@ -1,107 +1,24 @@
-<ul class="tab">
-<li class="active"><a href="home.html"><span>Welcome</span></a></li>
-  <li><a href=""><span>Users and Passwords</span></a></li>
-  <li><a href=""><span>Interface</span></a></li>
-  <li><a href=""><span>Plugins</span></a></li>
-  <li><a href=""><span>Community / Help</span></a></li>
-</ul>
-
 <div class="post">
-  <div class="header">
-    <h2>Welcome</h2>
-  </div>
+  <div class="header">&nbsp;</div>
   <div class="content">
-    <img src="/images/logo_small.png" class="picA floatleft" alt="" />
-  &nbsp;
-  </div>
-  <div class="footer">
-    <ul>
-      <li class="readmore"><a href="#">Read more</a></li>
-    </ul>
+    <img src="/images/logo_small.png" class="floatleft" alt="" />
+      <h2>What is dradis?</h2>
+      <p><strong>dradis</strong> is an open source framework to enable effective
+      information sharing.</p>
+      <p><strong>dradis</strong> is a self-contained web application that 
+      provides a centralised repository of information to keep track of what has 
+      been done so far, and what is still ahead. [<a href="http://dradisframework.org/screenshots.html">screenshots</a> - 
+      <a href="http://dradisframework.org/demo.html">demo</a>]</p>
+
+ 
+      <strong>Features</strong> include:
+      <ul style="padding-left: 240px;">
+        <li>Easy report generation in HTML or <a href="http://dradisframework.org/WordExport_templates.html">Word</a> format.</li>
+        <li>Support for attachments.</li>
+        <li>Integration with existing systems and tools through <a href="http://dradisframework.org/server_plugins.html">server plugins</a>.</li>
+
+        <li>Platform independent.</li>
+      </ul>
+
   </div>
 </div>
-
-<!--
-<div class="post">
-  <div class="header">
-    <h2>Users and Passwords</h2>
-  </div>
-  <div class="content">
-  &nbsp;
-  </div>
-  <div class="footer">
-    <ul>
-      <li class="readmore"><a href="#">Read more</a></li>
-    </ul>
-  </div>
-
-</div>
-
-<div class="post">
-  <div class="header">
-    <h2>Interface</h2>
-  </div>
-  <div class="content">
-  &nbsp;
-  </div>
-  <div class="footer">
-    <ul>
-      <li class="readmore"><a href="#">Read more</a></li>
-    </ul>
-  </div>
-
-</div>
-
-<div class="post">
-  <div class="header">
-    <h2>Plugins</h2>
-  </div>
-  <div class="content">
-  &nbsp;
-  </div>
-  <div class="footer">
-    <ul>
-      <li class="readmore"><a href="#">Read more</a></li>
-    </ul>
-  </div>
-</div>
-
-<div class="post">
-  <div class="header">
-    <h2>Community / Help</h2>
-  </div>
-  <div class="content">
-  &nbsp;
-  </div>
-  <div class="footer">
-    <ul>
-      <li class="readmore"><a href="#">Read more</a></li>
-    </ul>
-  </div>
-</div>
-
-
-
-<div class="post">
-<a name="latest"></a>
-  <div class="header">
-    <h2>Are you running the latest Dradis?</h2>
-  </div>
-  <div class="content">
-    <blink style="color:red;">Log in to enable this feature!</blink>
-    <p>The version of the framework you are running is <%= Core::VERSION::STRING %>.</p> 
-    <p><span id="latest_version"><%= link_to_remote 'Click here', :url => {:action => :check_version}, :update => 'latest_version' %> to check the latest stable version online.</span></p>
-    <p>Alternatively, verify the <a href="http://dradisframework.org/latest.html">latest version</a> of the Framework yourself.</p>
-  </div>
-  <div class="footer">
-    <ul>
-      <li class="readmore"><a href="#">Read more</a></li>
-    </ul>
-  </div>
-
-
-</div>
-
-
-  <a href="">How to report an issue or create a feature request?</a>
--->
