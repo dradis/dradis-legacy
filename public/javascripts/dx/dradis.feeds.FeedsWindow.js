@@ -21,6 +21,13 @@ dradis.feeds.FeedsWindow=Ext.extend(Ext.Window, {
       minHeight: 150,
       items: [
         
+      ],
+      buttons:[
+        {
+          text:'Close',
+          scope: this,
+          handler: function(){ this.hide(); }
+        }
       ]
     };
 
