@@ -40,7 +40,7 @@ namespace :dradis do
   end
 
   desc 'Creates a backup. Drops the database, removes the attachments and recreates the DB.'
-  task :reset do #=> ['backup', 'db:reset', 'dradis:attachments:drop', 'log:clear'] do
+  task :reset => ['backup', 'db:reset', 'dradis:attachments:drop', 'log:clear'] do
     init_all = false
     Dir['config/*.template'].each do |template|
       config = File.join( 'config', File.basename(template, '.template') )
