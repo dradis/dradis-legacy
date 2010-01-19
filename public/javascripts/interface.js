@@ -57,7 +57,9 @@ var dradisstatus = new Ext.ux.StatusBar({
         iconCls: 'rss-off',
         listeners: {
             click:function(){
-                alert("RSS feeds windo to go here!")
+                this.feedsWindow = new dradis.feeds.FeedsWindow();
+                this.feedsWindow.show();
+                this.feedsWindow.center();
             }
         }
       }
