@@ -350,6 +350,7 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
     this.editor.on('save', function(newValue){
       if (this.note === undefined) {
         this.fields.grid.addNote(this.selectedNode, newValue);
+        this.fields.preview.clear();
       } else {
         this.note.set('text', newValue);
         this.fields.preview.update(newValue);
