@@ -7,6 +7,8 @@ a { text-decoration: none; }
 
 .clear { clear:both; }
 
+#wizard {font-size: 80%;}
+#wizard a {text-decoration: underline;}
 #notice { 
   margin: 0 1ex; 
   border: 1px solid #CCFF00; 
