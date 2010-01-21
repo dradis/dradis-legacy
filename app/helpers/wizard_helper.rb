@@ -1,10 +1,11 @@
 module WizardHelper
   def menu_tabs
     [ 
-      ['Welcome', 'index'], 
-      ['Users and Passwords', 'users' ],
-      ['Interface', 'interface' ],
+      [ 'Welcome', 'index' ], 
+      [ 'Users and Passwords', 'users' ],
+      [ 'Interface', 'interface' ],
       [ 'Plugins', 'plugins' ],
+      [ 'Reporting', 'reporting'],
       [ 'Community / Help', 'community' ]
     ].collect do |title, link|
       action = request.parameters.fetch('action', '')
