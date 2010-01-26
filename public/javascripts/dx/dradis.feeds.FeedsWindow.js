@@ -20,7 +20,7 @@ dradis.feeds.FeedsWindow=Ext.extend(Ext.Window, {
       minWidth: 300,
       minHeight: 150,
       items: [
-        this.fields.panel = new dradis.feeds.Panel()
+        this.fields.panel = new dradis.feeds.DataView()
       ],
       buttons:[
         {
