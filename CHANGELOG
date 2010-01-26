@@ -8,6 +8,7 @@ v2.x (xx of xxx 2009)
  - Rake dradis:reset now clears the old log files
  - the Nmap Upload plugin organizes the nodes in a more structured way
  - upgraded libraries: ExtJS 3.0, Rails 2.3.5
+ - bugs fixed: #2936554, #2938593
 
 v2.4.1 (31st of October 2009)
  - bugs fixed: #2881746, #2888245, #2889402
