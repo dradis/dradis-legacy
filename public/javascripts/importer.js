@@ -87,7 +87,8 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
                 fields:['title','description']
               }),
               autoExpandColumn:'description',
-              autoHeight:true,
+              autoHeight:false,
+              height: 300,
               disabled: true
             })
           ]          
