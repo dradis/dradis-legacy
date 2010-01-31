@@ -54,4 +54,14 @@ class ExportController < ApplicationController
   private
   def prepare_params
   end
+
+  protected
+    # In case something goes wrong with the export, fail graciously instead of
+    # presenting the obscure Error 500 default page of Rails.
+    # TODO: handle this error in the client side and present an ExtJS window 
+    # similar to the one shown on upload errors
+    def rescue_action(exception)
+      flash[:error] = exception.message
+      redirect_to root_path
+    end
 end
