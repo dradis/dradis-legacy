@@ -41,7 +41,7 @@ module NmapUpload
 	    host.getports(:any) do |port|
         port_info = ''
         srv = port.service
-        port_info << "\t\tPort ##{port.num}/#{port.proto} is open (#{port.reason})\n"
+        port_info << "\t\tPort ##{port.num}/#{port.proto} is #{port.state} (#{port.reason})\n"
         port_info << "\t\t\tService: #{srv.name}\n" if srv.name
         port_info << "\t\t\tProduct: #{srv.product}\n" if srv.product
         port_info << "\t\t\tVersion: #{srv.version}\n" if srv.version
