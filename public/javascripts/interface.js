@@ -187,8 +187,7 @@ Ext.onReady(function() {
         border: false,
         welcome:{},
         bbar: dradisstatus
-      }),
-      feeds
+      })
         //{
         // console? do we need this?
         //region: 'south',
