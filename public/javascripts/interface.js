@@ -133,10 +133,6 @@ uploaders.on('uploadfailure', function(response){
   });
 });
 
-// --- all-purpose general Ajax handlers to update the Status bar message
-Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
-Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); }); 
-
 
 /*
  * onReady gets called when the page is rendered, all the files are loaded and
@@ -230,7 +226,17 @@ Ext.onReady(function() {
 
   }
 
+  // Only install the Ajax callbacks once the ViewPort has been rendered, 
+  // otherwise the first Ajax call may return before the dradisstatus has been
+  // rendered and cause an exception
+  vp.on('afterrender', function(){
+    // --- all-purpose general Ajax handlers to update the Status bar message
+    Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
+    Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); }); 
+
+  });
 
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
   plugins.refresh();
+
 });
