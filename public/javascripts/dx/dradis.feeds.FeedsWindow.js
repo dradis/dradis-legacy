@@ -2,6 +2,31 @@
 
 Ext.ns('dradis.feeds');
 
+dradis.feeds.DataView=Ext.extend(Ext.DataView, {
+    tpl:  new Ext.XTemplate(
+      '<tpl for=".">',
+          '<div style="border-bottom: 1px solid #6592CB;"><span style="font-weight:bold">{title}</span> {stamp}</div>',
+      '</tpl>',
+      '<div class="x-clear"></div>'
+    ),
+    store: store = new Ext.data.JsonStore({
+      url: '/feeds.json',
+      fields: [
+          'id', 'action', 'user', 'actioned_at', 'resource', 'value', 'created_at', 'updated_at', 'title', 'stamp'
+      ]
+    }),
+    autoHeight:true,
+    multiSelect: true,
+    overClass:'x-view-over',
+    itemSelector:'div.thumb-wrap',
+    emptyText: 'No feeds to display',
+    initComponent: function(){
+      this.store.load();
+      // Call parent (required)
+      dradis.feeds.DataView.superclass.initComponent.apply(this, arguments);
+    }
+})
+
 dradis.feeds.FeedsWindow=Ext.extend(Ext.Window, {
   //props (overridable by caller)
   title:'Feeds viewer',
