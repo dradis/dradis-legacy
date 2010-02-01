@@ -84,3 +84,21 @@ noscript p {
 #first_render .portlet li strong { font-weight: bold; }
 
 .x-grid3-row-body { overflow: scroll; }
+
+.topic {
+    padding: 1ex 1ex 2em 20px;
+    background:#FFF url(../images/post.gif) no-repeat 0 2px;
+    border-bottom: 1px solid #CCC;
+}
+
+.topic b {
+    font-family:tahoma, verdana;
+    display:block;
+    color:#333;
+}
+
+.topic .author {
+    color:#333;
+}
+
+.topic .description { font-style: italic; }

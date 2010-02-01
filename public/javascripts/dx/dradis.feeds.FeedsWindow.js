@@ -5,18 +5,17 @@ Ext.ns('dradis.feeds');
 dradis.feeds.DataView=Ext.extend(Ext.DataView, {
     tpl:  new Ext.XTemplate(
       '<tpl for=".">',
-          '<div style="border-bottom: 1px solid #6592CB;"><span style="font-weight:bold">{title}</span> {stamp}</div>',
+          '<div class="topic"><b>{title}</b><span class="author">{stamp}</span><div class="description">{value}</div></div>',
       '</tpl>',
       '<div class="x-clear"></div>'
     ),
     store: store = new Ext.data.JsonStore({
       url: '/feeds.json',
       fields: [
-          'id', 'action', 'user', 'actioned_at', 'resource', 'value', 'created_at', 'updated_at', 'title', 'stamp'
+          'id', 'action', 'user', 'actioned_at', 'resource', 'value', 
+          'created_at', 'updated_at', 'title', 'stamp', 'description'
       ]
     }),
-    autoHeight:true,
-    multiSelect: true,
     overClass:'x-view-over',
     itemSelector:'div.thumb-wrap',
     emptyText: 'No feeds to display',
@@ -41,11 +40,15 @@ dradis.feeds.FeedsWindow=Ext.extend(Ext.Window, {
     // Called during component initialization
     var config ={
       //props (non-overridable)
-      layout: 'fit',
+      layout:'border',
       minWidth: 300,
       minHeight: 150,
       items: [
-        this.fields.panel = new dradis.feeds.DataView()
+        this.fields.panel = {
+          region: 'center',
+          autoScroll: true,
+          items: [ new dradis.feeds.DataView() ]
+        }
       ],
       buttons:[
         {
