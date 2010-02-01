@@ -106,7 +106,7 @@ class SessionsController < ApplicationController
       flash[:first_login] = first_login?
       self.current_user = usr
       redirect_back_or_default('/')
-      flash[:notice] = 'Logged in successfully.'
+      #flash[:notice] = 'Logged in successfully.'
     else
       flash.now[:error] = 'Try again.'
       render :action => 'new'
