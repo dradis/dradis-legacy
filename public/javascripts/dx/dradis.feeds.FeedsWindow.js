@@ -31,7 +31,6 @@ dradis.feeds.FeedsWindow=Ext.extend(Ext.Window, {
   title:'Feeds viewer',
   width: 640,
   height: 480,
-  modal: true,
   maximizable: true,
   closeAction: 'hide',
   fields: {},
