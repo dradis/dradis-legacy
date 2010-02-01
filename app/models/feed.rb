@@ -4,7 +4,7 @@ class Feed < ActiveRecord::Base
 
   # This item's title
   def title
-    "#{self.resource.humanize}, #{self.description}, #{self.action}"
+    "#{self.resource.humanize} #{self.action}"
   end
 
   # The description of the item
