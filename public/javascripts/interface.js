@@ -7,7 +7,7 @@ var nodestree = new dradis.NodesTree();
 var notesbrowser = new dradis.notes.NotesBrowserPanel();
 var importer = new dradis.importer.Panel();
 var attachments = new dradis.attachments.AttachmentsPanel();
-var feeds = new dradis.feeds.Panel();
+var feedsWindow = new dradis.feeds.FeedsWindow();
 
 var dradistabs = new Ext.TabPanel({
   region: 'center',
@@ -57,9 +57,8 @@ var dradisstatus = new Ext.ux.StatusBar({
         iconCls: 'rss-off',
         listeners: {
             click:function(){
-                this.feedsWindow = new dradis.feeds.FeedsWindow();
-                this.feedsWindow.show();
-                this.feedsWindow.center();
+                feedsWindow.show();
+                feedsWindow.center();
             }
         }
       }
