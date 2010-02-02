@@ -24,7 +24,29 @@ dradis.feeds.DataView=Ext.extend(Ext.DataView, {
       // Call parent (required)
       dradis.feeds.DataView.superclass.initComponent.apply(this, arguments);
     }
-})
+});
+
+dradis.feeds.FeedsPanel=Ext.extend(Ext.Panel, {
+  region: 'center',
+  autoScroll: true,
+  fields: {},
+  
+  initComponent: function(){
+    var config ={
+      items: [ 
+        this.fields.dv = new dradis.feeds.DataView() 
+      ]
+    };
+
+    Ext.apply(this, config);
+    Ext.apply(this.initialConfig, config);
+    dradis.feeds.FeedsPanel.superclass.initComponent.apply(this, arguments);
+  }, 
+  // other methods/actions
+  refresh: function() {
+    this.fields.dv.store.load();
+  }
+});
 
 dradis.feeds.FeedsWindow=Ext.extend(Ext.Window, {
   //props (overridable by caller)
@@ -43,11 +65,7 @@ dradis.feeds.FeedsWindow=Ext.extend(Ext.Window, {
       minWidth: 300,
       minHeight: 150,
       items: [
-        this.fields.panel = {
-          region: 'center',
-          autoScroll: true,
-          items: [ new dradis.feeds.DataView() ]
-        }
+        this.fields.panel = new dradis.feeds.FeedsPanel() 
       ],
       buttons:[
         {
@@ -74,14 +92,13 @@ dradis.feeds.FeedsWindow=Ext.extend(Ext.Window, {
     //this.relayEvents(this.fields.panel, ['close']);
 
     //this.fields.panel.on('close', function(){ this.hide(); }, this );
-  }
+  },
 
   // other methods/actions
-  //load: function(record){
-  //  this.fields.panel.load(record);
-  //},
+  refresh: function() {
+    this.fields.panel.refresh();
+  }
 
-  //clear: function(){ this.fields.panel.clear(); }
 });
 
 
