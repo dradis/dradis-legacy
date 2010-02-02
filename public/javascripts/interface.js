@@ -57,6 +57,7 @@ var dradisstatus = new Ext.ux.StatusBar({
         iconCls: 'rss-off',
         listeners: {
             click:function(){
+                feedsWindow.refresh();
                 feedsWindow.show();
                 feedsWindow.center();
             }
