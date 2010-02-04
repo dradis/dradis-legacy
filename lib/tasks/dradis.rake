@@ -44,7 +44,15 @@ namespace :dradis do
   end
 
   desc 'Creates a backup. Drops the database, removes the attachments and recreates the DB.'
-  task :reset => ['backup', 'db:drop', 'db:migrate', 'db:seed', 'dradis:attachments:drop', 'log:clear'] do
+  task :reset => ['backup', 'dradis:attachments:drop', 'log:clear'] do
+    # reinit the database
+    if (ActiveRecord::Migrator::current_version > 0)
+      ActiveRecord::Migrator.migrate("db/migrate/", 0)
+    end
+    ActiveRecord::Migrator.migrate("db/migrate/", nil)
+    Rake::Task["db:seed"].invoke
+
+    # init the config files
     init_all = false
     Dir['config/*.template'].each do |template|
       config = File.join( 'config', File.basename(template, '.template') )
