@@ -1,3 +1,4 @@
+require 'rexml/document'
 require 'zip/zip'
 
 module ProjectExport
