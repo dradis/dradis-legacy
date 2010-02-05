@@ -5,7 +5,7 @@ Ext.ns('dradis.feeds');
 dradis.feeds.DataView=Ext.extend(Ext.DataView, {
     tpl:  new Ext.XTemplate(
       '<tpl for=".">',
-          '<div class="topic"><b>{title}</b><span class="author">{stamp}</span><div class="description">{value}</div></div>',
+          '<div class="topic"><b>{title}</b><span class="author">{stamp}</span><div class="description">{value:htmlEncode}</div></div>',
       '</tpl>',
       '<div class="x-clear"></div>'
     ),
