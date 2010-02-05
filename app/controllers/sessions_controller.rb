@@ -89,7 +89,7 @@ class SessionsController < ApplicationController
       Configuration.create( :name => 'project', :value => @project_revision.prefix_options[:project_id].to_s )
     end
 
-    flash[:notice] =  'Password set. Please log in.<br/> Remember to adjust the client configuration file (client/conf/dradis.xml).'
+    flash[:notice] =  'Password set. Please log in.'
     redirect_to :action => :new
   end
 
