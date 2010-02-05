@@ -1,9 +1,9 @@
 v2.x (xx of xxx 2010)
 
-v2.5 (4th of February 2010)
+v2.5 (5th of February 2010)
  - improved Note editor (supports formatting)
  - new HTML export plugin to generate reports in HTML format
- - improved 'First Time' introduction
+ - improved 'First Time Wizard' introduction
  - keep track of all the activity with the built-in RSS feed
  - new Rake task: dradis:backup
  - Rake dradis:reset now creates a backup of the project by default
