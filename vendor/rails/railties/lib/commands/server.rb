@@ -13,14 +13,17 @@ rescue Exception
   # Thin not available
 end
 
+cert_file = File.join( File.dirname(__FILE__), '/../../../../../config/ssl/server.crt')
+key_file = File.join( File.dirname(__FILE__), '/../../../../../config/ssl/server.key.insecure')
+
 options = {
   :Port        => 3004,
   :Host        => "127.0.0.1",
   # Options for WEBrick SSL
   :SSLEnable => true,
   :SSLVerifyClient => OpenSSL::SSL::VERIFY_NONE,
-  :SSLCertificate => OpenSSL::X509::Certificate.new(File.open('config/ssl/server.crt').read),
-  :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.open('config/ssl/server.key.insecure').read),
+  :SSLCertificate => OpenSSL::X509::Certificate.new(File.open( cert_file  ).read),
+  :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.open( key_file ).read),
   :SSLCertName => [
     [ 'CN', 'dradis.' + WEBrick::Utils::getservername ]
     #[ 'O', 'dradis framework [dradis.sourceforge.net]'],
