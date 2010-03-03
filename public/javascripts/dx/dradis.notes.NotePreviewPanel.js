@@ -32,7 +32,9 @@ dradis.notes.NotePreviewPanel=Ext.extend(Ext.Panel, {
 
   // other methods/actions
   clear:function(){ 
-    this.body.update('');
+    if (this.body) {
+      this.body.update('');
+    }
   },
 
   update:function(rawText){
