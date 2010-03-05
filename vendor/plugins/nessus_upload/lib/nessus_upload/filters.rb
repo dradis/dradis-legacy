@@ -31,7 +31,12 @@ def self.parse_xml_output(content)
 		current_host.start_time	= host.elements['startTime'].text
 		current_host.stop_time	= host.elements['stopTime'].text
 		current_host.dns_name	= host.elements['dns_name'].text
-		current_host.open_ports	= host.elements['num_ports'].text
+    if host.elements['num_ports']
+  		current_host.open_ports	= host.elements['num_ports'].text
+    else
+  		current_host.open_ports	= 0
+    end
+    
 		current_host.mac_address = host.elements['mac_addr'].text
 		current_host.netbios_name = host.elements['netbios_name'].text
 		
