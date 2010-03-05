@@ -213,6 +213,7 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
           listeners: {
             itemclick: function(item){
               item.parentMenu.grid.getStore().remove( item.parentMenu.record );
+              item.parentMenu.grid.fireEvent('modified');
             }
           }
       })
@@ -231,6 +232,8 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
+    this.addEvents('editnote', 'modified');
+
     this.on('celldblclick', function(grid, row, cell, evt){
       if (cell == 0) {
         var record = grid.getStore().getAt(row);
@@ -344,6 +347,10 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
       this.editor.show();
       this.editor.load(record);
       this.editor.center();
+    }, this);
+
+    this.fields.grid.on('modified', function(){
+      this.fields.preview.clear();
     }, this);
 
     //----------------------------------------------------------- editor events
