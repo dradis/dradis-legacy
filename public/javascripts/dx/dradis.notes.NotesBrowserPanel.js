@@ -16,11 +16,6 @@ dradis.notes.CategoriesManager = Ext.extend(Ext.Component, {
 
   menu: new Ext.menu.Menu({store: this.store}),
 
-  renderer: function(value, metadata, record, rowIndex, colIndex, store) {
-    var idx = this.store.find('id', value);
-    return this.store.getAt(idx).get('name');
-  },
-
   editor: function() {
     return new Ext.form.ComboBox({
     id: 'category-id',
@@ -181,7 +176,8 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
           width: 40, 
           sortable: true, 
           dataIndex: 'category_id',
-          renderer: { fn: this.categories.renderer, scope: this.categories },
+          scope: this.categories,
+          renderer: this.categoryRenderer,
           editor: this.categories.editor()
         },
         {
@@ -212,6 +208,8 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
           items: [  { text: 'Delete Note', iconCls: 'del' } ],
           listeners: {
             itemclick: function(item){
+              var s1 = item.parentMenu.grid.getStore();
+              var s2 = item.parentMenu.grid.store;
               item.parentMenu.grid.getStore().remove( item.parentMenu.record );
               item.parentMenu.grid.fireEvent('modified');
             }
@@ -248,6 +246,12 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
     }, this);
   },
 
+  categoryRenderer: function(value, metadata, record, rowIndex, colIndex, store) {
+    var idx = notesbrowser.categories.store.find('id', value);
+    return notesbrowser.categories.store.getAt(idx).get('name');
+  },
+
+
   // other methods/actions
   moveNoteToNode:function(noteId, nodeId){
     var note = this.store.getById(noteId);
@@ -263,11 +267,11 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
       updated_at: Date() 
     });
     this.store.insert(0, record);
+    this.store.commitChanges();
   },
 
   load: function(node_id){
-    var conn = this.store.proxy.conn;
-    conn.url = '/nodes/' + node_id + '/notes.json';
+    this.store.proxy.setUrl( '/nodes/' + node_id + '/notes.json', true );
     this.store.load();
   }
 });

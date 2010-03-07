@@ -36,7 +36,7 @@ class NotesController < ApplicationController
           render :xml => @note.to_xml, :status => :created 
         }
         format.json {
-          render :json => { :success => true }
+          render :json => { :success => true, :data => @note }
         }
       else
         format.xml { 

@@ -171,7 +171,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       }
     });
     // add the text field to the toolbar
-    this.getTopToolbar().push( this.filterField );
+    this.getTopToolbar().add( this.filterField );
 
     // ==================================================== event handlers
 
