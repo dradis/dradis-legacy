@@ -1,5 +1,12 @@
 v2.x (xx of xxx 2010)
 
+v2.5.1 (7th of March 2010)
+ - The NotesBrowser does a better job of keeping track of the current node
+ - New notes are no longer out of sync with the server
+ - upgraded library: ExtJS 3.1.1
+ - bugs fixed: #2964273, #2932569, #2963253
+
+
 v2.5 (5th of February 2010)
  - improved Note editor (supports formatting)
  - new HTML export plugin to generate reports in HTML format
