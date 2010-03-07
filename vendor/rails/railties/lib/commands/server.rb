@@ -20,12 +20,12 @@ options = {
   :Port        => 3004,
   :Host        => "127.0.0.1",
   # Options for WEBrick SSL
-#  :SSLEnable => true,
-#  :SSLVerifyClient => OpenSSL::SSL::VERIFY_NONE,
-#  :SSLCertificate => OpenSSL::X509::Certificate.new(File.open( cert_file  ).read),
-#  :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.open( key_file ).read),
-#  :SSLCertName => [
-#    [ 'CN', 'dradis.' + WEBrick::Utils::getservername ]
+  :SSLEnable => true,
+  :SSLVerifyClient => OpenSSL::SSL::VERIFY_NONE,
+  :SSLCertificate => OpenSSL::X509::Certificate.new(File.open( cert_file  ).read),
+  :SSLPrivateKey => OpenSSL::PKey::RSA.new(File.open( key_file ).read),
+  :SSLCertName => [
+    [ 'CN', 'dradis.' + WEBrick::Utils::getservername ]
     #[ 'O', 'dradis framework [dradis.sourceforge.net]'],
     #[ 'OU', 'dradis server' ]
   ],
