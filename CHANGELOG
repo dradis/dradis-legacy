@@ -1,4 +1,6 @@
-v2.x (xx of xxx 2010)
+v2.5.2 (18th of May 2010)
+ - bugs fixed: #2974460
+ - security patch 
 
 v2.5.1 (7th of March 2010)
  - The NotesBrowser does a better job of keeping track of the current node
