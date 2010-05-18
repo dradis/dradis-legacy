@@ -280,6 +280,9 @@ module Nikto
         end
       end
 
+      # Treat CDATA sections just like text
+      alias_method :cdata, :text
+
     	def method_missing(sym, *args)
 	    end
 
@@ -293,6 +296,7 @@ module Nikto
 
 	    # We don't want to store anything we don't care about!
     	IGNORED = [
+        :statistics
     	]
 
   	  def ignored(name)
