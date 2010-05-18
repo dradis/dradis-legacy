@@ -115,13 +115,19 @@ uploaders.on('uploadsuccess', function(){
 });
 
 uploaders.on('uploadfailure', function(response){
+  var msg = Ext.util.Format.htmlEncode( unescape(response.error).replace(/\+/g, " ")  );
+  var trace = "";
+  for (line in response.backtrace) {
+    trace += Ext.util.Format.htmlEncode( unescape(response.backtrace[line]).replace(/\+/g, " ") ) + "\n";
+  }
+
   // FIXME: Convert this into an Ext Template
   Ext.Msg.show({
     title: 'There was an error processing the upload',
     msg: '<p>We could not process the upload.</p><p>Error message was:</p>' +
-         '<textarea cols="80">' + Ext.util.Format.htmlEncode( response.error )  + '</textarea>' +
+         '<textarea cols="80">' + msg  + '</textarea>' +
          '<p>The stack trace was:</p>' +
-         '<textarea cols="80" rows="10">' + Ext.util.Format.htmlEncode( response.backtrace.join("\n") ) + '</textarea>' + 
+         '<textarea cols="80" rows="10">' + trace + '</textarea>' + 
          '<p>What to do now:</p>' +
          '<ul>' + 
          '<li>- Go through the plugin\'s documentation.</li>' +
