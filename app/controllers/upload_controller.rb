@@ -69,7 +69,8 @@ class UploadController < ApplicationController
 
     rescue Exception => e
       # Something went wrong
-      render :text => { :error => e.message, :backtrace => e.backtrace }.to_json
+      logger.error e, e.backtrace
+      render :text => { :success => false, :error => CGI::escape(e.message), :backtrace => e.backtrace.collect{ |line| CGI::escape(line) } }.to_json 
     end
   end
 
