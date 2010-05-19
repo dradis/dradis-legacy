@@ -43,15 +43,8 @@ namespace :dradis do
     end
   end
 
-  desc 'Creates a backup. Drops the database, removes the attachments and recreates the DB.'
-  task :reset => ['backup', 'dradis:attachments:drop', 'log:clear'] do
-    # reinit the database
-    if (ActiveRecord::Migrator::current_version > 0)
-      ActiveRecord::Migrator.migrate("db/migrate/", 0)
-    end
-    ActiveRecord::Migrator.migrate("db/migrate/", nil)
-    Rake::Task["db:seed"].invoke
-
+  desc 'Creates the Dradis configuration files from their templates (see config/*.yml.template)'
+  task :configure do 
     # init the config files
     init_all = false
     Dir['config/*.template'].each do |template|
@@ -62,7 +55,7 @@ namespace :dradis do
           FileUtils.cp(template, config)
         else
           puts "The config file [#{template}] was found not to be ready to use."
-          puts "Do you want to initialize it? [y]es | [n]o | initialize [A]ll"
+          puts "Do you want to initialize it? [y]es | [N]o | initialize [a]ll"
           response = STDIN.gets.chomp.downcase
           response = 'Y' if ( response.blank? || !['y', 'n', 'a'].include?(response) )
 
@@ -78,5 +71,15 @@ namespace :dradis do
         end
       end
     end
+  end
+
+  desc 'Creates a backup, drops the database, removes the attachments and recreates the DB.'
+  task :reset => ['dradis:configure', 'backup', 'dradis:attachments:drop', 'log:clear'] do
+    # reinit the database
+    if (ActiveRecord::Migrator::current_version > 0)
+      ActiveRecord::Migrator.migrate("db/migrate/", 0)
+    end
+    ActiveRecord::Migrator.migrate("db/migrate/", nil)
+    Rake::Task["db:seed"].invoke
   end
 end
