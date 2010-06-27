@@ -1,7 +1,7 @@
 require 'delegate'
 require 'singleton'
 require 'tempfile'
-require 'ftools'
+#require 'ftools'
 require 'stringio'
 require 'zlib'
 require 'zip/stdrubyext'
@@ -1566,7 +1566,7 @@ module Zip
       tmpFilename = tmpfile.path
       tmpfile.close
       if yield tmpFilename
-	File.move(tmpFilename, name)
+	FileUtils.mv(tmpFilename, name)
       end
     end
     
