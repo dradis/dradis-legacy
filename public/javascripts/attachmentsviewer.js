@@ -123,10 +123,12 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
 
   // other methods/actions
   updateAttachments:function(node_id){
-    this.fields.dv.store.load({nodeId: node_id});
+    this.fields.dv.store.currentNode = node_id
+    this.fields.dv.store.proxy.setUrl( '/nodes/'+node_id+'/attachments.json' );
+    this.fields.dv.store.load();
   },
   refresh:function(){
-    this.fields.dv.store.load();
+    this.updateAttachments(this.fields.dv.store.currentNode);
   }
 
 });
@@ -146,13 +148,6 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
     url:'/nodes/' + this.currentNode + '/attachments.json',
     fields:['filename', 'size', 'created_at'],
     listeners:{
-      beforeload:function(store, options){
-        if (options.nodeId)
-        {
-          this.proxy.conn.url = '/nodes/' + options.nodeId + '/attachments.json';
-          this.currentNode = options.nodeId;
-        }
-      },
       update:function(store, record, operation){
         dradis.ajax.request({
           url: '/nodes/' + this.currentNode + '/attachments/' + record.modified.filename,
