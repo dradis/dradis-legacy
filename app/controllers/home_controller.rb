@@ -18,8 +18,13 @@ class HomeController < ApplicationController
         # gracefully handle RedCloth absence
         output = '' 
         begin
+          output = params[:text]
+          Hash[ *params[:text].scan(/#\[(.+?)\]#[\r|\n](.*?)(?=#\[|\z)/m).flatten.collect{ |str| str.strip } ].keys.each do |field|
+            output.gsub!(/#\[#{field}\]#\n/, "h1. #{field}\n\n")
+          end
+          
           require 'RedCloth'
-          output = RedCloth.new(params[:text], [:filter_html]).to_html 
+          output = RedCloth.new(output, [:filter_html]).to_html 
         rescue Exception
           output = "<pre style=\"background-color: #fff;\">#{ CGI::escapeHTML(params[:text]) }</pre>"
         end
