@@ -1,11 +1,26 @@
-.preview { padding: 10px;  }
-
-.preview h1 { 
-  border-bottom: 1px solid #ccc;
-  margin: 2ex 0;
+.preview { 
+  font-family:"Lucida Grande",verdana,arial,helvetica,sans-serif; 
+  padding: 10px;
+  color:#000000;
+  font-size:14px;
+  line-height:19px;
 }
 
-.preview p { margin-bottom: 2ex; }
+.preview h1 { 
+  font-size:140%;
+  margin-top:35px 0 13px 0;
+}
+
+.preview a:link  { color:#03C; }
+
+.preview a { 
+  padding:1px;
+  text-decoration:underline;
+}
+
+.preview p { 
+  margin: 14px 0;
+}
 
 .preview li { margin-left: 40px; }
 .preview ul { list-style-type: square; }
