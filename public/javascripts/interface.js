@@ -160,27 +160,33 @@ Ext.onReady(function() {
     items: [
       {
         region: 'north',
-        html: '<h1 class="x-panel-header" style="text-align: right;">'+dradis.version+' - <a href="/logout">logout</a>|<a href="mailto:feedback@dradisframework.org?subject=' + dradis.version + '%20feedback">feedback</a></h1>',
         autoHeight: true,
         border: false,
         margins: '0 0 5 0',
-        bbar: [ 
-          {
-            text: 'import from file...', 
-            iconCls:'icon-form-magnify',
-            handler: function() {
-              uploaders.show();
-              uploaders.center();
+        bbar: new Ext.Toolbar({
+          cls: 'x-panel-header',
+          items: [ 
+            {
+              text: 'import from file...', 
+              iconCls:'icon-form-magnify',
+              handler: function() {
+                uploaders.show();
+                uploaders.center();
+              }
+            },
+           {
+              text: 'export',
+              tooltip: 'export dradis contents to external sources',
+              iconCls: 'export',
+              menu: plugins.exportPluginsMenu()
+            },
+            '->',
+            {
+              xtype: 'tbtext',
+              html: '<h1>' + dradis.version + '- <a href="/logout">logout</a> | <a href="mailto:feedback@dradisframework.org?subject=' + dradis.version + '%20feedback">feedback</a></h1>'
             }
-          },
-         {
-            text: 'export',
-            tooltip: 'export dradis contents to external sources',
-            iconCls: 'export',
-            menu: plugins.exportPluginsMenu()
-          }
-
-        ]
+          ]
+        })
       },
       nodestree,
       dradistabs,
