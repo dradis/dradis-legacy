@@ -1,4 +1,5 @@
 v2.6
+ - Improved performance through asset caching
  - bugs fixed: #3021312
 
 v2.5.2 (18th of May 2010)
