@@ -25,7 +25,6 @@ module Rails
             headers.delete 'Etag'
             headers.delete 'Pragma'
             headers.delete 'Last-Modified'
-p headers
             return [status, headers, body]
           else
             cached_path = directory_exist?(path) ? "#{path}/index" : path
