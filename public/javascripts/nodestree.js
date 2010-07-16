@@ -10,7 +10,7 @@ Ext.ns('dradis');
 dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
   //props (overridable by caller)
   region: 'west',
-  width: 300,
+  width: 200,
   autoScroll: true,
   //border: false,
   split: true,
@@ -76,9 +76,9 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           handler: function(){ 
             this.collapseAll(); 
           }
-        },
-        '-'
+        }
       ],
+      bbar: [],      
       //------------------------------------------- /standard TreePanel properties
 
       //------------------------------------------- custom NodesTree properties
@@ -159,7 +159,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     // Filter text field that will be added to the Tool bar and perform the
     // filtering in the tree of nodes
     this.filterField = new Ext.form.TextField({
-      width: 130,
+      width: 193,
       emptyText:'Find a Node',
       tree: this,
       listeners:{
@@ -171,7 +171,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       }
     });
     // add the text field to the toolbar
-    this.getTopToolbar().add( this.filterField );
+    this.getBottomToolbar().add( this.filterField );
 
     // ==================================================== event handlers
 
