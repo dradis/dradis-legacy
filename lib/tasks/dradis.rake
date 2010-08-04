@@ -9,9 +9,8 @@ namespace :dradis do
     desc 'Drop all the attachments from the attachments/ directory'
     task :drop do
       print 'Dropping attachments from attachments/... '
-      FileUtils.rm_rf( 'attachments/' )
+      FileUtils.rm_rf( Dir.glob('attachments/*') )
       puts 'done.'
-      FileUtils.mkdir( 'attachments' )
     end
   end
 
