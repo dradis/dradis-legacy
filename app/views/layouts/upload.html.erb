@@ -24,12 +24,17 @@
       -moz-border-radius: 24px;
       -webkit-border-radius: 24px;
     }
+
+    .content div {
+      margin-top: 2ex;
+    }
     </style>
 
   </head>
 
   <body>
     <div class="content">
+      <noscript><div class="error">Please enable JavaScript support.</div></noscript>
       <%= yield %>
     </div>
   </body>
