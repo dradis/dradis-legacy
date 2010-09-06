@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Upload Manager - <%= Core::VERSION::string %></title>
 
+    <%= javascript_include_tag 'jquery-1.4.2.min', 'jquery.form', 'upload', :cache => 'upload_manager' %>
+
     <%= stylesheet_link_tag 'clean/reset',
         'clean/defaults',
         'clean/type',
@@ -16,6 +18,14 @@
     /* These are styles to make the page look nice */
 
     body { background-color: #dadada;}
+
+    blockquote {
+      background-color: #444;
+      color: #DDD;
+      border-left: 4px solid #444;
+      padding: 0.5ex 0 0.5ex 1em;
+    }
+
     .content {
       background: #fff;
       padding: 40px;
@@ -25,9 +35,18 @@
       -webkit-border-radius: 24px;
     }
 
-    .content div {
+    .content .block {
       margin-top: 2ex;
     }
+
+    .file {
+      padding: 40px;
+      margin: 0 auto;
+      border: 1px solid #dadada;
+      -moz-border-radius: 24px;
+      -webkit-border-radius: 24px;
+    }
+
     </style>
 
   </head>
