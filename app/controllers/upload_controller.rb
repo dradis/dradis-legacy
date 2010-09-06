@@ -10,7 +10,8 @@
 class UploadController < ApplicationController
   include Plugins::Upload
   before_filter :login_required
-  before_filter :validate_uploader, :only => :import
+  before_filter :validate_uploader, :only => [:import, :create]
+  after_filter :wrap_ajax_file_upload_response, :only => [:create]
 
   private
   # Ensure that the requested :uploader is valid and has been included in the
@@ -21,6 +22,13 @@ class UploadController < ApplicationController
       @uploader = params[:uploader].constantize
     else
       redirect_to '/'
+    end
+  end
+
+  def wrap_ajax_file_upload_response
+    if request.content_type == :multipart_form && request.format == :js
+      response.content_type = nil
+      response.body = "<textarea>#{response.body}</textarea>"
     end
   end
 
@@ -74,4 +82,9 @@ class UploadController < ApplicationController
     end
   end
 
+  def create
+    sleep 5
+    @success = true
+    flash.now[:notice] = 'File successfully uploaded'
+  end
 end
