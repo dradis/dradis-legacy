@@ -1,0 +1,6 @@
+<% if @success -%>
+$("#<%= params[:item_id]  %>").find('span').html('(<%= flash.now[:notice] %>)');
+<% else -%>
+$("#<%= params[:item_id]  %>").find('span').html('(<%= flash.now[:error] %>)');
+<% end -%>
+
