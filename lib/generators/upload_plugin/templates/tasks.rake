@@ -9,7 +9,7 @@ end
 namespace :upload do
 
   desc 'Explain here what the task does'
-  task :<%= file_name %>, :file, :needs => :environment do |t, args|
+  task :<%= file_name.split('_').first %>, :file, :needs => :environment do |t, args|
 
     # your initialization goes here
     filename = args[:file]
@@ -19,7 +19,7 @@ namespace :upload do
     logger.level = Logger::DEBUG
 
     # your validation goes here
-    fail "Please provide a file: rake 'upload:nmap[<file>]'" if filename.nil?
+    fail "Please provide a file: rake 'upload:<%= file_name.split('_').first  %>[<file>]'" if filename.nil?
     fail "File [#{filename}] does not exist" unless File.exists?(filename)
 
     # invoke the plugin
