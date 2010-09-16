@@ -6,7 +6,7 @@ uploaded them you can process with the different plugins available. </p>
 <div class="block">
   <% form_tag '/upload/create', :multipart => true do %>
     <%= select_tag  'uploader', options_from_collection_for_select( Plugins::Upload::included_modules, 'name', 'name' ) %>
-    <%= file_field_tag 'filename' %>
+    <%= file_field_tag 'file' %>
     <%= hidden_field_tag 'item_id' %>
     <%= hidden_field_tag 'format', 'js' %>
   <% end %>
