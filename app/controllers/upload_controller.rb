@@ -83,8 +83,15 @@ class UploadController < ApplicationController
   end
 
   def create
-    sleep 5
+    # create an 'Imported files' node
+    uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
+   
+    # add the file as an attachment
+    @attachment = Attachment.new( params[:file].original_filename, :node_id => uploadsNode.id )
+    @attachment << params[:file].read
+    @attachment.save
+
     @success = true
-    flash.now[:notice] = 'File successfully uploaded'
+    flash.now[:notice] = 'successfully uploaded'
   end
 end
