@@ -1,5 +1,5 @@
 <% if @success -%>
-$("#<%= params[:item_id]  %>").find('span').html('(<%= flash.now[:notice] %>)');
+  $("#files div:last-child").replaceWith( '<%= escape_javascript( render @attachment ) %>' );
 <% else -%>
 $("#<%= params[:item_id]  %>").find('span').html('(<%= flash.now[:error] %>)');
 <% end -%>
