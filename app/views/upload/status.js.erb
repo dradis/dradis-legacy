@@ -1,0 +1,4 @@
+<% if @logs.any? -%>
+$("#console").append( '<%= escape_javascript(render(@logs)) %>' );
+$("#console").attr({ scrollTop: $("#console").attr("scrollHeight") });
+<% end -%>

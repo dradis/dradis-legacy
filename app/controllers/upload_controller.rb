@@ -94,4 +94,10 @@ class UploadController < ApplicationController
     @success = true
     flash.now[:notice] = 'successfully uploaded'
   end
+
+  def status
+    @logs = Log.find(:all, :conditions => [ 'uid = ? and id > ?', params[:item_id], params[:after].to_i ] )
+    @uploading = !(@logs.last.text == 'Worker process completed.') if @logs.any?    
+  end
+
 end
