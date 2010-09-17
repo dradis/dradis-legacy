@@ -14,4 +14,18 @@ $(function(){
   });
 });
 
+var parsing = false;
+function updateConsole() {
+  if (!parsing) { return; }
 
+  var upload_id = $("#files div:last-child").attr('data-id');
+  var after;
+
+  if ( $(".log").length > 0 ) {  
+    after = $("#console p:last-child").attr('data-id');
+  } else {
+    after = '0';
+  }
+  $.getScript( '/upload/status?item_id=' + upload_id + '&after=' + after );
+  setTimeout(updateConsole, 2000);
+}
