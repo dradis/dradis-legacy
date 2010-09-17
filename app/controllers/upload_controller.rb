@@ -10,7 +10,7 @@
 class UploadController < ApplicationController
   include Plugins::Upload
   before_filter :login_required
-  before_filter :validate_uploader, :only => [:import, :create]
+  before_filter :validate_uploader, :only => [:import, :create, :parse]
   after_filter :wrap_ajax_file_upload_response, :only => [:create]
 
   private
@@ -93,6 +93,15 @@ class UploadController < ApplicationController
 
     @success = true
     flash.now[:notice] = 'successfully uploaded'
+  end
+
+  def parse   
+    item_id = params[:item_id]
+    uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
+    attachment = Attachment.find(params[:file], :conditions => { :node_id => uploadsNode.id })
+
+    Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
+    Delayed::Job::enqueue( UploadProcessingJob.new(params[:uploader], attachment.fullpath, item_id) )    
   end
 
   def status
