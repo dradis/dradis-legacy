@@ -8,8 +8,9 @@ module Plugins
     # defined plugins to see if they define an Actions submodule. If they do
     # include the actions in the controller.
     def self.included(base)
+      actions_module = (RUBY_VERSION < '1.9') ? 'Actions' : :Actions
       self.included_modules.each do |plugin|
-        if (plugin.constants.include?('Actions'))
+        if (plugin.constants.include?(actions_module))
           base.class_eval %( include #{plugin.name}::Actions )
         end
       end
@@ -39,9 +40,10 @@ class ExportController < ApplicationController
       format.html{ redirect_to '/' }
       format.json{ 
         list = []
+        actions_module = (RUBY_VERSION < '1.9') ? 'Actions' : :Actions
         Plugins::Export.included_modules.each do |plugin|
           list << { :name => plugin.name.underscore.humanize.gsub(/\//,' - '), :actions => [] }
-          if (plugin.constants.include?('Actions'))
+          if (plugin.constants.include?(actions_module))
              list.last[:actions] = plugin::Actions.instance_methods.sort
           end
         end

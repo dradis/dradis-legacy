@@ -27,7 +27,7 @@ class ImportController < ApplicationController
   private
   # Ensure that the data source requested is valid.
   def validate_source()
-    valid_sources = Plugins::Import::included_modules.collect do |m| m.name; end
+    valid_sources = Plugins::Import::included_modules.collect(&:name)
     if (params.key?(:scope) && valid_sources.include?(params[:scope])) 
       @source = params[:scope].constantize
     else
@@ -37,7 +37,8 @@ class ImportController < ApplicationController
 
   # If the source is valid, ensure that it defines the requested filter.
   def validate_filter()
-    if (params.key?(:filter) && @source::Filters::constants.include?(params[:filter]))
+    filter_module = (RUBY_VERSION < '1.9') ? params[:filter] : params[:filter].to_sym
+    if (params.key?(:filter) && @source::Filters::constants.include?(filter_module))
       @filter = "#{@source.name}::Filters::#{params[:filter]}".constantize
     else
       redirect_to '/'
@@ -76,7 +77,8 @@ class ImportController < ApplicationController
             :value => 'invalid'
           }
         ]
-        if (@source.constants.include?('Filters'))
+        filters_module = (RUBY_VERSION < '1.9') ? 'Filters' : :Filters
+        if (@source.constants.include?(filters_module))
           list.clear
           @source::Filters.constants.each do |filter_name|
             filter = "#{@source.name}::Filters::#{filter_name}".constantize 
