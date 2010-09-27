@@ -17,7 +17,7 @@ class UploadController < ApplicationController
   # Ensure that the requested :uploader is valid and has been included in the
   # Plugins::Upload mixin
   def validate_uploader()
-    valid_uploaders = Plugins::Upload::included_modules.collect do |m| m.name; end
+    valid_uploaders = Plugins::Upload::included_modules.collect(&:name)
     if (params.key?(:uploader) && valid_uploaders.include?(params[:uploader])) 
       @uploader = params[:uploader].constantize
     else
