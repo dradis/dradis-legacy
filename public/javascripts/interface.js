@@ -3,11 +3,16 @@ Ext.BLANK_IMAGE_URL = '/images/default/s.gif';
 //Ext.state.Manager.setProvider(new Ext.state.CookieProvider);
 
 // ------------------------------------------------------- custom ExtJS widgets
+var plugins = new dradis.plugins.PluginManager();
+var uploaders = new dradis.plugins.UploadFormWindow();
 var nodestree = new dradis.NodesTree();
 var notesbrowser = new dradis.notes.NotesBrowserPanel();
 var importer = new dradis.importer.Panel();
 var attachments = new dradis.attachments.AttachmentsPanel();
 var feedsWindow = new dradis.feeds.FeedsWindow();
+
+importer.setImportStore( plugins.getImportPluginsStore() );
+
 
 var dradistabs = new Ext.TabPanel({
   region: 'center',
@@ -67,10 +72,6 @@ var dradisstatus = new Ext.ux.StatusBar({
     ]
 });
 
-var plugins = new dradis.plugins.PluginManager();
-var uploaders = new dradis.plugins.UploadFormWindow();
-
-importer.setImportStore( plugins.getImportPluginsStore() );
 
 /*
  * ------------------------------------------------------- custom ExtJS widgets
