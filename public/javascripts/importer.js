@@ -153,10 +153,6 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
       this.fields.sources.store = new_store;
     },
 
-    updateSources: function(node_id){ 
-      this.fields.sources.store.load();
-    },
-
     updateResults: function(){
       this.fields.results.store.removeAll();
       this.fields.results.store.load({
