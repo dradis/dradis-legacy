@@ -70,6 +70,8 @@ var dradisstatus = new Ext.ux.StatusBar({
 var plugins = new dradis.plugins.PluginManager();
 var uploaders = new dradis.plugins.UploadFormWindow();
 
+importer.setImportStore( plugins.getImportPluginsStore() );
+
 /*
  * ------------------------------------------------------- custom ExtJS widgets
  * Events thrown by the different widgets are handleded in this object and 
@@ -79,7 +81,6 @@ var uploaders = new dradis.plugins.UploadFormWindow();
 
 nodestree.on('nodeclick', function(node_id){
   notesbrowser.updateNotes(node_id);
-  importer.updateSources(node_id);
   attachments.updateAttachments(node_id);
   dradistabs.enable();
   if (dradistabs.getActiveTab() === null) {
