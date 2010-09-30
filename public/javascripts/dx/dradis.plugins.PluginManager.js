@@ -62,6 +62,18 @@ dradis.plugins.PluginManager = function(){
    */
   this.getUploadPluginsStore = function(){ return uploadPluginsDS; }
 
+  var importPluginsDS = new Ext.data.JsonStore({
+    url:'/import/sources/list.json',
+    fields: ['value', 'display']
+  });
+
+  /*
+   * To access the internal +upload+ plugins data store
+   */
+  this.getImportPluginsStore = function(){ return importPluginsDS; }
+
+
+
   /*
    * Get a new list of installed plugins from the server. You should not forget
    * that rails only refreshes the plugin list upon server restart.
@@ -69,6 +81,7 @@ dradis.plugins.PluginManager = function(){
   this.refresh = function(){
     exportPluginsDS.load();
     uploadPluginsDS.load();
+    importPluginsDS.load();
   }
 
 };
