@@ -149,6 +149,10 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
     },
  
     // Override other inherited methods 
+    setImportStore: function(new_store){
+      this.fields.sources.store = new_store;
+    },
+
     updateSources: function(node_id){ 
       this.fields.sources.store.load();
     },
