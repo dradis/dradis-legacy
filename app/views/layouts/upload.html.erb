@@ -6,6 +6,7 @@
     <title>Upload Manager - <%= Core::VERSION::string %></title>
 
     <%= javascript_include_tag 'jquery-1.4.2.min', 'jquery.form', 'upload', :cache => 'upload_manager' %>
+    <%= csrf_meta_tag %>
 
     <%= stylesheet_link_tag 'clean/reset',
         'clean/defaults',

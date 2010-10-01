@@ -1,7 +1,7 @@
 <p id="wizard">Not familiar with Dradis? Checkout the <a href="/wizard">Wizard</a>.</p>
 <p>You will only be able to log in if you know this server's password.</p>
 
-<% form_tag session_path do -%>
+<%= form_tag session_path do -%>
 <p><label for="login">Login</label><br/>
 <%= text_field_tag 'login', '[choose a username]', :style => 'color: #777;', :class => 'text' %></p>
 

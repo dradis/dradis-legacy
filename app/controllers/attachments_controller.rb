@@ -8,7 +8,7 @@ class AttachmentsController < ApplicationController
     @attachments = Node.find(params[:node_id]).attachments
     respond_to do |format|
       format.html{ render :action => 'index'}
-      format.json{ render :json => @attachments }
+      format.json{ render :text => '[' + @attachments.collect(&:to_json).join(',') + ']' }
     end
     @attachments.each do |a| a.close end
   end
@@ -30,14 +30,15 @@ class AttachmentsController < ApplicationController
   # It is possible to rename attachments and this function provides that
   # functionality.
   def update
-    attachment = Attachment.find(params[:id], :conditions => {:node_id => Node.find(params[:node_id]).id})
+    filename = [params[:id],params[:format]].join('.')
+    attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     attachment.close
     new_name = CGI::unescape( params[:rename] )
     destination = File.expand_path( File.join( Attachment.pwd, params[:node_id], new_name ) )
     if !File.exist?(destination) && ( !destination.match(/^#{Attachment.pwd}/).nil? )
       File.rename( attachment.fullpath, destination  )
     end
-    redirect_to :action => 'show', :id => params[:rename]
+    redirect_to "#{node_path(attachment.node_id)}/attachments/#{CGI::escape(new_name)}" 
   end
 
   # This function will send the Attachment file to the browser. It will try to 
@@ -47,7 +48,7 @@ class AttachmentsController < ApplicationController
   def show
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
-    filename = params[:id]
+    filename = [params[:id],params[:format]].join('.')
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
 
     # Figure out the best way of displaying the file (by default send the it as
@@ -77,7 +78,7 @@ class AttachmentsController < ApplicationController
   def destroy
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
-    filename = params[:id]
+    filename = [params[:id],params[:format]].join('.')
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     @attachment.delete
     redirect_to node_attachments_path(params[:node_id])

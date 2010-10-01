@@ -13,7 +13,7 @@ class JsonController < ApplicationController
   def nodes
     parent_id = params[:node] == 'root-node' ? nil : params[:node].to_i
     nodes = Node.find(:all, :conditions => {:parent_id => parent_id})
-    render :text => nodes.to_json
+    render :text => '[' + nodes.collect(&:to_json).join(',') + ']'
   end
 
   # Create a new Node from its :label and :parent_id

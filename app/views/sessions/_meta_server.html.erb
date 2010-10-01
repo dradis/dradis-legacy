@@ -1,4 +1,4 @@
-              <% form_for :meta_server do |f| -%>
+              <%= form_for :meta_server, :url => {:action => :get_projects}, :remote => :true do |f| -%>
               <fieldset>
                 <legend>Meta-Server options</legend>
                 <div>
@@ -18,9 +18,7 @@
                   <%= f.password_field :password, :class => 'password' %>
                 </div>
                 <% if flash[:meta_server] %><div id="error"><%= flash[:meta_server] %></div><% end %>
-                <div class="right"><%= submit_to_remote 'remote', 'Get Projects', 
-                                                :html => {:class => 'submit'}, 
-                                                :url=>{:action=>:get_projects} %></div>
+                <div class="right"><%= submit_tag 'Get Projects' %></div>
               </fieldset>
               <% end %>
               <% if @projects %> 

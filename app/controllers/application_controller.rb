@@ -11,8 +11,6 @@ class ApplicationController < ActionController::Base
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem  
   
-  filter_parameter_logging :password, :password_confirmation
-
   before_filter :show_first_time_wizard
 
   # This filter would display the 'First Time' wizard the first time dradis is

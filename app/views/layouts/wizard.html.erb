@@ -82,11 +82,11 @@
 
     <!-- Tabbed bar code-->
     <ul class="tab">
-    <%= menu_tabs %>
+    <%= menu_tabs.html_safe %>
     </ul>
     <div id="back"><a href="/">&lsaquo; back to the app.</a></div>
 
-    <%= @content_for_layout %>
+    <%= yield %>
     <div id="footer">
       <br/>
       effective information sharing<br/>

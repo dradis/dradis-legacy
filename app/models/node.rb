@@ -19,7 +19,7 @@ class Node < ActiveRecord::Base
     json << '"'
     if (self.children.any?)
       json << ', "children":'
-      json << self.children.to_json
+      json << '[' + self.children.collect(&:to_json).join(',') + ']'
     else
       #json << ',"leaf":true'
     end

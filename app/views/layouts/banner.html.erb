@@ -12,7 +12,7 @@
             <div style="height: 100px; overflow: hidden;">
             <%= image_tag 'banner.png', :style=>'margin-top: -20px;' %>
             </div>
-<%= @content_for_layout %>
+<%= yield %>
             <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
             <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
             <noscript><div id="nojs">Please enable JavaScript support.</div></noscript>

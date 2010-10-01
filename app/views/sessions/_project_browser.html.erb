@@ -28,6 +28,6 @@
   </tbody>
 </table>
 <p class="links">
-  <%= link_to_remote 'Refresh', :url => {:action => :get_projects}, :class => 'submit' %>
-  <%= link_to_remote 'Change Meta-Server', :url => {:action => :change_metaserver}, :class => 'submit' %>
+  <%= link_to 'Refresh', :url => {:action => :get_projects}, :class => 'submit', :remote => true %>
+  <%= link_to 'Change Meta-Server', :url => {:action => :change_metaserver}, :class => 'submit', :remote => true %>
 </p>

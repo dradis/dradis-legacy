@@ -2,6 +2,7 @@
   <head>
     <title>Welcome to dradis</title>
     <%= stylesheet_link_tag 'welcome.css' %>
+    <%= csrf_meta_tag %>
   </head>
   <body>
     <div class="main main_margin">
@@ -10,7 +11,7 @@
       <div class="content_top"></div>
   	  <div class="content">								
 			  	<div class="text">					
-            <%= @content_for_layout %>
+            <%= yield %>
             <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
             <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
             <noscript><div id="nojs">Please enable JavaScript support.</div></noscript>
