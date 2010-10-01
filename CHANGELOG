@@ -1,4 +1,5 @@
 v2.6
+ - Upgrade to Rails 3
  - Improved performance through asset caching
  - bugs fixed: #3021312, #3030629, #3076709
 
