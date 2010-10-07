@@ -1,6 +1,6 @@
 # This controller exposes the REST operations required to manage the Node 
 # resource.
-class NodesController < RestfulController
+class NodesController < ApplicationController
   before_filter :login_required
   before_filter :find_or_initialize_node, :except => [ :index ]
 
@@ -8,7 +8,8 @@ class NodesController < RestfulController
 
   # GET /nodes
   def index
-    @nodes = Node.all
+    parent_id = params[:node] == 'root-node' ? nil : params[:node].to_i
+    @nodes = Node.all.where(:parent_id => parent_id )
     respond_with(@nodes)
   end        
 
