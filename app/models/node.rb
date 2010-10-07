@@ -10,20 +10,12 @@ class Node < ActiveRecord::Base
 
   # Return the JSON structure representing this Node and any child nodes
   # associated with it.
-  def to_json(options={})
-    json = '{"text":"'
-    json << self.label
-    json << '"'
-    json << ',"id":"'
-    json << self.attributes['id'].to_s
-    json << '"'
+  def as_json(options={})
+    json = { :text => self.label, :id => self.attributes['id'] }
     if (self.children.any?)
-      json << ', "children":'
-      json << '[' + self.children.collect(&:to_json).join(',') + ']'
-    else
-      #json << ',"leaf":true'
+      json[:children] = self.children
     end
-    json << '}'
+    return json
   end
 
   # Return all the Attachment objects associated with this Node.
