@@ -1,6 +1,6 @@
 module NmapUpload
   module Meta
-    NAME = "This plugin does not have a name, define it at #{__FILE__.gsub(/#{RAILS_ROOT}/,'.')}"
+    NAME = "Nmap output (.xml) file upload"
     # change this to the appropriate version
     module VERSION #:nodoc:
       MAJOR = 2
