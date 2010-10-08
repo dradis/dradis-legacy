@@ -9,7 +9,7 @@ class NodesController < ApplicationController
   # GET /nodes
   def index
     parent_id = params[:node] == 'root-node' ? nil : params[:node].to_i
-    @nodes = Node.all.where(:parent_id => parent_id )
+    @nodes = Node.where(:parent_id => parent_id )
     respond_with(@nodes)
   end        
 
