@@ -9,13 +9,6 @@
 class JsonController < ApplicationController
   before_filter :login_required
 
-  # Return a list of Node objects in JSON format.
-  def nodes
-    parent_id = params[:node] == 'root-node' ? nil : params[:node].to_i
-    nodes = Node.find(:all, :conditions => {:parent_id => parent_id})
-    render :text => '[' + nodes.collect(&:to_json).join(',') + ']'
-  end
-
   # Create a new Node from its :label and :parent_id
   def node_create
     node = Node.new({

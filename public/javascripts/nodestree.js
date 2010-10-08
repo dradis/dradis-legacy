@@ -31,7 +31,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       ddGroup: 'gridDDGroup',
       stateful:true,
       loader: new Ext.tree.TreeLoader({
-        url: 'json/nodes',
+        url: 'nodes.json',
         requestMethod: 'GET',
   	    createNode : function(attr){
     	    attr.text = Ext.util.Format.htmlEncode(attr.text);
