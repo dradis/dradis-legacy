@@ -1,4 +1,4 @@
-BACKUP_DIR = File.join(RAILS_ROOT, 'backups')
+BACKUP_DIR = File.join(Rails.root, 'backups')
 
 namespace :dradis do
 
