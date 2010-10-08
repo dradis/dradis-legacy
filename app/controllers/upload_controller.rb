@@ -26,7 +26,7 @@ class UploadController < ApplicationController
   end
 
   def wrap_ajax_file_upload_response
-    if request.content_type == :multipart_form && request.format == :js
+    if request.content_type == 'multipart/form-data' && request.format == :js
       response.content_type = nil
       response.body = "<textarea>#{response.body}</textarea>"
     end
