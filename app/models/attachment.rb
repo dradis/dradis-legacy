@@ -197,4 +197,8 @@ class Attachment < File
       :created_at => self.ctime
     }.to_json(options)
   end
+
+  def Attachment.model_name
+    ActiveModel::Name.new(self)
+  end
 end
