@@ -12,6 +12,10 @@ $(function(){
     $('#item_id').val(itemId);
     $(this).closest('form').submit();
   });
+
+  $('#available').click(function(){
+    $('#plugins').toggle();
+  });
 });
 
 var parsing = false;

@@ -1,7 +1,28 @@
 <h1>Upload Manager</h1>
 
 <p>Use the form below to upload output files from other tools. Once you have 
-uploaded them you can process with the different plugins available. </p>
+uploaded them you can process with the different <a href="#" id="available">plugins available</a>. </p>
+<br/>
+
+<div id="plugins" style="display: none;">
+<h2>Available Plugins</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Version</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Plugins::Upload::included_modules.each do |plugin| %>
+      <tr>
+        <td><%= plugin::Meta::NAME %></td>
+        <td><%= plugin::Meta::VERSION::STRING %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <div class="block">
   <%= form_tag '/upload/create', :multipart => true do %>
@@ -11,6 +32,7 @@ uploaded them you can process with the different plugins available. </p>
     <%= hidden_field_tag 'format', 'js' %>
   <% end %>
 </div>
+
 
 <div id="files" class="block">
 </div>
