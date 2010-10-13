@@ -1,5 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
+#ENV['RAILS_ENV'] = 'production'
+#RAILS_ENV.replace('production') if defined?(RAILS_ENV)
+
 require 'rails/all'
 
 # If you have a Gemfile, require the gems listed there, including any gems
