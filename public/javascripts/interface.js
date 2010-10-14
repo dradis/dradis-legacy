@@ -17,6 +17,7 @@ importer.setImportStore( plugins.getImportPluginsStore() );
 var dradistabs = new Ext.TabPanel({
   region: 'center',
   tabPosition: 'bottom',
+  activeTab: 0,
   border: false,
   deferredRender: false,
   //margins: '0 5 0 0',
