@@ -1,7 +1,7 @@
 v2.6
- - Upgrade to Rails 3
+ - Upgraded libraries: ExtJS 3.3, Rails 3.0
  - Improved performance through asset caching
- - bugs fixed: #3021312, #3030629, #3076709
+ - Bugs fixed: #3021312, #3030629, #3076709
 
 v2.5.2 (18th of May 2010)
  - bugs fixed: #2974460
