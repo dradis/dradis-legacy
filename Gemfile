@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0'
+gem 'rails', '3.0.1'
 
-gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 gem 'delayed_job'
 
 # We need to make an exception for Windows. Otherwise Bundler is going to try 
