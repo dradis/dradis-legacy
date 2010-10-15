@@ -25,6 +25,7 @@ uploaded them you can process with the different <a href="#" id="available">plug
 </div>
 
 <div class="block">
+<h2>Upload file</h2>
   <%= form_tag '/upload/create', :multipart => true do %>
     <%= select_tag  'uploader', options_from_collection_for_select( Plugins::Upload::included_modules, 'name', 'name' ) %>
     <%= file_field_tag 'file' %>
