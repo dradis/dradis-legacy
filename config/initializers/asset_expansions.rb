@@ -38,7 +38,7 @@ end
 # CSS assets
 {
 
-  :extjs => ['ext-all', 'attachments', 'icons', 'filetype', 'file-upload'],
+  :extjs => ['ext-all', 'xtheme-blue', 'attachments', 'icons', 'filetype', 'file-upload'],
   :base => ['dradis', 'textile']
 
 }.each do |name, list|
