@@ -11,7 +11,7 @@
 #
 
 magic_file = File.join( Rails.root, 'config', 'first_login.txt' )
-unless (File.exists?(magic_file) )
+if ( Node::connected? && !File.exists?(magic_file) )
 
   NOTE1 =<<EON
 Here are your notes for the node you just clicked (*Dradis Framework 2.6*)
