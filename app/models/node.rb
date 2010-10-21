@@ -8,10 +8,6 @@ class Node < ActiveRecord::Base
   acts_as_tree
   has_many :notes
 
-  validates_presence_of :label
-  validates_format_of :label, :with => /^[A-Za-z\d_]+$/, :message => "can only be alphanumeric with no spaces"
-
-
   # Return the JSON structure representing this Node and any child nodes
   # associated with it.
   def as_json(options={})
