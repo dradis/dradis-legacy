@@ -27,38 +27,33 @@
 #      vendor/plugins/nessus_upload/lib/nessus_upload.rb
 #      vendor/plugins/nessus_upload/test/nessus_upload_test.rb
 #      vendor/plugins/nessus_upload/tasks/nessus_upload_tasks.rake
-class UploadPluginGenerator < Rails::Generator::NamedBase
-  attr_reader :plugin_path # :nodoc:
+class UploadPluginGenerator < Rails::Generators::NamedBase
+  source_root File.expand_path('../templates', __FILE__)
 
-  def initialize(runtime_args, runtime_options = {}) # :nodoc:
-    runtime_args[0] = runtime_args[0].underscore + "_upload" if runtime_args[0] && !(runtime_args[0].tableize =~ /.*_upload/)
+  def initialize(args, *options) # :nodoc:
+    args[0] = args[0].underscore + "_upload" if args[0] && !(args[0].tableize =~ /.*_upload/)
     super
-    @plugin_path = "vendor/plugins/#{file_name}"
+
+    #Set the destination root for the plugin
+    self.destination_root=( File.join( Rails.root, 'vendor', 'plugins') )
+
+    # Check for class naming collisions.
+    class_collisions class_name
   end
 
-  def manifest # :nodoc:
-    record do |m|
-      # Check for class naming collisions.
-      m.class_collisions class_path, class_name
+  def generate_files # :nodoc:
+    template 'README',        "#{file_name}/README"
+    template 'MIT-LICENSE',   "#{file_name}/MIT-LICENSE"
+    template 'Rakefile',      "#{file_name}/Rakefile"
+    template 'init.rb',       "#{file_name}/init.rb"
+    template 'install.rb',    "#{file_name}/install.rb"
+    template 'uninstall.rb',  "#{file_name}/uninstall.rb"
+    template 'plugin.rb',     "#{file_name}/lib/#{file_name}.rb"
+    template 'tasks.rake',    "#{file_name}/lib/tasks/#{file_name}_tasks.rake"
+    template 'unit_test.rb',  "#{file_name}/test/#{file_name}_test.rb"
+    template 'meta.rb',       "#{file_name}/lib/#{file_name}/meta.rb"
+    template 'filters.rb',    "#{file_name}/lib/#{file_name}/filters.rb"
 
-      m.directory "#{plugin_path}/lib"
-      m.directory "#{plugin_path}/lib/#{file_name}"
-      m.directory "#{plugin_path}/tasks"
-      m.directory "#{plugin_path}/test"
-
-      m.template 'README',        "#{plugin_path}/README"
-      m.template 'MIT-LICENSE',   "#{plugin_path}/MIT-LICENSE"
-      m.template 'Rakefile',      "#{plugin_path}/Rakefile"
-      m.template 'init.rb',       "#{plugin_path}/init.rb"
-      m.template 'install.rb',    "#{plugin_path}/install.rb"
-      m.template 'uninstall.rb',  "#{plugin_path}/uninstall.rb"
-      m.template 'plugin.rb',     "#{plugin_path}/lib/#{file_name}.rb"
-      m.template 'tasks.rake',    "#{plugin_path}/tasks/#{file_name}_tasks.rake"
-      m.template 'unit_test.rb',  "#{plugin_path}/test/#{file_name}_test.rb"
-      m.template 'meta.rb',       "#{plugin_path}/lib/#{file_name}/meta.rb"
-      m.template 'filters.rb',    "#{plugin_path}/lib/#{file_name}/filters.rb"
-
-      m.readme "USAGE"
-    end
+    readme "USAGE"
   end
 end
