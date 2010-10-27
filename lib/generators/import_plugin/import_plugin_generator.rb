@@ -36,7 +36,6 @@ class ImportPluginGenerator < Rails::Generators::NamedBase
     self.destination_root=( File.join( Rails.root, 'vendor', 'plugins') )
 
     # Check for class naming collisions.
-    # This checks that no Ruby/Rails classes are overriden but not other app-layer
     class_collisions class_name
   end
 
