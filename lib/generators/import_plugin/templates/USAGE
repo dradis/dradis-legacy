@@ -3,7 +3,7 @@
 dradis import plugin
 --------------------
 
-A framework for a dradis export plugin has been created for you in the
+A framework for a dradis import plugin has been created for you in the
 vendor/plugins/<plugin name>_import folder. Inspect the list above for a full
 list of the files and directories that were created.
 
