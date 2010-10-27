@@ -28,16 +28,15 @@
 class ExportPluginGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('../templates', __FILE__)
 
-  # Check for collisions in generated class name
-  # TODO: not too sure about this
-  # check_class_collision :suffix => "Export"
-
   def initialize(args, *options) # :nodoc:
     args[0] = args[0].underscore + "_export" if args[0] && !(args[0].tableize =~ /.*_export/)
     super
 
     #Set the destination root for the plugin
     self.destination_root=( File.join( Rails.root, 'vendor', 'plugins') )
+
+    # Check for class naming collisions.
+    class_collisions class_name
   end
 
   def generate_files # :nodoc:
