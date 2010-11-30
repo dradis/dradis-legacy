@@ -7,7 +7,7 @@ gem 'rails', '3.0.3'
 # We need to make an exception for Windows. Otherwise Bundler is going to try 
 # and fail to compile the RedCloth gem. If the gem is missing in your Windows
 # environment (the installer should have taken care of it) you can use:
-#   gem install RedCloth --platform=x86-mswin32-60 
+#   gem install RedCloth --pre
 #
 if !( (RUBY_PLATFORM =~ /mswin/i) || (RUBY_PLATFORM =~ /mingw/i) )
   gem 'RedCloth', :require => 'redcloth'
