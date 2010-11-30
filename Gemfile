@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.1'
+gem 'rails', '3.0.3'
 
-gem 'delayed_job'
+# gem 'delayed_job'
 
 # We need to make an exception for Windows. Otherwise Bundler is going to try 
 # and fail to compile the RedCloth gem. If the gem is missing in your Windows
