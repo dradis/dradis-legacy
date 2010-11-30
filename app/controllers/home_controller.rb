@@ -23,7 +23,6 @@ class HomeController < ApplicationController
             output.gsub!(/#\[#{field}\]#\n/, "h1. #{field}\n\n")
           end
           
-          require 'RedCloth'
           output = RedCloth.new(output, [:filter_html]).to_html 
         rescue Exception
           output = "<pre style=\"background-color: #fff;\">#{ CGI::escapeHTML(params[:text]) }</pre>"

@@ -9,8 +9,9 @@ gem 'rails', '3.0.3'
 # environment (the installer should have taken care of it) you can use:
 #   gem install RedCloth --pre
 #
+gem 'RedCloth', :require => 'redcloth'
+
 if !( (RUBY_PLATFORM =~ /mswin/i) || (RUBY_PLATFORM =~ /mingw/i) )
-  gem 'RedCloth', :require => 'redcloth'
   gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 else
   gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
