@@ -2,7 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.1'
 
-gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 gem 'delayed_job'
 
 # We need to make an exception for Windows. Otherwise Bundler is going to try 
@@ -12,6 +11,9 @@ gem 'delayed_job'
 #
 if !( (RUBY_PLATFORM =~ /mswin/i) || (RUBY_PLATFORM =~ /mingw/i) )
   gem 'RedCloth', :require => 'redcloth'
+  gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
+else
+  gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
 end
 
 # Bundle gems for the local environment. Make sure to
