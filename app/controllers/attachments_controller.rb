@@ -53,24 +53,28 @@ class AttachmentsController < ApplicationController
     filename += '.' + params[:format] if params[:format]
 
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
+    send_options = { :filename => @attachment.filename }
 
     # Figure out the best way of displaying the file (by default send the it as
     # an attachment).
-    extname = File.extname(filename)[1..-1]
-    disposition = 'attachment'
-    if extname
+    extname = File.extname(filename)
+    send_options[:disposition] = 'attachment'
+
+    # File.extname() returns either an empty string or the extension with a 
+    # leading dot (e.g. '.pdf')
+    if !extname.empty?
       # account for the possibility of this being an image and present the
       # attachment inline
-      mime_type = Mime::Type.lookup_by_extension(extname)
-      content_type = mime_type.to_s unless mime_type.nil?
-      if content_type.match('image')
-        disposition = 'inline'
+      mime_type = Mime::Type.lookup_by_extension(extname[1..-1])
+      if mime_type
+        send_options[:type] = mime_type.to_s
+        if mime_type =~ 'image'
+          send_options[:disposition] = 'inline'
+        end
       end
     end
 
-    send_data(@attachment.read, :type => content_type,
-      :filename => @attachment.filename,
-      :disposition => disposition)
+    send_data(@attachment.read, send_options)
 
     @attachment.close
   end
