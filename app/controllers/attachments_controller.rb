@@ -30,7 +30,8 @@ class AttachmentsController < ApplicationController
   # It is possible to rename attachments and this function provides that
   # functionality.
   def update
-    filename = [params[:id],params[:format]].join('.')
+    filename = params[:id]
+    filename += '.' + params[:format] if params[:format]
     attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     attachment.close
     new_name = CGI::unescape( params[:rename] )
@@ -48,7 +49,9 @@ class AttachmentsController < ApplicationController
   def show
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
-    filename = [params[:id],params[:format]].join('.')
+    filename = params[:id]
+    filename += '.' + params[:format] if params[:format]
+
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
 
     # Figure out the best way of displaying the file (by default send the it as
