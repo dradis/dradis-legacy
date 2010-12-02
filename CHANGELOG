@@ -1,4 +1,4 @@
-v2.6 (30th of November 2010)
+v2.6 (2nd of December 2010)
  - New first-time repository content
  - Upgraded libraries: ExtJS 3.3, Rails 3.0.3
  - Improved performance through asset caching
