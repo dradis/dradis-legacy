@@ -45,9 +45,9 @@ This is (mostly) a *performance improvement* release.
 
 We have upgraded the server-side engine of Dradis and the client-side JavaScript library to the latest stable  version available from their vendors to "Rails 3":http://rubyonrails.org/ and "ExtJS 3.3":http://www.sencha.com/products/js/.
 
-One of the most expected upload plugins is finally here, it is now possible to upload "Qualys":http://qualys.de/ XML files.
-
 Remember that the _First Time User's Wizard_ can be found at "/wizard":/wizard
+
+And finally, every time you want to reset your Dradis environment and start with an empty repository you can run @reset.sh@ or @reset.bat@
 
 That's all for now, enjoy your Dradis session!
 EON
