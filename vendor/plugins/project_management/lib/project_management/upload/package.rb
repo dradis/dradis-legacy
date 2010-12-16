@@ -38,11 +38,11 @@ module ProjectPackageUpload
 
       logger.debug{ 'Moving attachments to their final destinations' }
       node_lookup.each do |oldid,newid|      
-        if File.directory?( File.join(RAILS_ROOT, 'tmp', 'zip', oldid) )
-          FileUtils.mkdir_p( File.join(RAILS_ROOT, 'attachments', newid.to_s) )
+        if File.directory?( Rails.root.join('tmp', 'zip', oldid) )
+          FileUtils.mkdir_p( Rails.root.join('attachments', newid.to_s) )
 
-          Dir.glob(File.join(RAILS_ROOT, 'tmp', 'zip', oldid, '*')).each do |attachment|
-            FileUtils.mv( attachment, File.join(RAILS_ROOT, 'attachments', newid.to_s) )
+          Dir.glob(Rails.root.join('tmp', 'zip', oldid, '*')).each do |attachment|
+            FileUtils.mv( attachment, Rails.root.join('attachments', newid.to_s) )
           end
         end
       end
@@ -53,7 +53,7 @@ module ProjectPackageUpload
       success = false
     ensure
       # clean up the temporary files
-      FileUtils.rm_rf( File.join(RAILS_ROOT, 'tmp', 'zip') )
+      FileUtils.rm_rf( Rails.root.join('tmp', 'zip') )
     end
 
     return success

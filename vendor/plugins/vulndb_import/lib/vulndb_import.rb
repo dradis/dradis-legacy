@@ -6,7 +6,7 @@ module VulndbImport
   module Filters
     module TextSearch
       NAME = 'Search for a specific value in all the fields of the DB'
-      CONF_FILE = File.join(RAILS_ROOT, 'config', 'vulndb_import.yml')
+      CONF_FILE = Rails.root('config', 'vulndb_import.yml')
       CONF = YAML::load( File.read CONF_FILE )
 
       def self.run(params={}) 
