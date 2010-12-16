@@ -6,9 +6,7 @@ require 'html_export/version'
 module HTMLExport
   REPORTING_CATEGORY_NAME = 'HTMLExport ready'
   CONF = {
-    :template => File.join( RAILS_ROOT, 
-                              'vendor', 'plugins', 'html_export', 
-                              'template.html.erb' )
+    :template => Rails.root.join( 'vendor', 'plugins', 'html_export', 'template.html.erb' )
   }
 end
 

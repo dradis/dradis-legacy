@@ -4,7 +4,7 @@
 
 for path in [ ['config', 'wiki_import.yml'] ]
   source = File.join(File.dirname(__FILE__),*path)
-  destination = File.join(RAILS_ROOT,*path)
+  destination = Rails.root.join(*path)
   print "  #{path.join('/')} "
   if File.exists?(destination)
     if FileUtils.cmp(source, destination)

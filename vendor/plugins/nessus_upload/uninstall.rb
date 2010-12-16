@@ -1,7 +1,7 @@
 # Uninstall hook code here
 
 for path in [ ['config', 'nessus_upload.yml'] ]
-  full_path = File.join(RAILS_ROOT,*path)
+  full_path = Rails.root.join(*path)
   print "  #{path.join('/')} "
 
   if File.exists?(full_path)

@@ -14,7 +14,7 @@ module ProjectExport
     # of the repository and any attachments that have been uploaded into the 
     # current project
     def full_project 
-      filename = File.join(RAILS_ROOT, 'tmp', 'dradis-export.zip')
+      filename = Rails.root.join('tmp', 'dradis-export.zip')
 
       project = Processor.full_project( :filename => filename)
       send_file( filename )

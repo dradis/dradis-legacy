@@ -42,7 +42,7 @@ module ProjectExport
 
       # Step 2: create the project package in ./tmp/ and Base64 encode it
       logger.debug{ 'Preparing project package...' }
-      filename = File.join(RAILS_ROOT, 'tmp', 'dradis-export.zip')
+      filename = Rails.root.join('tmp', 'dradis-export.zip')
       Processor.full_project( :filename => filename)
       contents = Base64::encode64( File.read( filename ) )
       File.delete( filename )

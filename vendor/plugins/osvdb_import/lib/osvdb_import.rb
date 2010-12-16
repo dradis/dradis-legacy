@@ -7,7 +7,7 @@ require 'osvdb_import/meta'
 
 module OSVDBImport  
   BAD_API_KEY = '<your_API_key>'
-  CONF_FILE = File.join(RAILS_ROOT, 'config', 'osvdb_import.yml')
+  CONF_FILE = Rails.root.join('config', 'osvdb_import.yml')
   CONF = YAML::load( File.read CONF_FILE )
 end
  

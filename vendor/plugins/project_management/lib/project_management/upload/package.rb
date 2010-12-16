@@ -8,7 +8,7 @@ module ProjectPackageUpload
     success = false
 
     # Unpack the archive in a temporary location
-    FileUtils.mkdir File.join(RAILS_ROOT, 'tmp', 'zip')
+    FileUtils.mkdir Rails.root.join('tmp', 'zip')
     
     begin
       logger.debug{ 'Uncompressing the file' }
@@ -16,7 +16,7 @@ module ProjectPackageUpload
       # it to get the node_lookup table and then uncompressing each entry to its
       # final destination
       Zip::ZipFile.foreach(package) { |entry|
-        path = File.join(RAILS_ROOT, 'tmp', 'zip', entry.name)
+        path = Rails.root.join('tmp', 'zip', entry.name)
         FileUtils.mkdir_p(File.dirname(path))
         entry.extract(path)
         logger.debug{ "\t#{entry.name}" }
@@ -27,7 +27,7 @@ module ProjectPackageUpload
       # FIXME: due to a limitation in the way ProjectTemplateUpload::import is 
       # coded we need to move the XML file under attachments/ so we can generate
       # an Attachment instance to pass it to the import() method.
-      dradis_repository = File.join(RAILS_ROOT, 'tmp', 'zip', 'dradis-repository.xml')
+      dradis_repository = Rails.root.join('tmp', 'zip', 'dradis-repository.xml')
       dradis_attachment = File.join( File.dirname(package), 'dradis-repository.xml' )
       FileUtils.mv( dradis_repository, dradis_attachment )
       node_lookup = ProjectTemplateUpload.import( 

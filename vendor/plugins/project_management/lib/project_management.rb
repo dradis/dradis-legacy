@@ -8,7 +8,7 @@ require 'project_management/upload/package'
 require 'project_management/meta'
 
 module ProjectManagement
-  CONF_FILE = File.join(RAILS_ROOT, 'config', 'project_management.yml')
+  CONF_FILE = Rails.root.join('config', 'project_management.yml')
   CONF = YAML::load( File.read CONF_FILE )
 end
 

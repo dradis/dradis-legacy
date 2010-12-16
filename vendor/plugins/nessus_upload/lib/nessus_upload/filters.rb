@@ -1,7 +1,7 @@
 module NessusUpload  
 
 
-      CONF_FILE 	= File.join(RAILS_ROOT, 'config', 'nessus_upload.yml')
+      CONF_FILE 	= Rails.root.join('config', 'nessus_upload.yml')
       CONFIG 	= YAML::load( File.read CONF_FILE )
 
 # HelperClasses

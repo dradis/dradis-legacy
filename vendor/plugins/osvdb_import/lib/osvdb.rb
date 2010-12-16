@@ -1,4 +1,4 @@
-unless defined?(RAILS_ROOT)
+unless defined?(Rails)
   require 'net/http'
   require 'rexml/document'
   require 'rubygems'
