@@ -4,7 +4,7 @@ require '<%= file_name %>/filters'
 require '<%= file_name %>/meta'
 
 module <%= class_name %>
-  CONF_FILE = File.join(RAILS_ROOT, 'config', '<%= file_name %>.yml')
+  CONF_FILE = Rails.root.join('config', '<%= file_name %>.yml')
   CONF = YAML::load( File.read CONF_FILE ) 
 end
 

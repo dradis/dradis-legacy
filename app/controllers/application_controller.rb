@@ -19,11 +19,11 @@ class ApplicationController < ActionController::Base
   # config/first_login.txt file and if not found, it creates it and presents
   # the user with the wizard view.
   def show_first_time_wizard
-    magic_file = File.join( RAILS_ROOT, 'config', 'first_login.txt' )
+    magic_file = Rails.root.join('config', 'first_login.txt')
     if (File.exists?(magic_file) )
       return true
     else
-      File.open(File.join(RAILS_ROOT, "config/first_login.txt"), "w") do |f|
+      File.open(magic_file, "w") do |f|
         f << "This file indicates that a succesful login event has occurred on this dradis instance"
       end
 

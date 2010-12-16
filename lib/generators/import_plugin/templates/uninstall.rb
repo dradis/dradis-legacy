@@ -2,7 +2,7 @@
 
 for path in [ ['config', '<%= file_name %>.yml'] ]
   original = File.join(File.dirname(__FILE__),*path)
-  used = File.join(RAILS_ROOT,*path)
+  used = Rails.root.join(*path)
 
   print "  #{path.join('/')} "
   if File.exists?(used)

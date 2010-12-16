@@ -64,7 +64,7 @@ class Attachment < File
 
   require 'fileutils'
   # Set the path to the attachment storage
-  AttachmentPwd = ENV["RAILS_ENV"] == "test" ? File.join(RAILS_ROOT, 'tmp', 'attachments') : File.join( RAILS_ROOT, 'attachments')
+  AttachmentPwd = ENV["RAILS_ENV"] == "test" ? Rails.root.join('tmp', 'attachments') : Rails.root.join('attachments')
   FileUtils.mkdir(AttachmentPwd) unless File.exists?(AttachmentPwd)
 
   attr_accessor :filename, :node_id, :tempfile
@@ -84,7 +84,7 @@ class Attachment < File
     elsif @tempfile && File.exists?(@tempfile)
       super(@tempfile, 'rb+')
     elsif @tempfile && File.basename(@tempfile) != ''
-      @initialfile = File.join( RAILS_ROOT, 'tmp', File.basename(@tempfile))
+      @initialfile = Rails.root.join('tmp', File.basename(@tempfile))
       super(@initialfile, 'wb+')
     else
       raise "No physical file available"
@@ -114,7 +114,7 @@ class Attachment < File
   # Deletes the file that the instance is pointing to from memory
   def delete
     self.close
-    if ( !@initialfile || (File.dirname(@initialfile) == File.join(RAILS_ROOT, 'tmp')) )
+    if ( !@initialfile || (File.dirname(@initialfile) == Rails.root.join('tmp')) )
       raise "No physical file to delete"
     end
     FileUtils.rm(@initialfile)

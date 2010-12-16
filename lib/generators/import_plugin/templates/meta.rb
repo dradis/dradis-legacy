@@ -1,6 +1,6 @@
 module <%= class_name %>  
   module Meta
-    NAME = "This plugin does not have a name, define it at #{__FILE__.gsub(/#{RAILS_ROOT}/,'.')}"
+    NAME = "This plugin does not have a name, define it at #{__FILE__.gsub(/#{Rails.root.to_s}/,'.')}"
     # change this to the appropriate version
     module VERSION #:nodoc:
       MAJOR = <%= Core::VERSION::MAJOR %>
