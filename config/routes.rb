@@ -12,6 +12,6 @@ Dradis::Application.routes.draw do
     resources :attachments
   end
 
-  match '/' => 'home#index'
+  root :to => 'home#index'
   match '/:controller(/:action(/:id))'
 end
