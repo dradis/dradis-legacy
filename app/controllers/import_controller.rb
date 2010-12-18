@@ -31,7 +31,7 @@ class ImportController < ApplicationController
     if (params.key?(:scope) && valid_sources.include?(params[:scope])) 
       @source = params[:scope].constantize
     else
-      redirect_to '/'
+      redirect_to root_path
     end
   end
 
@@ -41,7 +41,7 @@ class ImportController < ApplicationController
     if (params.key?(:filter) && @source::Filters::constants.include?(filter_module))
       @filter = "#{@source.name}::Filters::#{params[:filter]}".constantize
     else
-      redirect_to '/'
+      redirect_to root_path
     end
   end
 
@@ -50,7 +50,7 @@ class ImportController < ApplicationController
   # different import plugins. Only supports JSON format.
   def sources
     respond_to do |format|
-      format.html{ redirect_to '/' }
+      format.html{ redirect_to root_path }
       format.json{
         list = []
         Plugins::Import.included_modules.each do |plugin|
@@ -69,7 +69,7 @@ class ImportController < ApplicationController
   # Only supports JSON format.
   def filters
     respond_to do |format|
-      format.html{ redirect_to '/' }
+      format.html{ redirect_to root_path }
       format.json{
         list = [
           {
@@ -98,7 +98,7 @@ class ImportController < ApplicationController
   # Only supports JSON format.
   def query
     respond_to do |format|
-      format.html{ redirect_to '/' }
+      format.html{ redirect_to root_path }
       format.json{
         render :json => @filter.run(params)
       }

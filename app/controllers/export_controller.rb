@@ -37,7 +37,7 @@ class ExportController < ApplicationController
   # Plugins::Export mixing.
   def list
     respond_to do |format|
-      format.html{ redirect_to '/' }
+      format.html{ redirect_to root_path }
       format.json{ 
         list = []
         actions_module = (RUBY_VERSION < '1.9') ? 'Actions' : :Actions
