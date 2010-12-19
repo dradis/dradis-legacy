@@ -99,12 +99,11 @@ class NotesController < ApplicationController
   # we are working with. This filter sets the @node instance variable if the 
   # give :node_id is valid.
   def find_or_initialize_node
-    if params[:node_id]
-      unless @node = Node.find_by_id(params[:node_id])
-        render_optional_error_file :not_found
-      end
-    else
-      render_optional_error_file :not_found
+    begin 
+      @node = Node.find(params[:node_id])
+    rescue
+      flash[:error] = 'Node not found'
+      redirect_to root_path
     end
   end
 
