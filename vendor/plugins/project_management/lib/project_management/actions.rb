@@ -38,7 +38,7 @@ module ProjectExport
     # project depending on how this project was started (see SessionController#setup).
     def metaserver_commit 
       #TODO: Should we consider restricting this to requests from 'localhost'?
-      # At the end of the day this will use the settings in config/project_management.yml
+      # At the end of the day this will use the settings from configuration manager
       # to submit the project. The file would contain the credentials of the
       # dradis server owner
       begin
@@ -46,7 +46,7 @@ module ProjectExport
         flash[:notice] = 'Project successfully sent to the Meta-Server'
       rescue Exception => e
         flash[:error] = e.message
-        flash[:error] << ". Verify your connection settings in #{ProjectManagement::CONF_FILE}"
+        flash[:error] << ". Verify your connection settings"
       end
       redirect_to root_path 
     end

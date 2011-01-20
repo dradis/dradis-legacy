@@ -92,7 +92,7 @@ function checkrevision(interval) {
   if (dradis.revision == -1) { return; }
 
   Ext.Ajax.request({
-    url: '/configurations/1.xml',
+    url: '/configurations/revision.xml',
     method: 'get',
     success: function(response, options) {
               var msg = response.responseText;

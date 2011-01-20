@@ -1,6 +1,0 @@
-meta-server:
-  host: 127.0.0.1 
-  port: 4000
-#  path: /meta-server/
-  user: etd
-  password: etd001

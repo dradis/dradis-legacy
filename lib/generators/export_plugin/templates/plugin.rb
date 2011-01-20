@@ -4,6 +4,13 @@ require '<%= file_name %>/actions'
 require '<%= file_name %>/version'
 
 module <%= class_name %>
+  class Configuration < Core::Configurator
+    configure     :namespace => '<%= class_name.underscore %>'
+  
+    # setting       :my_setting, :default => 'Something'
+    # setting       :another, :default => 'Something Else'
+  end
+
   module Actions
     # first action
     def to_myformat(params={})

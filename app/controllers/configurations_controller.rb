@@ -10,8 +10,7 @@ class ConfigurationsController < ApplicationController
   def index
     @configs = Configuration.find(:all)
     respond_to do |format|
-      format.html { head :method_not_allowed }
-      
+      format.html # index.html.erb
       format.xml { render :xml => @configs.to_xml}
     end
   end
@@ -23,14 +22,22 @@ class ConfigurationsController < ApplicationController
       format.html { head :method_not_allowed }
       
       if @config.save
+        headers['Location'] = configuration_url(@config)
+        
         format.xml { 
-          headers['Location'] = configuration_url(@config)
           render :xml => @config.to_xml, :status => :created 
+        }
+        format.json {
+          render :json => @config.to_json, :status => :created
         }
       else
         format.xml { 
           render :xml => @config.errors.to_xml, 
           :status => :unprocessable_entity 
+        }
+        format.json {
+          render :json => @config.errors.to_json,
+          :status => :unprocessable_entity
         }
       end
     end
@@ -52,8 +59,10 @@ class ConfigurationsController < ApplicationController
 
       if @config.update_attributes(params[:config])
         format.xml { render :xml => @config.to_xml }
+        format.json { render :json => @config.to_json }
       else
         format.xml { render :xml => @config.errors.to_xml, :status => :unprocessable_entity }
+        format.json { render :json => @config.errors.to_json, :status => :unprocessable_entity }
       end
     end
   end
@@ -77,7 +86,7 @@ class ConfigurationsController < ApplicationController
   # parameter in the request. If the :id is invalid an error page is rendered.
   def find_or_initialize_config
     if params[:id]
-      unless @config = Configuration.find_by_id(params[:id])
+      unless @config = params[:id].to_s =~ /\A[0-9]+\z/ ? Configuration.find(params[:id]) : Configuration.find_by_name(params[:id])
         render_optional_error_file :not_found
       end
     else

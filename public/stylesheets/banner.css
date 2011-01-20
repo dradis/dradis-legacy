@@ -220,3 +220,6 @@ padding-bottom: 3px;
 .icon-folder { background-image: url(../images/silk/folder.png) ! important; }
 .icon-package { background-image: url(../images/silk/package.png) ! important; }
 
+/* for the configuration error page */
+p.info { margin: 0 10px; text-align: left; }
+pre { background: #000; color: #fff; margin: 10px; padding:5px; text-align: left; }

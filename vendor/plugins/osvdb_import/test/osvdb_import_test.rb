@@ -10,8 +10,6 @@ require File.dirname(__FILE__) + '/../init'
 class OSVDBImportTest < Test::Unit::TestCase
   # Check that the user has configured an API key
   def test_no_API_key
-    OSVDBImport::CONF['API_key'] = OSVDBImport::BAD_API_KEY
-
     assert_raise RuntimeError do
       OSVDBImport::Filters::validate_API_key()
     end

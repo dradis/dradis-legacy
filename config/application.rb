@@ -25,7 +25,9 @@ module Dradis
 
     if (
       (File.basename($0) == 'rake') &&
-      (%w{create drop migrate reset seed}.any? { |task| ARGV.include?("db:#{task}")||ARGV.include?("dradis:#{task}") })
+      (%w{create drop migrate reset seed}.any? { |task| ARGV.include?("db:#{task}")||ARGV.include?("dradis:#{task}") }) ||
+      (File.basename($0) == 'thor') &&
+      (%w{reset}.any? { |task| ARGV.include?("dradis:#{task}") })
     )
       # Running rake, disable import/export plugins. See r874
       # http://dradis.svn.sourceforge.net/viewvc/dradis/server/trunk/config/environment.rb?view=log#rev874
@@ -59,3 +61,5 @@ module Dradis
     config.filter_parameters += [:password, :password_confirmation]
   end
 end
+
+require 'core/configurator'

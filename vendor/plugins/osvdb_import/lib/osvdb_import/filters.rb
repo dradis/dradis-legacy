@@ -16,8 +16,8 @@ module OSVDBImport
 
     private
     def self.validate_API_key()
-      if ( CONF['API_key'] == BAD_API_KEY )
-        raise "Invalid API key detected in [#{CONF_FILE}]. " +
+      if ( Configuration.api_key == BAD_API_KEY )
+        raise "Invalid API key detected. " +
           "Please register for an OSVDB API key at: \n\t" +
           'http://osvdb.org/account/signup'
           
@@ -64,7 +64,7 @@ module OSVDBImport
 
         logger.info{ "Running a general search in the OSVDB with the query: #{query}" }
         
-        results = OSVDB::GeneralSearch(:API_key => CONF['API_key'], :query => query)
+        results = OSVDB::GeneralSearch(:API_key => Configuration.api_key, :query => query)
         return Filters::from_OSVDB_to_dradis( results )
       end
     end
@@ -89,7 +89,7 @@ module OSVDBImport
         query = CGI::escape( params.fetch( :query, '1234') )
 
         logger.info{ "Running a OSVDB ID lookup on: #{query}" }
-        results = OSVDB::IDLookup( :API_key => CONF['API_key'], :osvdb_id => query )
+        results = OSVDB::IDLookup( :API_key => Configuration.api_key, :osvdb_id => query )
 
         return Filters::from_OSVDB_to_dradis( results)
       end

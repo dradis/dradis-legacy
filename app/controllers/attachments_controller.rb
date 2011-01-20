@@ -2,6 +2,7 @@
 # This controller is used to handle REST operations for the attachments.
 class AttachmentsController < ApplicationController
   before_filter :login_required
+  before_filter :find_or_initialize_node
 
   # Retrieve all the associated attachments for a given :node_id
   def index
@@ -85,10 +86,26 @@ class AttachmentsController < ApplicationController
   def destroy
     # we send the file name as the id, the rails parser however split the filename
     # at the fullstop so we join it again
-    filename = [params[:id],params[:format]].join('.')
+    filename = params[:id]
+    filename += '.' + params[:format] if params[:format]
+    
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     @attachment.delete
     redirect_to node_attachments_path(params[:node_id])
   end
+
+  private
+  # For most of the operations of this controller we need to identify the Node
+  # we are working with. This filter sets the @node instance variable if the 
+  # give :node_id is valid.
+  def find_or_initialize_node
+    begin 
+      @node = Node.find(params[:node_id])
+    rescue
+      flash[:error] = 'Node not found'
+      redirect_to root_path
+    end
+  end
+
   
 end

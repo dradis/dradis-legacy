@@ -1,0 +1,89 @@
+
+<%
+# This is the template for the host node
+# This ERB template is used by the nessus importer for creating the note for the results of a scan plugin 
+# You can access the values of the current item by using the object "report_item" which has the following properties/methods 
+#                              
+# report_item.port            
+# report_item.svc_name        
+# report_item.protocol        
+# report_item.severity         
+# report_item.plugin_id         
+# report_item.plugin_name       
+# report_item.plugin_family    
+# report_item.exploitability_ease
+# report_item.vuln_publication_date 
+# report_item.exploit_framework_canvas 
+# report_item.exploit_framework_metasploit 
+# report_item.exploit_framework_core 
+# report_item.solution 
+# report_item.risk_factor 
+# report_item.description 
+# report_item.plugin_publication_date 
+# report_item.metasploit_name 
+# report_item.cvss_vector 
+# report_item.cvss_temporal_vector 
+# report_item.cvss_temporal_score 
+# report_item.cvss_base_score 
+# report_item.synopsis 
+# report_item.exploit_available 
+# report_item.patch_publication_date 
+# report_item.plugin_modification_date 
+# report_item.plugin_output 
+# report_item.plugin_version 
+# report_item.bid_entries
+# report_item.cve_entries
+# report_item.xref_entries
+# 
+# 
+# Note that, depending on the plugin not all properties may contain values
+# In this case the property returns nil
+#
+# As a plugin can have multiple xref,cve or bid entries this
+# properties return a array. You can access it with a simple
+# loop (see below)
+
+# The template engine doesn't add new lines for lines that contain ruby code for the ERB template 
+# Keep that in mind when you create your template 
+%> 
+<% if report_item.description then %>
+#[Description]#
+<%= report_item.description %>
+
+
+<% end %>
+<% if report_item.solution then %>
+#[Solution]#
+<%= report_item.solution %>
+
+
+<% end %>
+<% if report_item.plugin_output then %>
+#[Plugin output]#
+<%= report_item.plugin_output %>
+
+
+<% end %>
+<% if report_item.exploit_available == true && report_item.exploitability_ease then %>
+#[Exploit information]#
+<%= "#{report_item.exploitability_ease}\n" %>
+<%= "Canvas Framework : yes\n" if report_item.exploit_framework_canvas %>
+<%= "Core Impact : yes\n"  if report_item.exploit_framework_core %>
+<%= "Metasploit : yes\n" if report_item.exploit_framework_metasploit %>
+
+
+<% end %>
+
+<% if report_item.bid_entries then %>
+#[Buqtrack Entries]#
+<% report_item.bid_entries.each do |bid| %>
+<%= "#{bid}\n" %>
+<% end %>
+<% end %>
+
+<% if report_item.cve_entries then %>
+#[CVE Entries]#
+<% report_item.cve_entries.each do |cve| %>
+<%= "#{cve}\n" %>
+<% end %>
+<% end %>

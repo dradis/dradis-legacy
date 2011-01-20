@@ -6,7 +6,8 @@
 # Attachment objects associated with them.
 class Node < ActiveRecord::Base
   acts_as_tree
-  has_many :notes
+  validates_presence_of :label
+  has_many :notes, :dependent => :destroy
 
   # Return the JSON structure representing this Node and any child nodes
   # associated with it.

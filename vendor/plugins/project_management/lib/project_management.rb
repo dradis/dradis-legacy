@@ -8,8 +8,13 @@ require 'project_management/upload/package'
 require 'project_management/meta'
 
 module ProjectManagement
-  CONF_FILE = Rails.root.join('config', 'project_management.yml')
-  CONF = YAML::load( File.read CONF_FILE )
+  class Configuration < Core::Configurator
+    configure     :namespace => 'project'
+    setting       :ms_host, :default => 'localhost'
+    setting       :ms_port, :default => 3000
+    setting       :ms_user, :default => 'etd'
+    setting       :ms_password, :default => 'etd001'
+  end
 end
 
 module Plugins

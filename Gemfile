@@ -10,6 +10,7 @@ gem 'rails', '3.0.3'
 #   gem install RedCloth --pre
 #
 gem 'RedCloth', '4.2.4.pre3', :require => 'redcloth'
+gem 'thor', '0.14.6'
 
 if !( (RUBY_PLATFORM =~ /mswin/i) || (RUBY_PLATFORM =~ /mingw/i) )
   gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'

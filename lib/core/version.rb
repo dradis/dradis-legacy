@@ -14,7 +14,7 @@
 module Core #:nodoc:
   module VERSION #:nodoc:
     MAJOR = 2
-    MINOR = 6
+    MINOR = 7
     TINY  = 0
 
     STRING = [MAJOR, MINOR, TINY].join('.')

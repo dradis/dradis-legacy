@@ -26,6 +26,25 @@ module ControllerMacros
         end
       end
     end
+
+    def it_should_require_parent_resource_id(controller, options={})
+      except= options[:except] || []
+      actions_to_test= get_all_actions(controller).reject{ |a| except.include?(a) }
+      actions_to_test += options[:include] if options[:include]
+      actions_to_test.each do |action|
+        it "should require parent resource id for :#{action}" do
+          get action 
+          response.should redirect_to(root_path)
+          flash[:error].should_not be_nil
+        end
+      end
+
+      if options.key?(:parent_id)
+        if actions_to_test.include?(:index)
+          it "should list all the nested resources if the associated parent resource id is passed"
+        end
+      end
+    end
   end
 
   # Macro to emulate user login

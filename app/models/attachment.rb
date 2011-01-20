@@ -81,8 +81,6 @@ class Attachment < File
     if File.exists?(fullpath) && File.file?(fullpath)
       super(fullpath, 'rb+')
       @initialfile = fullpath.clone
-    elsif @tempfile && File.exists?(@tempfile)
-      super(@tempfile, 'rb+')
     elsif @tempfile && File.basename(@tempfile) != ''
       @initialfile = Rails.root.join('tmp', File.basename(@tempfile))
       super(@initialfile, 'wb+')
@@ -98,7 +96,7 @@ class Attachment < File
       self.close
     else
       raise "Node with ID=#{@node_id} does not exist" unless @node_id && Node.exists?(@node_id)
-      
+
       @filename ||= File.basename(@tempfile)
       FileUtils.mkdir(File.dirname(fullpath)) unless File.exists?(File.dirname(fullpath))
       self.close
@@ -135,7 +133,7 @@ class Attachment < File
         if (File.exist?( File.join(AttachmentPwd, node_id)))
           node_dir = Dir.new( File.join(AttachmentPwd, node_id) )
           node_dir.each do |attachment|
-            next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(attachment)
+            next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(File.join(AttachmentPwd, node_id, attachment))
             attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
           end
         end
@@ -144,7 +142,7 @@ class Attachment < File
           next unless node =~ /^\d*$/
           node_dir = Dir.new( File.join(AttachmentPwd, node) )
           node_dir.each do |attachment|
-            next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(attachment)
+            next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(File.join(AttachmentPwd, node, attachment))
             attachments << Attachment.new(:filename => $1, :node_id => node.to_i)
           end
         end

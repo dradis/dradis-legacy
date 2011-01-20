@@ -2,46 +2,6 @@ BACKUP_DIR = File.join(Rails.root, 'backups')
 
 namespace :dradis do
 
-  
-  # --------------------------------------------------------------- Attachments
-  namespace :attachments do
-
-    desc 'Drop all the attachments from the attachments/ directory'
-    task :drop do
-      print 'Dropping attachments from attachments/... '
-      FileUtils.rm_rf( Dir.glob('attachments/*') )
-      puts 'done.'
-    end
-  end
-
-
-  # -------------------------------------------------------------------- dradis
-
-  task :backup_prepare do
-    Dir.mkdir( BACKUP_DIR ) unless File.exists?( BACKUP_DIR ) 
-    if !File.directory?( BACKUP_DIR )
-      fail "Error creating backup directory [#{BACKUP_DIR}] is not a directory."
-    end
-  end
-  
-  desc 'Backup the current project (DB + attachments) into the backups/ directory'
-  task :backup => ['dradis:backup_prepare', 'environment'] do
-    if (ActiveRecord::Migrator::current_version > 0)
-      date = DateTime.now.strftime( '%Y-%m-%d' )
-      pattern = File.join( BACKUP_DIR, "dradis_#{date}_*.zip"  )
-      day_backup_count = FileList[pattern].size
-      backup_file = File.join( BACKUP_DIR, "dradis_#{date}_#{day_backup_count + 1}.zip"  )
-      puts "Creating backup file: [#{backup_file}]"
-      # TODO: what if the file already exists? 
-      #   For example there are three files _1.zip, _2.zip and _4.zip, with the 
-      #   method above 
-      ProjectExport::Processor.full_project( :filename => backup_file )
-      puts 'Backup complete.'
-    else
-      puts 'Environment not initialized. Nothing to backup.'
-    end
-  end
-
   desc 'Creates the Dradis configuration files from their templates (see config/*.yml.template)'
   task :configure do 
     # init the config files
@@ -72,13 +32,31 @@ namespace :dradis do
     end
   end
 
-  desc 'Creates a backup, drops the database, removes the attachments and recreates the DB.'
-  task :reset => ['dradis:configure', 'backup', 'dradis:attachments:drop', 'log:clear'] do
-    # reinit the database
-    if (ActiveRecord::Migrator::current_version > 0)
-      ActiveRecord::Migrator.migrate("db/migrate/", 0)
-    end
-    ActiveRecord::Migrator.migrate("db/migrate/", nil)
-    Rake::Task["db:seed"].invoke
+  # ------------------------------------------------------ Deprecated tasks
+
+  def rake_thor_deprecation_warning(new_task)
+    puts "Deprecation warning: This Rake task has been deprecated in favour of a Thor task. Please use:\n" +
+      "$ thor #{new_task}\n" +
+      "To see all Thor tasks use:\n" +
+      "$ thor -T"
   end
+
+  namespace :attachments do
+
+    desc 'Deprecated: Drop all the attachments from the attachments/ directory'
+    task :drop do
+      rake_thor_deprecation_warning "dradis:reset:attachments"
+    end
+  end
+
+  desc 'Deprecated: Backup the current project (DB + attachments) into the backups/ directory'
+  task :backup do
+    rake_thor_deprecation_warning "dradis:backup"
+  end
+
+  desc 'Deprecated: Creates a backup, drops the database, removes the attachments and recreates the DB.'
+  task :reset do
+    rake_thor_deprecation_warning "dradis:reset"
+  end
+
 end

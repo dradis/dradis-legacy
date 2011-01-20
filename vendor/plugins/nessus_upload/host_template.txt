@@ -1,0 +1,36 @@
+<% 
+# This is the template for the host node
+# This ERB template is used by the nessus importer for the initial note for every host
+# and contains details about the scanned system 
+# 
+# You can access the details of the current host by using the "host" object which has the following 
+# properties:
+#
+# host.ip                   The ip address of the host
+# host.fqdn                 The full qualified domain name of the host
+# host.operating_system     The OS of the system if detected
+# host.mac_address          The mac address if the scanned system was on the same subnet
+# host.netbios_name         The netbios name of the system
+#
+# host.scan_start_time      The date/time the scan started
+# host.scan_stop_time       The date/time the scan ended
+#
+# Note that, depending on the scan/system not all properties must contain values
+# In this case the property returns nil
+#
+# If you want to retrieve the results of the host in this template you can do this by
+# access host.report_items
+#
+# The template engine doesn't add new lines for lines that contain ruby code for the ERB template 
+# Keep that in mind when you create your template 
+%>
+#[Host information]#
+<%= "IP address: #{host.ip}\n" if host.ip %>
+<%= "FQDN: #{host.fqdn}\n" if host.fqdn %>
+<%= "OS: #{host.operating_system}\n" if host.operating_system %>
+<%= "Mac address: #{host.mac_address}\n" if host.mac_address %>
+<%= "Netbios Name: #{host.netbios_name}\n" if host.netbios_name %>
+
+<%= "Scan started: #{host.scan_start_time}\n" if host.scan_start_time %>
+<%= "Scan ended: #{host.scan_stop_time}\n" if host.scan_stop_time %>
+

@@ -3,6 +3,7 @@
 # parameters can be accessed through the helper methods provided in this class.
 class Configuration < ActiveRecord::Base
   validates_presence_of :name, :value
+  validates_uniqueness_of :name
 
   # Retrieve the value of the configuration setting whose name is 'revision'
   def Configuration.revision
@@ -19,7 +20,7 @@ class Configuration < ActiveRecord::Base
   
   # Retrieves the current password (stored in the 'password' setting)
   def Configuration.password
-    Configuration.find_by_name('password').value
+    Configuration.exists?(:name => 'password') ? Configuration.find_by_name('password').value : nil
   end
 
   # Retrieve the name of the Node used to associate file uploads.

@@ -24,17 +24,10 @@ module ProjectPackageUpload
       logger.debug{ 'Done.' }
     
       logger.debug{ 'Loading XML state file' } 
-      # FIXME: due to a limitation in the way ProjectTemplateUpload::import is 
-      # coded we need to move the XML file under attachments/ so we can generate
-      # an Attachment instance to pass it to the import() method.
-      dradis_repository = Rails.root.join('tmp', 'zip', 'dradis-repository.xml')
-      dradis_attachment = File.join( File.dirname(package), 'dradis-repository.xml' )
-      FileUtils.mv( dradis_repository, dradis_attachment )
       node_lookup = ProjectTemplateUpload.import( 
                                           :logger => logger, 
-                                          :file => Attachment.new( :filename => 'dradis-repository.xml', :node_id => params[:file].node_id )
+                                          :file => File.new(Rails.root.join('tmp', 'zip', 'dradis-repository.xml'))
                                         ) 
-      File.delete(dradis_attachment)
 
       logger.debug{ 'Moving attachments to their final destinations' }
       node_lookup.each do |oldid,newid|      

@@ -13,7 +13,8 @@ The plugin makes use of the API provided by OSVDB (http://osvdb.org/api).
 You will need to register in their site to get an API key: 
 http://osvdb.org/account/signup
 
-Once you have your key, copy it into your conf/osvdb_import.yml config file
+Once you have your key, add it as osvdb:api_key in through the Configuration
+Manager.
 
 
 Howto Install

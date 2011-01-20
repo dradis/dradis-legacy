@@ -5,10 +5,16 @@ require 'osvdb_import/filters'
 require 'osvdb_import/meta'
 
 
-module OSVDBImport  
+module OSVDBImport
+  # Please register an account in the OSVDB site to get your API key. Steps:
+  #   1. Create the account: http://osvdb.org/account/signup
+  #   2. Find your key in http://osvdb.org/api
+  class Configuration < Core::Configurator
+    configure     :namespace => 'osvdb'
+    setting       :api_key, :default => "<your_API_key>"
+  end
+  
   BAD_API_KEY = '<your_API_key>'
-  CONF_FILE = Rails.root.join('config', 'osvdb_import.yml')
-  CONF = YAML::load( File.read CONF_FILE )
 end
  
 # This includes the import plugin module in the dradis import plugin repository

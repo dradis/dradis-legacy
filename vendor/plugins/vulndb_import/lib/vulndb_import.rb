@@ -3,11 +3,16 @@
 require 'vulndb_import/meta'
 
 module VulndbImport
+  class Configuration < Core::Configurator
+    configure :namespace => 'vulndb'
+    setting  :host, :default => 'localhost'
+    setting :port, :default => 3000
+    setting :path, :default => '/vulnerabilities'
+  end
+
   module Filters
     module TextSearch
       NAME = 'Search for a specific value in all the fields of the DB'
-      CONF_FILE = Rails.root.join('config', 'vulndb_import.yml')
-      CONF = YAML::load( File.read CONF_FILE )
 
       def self.run(params={}) 
         records = [] 
@@ -17,8 +22,8 @@ module VulndbImport
             :fields => '["id","vulnerability[title]","vulnerability[body]"]',
             :query => params[:query]
           } 
-          Net::HTTP.start(CONF['host'], CONF['port']) do |http|
-            res = http.get("#{CONF['path']}?#{filter_params.to_query}") 
+          Net::HTTP.start(Configuration.host, Configuration.port) do |http|
+            res = http.get("#{Configuration.path}?#{filter_params.to_query}") 
             records = ActiveSupport::JSON::decode(res.body)['vulnerabilities'].collect do |record|
               { 
                 :title => record['vulnerability']['title'], 

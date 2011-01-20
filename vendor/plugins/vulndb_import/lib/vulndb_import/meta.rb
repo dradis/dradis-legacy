@@ -3,8 +3,8 @@ module VulndbImport
     NAME = 'Vulnerability Database'
     module VERSION #:nodoc:
       MAJOR = 2
-      MINOR = 0
-      TINY  = 2
+      MINOR = 7
+      TINY  = 0
 
       STRING = [MAJOR, MINOR, TINY].join('.')
     end

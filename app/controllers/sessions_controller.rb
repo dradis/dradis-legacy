@@ -126,7 +126,9 @@ class SessionsController < ApplicationController
   # before filter, if the database doesn't contain a valid password, a new
   # one is created.  
   def check_test_password
-    if (Configuration.password == 'improvable_dradis')
+    if Configuration.password.nil?
+      render :action => :not_ready
+    elsif (Configuration.password == 'improvable_dradis')
       redirect_to :action => :init
     end
   end

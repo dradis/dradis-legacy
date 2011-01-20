@@ -1,6 +1,7 @@
 require 'nmap/parser'
+require 'nmap_upload/nmap_validate'
 
-module NmapUpload  
+module NmapUpload
 
   private
   @@logger=nil
@@ -13,6 +14,9 @@ module NmapUpload
   def self.import(params={})
     file_content = File.read( params[:file].fullpath )
     @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+
+    @@logger.debug{ 'Validating Nmap upload...' }
+    NmapValidate.validate(file_content)
 
     @@logger.debug{ 'Parsing Nmap output...' }
     parser = Nmap::Parser.parsestring( file_content )

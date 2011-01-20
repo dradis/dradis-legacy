@@ -47,6 +47,7 @@ class ExportPluginGenerator < Rails::Generators::NamedBase
     template 'install.rb',    "#{file_name}/install.rb"
     template 'uninstall.rb',  "#{file_name}/uninstall.rb"
     template 'plugin.rb',     "#{file_name}/lib/#{file_name}.rb"
+    template 'thorfile.rb',   "#{file_name}/lib/tasks/thorfile.rb"
     template 'tasks.rake',    "#{file_name}/lib/tasks/#{file_name}_tasks.rake"
     template 'unit_test.rb',  "#{file_name}/test/#{file_name}_test.rb"
     template 'actions.rb',    "#{file_name}/lib/#{file_name}/actions.rb"

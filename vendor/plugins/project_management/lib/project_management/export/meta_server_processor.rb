@@ -36,7 +36,10 @@ module ProjectExport
       title = params.fetch(:title, "NewProject_#{DateTime.now.strftime('%Y-%m-%d')}")
 
       # Step 1: Find the right Project to commit a new Revision to
-      Project.site_from_metaserver( MetaServer.new( ProjectManagement::CONF['meta-server'] ) )
+      Project.site_from_metaserver(MetaServer.new(:host => ProjectManagement::Configuration.ms_host,
+                                                  :port => ProjectManagement::Configuration.ms_port,
+                                                  :user => ProjectManagement::Configuration.ms_user,
+                                                  :password => ProjectManagement::Configuration.ms_password))
       project = find_project(title, logger)
       logger.info{ "Project tile is: #{project.attributes['title']}" }
 

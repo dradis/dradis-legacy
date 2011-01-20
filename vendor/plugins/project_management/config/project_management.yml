@@ -1,5 +1,0 @@
-meta-server:
-  host: localhost
-  port: 3000
-  user: etd
-  password: etd001

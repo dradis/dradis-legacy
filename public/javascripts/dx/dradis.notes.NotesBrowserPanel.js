@@ -51,11 +51,17 @@ dradis.notes.CategoriesManager = Ext.extend(Ext.Component, {
     this.addEvents('refresh');
 
     this.store.on('datachanged', this.onDataChanged, this);
+
+    this.store.on('add', this.added, this)
   },
 
   // other methods/actions
   load: function(){ 
     this.store.load(); 
+  },
+
+  added: function(store){
+    store.reload();
   },
 
   onDataChanged: function(){
@@ -118,7 +124,7 @@ dradis.notes.CategoriesManager = Ext.extend(Ext.Component, {
             if ((btn == 'ok')&&(cat.length > 0)) {
               this.store.insert(
                 this.store.getTotalCount(),
-                new this.store.recordType({name: cat }));
+                new this.store.recordType({name: cat}));
               this.onDataChanged();
             }
           }, 

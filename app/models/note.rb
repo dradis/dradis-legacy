@@ -28,6 +28,8 @@ class Note < ActiveRecord::Base
   belongs_to :category
   belongs_to :node
 
+  validates_presence_of :category, :node
+
   # Parse a Note's :text field and splits it to return a Hash of field name/value
   # pairs as described in the class description above.
   #

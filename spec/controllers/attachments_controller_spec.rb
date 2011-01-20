@@ -13,10 +13,7 @@ describe AttachmentsController do
       login_as_user
     end
 
-    it "should fail if no Node id is passed" do
-      get :index
-      flash[:error].should_not be_nil
-    end
+    it_should_require_parent_resource_id(:attachment)
 
     it "should fail if no file is uploaded"
 
