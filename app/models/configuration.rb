@@ -5,6 +5,10 @@ class Configuration < ActiveRecord::Base
   validates_presence_of :name, :value
   validates_uniqueness_of :name
 
+  def Configuration.exists?(*attrs)
+    self.table_exists? && super(*attrs)
+  end
+
   # Retrieve the value of the configuration setting whose name is 'revision'
   def Configuration.revision
     Configuration.find_by_name('revision').value
