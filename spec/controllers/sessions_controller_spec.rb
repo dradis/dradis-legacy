@@ -9,12 +9,12 @@ describe SessionsController do
     it "should ask the user to log in if they have no session"
 
     it "should display a friendly message if the password configuration is not set" do
-      pending 'we need to implement this'
       Configuration.find_by_name('password').destroy if Configuration.exists?(:name => 'password')
       
       get :new
 
       response.should be_success
+      response.should render_template("sessions/not_ready")
     end
 
   end
