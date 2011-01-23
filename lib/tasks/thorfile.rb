@@ -44,6 +44,7 @@ class DradisTasks < Thor
   method_option   :file, :type => :string, :desc => "the backup file to create, or directory to create it in"
   method_option   :no_backup, :type => :boolean, :desc => "do not create a backup of the current repository"
   def reset
+    invoke "dradis:setup:configure"
     invoke "dradis:setup:migrate"
     invoke "dradis:setup:seed"
 
@@ -81,6 +82,38 @@ class DradisTasks < Thor
 
   class Setup < Thor
     namespace     "dradis:setup"
+
+    desc "configure", "Creates the Dradis configuration files from their templates (see config/*.yml.template)"
+    def configure
+      # init the config files
+      init_all = false
+      Dir['config/*.template'].each do |template|
+        config = File.join( 'config', File.basename(template, '.template') )
+        if !(File.exists?( config ))
+          if (init_all)
+            puts "Initilizing #{config}..."
+            FileUtils.cp(template, config)
+          else
+            puts "The config file [#{template}] was found not to be ready to use."
+            puts "Do you want to initialize it? [y]es | [N]o | initialize [a]ll"
+            response = STDIN.gets.chomp.downcase
+            response = 'Y' if ( response.empty? || !['y', 'n', 'a'].include?(response) )
+  
+            if response == 'n'
+              next
+            else
+              puts "Initilizing #{config}..."
+              FileUtils.cp(template, config)
+              if (response == 'a')
+                init_all = true
+              end
+            end
+          end
+        end
+      end
+    end
+
+
 
     desc "migrate", "ensures the database schema is up-to-date"
     def migrate
