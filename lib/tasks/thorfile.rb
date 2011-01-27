@@ -11,7 +11,7 @@ class DradisTasks < Thor
 
     backup_path   = options.file || Rails.root.join('backup')
 
-    unless backup_path =~ /\.zip\z/
+    unless backup_path.to_s =~ /\.zip\z/
       date        = DateTime.now.strftime("%Y-%m-%d")
       sequence    = Dir.glob(File.join(backup_path, "dradis_#{date}_*.zip")).collect { |a| a.match(/_([0-9]+)\.zip\z/)[1].to_i }.max || 0
       backup_path = File.join(backup_path, "dradis_#{date}_#{sequence + 1}.zip")
