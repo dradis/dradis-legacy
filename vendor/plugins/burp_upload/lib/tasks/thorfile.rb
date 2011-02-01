@@ -2,7 +2,7 @@ class DradisTasks < Thor
   class Upload < Thor
     namespace     "dradis:upload"
 
-    desc      "burp FILE", "upload Burp results"
+    desc      "burp FILE", "upload Burp scanner XML output"
     def burp(file_path)
       require 'config/environment'
 
