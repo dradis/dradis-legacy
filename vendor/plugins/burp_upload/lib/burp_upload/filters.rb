@@ -67,15 +67,20 @@ module BurpUpload
       issue_detail << issue.severity[:text] if issue.severity
       issue_detail << "\n\n#[Confidence]#\n"
       issue_detail << issue.confidence[:text] if issue.confidence
-      issue_detail << "\n\n#[Request]#\n"
-      issue_detail << issue.requestresponse[:kids].find_tag(:request)[:text] if issue.requestresponse
-      issue_detail << "\n\n#[Response]#\n"
-      if ( issue_type == 8389888 )
-        # Content type is not specified
-        issue_detail << "--Response not included. Issue Serial Number: "
-        issue_detail << issue.serialNumber[:text] if issue.serialNumber
-      else
-        issue_detail << issue.requestresponse[:kids].find_tag(:response)[:text] if issue.requestresponse
+
+      if issue.requestresponse
+        parsed_request = issue.requestresponse[:kids].find_tag(:request)[:text].gsub(/\0/,'&#00;') 
+        issue_detail << "\n\n#[Request]#\n"
+        issue_detail << parsed_request
+        issue_detail << "\n\n#[Response]#\n"
+        if ( issue_type == 8389888 )
+          # Content type is not specified
+          issue_detail << "--Response not included. Issue Serial Number: "
+          issue_detail << issue.serialNumber[:text] if issue.serialNumber
+        else
+          parsed_response = issue.requestresponse[:kids].find_tag(:response)[:text].gsub(/\0/,'&#00;')
+          issue_detail << parsed_response 
+        end
       end
 
       Note.create(
