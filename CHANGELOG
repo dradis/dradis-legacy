@@ -1,3 +1,10 @@
+v2.6.1 (11th of February 2011)
+ - Fixed a 'back slash' vs 'forward slash' issue in start.sh
+ - Smarten up verify.sh to find the Bundler binary
+ - Deal with Burp Scanner's opinionated handling of null bytes
+ - SSL certificate updated for 2011 / 2012
+ - Updated libraries RedCloth 4.2.6 and Rails 3.0.4
+
 v2.6 (2nd of December 2010)
  - New first-time repository content
  - Upgraded libraries: ExtJS 3.3, Rails 3.0.3
