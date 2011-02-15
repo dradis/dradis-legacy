@@ -7,6 +7,7 @@ v2.6.1 (11th of February 2011)
 
 v2.6 (2nd of December 2010)
  - New first-time repository content
+ - New helper scripts to run and reset the environment
  - Upgraded libraries: ExtJS 3.3, Rails 3.0.3
  - Improved performance through asset caching
  - Bugs fixed: #3021312, #3030629, #3076709
