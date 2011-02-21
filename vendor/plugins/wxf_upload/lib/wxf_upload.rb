@@ -4,7 +4,7 @@ require 'wxf_upload/filters'
 require 'wxf_upload/meta'
 
 module WxfUpload
-  class Configuration < CoreConfigurator
+  class Configuration < Core::Configurator
     configure :namespace => 'wxf'
     setting :category, :default => 'wXf output'
   end
