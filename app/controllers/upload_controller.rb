@@ -58,15 +58,18 @@ class UploadController < ApplicationController
   # Configuration.uploadsNode). Then the request is passed to the chosen plugin.
   def import 
     # create an 'Imported files' node
-    uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
+    # we need to use ::Configuration to get a global setting, otherwise the 
+    # Configuration object will be used in the context of the upload plugin
+    # (e.g. WxfUpload::Configuration) and the global setting won't be found
+    uploadsNode = Node.find_or_create_by_label(::Configuration.uploadsNode)
    
     # add the file as an attachment
     attachment = Attachment.new( params[:file].original_filename, :node_id => uploadsNode.id )
     attachment << params[:file].read
     attachment.save
 
-    #Increment revision
-    Configuration.increment_revision 
+    #Increment revision. Remember to use the ActiveRecord base Configuration object
+    ::Configuration.increment_revision 
  
     # process the upload using the plugin
     begin
@@ -101,7 +104,8 @@ class UploadController < ApplicationController
     attachment = Attachment.find(params[:file], :conditions => { :node_id => uploadsNode.id })
 
     Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
-    Delayed::Job::enqueue( UploadProcessingJob.new(params[:uploader], attachment.fullpath, item_id) )    
+    #Delayed::Job::enqueue( UploadProcessingJob.new(params[:uploader], attachment.fullpath, item_id) )    
+    Bj.submit "ruby script/rails runner lib/upload_processing_job.rb %s \"%s\" %s" % [ params[:uploader], attachment.fullpath, params[:item_id] ]
   end
 
   def status
