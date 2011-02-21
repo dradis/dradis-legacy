@@ -25,8 +25,8 @@ module WikiImport
           fields = nil
 
           # Get the results over HTTP
-          Net::HTTP.start(CONF['host'], CONF['port']) do |http|
-            res = http.get("#{CONF['path']}?#{filter_params.to_query}") 
+          Net::HTTP.start(Configuration.host, Configuration.port) do |http|
+            res = http.get("#{Configuration.path}?#{filter_params.to_query}") 
             xmlres = Hash.from_xml( res.body )
             unless xmlres['api'].nil?
               record = xmlres['api']['query']['pages']['page']['revisions']['rev']
