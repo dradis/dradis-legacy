@@ -14,7 +14,7 @@ module WxfUpload
     wxftext = Wxf::Parser.parsestring( file_content )
     @@logger.debug{ 'Done.' }
 
-    category = Category.find_or_create_by_name('wXf output')
+    category = Category.find_by_name(Configuration.category)
 
     scan_node = Node.create( :label => "wXf output")
  
