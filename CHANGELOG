@@ -1,3 +1,10 @@
+v 2.7
+ - Improved command line API with Thor
+ - New plugin Configuration Manager
+ - New plugins:
+   * Web Exploitation Framework (wXf) upload
+ - Bugs fixed: #2888332, #2973256
+
 v2.6.1 (11th of February 2011)
  - Fixed a 'back slash' vs 'forward slash' issue in start.sh
  - Smarten up verify.sh to find the Bundler binary
