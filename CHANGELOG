@@ -2,6 +2,7 @@ v 2.7
  - Improved command line API with Thor
  - New plugin Configuration Manager
  - New plugins:
+   * Nessus plugin supports .nessus v2
    * Web Exploitation Framework (wXf) upload
  - Bugs fixed: #2888332, #2973256
 
