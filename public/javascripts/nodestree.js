@@ -234,7 +234,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       }
       p.authenticity_token = dradis.token;
       Ext.Ajax.request({
-        url: '/json/node_update',
+        url: 'json/node_update',
         params: p, 
         success: function(response, options) {
                     dradisstatus.setStatus({ 

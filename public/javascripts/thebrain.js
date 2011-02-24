@@ -12,7 +12,7 @@ function addnode(node, callback) {
   }
   p.authenticity_token = dradis.token;
   Ext.Ajax.request({
-    url: '/json/node_create',
+    url: 'json/node_create',
     params: p, 
     success: function(response, options) {
                    dradisstatus.setStatus({ 
@@ -36,7 +36,7 @@ function delnode(node, callback){
   var p = { id: node.id };
   p.authenticity_token = dradis.token;
   Ext.Ajax.request({
-    url: '/json/node_delete',
+    url: 'json/node_delete',
     params: p, 
     success: function(response, options) {
       dradisstatus.setStatus({ 
@@ -63,7 +63,7 @@ function updatenode(node, callback){
   }
   p.authenticity_token = dradis.token;
   Ext.Ajax.request({
-    url: '/json/node_update',
+    url: 'json/node_update',
     params: p, 
     success: function(response, options) {
       dradisstatus.setStatus({ 
@@ -92,7 +92,7 @@ function checkrevision(interval) {
   if (dradis.revision == -1) { return; }
 
   Ext.Ajax.request({
-    url: '/configurations/revision.xml',
+    url: 'configurations/1.xml',
     method: 'get',
     success: function(response, options) {
               var msg = response.responseText;
