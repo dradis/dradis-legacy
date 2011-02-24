@@ -14,7 +14,7 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
       width: 300,
       height: 100,
       fileUpload:true,
-      url: '/upload/import/',
+      url: 'upload/import/',
       defaults:{
         allowBlank:false,
         anchor:'100%'

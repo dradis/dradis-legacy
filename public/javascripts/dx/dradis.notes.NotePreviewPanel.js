@@ -40,7 +40,7 @@ dradis.notes.NotePreviewPanel=Ext.extend(Ext.Panel, {
   update:function(rawText){
     this.body.update('<div class="loading-indicator">Loading...</div>');
     Ext.Ajax.request({
-      url: '/home/textilize/index.json', 
+      url: 'home/textilize/index.json', 
       params: {
         text: rawText,
         authenticity_token: dradis.token

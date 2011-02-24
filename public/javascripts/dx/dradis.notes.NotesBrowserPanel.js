@@ -6,7 +6,7 @@ Ext.ns('dradis.notes');
 dradis.notes.CategoriesManager = Ext.extend(Ext.Component, {
   //props (overridable by caller)
   store: new Ext.data.JsonStore({
-    url: '/categories.json',
+    url: 'categories.json',
     root: 'data',
     fields: ['id', 'name'],
     autoSave: true,
@@ -153,7 +153,7 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
     var config ={
       //props (non-overridable)
       store: new Ext.data.GroupingStore({
-        url: '/nodes/1/notes.json',
+        url: 'nodes/1/notes.json',
         reader: new Ext.data.JsonReader({ 
           root: 'data',
           fields: [
@@ -265,7 +265,7 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
   },
 
   addNote:function(nodeId, noteText){
-    this.store.proxy.conn.url = '/nodes/' + nodeId + '/notes.json';
+    this.store.proxy.conn.url = 'nodes/' + nodeId + '/notes.json';
     var record = new this.store.recordType({
       text: noteText,
       author: dradis.author,

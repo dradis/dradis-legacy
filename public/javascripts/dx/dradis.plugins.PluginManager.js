@@ -14,7 +14,7 @@ Ext.ns('dradis.plugins.upload');
 dradis.plugins.PluginManager = function(){
   var exporters = new Ext.menu.Menu({});
   var exportPluginsDS = new Ext.data.JsonStore({
-    url:'/export/list/plugins.json',
+    url:'export/list/plugins.json',
     fields: ['name', 'actions'],
     listeners:{
       datachanged: function(store){
@@ -36,7 +36,7 @@ dradis.plugins.PluginManager = function(){
             for ( var i =0; i<record.data.actions.length; i++){
               action = record.data.actions[i];
               label = Ext.util.Format.capitalize( action.replace(/_/g, ' ') );
-              item.menu.add( new Ext.menu.Item({ text: label, url: '/export/' + action, handler: function(){ window.location = this.url; } }) );
+              item.menu.add( new Ext.menu.Item({ text: label, url: 'export/' + action, handler: function(){ window.location = this.url; } }) );
             };
           }
           exporters.add(item);
@@ -45,7 +45,7 @@ dradis.plugins.PluginManager = function(){
     }
   });
   var uploadPluginsDS = new Ext.data.JsonStore({
-    url:'/upload/list/plugins.json',
+    url:'upload/list/plugins.json',
     fields: ['name', 'plugin']
   });
 
@@ -63,7 +63,7 @@ dradis.plugins.PluginManager = function(){
   this.getUploadPluginsStore = function(){ return uploadPluginsDS; }
 
   var importPluginsDS = new Ext.data.JsonStore({
-    url:'/import/sources/list.json',
+    url:'import/sources/list.json',
     fields: ['value', 'display']
   });
 

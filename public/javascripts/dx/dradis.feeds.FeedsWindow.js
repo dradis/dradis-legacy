@@ -10,7 +10,7 @@ dradis.feeds.DataView=Ext.extend(Ext.DataView, {
       '<div class="x-clear"></div>'
     ),
     store: store = new Ext.data.JsonStore({
-      url: '/feeds.json',
+      url: 'feeds.json',
       fields: [
           'id', 'action', 'user', 'actioned_at', 'resource', 'value', 
           'created_at', 'updated_at', 'title', 'stamp', 'description'
