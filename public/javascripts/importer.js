@@ -66,11 +66,11 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
           items:[
             this.fields.sources = new dradis.importer.Combo({ 
                                         fieldLabel:'External Source', 
-                                        url:'/import/sources/list.json'
+                                        url:'import/sources/list.json'
                                       }),
             this.fields.filters = new dradis.importer.Combo({
                                         fieldLabel:'Filter', 
-                                        url:'/import/filters/list.json',
+                                        url:'import/filters/list.json',
                                         mode:'remote',
                                         disabled:true
                                       }),
@@ -83,7 +83,7 @@ dradis.importer.Panel = Ext.extend(Ext.Panel, {
               fieldLabel:'Results',
               columns: [ {header:'Title'}, {header:'Description', id:'description'} ],
               store: new Ext.data.JsonStore({
-                url:'/import/query/results.json',
+                url:'import/query/results.json',
                 fields:['title','description']
               }),
               autoExpandColumn:'description',
