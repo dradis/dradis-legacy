@@ -186,7 +186,7 @@ Ext.onReady(function() {
             '->',
             {
               xtype: 'tbtext',
-              html: '<h1>' + dradis.version + '- <a href="/configurations" target="_blank">configuration</a> | <a href="/logout">logout</a> | <a href="mailto:feedback@dradisframework.org?subject=' + dradis.version + '%20feedback">feedback</a></h1>'
+              html: '<h1>' + dradis.version + '- <a href="configurations" target="_blank">configuration</a> | <a href="logout">logout</a> | <a href="mailto:feedback@dradisframework.org?subject=' + dradis.version + '%20feedback">feedback</a></h1>'
             }
           ]
         })
