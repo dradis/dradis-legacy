@@ -87,7 +87,7 @@ class UploadController < ApplicationController
 
   def create
     # create an 'Imported files' node
-    uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
+    uploadsNode = Node.find_or_create_by_label(::Configuration.uploadsNode)
    
     # add the file as an attachment
     @attachment = Attachment.new( params[:file].original_filename, :node_id => uploadsNode.id )
@@ -100,7 +100,7 @@ class UploadController < ApplicationController
 
   def parse   
     item_id = params[:item_id]
-    uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
+    uploadsNode = Node.find_or_create_by_label(::Configuration.uploadsNode)
     attachment = Attachment.find(params[:file], :conditions => { :node_id => uploadsNode.id })
 
     Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
