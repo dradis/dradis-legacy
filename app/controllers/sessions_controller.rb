@@ -1,3 +1,4 @@
+require 'digest/sha2'
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
   layout 'banner'
@@ -64,7 +65,7 @@ class SessionsController < ApplicationController
     # Step 3: Initialise the project
     # @password was set by the ensure_valid_password filter
     c = Configuration.find_by_name('password')
-    c.value = @password 
+    c.value = ::Digest::SHA512.hexdigest(@password)
     c.save
 
     if (@new_project)
@@ -102,7 +103,7 @@ class SessionsController < ApplicationController
   def create
     usr = params.fetch(:login, nil)
     pwd = params.fetch(:password, nil)
-    if not ( usr.nil? || pwd.nil? || pwd != Configuration.password)
+    if not ( usr.nil? || pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != Configuration.password)
       flash[:first_login] = first_login?
       self.current_user = usr
       redirect_back_or_default('/')
