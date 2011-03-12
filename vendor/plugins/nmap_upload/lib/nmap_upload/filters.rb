@@ -12,7 +12,7 @@ module NmapUpload
   # the dropdown list and uploads a file.
   # @returns true if the operation was successful, false otherwise
   def self.import(params={})
-    file_content = File.read( params[:file].fullpath )
+    file_content = File.read( File.expand_path(params[:file].path) )
     @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
 
     @@logger.debug{ 'Validating Nmap upload...' }
@@ -24,7 +24,7 @@ module NmapUpload
 
     # get the "nmap output" category instance or create it if it does not exist
     category = Category.find_or_create_by_name('Nmap output') 
-    parent = Node.create( :label => "#{ File.basename( params[:file].fullpath ) } - Nmap scan")
+    parent = Node.create( :label => "#{ File.basename( params[:file].path ) } - Nmap scan")
 
     # TODO: do something with the Nmap::Parser::Session information
     
