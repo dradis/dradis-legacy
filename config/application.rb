@@ -35,7 +35,7 @@ module Dradis
       # At least include the project_management plugin that will allow us to
       # create a project package (for backup) and is known not to interact with
       # the DB
-      config.plugins = [:acts_as_tree, :project_management ]
+      config.plugins = [:acts_as_tree, :project_management, :bj]
     else
       config.active_record.observers = :revision_observer
     end     
