@@ -4,8 +4,6 @@ gem 'rails', '3.0.5'
 gem 'builder'
 gem 'nokogiri'
 
-# gem 'delayed_job'
-
 gem 'RedCloth', '4.2.5', :require => 'redcloth'
 gem 'thor', '0.14.6'
 

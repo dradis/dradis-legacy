@@ -104,7 +104,6 @@ class UploadController < ApplicationController
     attachment = Attachment.find(params[:file], :conditions => { :node_id => uploadsNode.id })
 
     Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
-    #Delayed::Job::enqueue( UploadProcessingJob.new(params[:uploader], attachment.fullpath, item_id) )    
     Bj.submit "ruby script/rails runner lib/upload_processing_job.rb %s \"%s\" %s" % [ params[:uploader], attachment.fullpath, params[:item_id] ]
   end
 
