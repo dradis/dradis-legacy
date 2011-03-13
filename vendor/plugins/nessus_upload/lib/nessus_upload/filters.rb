@@ -9,7 +9,7 @@ module NessusUpload
     # the dropdown list and uploads a file.
     # @returns true if the operation was successful, false otherwise
     def self.import(params={})
-	    file_content    = File.read(params[:file].fullpath)
+	    file_content    = File.read( params[:file] )
         @@logger        = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
 
         @@logger.debug{'Parsing nessus output file'}
@@ -23,7 +23,7 @@ module NessusUpload
 
 	    # get the "Nessus Output" category instance or create it if it does not exist
 	    category = Category.find_or_create_by_name('Nessus output') 
-        parent   = Node.create(:label => "#{File.basename(params[:file].fullpath)} - Nessus scan")
+        parent   = Node.create(:label => "#{File.basename( params[:file] )} - Nessus scan")
 
 		parser.reports.each do |report|
             report_label = report.name
