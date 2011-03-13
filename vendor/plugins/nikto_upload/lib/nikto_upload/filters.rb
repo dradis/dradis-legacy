@@ -7,7 +7,7 @@ module NiktoUpload
   # This method will be called by the framework when the user selects your 
   # plugin from the drop down list of the 'Import from file' dialog
   def self.import(params={})
-    file_content = File.read( params[:file].fullpath )
+    file_content = File.read( params[:file] )
     @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
 
     @@logger.debug{ 'Parsing Nikto output...' }
