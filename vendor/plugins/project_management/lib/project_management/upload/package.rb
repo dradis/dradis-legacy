@@ -4,7 +4,7 @@ module ProjectPackageUpload
   def self.import(params={})
     logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
 
-    package = params[:file].fullpath
+    package = params[:file]
     success = false
 
     # Unpack the archive in a temporary location

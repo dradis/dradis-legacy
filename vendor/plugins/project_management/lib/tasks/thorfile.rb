@@ -111,7 +111,7 @@ class DradisTasks < Thor
           exit -1
         end
         
-        ProjectTemplateUpload::import(:logger => logger, :file => File.new(file_path) )
+        ProjectTemplateUpload::import(:logger => logger, :file => file_path )
         logger.close
       end
 
@@ -131,19 +131,10 @@ class DradisTasks < Thor
           exit -1
         end
 
-        ProjectPackageUpload::import(:logger => logger, :file => File.new(file_path) )
+        ProjectPackageUpload::import(:logger => logger, :file => file_path )
         logger.close
       end
 
     end
-  end
-end
-
-
-# TODO: this fixes the assumption of the plugin that it will be receiving an
-#       as the :file parameter Attachment
-class File
-  def fullpath
-    File.expand_path self.path
   end
 end

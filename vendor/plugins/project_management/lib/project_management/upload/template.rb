@@ -20,8 +20,8 @@ module ProjectTemplateUpload
     logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
  
     # load the template
-    logger.debug{ "Loading template file from: #{params[:file].fullpath}" }
-    template = REXML::Document.new( File.read( params[:file].fullpath ) )
+    logger.debug{ "Loading template file from: #{params[:file]}" }
+    template = REXML::Document.new( File.read( params[:file] ) )
 
     # we need this to be able to convert from old category_id to the new
     # category_id once the categories are added to the DB (the ID may have 
