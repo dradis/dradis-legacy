@@ -41,7 +41,7 @@ class UploadController < ApplicationController
       format.html{ redirect_to '/' }
       format.json{ 
         list = []
-        Plugins::Upload.included_modules.each do |plugin|
+        Plugins::Upload.included_modules.reverse.each do |plugin|
           list << { 
             :name => plugin.name.underscore.humanize.gsub(/\//,' - '), 
             :plugin => plugin.name 
