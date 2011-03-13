@@ -14,7 +14,7 @@ module BurpUpload
     burpscan = Burp::Parser.parsestring( file_content )
     @@logger.debug{ 'Done.' }
 
-    category = Category.find_or_create_by_name('Burp Scanner output')
+    category = Category.find_by_name(Configuration.category)
 
     scan_node = Node.create( :label => "Burp Scanner results")
 
