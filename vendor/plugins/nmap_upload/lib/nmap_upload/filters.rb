@@ -12,7 +12,7 @@ module NmapUpload
   # the dropdown list and uploads a file.
   # @returns true if the operation was successful, false otherwise
   def self.import(params={})
-    file_content = File.read( params[:file] ) )
+    file_content = File.read( params[:file] ) 
     @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
 
     @@logger.debug{ 'Validating Nmap upload...' }
