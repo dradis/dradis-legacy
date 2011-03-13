@@ -50,7 +50,7 @@ module BurpUpload
         
         Note.create(
           :node => issue_types[ issue_type ],
-          :author => 'Burp Scanner',
+          :author => Configuration.author,
           :category => category,
           :text => issue_desc
         )
@@ -85,7 +85,7 @@ module BurpUpload
 
       Note.create(
         :node => issue_types[issue_type],
-        :author => 'Burp Scanner',
+        :author => Configuration.author,
         :category => category,
         :text => issue_detail
       )

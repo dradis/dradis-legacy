@@ -8,6 +8,7 @@ module BurpUpload
   class Configuration < Core::Configurator
     configure :namespace => 'burp'
     setting :category, :default => 'Burp Scanner output'
+    setting :author, :default => 'Burp Scanner plugin'
   end
 end
 
