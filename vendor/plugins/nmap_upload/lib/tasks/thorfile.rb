@@ -18,18 +18,10 @@ class DradisTasks < Thor
       end
 
       NmapUpload.import(
-        :file => File.new(file_path),
+        :file => file_path,
         :logger => logger)
 
       logger.close
     end
-  end
-end
-
-# TODO: this fixes the assumption of the plugin that it will be receiving an 
-#       as the :file parameter Attachment
-class File
-  def fullpath
-    File.expand_path self.path
   end
 end
