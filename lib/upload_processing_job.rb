@@ -10,7 +10,7 @@ if __FILE__ == $0
   logger.write{ "Running Ruby version %s" % RUBY_VERSION }
 
   logger.write{ 'Worker process starting background task.' } 
-  uploader.constantize::import(:file => File.new(file), :logger => logger)
+  uploader.constantize::import(:file => file, :logger => logger)
   logger.write{ 'Worker process completed.' } 
 end
 
