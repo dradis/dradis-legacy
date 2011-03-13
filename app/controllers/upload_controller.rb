@@ -73,7 +73,7 @@ class UploadController < ApplicationController
  
     # process the upload using the plugin
     begin
-      @uploader.import(:file => attachment)
+      @uploader.import(:file => attachment.fullpath)
     
       # Notify the caller that everything was fine
       render :text => { :success=>true }.to_json
