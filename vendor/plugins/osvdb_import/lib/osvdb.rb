@@ -1,5 +1,6 @@
+require 'net/http'
+
 unless defined?(Rails)
-  require 'net/http'
   require 'rexml/document'
   require 'rubygems'
   gem 'activesupport'
