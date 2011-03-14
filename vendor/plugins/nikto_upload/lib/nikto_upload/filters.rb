@@ -14,14 +14,14 @@ module NiktoUpload
     niktoscan = Nikto::Parser.parsestring( file_content )
     @@logger.debug{ 'Done.' }
 
-    category = Category.find_or_create_by_name('Nikto output')
+    category = Category.find_by_name( Configuration.category )
 
     niktoscan.scans.each do |scan|
       scan_node = Node.create( :label => "#{scan.siteip} - Nikto scan" )    
       @@logger.debug{ "Adding #{scan_node.label}" }
       Note.create( 
         :node => scan_node,
-        :author => 'Nikto',
+        :author => Configuration.author,
         :category => category,
         :text => scan.to_s
       )
