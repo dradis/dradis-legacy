@@ -23,7 +23,7 @@ module NmapUpload
     @@logger.debug{ 'Done.' }
 
     # get the "nmap output" category instance or create it if it does not exist
-    category = Category.find_or_create_by_name('Nmap output') 
+    category = Category.find_by_name( Configuration.category ) 
     parent = Node.create( :label => "#{ File.basename( params[:file] ) } - Nmap scan")
 
     # TODO: do something with the Nmap::Parser::Session information
@@ -58,7 +58,7 @@ module NmapUpload
 
       Note.new(
         :node_id => host_node.id,
-        :author => 'Nmap',
+        :author => Configuration.author,
         :category_id => category.id,
         :text => host_info
       ).save
