@@ -251,6 +251,7 @@ Ext.onReady(function() {
 
   });
 
+  Ext.Ajax.defaultHeaders = { 'X-CSRF-Token': Ext.select('meta[name=csrf-token]').item(0).getAttribute('content') };
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
   plugins.refresh();
 
