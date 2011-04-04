@@ -85,7 +85,6 @@ dradis.plugins.UploadFormPanel=Ext.extend(Ext.FormPanel, {
 
       this.getForm().submit({
         waitMsg: 'Uploading file...',
-        params:{ authenticity_token: dradis.token }, //FIXME
         scope: this,
         success: function(form, action){
           this.fireEvent('uploadsuccess');

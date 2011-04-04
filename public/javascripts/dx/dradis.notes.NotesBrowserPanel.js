@@ -162,7 +162,6 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
           ]
         }),
         writer: new Ext.data.JsonWriter(),
-        baseParams: { authenticity_token: dradis.token },
         restful: true,
         autoSave: true,
         sortInfo:{ field: 'text', direction: 'ASC' },

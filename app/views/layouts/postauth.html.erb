@@ -32,7 +32,6 @@
     </div>
     <script type="text/javascript">
       dradis.author = "<%= h(current_user) %>";
-      dradis.token = "<%= form_authenticity_token %>";
       dradis.revision = <%= Configuration.revision %>;
       dradis.version = "<%= Core::VERSION.string  %>";
       dradis.firstrender = <%= !!flash[:first_login] %>;

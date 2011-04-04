@@ -41,10 +41,7 @@ dradis.notes.NotePreviewPanel=Ext.extend(Ext.Panel, {
     this.body.update('<div class="loading-indicator">Loading...</div>');
     Ext.Ajax.request({
       url: 'home/textilize/index.json', 
-      params: {
-        text: rawText,
-        authenticity_token: dradis.token
-      },
+      params: { text: rawText },
       scope: this,
       success:function(response, options){
         var html = Ext.decode(response.responseText).html;

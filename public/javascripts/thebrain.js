@@ -10,7 +10,6 @@ function addnode(node, callback) {
   if (parent.id != 'root-node') {
     p.parent_id = parent.id
   }
-  p.authenticity_token = dradis.token;
   Ext.Ajax.request({
     url: 'json/node_create',
     params: p, 
@@ -34,7 +33,6 @@ function addnode(node, callback) {
 
 function delnode(node, callback){
   var p = { id: node.id };
-  p.authenticity_token = dradis.token;
   Ext.Ajax.request({
     url: 'json/node_delete',
     params: p, 
@@ -61,7 +59,6 @@ function updatenode(node, callback){
   if (node.parentNode.parentNode !== null) {
     p.parent_id = node.parentNode.id;
   }
-  p.authenticity_token = dradis.token;
   Ext.Ajax.request({
     url: 'json/node_update',
     params: p, 
@@ -127,9 +124,6 @@ Ext.ns('dradis.ajax');
 dradis.ajax.request = function(options){
   // request parameters
   var ajax_params = options;
-  if (options.params) {
-    ajax_params.params.authenticity_token = dradis.token;
-  }
 
   // callbacks
   ajax_params.success = function(response, options) {
