@@ -7,6 +7,8 @@ module WxfUpload
   class Configuration < Core::Configurator
     configure :namespace => 'wxf'
     setting :category, :default => 'wXf output'
+    setting :author, :default => 'wXf results'
+    setting :node_label, :default => 'wXf Output'
   end
 end
 

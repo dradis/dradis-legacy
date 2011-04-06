@@ -16,7 +16,7 @@ module WxfUpload
 
     category = Category.find_by_name(Configuration.category)
 
-    scan_node = Node.create( :label => "wXf output")
+    scan_node = Node.create( :label => Configuration.node_label )
  
     wxf_name = {} 
     
@@ -47,7 +47,7 @@ module WxfUpload
      
       Note.create(
         :node => wxf_name[wxfName],
-        :author => 'wXf results',
+        :author => Configuration.author,
         :category => category,
         :text => content
       )

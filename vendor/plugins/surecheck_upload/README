@@ -1,0 +1,16 @@
+SurecheckUpload
+===============
+
+Wildcroft Security's SureCheck provides a simple and straight forward mechanism 
+to perform security build reviews and policy compliance audits.
+
+SureCheck can be run against the following operating systems:
+  * Microsoft Windows 2003 & 2008
+  * Solaris 9 & 10
+  * Red Hat Enterprise Linux 5
+  * SUSE Linux Enterprise Server 11
+  
+
+More info:
+  http://www.wildcroftsecurity.com/
+
