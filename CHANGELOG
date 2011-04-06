@@ -3,6 +3,10 @@ v 2.7
  - New plugin Configuration Manager
  - New plugins:
    * Nessus plugin supports .nessus v2
+   * NeXpose (.xml) upload
+   * OpenVAS (.xml) upload
+   * SureCheck (.sc) upload
+   * w3af (.xml) upload
    * Web Exploitation Framework (wXf) upload
  - Bugs fixed: #2888332, #2973256
 
