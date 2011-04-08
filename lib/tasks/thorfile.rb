@@ -146,6 +146,23 @@ class DradisTasks < Thor
     end
     
   end
+
+  class Settings < Thor
+    namespace     "dradis:settings"
+
+    desc "get SETTING", "get the value of a dradis setting"
+    def get(name)
+      require 'config/environment'
+
+      setting = Core::Configurator.configurables.collect(&:settings).flatten.detect { |c| c.name == name }
+
+      unless setting.nil?
+        puts "%s %s" % [setting.name, setting.value]
+      else
+        puts "Unknown setting %s." % [name]
+      end
+    end
+  end
   
   class Reset < Thor
     namespace     "dradis:reset"
