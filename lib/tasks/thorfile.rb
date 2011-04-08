@@ -162,6 +162,25 @@ class DradisTasks < Thor
         puts "Unknown setting %s." % [name]
       end
     end
+
+    desc "set SETTING VALUE", "change the value of a dradis setting"
+    def set(name, value)
+      require 'config/environment'
+
+      setting = Core::Configurator.configurables.collect(&:settings).flatten.detect { |c| c.name == name }
+
+      unless setting.nil?
+        old_value = setting.value
+
+        if setting.update_attribute(:value, value)
+          puts "Changed %s from \"%s\" to \"%s\"." % [setting.name, old_value, setting.value]
+        else
+          puts "Failed to change %s to \"%s\"." % [setting.name, value]
+        end
+      else
+        puts "Unknown setting %s." % [name]
+      end
+    end
   end
   
   class Reset < Thor
