@@ -1,0 +1,20 @@
+MsfImport
+=========
+
+MsfImport allows importing Metasploit data into Dradis.  Subsequent imports of the same datasource
+should update items and not delete them.  Settings are updatable inside of the Dradis gui for host
+port user and password settings
+
+
+Example
+=======
+
+In Metasploit:
+  ./msfconsole
+  msf> load xmlrpc Pass=test
+  msf> db_driver sqlite3
+  msf> db_connect /tmp/msf.db
+  msf> db_nmap -A <your ip range>
+
+In Dradis:
+  server directory: thor dradis:import:msf:all
