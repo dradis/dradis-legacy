@@ -74,6 +74,18 @@ class DradisTasks < Thor
     load Gem.bin_path('rails', 'rails', ">= 0")
   end
 
+  desc "settings [NAMESPACE]", "list dradis settings, with an optional namespace to filter the results"
+  def settings(namespace=nil)
+    require 'config/environment'
+
+    settings = Core::Configurator.configurables.collect(&:settings).flatten.sort_by(&:name)
+    width = settings.collect { |s| s.name.length + 1 }.max
+
+    settings.each do |setting|
+      puts "%-#{width}s %s" % [setting.name, setting.value] if namespace.nil? || setting.name.include?(namespace)
+    end
+  end
+
 
   class Import < Thor; end
   class Export < Thor; end
