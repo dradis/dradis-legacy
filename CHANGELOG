@@ -1,7 +1,8 @@
 v 2.7
- - Improved command line API with Thor
- - New plugin Configuration Manager
+ - Improved command line API with Thor (thor -T)
+ - New Configuration Manager
  - New plugins:
+   * Metasploit import
    * Nessus plugin supports .nessus v2
    * NeXpose (.xml) upload
    * OpenVAS (.xml) upload
