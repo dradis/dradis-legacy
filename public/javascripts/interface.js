@@ -268,7 +268,11 @@ Ext.onReady(function() {
 
   var csrf_token =  Ext.select('meta[name=csrf-token]').item(0).getAttribute('content');
   Ext.Ajax.defaultHeaders = { 'X-CSRF-Token': csrf_token };
+
+  // we need to add this two here instead of inside the widget files because we
+  // have to wait until the DOM is loaded to access the <meta> tags.
   attachments.fields.uploader.uploader.baseParams['authenticity_token'] = csrf_token;
+  uploaders.fields.form.add( new Ext.form.Hidden({name:'authenticity_token', value: csrf_token}) );
 
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
   plugins.refresh();
