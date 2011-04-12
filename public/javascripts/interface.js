@@ -171,10 +171,25 @@ Ext.onReady(function() {
           items: [ 
             {
               text: 'import from file...', 
+              tooltip: 'import other tool\'s output into dradis',
               iconCls:'icon-form-magnify',
-              handler: function() {
-                uploaders.show();
-                uploaders.center();
+              menu: {
+                items: [
+                  {
+                    text: 'new importer (with real-time feedback)',
+                    handler: function() {
+                      window.open('upload');
+                    }
+                  },
+                  {
+                    text: 'old importer (soon-to-be deprecated)',
+                    handler: function() { 
+                      uploaders.show(); 
+                      uploaders.center();
+                    }
+                  }
+
+                ]
               }
             },
            {
