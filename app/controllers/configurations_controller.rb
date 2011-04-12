@@ -27,7 +27,7 @@ class ConfigurationsController < ApplicationController
         format.xml { 
           render :xml => @config.to_xml, :status => :created 
         }
-        format.json {
+        format.js {
           render :json => @config.to_json, :status => :created
         }
       else
@@ -35,7 +35,7 @@ class ConfigurationsController < ApplicationController
           render :xml => @config.errors.to_xml, 
           :status => :unprocessable_entity 
         }
-        format.json {
+        format.js {
           render :json => @config.errors.to_json,
           :status => :unprocessable_entity
         }
@@ -59,10 +59,10 @@ class ConfigurationsController < ApplicationController
 
       if @config.update_attributes(params[:config])
         format.xml { render :xml => @config.to_xml }
-        format.json { render :json => @config.to_json }
+        format.js { render :json => @config.to_json }
       else
         format.xml { render :xml => @config.errors.to_xml, :status => :unprocessable_entity }
-        format.json { render :json => @config.errors.to_json, :status => :unprocessable_entity }
+        format.js { render :json => @config.errors.to_json, :status => :unprocessable_entity }
       end
     end
   end
