@@ -26,23 +26,21 @@ module NessusUpload
   
     parser.reports.each do |report|
       report_label = report.name
-      report_node  = Node.new(:label => report_label, :parent_id => parent.id)
-      report_node.save
+      report_node = Node.create(:label => report_label, :parent_id => parent.id)
       
       report.hosts.each do |host|
         host_label = host.name
         host_label = "#{host_label} (#{host.fqdn})" if host.fqdn
-        host_node = Node.new(:label => host_label, :parent_id => report_node.id)
-        host_node.save
+        host_node = Node.create(:label => host_label, :parent_id => report_node.id)
           
         note_template   = ERB.new(host_item_template,0,'>')
         node_text       = note_template.result(binding)
-        Note.new(
+        Note.create(
           :node_id     => host_node.id,
           :author      => "Nessus",
           :category_id => category.id,
           :text        => node_text
-        ).save
+        )
       
         host.report_items.each do |report_item|
           next if report_item.plugin_id == "0"
@@ -51,12 +49,12 @@ module NessusUpload
       
           note_template   = ERB.new(report_item_template,0,'>')
           node_text       = note_template.result(binding)
-          Note.new(
+          Note.create(
             :node_id     => item_node.id,
             :author      => "Nessus", 
             :category_id => category.id,
             :text        => node_text 
-          ).save
+          )
         end
 
       end #/report
