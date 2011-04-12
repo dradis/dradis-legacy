@@ -37,7 +37,7 @@ module NessusUpload
         node_text       = note_template.result(binding)
         Note.create(
           :node_id     => host_node.id,
-          :author      => "Nessus",
+          :author      => Configuration.author,
           :category_id => category.id,
           :text        => node_text
         )
@@ -51,7 +51,7 @@ module NessusUpload
           node_text       = note_template.result(binding)
           Note.create(
             :node_id     => item_node.id,
-            :author      => "Nessus", 
+            :author      => Configuration.author, 
             :category_id => category.id,
             :text        => node_text 
           )
