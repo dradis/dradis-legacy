@@ -25,6 +25,7 @@ class AttachmentsController < ApplicationController
     # Note: this breaks the basic html scaffolds, but is required for the FileTree 
     # extension
     #redirect_to node_attachments_path(params[:node_id])
+    response.headers["Content-Type"] = 'text/html'
     render :text => {:success => true}.to_json
   end
 
