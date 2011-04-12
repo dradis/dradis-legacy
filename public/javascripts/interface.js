@@ -266,7 +266,10 @@ Ext.onReady(function() {
 
   });
 
-  Ext.Ajax.defaultHeaders = { 'X-CSRF-Token': Ext.select('meta[name=csrf-token]').item(0).getAttribute('content') };
+  var csrf_token =  Ext.select('meta[name=csrf-token]').item(0).getAttribute('content');
+  Ext.Ajax.defaultHeaders = { 'X-CSRF-Token': csrf_token };
+  attachments.fields.uploader.uploader.baseParams['authenticity_token'] = csrf_token;
+
   Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
   plugins.refresh();
 
