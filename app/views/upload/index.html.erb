@@ -14,7 +14,7 @@ uploaded them you can process with the different <a href="#" id="available">plug
       </tr>
     </thead>
     <tbody>
-      <% Plugins::Upload::included_modules.each do |plugin| %>
+      <% @plugins.each do |plugin| %>
       <tr>
         <td><%= plugin::Meta::NAME %></td>
         <td><%= plugin::Meta::VERSION::STRING %></td>
@@ -27,7 +27,7 @@ uploaded them you can process with the different <a href="#" id="available">plug
 <div class="block">
 <h2>Upload file</h2>
   <%= form_tag '/upload/create', :multipart => true do %>
-    <%= select_tag  'uploader', options_from_collection_for_select( Plugins::Upload::included_modules, 'name', 'name' ) %>
+    <%= select_tag  'uploader', options_from_collection_for_select( @plugins, 'name', 'name' ) %>
     <%= file_field_tag 'file' %>
     <%= hidden_field_tag 'item_id' %>
     <%= hidden_field_tag 'format', 'js' %>

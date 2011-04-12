@@ -33,6 +33,12 @@ class UploadController < ApplicationController
   end
 
   public
+  def index
+    @plugins = Plugins::Upload::included_modules.sort do |a,b|
+      a::Meta::NAME <=> b::Meta::NAME
+    end
+  end
+
   # This method provides a list of all the available uploader plugins. It 
   # assumes that each export plugin inclides instance methods in the
   # Plugins::Upload mixing.
