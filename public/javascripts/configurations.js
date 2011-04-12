@@ -1,4 +1,10 @@
-jQuery.ajaxSetup({ beforeSend: function(xhr) { xhr.setRequestHeader("Accept", "text/javascript"); } });
+jQuery.ajaxSetup({ 
+  beforeSend: function(xhr) { 
+    xhr.setRequestHeader("Accept", "text/javascript"); 
+    var token = $("meta[name='csrf-token']").attr("content");
+    xhr.setRequestHeader("X-CSRF-Token", token);
+  }
+});
 
 $('tbody td.value input')
   .live('blur', function() {
@@ -13,7 +19,6 @@ $('tbody td.value input')
     dataType: 'json',
     type: 'post',
     
-    beforeSend: function() { $(this).addClass('saving'); },
     complete: function() { $(this).removeClass('saving'); },
     error: function(xhr, status, error) { $(this).addClass('failed'); },
     success: function(data, status, xhr) { $(this).addClass('saved'); }
@@ -35,6 +40,7 @@ $('tbody td.value input')
     $.extend(true, ajax_opts, { data: { '_method': 'put' }, url: post_path + '/' + config_id });
   }
 
+  $(this).addClass('saving');
   $.ajax(ajax_opts);
 })
   .live('keydown', function(e) {
