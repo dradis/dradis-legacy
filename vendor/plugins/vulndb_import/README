@@ -1,55 +1,13 @@
 VulndbImport
 ============
 
-This plugin can be used to connect the dradis framework to a remote vulnerability
-database. The idea is to have a database with commonly used notes that you can
-import to your current project.
+This plugin can be used to connect the Dradis Framework to a remote vulnerability
+database such as Security Root's Vuln::DB (http://securityroots.com/vulndb/). The 
+idea is to have a database with commonly used notes that you can import to your 
+current project. 
 
-The plugin uses JSON to grab the data from the remote server. See the
-configuration parameters in ./conf/vulndb_import.yml. 
+The current version of the plugin uses ActiveResource to access Vuln::DB's REST API.
 
-The current version is tailored to connect to a rails application that makes use
-of the ext_scaffold plugin:
+You can also use the Thor task to search Vuln::DB from the command line:
 
-http://rug-b.rubyforge.org/svn/ext_scaffold
-
-Example
-=======
-
-A sample request as will be made by this plugin could be:
-
-http://localhost/vulnerabilities?format=ext_json&fields=["id","vulnerability[title]","vulnerability[body]"]&query=cookie
-
-The query above will look for the string "cookie" in the "id", "title" and 
-"body" fields of the vulnerability database. The expected return format is given 
-by ext_scaffold. An example could be:
-
-{
-  "vulnerabilities": [
-    {"vulnerability": 
-      {
-        "created_at": "2008-12-11T13:24:48Z", 
-        "title": "Insecure Cookie Configuration", 
-        "body": "[...]", 
-        "updated_at": "2008-12-11T13:24:48Z", 
-        "id": 9
-      }
-    }, 
-    {"vulnerability": 
-      {
-        "created_at": "2008-12-11T13:27:42Z", 
-        "title": "Session Token in URL", 
-        "body": "[...]", 
-        "updated_at": "2009-03-18T10:59:21Z", 
-        "id": 12
-      }
-    }
-  ], 
-  "results": 2
-}
-
-Only the "title" and "body" fields are used by the framework.
-
-Released under the terms of the GNU General Public License version 2.0 as 
-published by the Free Software Foundation and appearing in the file LICENSE 
-included in the packaging of this file.
+$ thor dradis:import:vulndb:search XSS
