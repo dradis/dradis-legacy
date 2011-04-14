@@ -3,12 +3,14 @@ v 2.7
  - New Configuration Manager
  - New plugins:
    * Metasploit import
-   * Nessus plugin supports .nessus v2
    * NeXpose (.xml) upload
    * OpenVAS (.xml) upload
    * SureCheck (.sc) upload
    * w3af (.xml) upload
    * Web Exploitation Framework (wXf) upload
+ - Updated plugins:
+   * Nessus plugin supports .nessus v2
+   * Vuln::DB import plugin updated to work with the latest release
  - Bugs fixed: #2888332, #2973256
 
 v2.6.1 (11th of February 2011)
