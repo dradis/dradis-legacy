@@ -1,5 +1,6 @@
 # VulndbImport
 
+require 'vulndb_import/filters'
 require 'vulndb_import/meta'
 
 module VulndbImport
