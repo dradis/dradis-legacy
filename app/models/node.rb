@@ -5,6 +5,7 @@
 # Each Node has a :parent node and a :label. Nodes can also have many 
 # Attachment objects associated with them.
 class Node < ActiveRecord::Base
+  before_destroy :destroy_attachments
   acts_as_tree
   validates_presence_of :label
   has_many :notes, :dependent => :destroy
@@ -22,5 +23,14 @@ class Node < ActiveRecord::Base
   # Return all the Attachment objects associated with this Node.
   def attachments
     Attachment.find(:all, :conditions => {:node_id => self.id})
+  end
+
+  private
+  # Whenever a node is deleted all the associated attachments have to be 
+  # deleted too
+  def destroy_attachments
+    self.attachments.each do |attachment|
+      attachment.delete
+    end
   end
 end
