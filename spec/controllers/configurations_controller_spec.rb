@@ -20,7 +20,7 @@ describe ConfigurationsController do
     end
     
     it "should create a new, namespaced setting" do
-      post :create, :config => { :name => 'spec:configuration', :value => 'abc123' }, :format => :json
+      post :create, :config => { :name => 'spec:configuration', :value => 'abc123' }, :format => :js
       
       response.code.should == "201"
     end
@@ -28,7 +28,7 @@ describe ConfigurationsController do
     it "should change the value of a setting" do
       config = Configuration.create!(:name => "spec:configuration", :value => "abc123")
       
-      put :update, :id => config.id, :config => { :value => 'abc456' }, :format => :json
+      put :update, :id => config.id, :config => { :value => 'abc456' }, :format => :js
 
       response.should be_success
       config.reload.value.should == 'abc456'
