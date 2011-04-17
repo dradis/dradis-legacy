@@ -32,5 +32,8 @@ class Node < ActiveRecord::Base
     self.attachments.each do |attachment|
       attachment.delete
     end
+
+    attachments_dir = Attachment.pwd.join(self.id.to_s)
+    Dir.delete(attachments_dir) if Dir.exists?(attachments_dir)
   end
 end
