@@ -45,6 +45,16 @@ describe Node do
     end
   end
 
-  it "should delete all associated attachments"
+  it "should delete all associated attachments" do
+    node = Factory.create(:node)
+
+    attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => node.id )
+    attachment.save
+
+    node.destroy
+
+    File.exists?(attachment.fullpath).should be_false
+  end
+
   it "should delete it's corresponding attachment subfolder when deleted"
 end
