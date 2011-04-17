@@ -1,6 +1,7 @@
 v 2.7
  - Improved command line API with Thor (thor -T)
  - New Configuration Manager
+ - New Upload Manager
  - New plugins:
    * Metasploit import
    * NeXpose (.xml) upload
