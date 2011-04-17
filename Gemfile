@@ -10,7 +10,7 @@ gem 'thor', '0.14.6'
 if !( (RUBY_PLATFORM =~ /mswin/i) || (RUBY_PLATFORM =~ /mingw/i) )
   gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 else
-  gem 'sqlite3-ruby', '1.3.2', :require => 'sqlite3'
+  gem 'sqlite3', '1.3.3', :require => 'sqlite3'
 end
 
 # Bundle gems for the local environment. Make sure to
