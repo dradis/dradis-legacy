@@ -5,7 +5,7 @@
 # Each Node has a :parent node and a :label. Nodes can also have many 
 # Attachment objects associated with them.
 class Node < ActiveRecord::Base
-  before_destroy :destroy_attachments
+  #before_destroy :destroy_attachments
   acts_as_tree
   validates_presence_of :label
   has_many :notes, :dependent => :destroy
