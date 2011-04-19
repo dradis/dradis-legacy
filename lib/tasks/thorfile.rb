@@ -46,12 +46,12 @@ class DradisTasks < Thor
   def reset
     invoke "dradis:setup:configure"
     invoke "dradis:setup:migrate"
-    invoke "dradis:setup:seed"
 
     invoke "dradis:backup", options             unless options.no_backup
     
     invoke "dradis:reset:attachments", options
     invoke "dradis:reset:database", options
+    invoke "dradis:setup:seed"
     invoke "dradis:reset:logs", options
   end
 
