@@ -1,4 +1,4 @@
-v 2.7
+v 2.7 (19th of April 2011)
  - Improved command line API with Thor (thor -T)
  - New Configuration Manager
  - New Upload Manager
