@@ -31,7 +31,7 @@ magic_file = File.join( Rails.root, 'config', 'first_login.txt' )
 if ( !File.exists?(magic_file) )
 
   NOTE1 =<<EON
-Here are your notes for the node you just clicked (*Dradis Framework 2.6*)
+Here are your notes for the node you just clicked (*Dradis Framework 2.7*)
 
 If a node has attachments associated with it you will see an exclamation mark @(!)@ by the _Attachments_ title in the tab strip below.
 EON
@@ -41,9 +41,28 @@ h1. What's new in this release?
 
 !{float:left;}/images/logo_small.png!
 
-This is (mostly) a *performance improvement* release. 
+We have improved the web interface with a new 
+"Configuration Manager":configurations to handle all your plugin's configuration.
 
-We have upgraded the server-side engine of Dradis and the client-side JavaScript library to the latest stable  version available from their vendors to "Rails 3":http://rubyonrails.org/ and "ExtJS 3.3":http://www.sencha.com/products/js/.
+There is also a new "Upload Manager":upload that processes uploads in the 
+background while providing you with status updates via Ajax.
+
+We have lots of new plugins:
+* "Metasploit":http://www.metasploit.com import
+* "NeXpose":http://www.rapid7.com/products/nexpose-community-edition.jsp (.xml) upload
+* "OpenVAS":http://openvas.org/ (.xml) upload
+* "SureCheck":http://www.wildcroftsecurity.com/ (.sc) upload (for build reviews)
+* "w3af":http://w3af.sourceforge.net/ (.xml) upload
+* "Web Exploitation Framework":https://github.com/WebExploitationFramework/wXf (wXf) upload
+
+And a few that have been updated:
+* "Nessus":http://www.tenable.com/products/nessus plugin supports .nessus version 2
+* "Vuln::DB":http://securityroots.com/vulndb/ import plugin updated to work with the latest release
+
+Oh, and we have also improved the command line API with Thor. To checkout all 
+the available tasks, go to the server folder and run:
+
+bc. thor -T
 
 Remember that the _First Time User's Wizard_ can be found at "/wizard":/wizard
 
@@ -61,7 +80,7 @@ h1. Getting Help
 * IRC: *#dradis* @irc.freenode.org
 EON
 
-  root = Node.create!(:label => 'Dradis Framework 2.6')
+  root = Node.create!(:label => 'Dradis Framework 2.7')
   root.notes.create!( :author => 'First time wizard', :category_id => 1, :text => NOTE1)
   destination = File.join(Rails.root, 'attachments', root.id.to_s)
   FileUtils.mkdir_p(destination)
