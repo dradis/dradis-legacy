@@ -1,4 +1,7 @@
-v 2.7 (19th of April 2011)
+v2.8
+ - Updated to Rails 3.0.7
+
+v2.7 (19th of April 2011)
  - Improved command line API with Thor (thor -T)
  - New Configuration Manager
  - New Upload Manager
@@ -13,6 +16,7 @@ v 2.7 (19th of April 2011)
    * Nessus plugin supports .nessus v2
    * Vuln::DB import plugin updated to work with the latest release
  - Bugs fixed: #2888332, #2973256
+ - Updated to Rails 3.0.6
 
 v2.6.1 (11th of February 2011)
  - Fixed a 'back slash' vs 'forward slash' issue in start.sh
