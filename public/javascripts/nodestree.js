@@ -34,8 +34,9 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
         url: 'nodes.json',
         requestMethod: 'GET',
   	    createNode : function(attr){
-    	    attr.text = Ext.util.Format.htmlEncode(attr.text);
-  	    	return this.constructor.prototype.createNode.call(this, attr);
+          attr.text = Ext.util.Format.htmlEncode(attr.text);
+          attr.iconCls = 'icon-node-'+ ['default','host'][attr.type];
+          return this.constructor.prototype.createNode.call(this, attr);
         }
       }),
 
