@@ -108,6 +108,26 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           }
         },
         '-',
+        {
+          text: 'Type',
+          menu: {
+            items: [
+              { 
+                text: 'Default', 
+                iconCls: 'icon-node-default', 
+                scope: this,
+                handler:function(){ this.changeNodeType(this.itemMenu.contextNode, 0) }
+              },
+              { 
+                text: 'Host', 
+                iconCls: 'icon-node-host',
+                scope: this,
+                handler:function(){ this.changeNodeType(this.itemMenu.contextNode, 1) }
+              }
+            ]
+          }
+        },
+        '-',
         { 
           text: 'expand node', 
           iconCls: 'icon-expand-all',
@@ -253,7 +273,17 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     });
 
     // ==================================================== /event handlers
-
+  },
+  changeNodeType: function(node, type) {
+    Ext.Ajax.request({
+      url: 'nodes/' + node.id + '.json',
+      method: 'put',
+      params: {
+        data: Ext.util.JSON.encode({ type_id: type })
+      },
+      success:function(){ dradisstatus.setStatus({text: 'Changed', clear: 5000}) },
+      failure:function(){ dradisstatus.setStatus({text: 'Request failed', clear: 5000}) }
+    })
   },
 
   // other methods/actions
