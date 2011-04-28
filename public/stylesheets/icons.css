@@ -348,3 +348,11 @@
 
 /*  Icon Classes end */
 
+/*  Icon Classes for tree nodes */
+.icon-node-default {
+	background-image:url(../images/silk/folder.png) ! important;
+}
+.icon-node-host {
+	background-image:url(../images/silk/computer.png) ! important;
+}
+/*  Icon Classes for tree nodes end */
