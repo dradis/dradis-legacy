@@ -276,6 +276,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     // ==================================================== /event handlers
   },
   changeNodeType: function(node, type) {
+    node.setIconCls('icon-node-'+ ['default','host'][type]);
     Ext.Ajax.request({
       url: 'nodes/' + node.id + '.json',
       method: 'put',
