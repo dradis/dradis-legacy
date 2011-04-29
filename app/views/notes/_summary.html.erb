@@ -1,0 +1,13 @@
+<%= div_for note do %>
+  <div class="noteheader">
+    <span style="float: right; font-size: 10px; margin-right: 10px;">
+      <span><%= link_to 'Edit', edit_node_note_path(note.node, note) %></span>
+      <span><%= link_to 'Destroy', [note.node,note], :method => :delete %></span>
+    </span>
+  </div>
+  <div class="notebody preview">
+    <p><%= RedCloth.new( note.text.gsub(/#\[([\w\s]+)?\]#[\r|\n]/){ "h1. #{$1}\n\n" }, [:filter_html]).to_html.html_safe %></p>
+  </div>
+  <div class="notefooter">Last updated: <%= time_ago_in_words(note.updated_at) %> ago</div>
+<% end %>
+
