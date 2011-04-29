@@ -6,7 +6,12 @@ Ext.BLANK_IMAGE_URL = 'images/default/s.gif';
 var plugins = new dradis.plugins.PluginManager();
 var uploaders = new dradis.plugins.UploadFormWindow();
 var nodestree = new dradis.NodesTree();
+
+// For the time being keep the old Notes tab while we create a better alternative
 var notesbrowser = new dradis.notes.NotesBrowserPanel();
+notesbrowser.title = 'Old notes';
+var newnotes = new Ext.Panel({ title: 'New notes' });
+
 var importer = new dradis.importer.Panel();
 var attachments = new dradis.attachments.AttachmentsPanel();
 var feedsWindow = new dradis.feeds.FeedsWindow();
@@ -23,6 +28,7 @@ var dradistabs = new Ext.TabPanel({
   //margins: '0 5 0 0',
   items: [
     notesbrowser,
+    newnotes,
     importer,
     attachments
   ]
@@ -83,6 +89,7 @@ var dradisstatus = new Ext.ux.StatusBar({
 
 nodestree.on('nodeclick', function(node_id){
   notesbrowser.updateNotes(node_id);
+  newnotes.body.update('Notes for ' + node_id);
   attachments.updateAttachments(node_id);
   dradistabs.enable();
   if (dradistabs.getActiveTab() === null) {
