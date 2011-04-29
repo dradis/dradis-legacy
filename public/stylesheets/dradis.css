@@ -104,7 +104,11 @@ noscript p {
 .topic .description { font-style: italic; }
 
 /* ************************************** Notes styles */
-#notes { padding: 3ex; }
+#notes { 
+  padding: 3ex; 
+  font-family:"Lucida Grande",verdana,arial,helvetica,sans-serif; 
+  font-size:14px;
+}
 #notes .note {
   border:1px solid #d7d7d7;
   -webkit-border-radius: 4px;
@@ -112,9 +116,35 @@ noscript p {
   border-radius:         4px;
   clear:both;
   color:#3e3e3e;
-  display:block;
-  float:left;
   margin-bottom:10px;
-  position:relative;
-  width:100%;
+}
+
+#notes .noteheader {
+  background: #D0DEF0;
+  border: 1px solid #d7d7d7;
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-top-left-radius:  4px;
+  -moz-border-radius-topright:     4px;
+  -moz-border-radius-topleft:      4px;
+  border-top-right-radius:         4px;
+  border-top-left-radius:          4px;
+  font: bold HelveticaNeue, Helvetica, Arial, sans-serif;
+  color: #777;
+  margin: -1px -1px 0;
+  padding: 4px 0;
+  float: left;
+  clear: both;
+  width: 100%;
+}
+
+#notes .noteheader span {
+  float: right; 
+  font-size: 12px; 
+  margin-right: 10px;
+}
+
+#notes .notefooter {
+  color: #CCC;
+  font: 11px Helvetica,Arial,sans-serif;
+  margin-left: 10px;
 }
