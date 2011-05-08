@@ -15,8 +15,6 @@ module NexposeUpload
     @nexpose_node = Node.create(:label => Configuration.node_label)
 
     @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
-    @@logger.level = Logger::DEBUG
-    @@logger.debug('started debugging')
 
     file_content = File.read( params[:file] )
 
