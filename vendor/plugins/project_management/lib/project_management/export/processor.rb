@@ -37,7 +37,7 @@ module ProjectExport
       raise ":filename not provided" unless params.key?(:filename)
       
       filename = params[:filename]
-      logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+      logger = params.fetch(:logger, Rails.logger)
 
       File.delete(filename) if File.exists?(filename)
 
