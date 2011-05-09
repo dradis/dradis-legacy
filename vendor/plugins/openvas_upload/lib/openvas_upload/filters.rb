@@ -16,7 +16,7 @@ module OpenvasUpload
     #Create a parent node for the OpenVAS output
     @openvas_node = Node.create(:label => Configuration.node_label)
 
-    @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    @@logger = params.fetch(:logger, Rails.logger)
     @@logger.level = Logger::DEBUG
     @@logger.debug('started debugging')
 

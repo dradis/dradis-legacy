@@ -124,7 +124,7 @@ module WordExport
     # new Word XML paragraph is attached to the placeholder for each line 
     def self.generate(params={})
       # ------------------------------------------------------- init properties
-      @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+      @@logger = params.fetch(:logger, Rails.logger)
 
       # This needs some tweaking, but the idea is that maybe you don't want to
       # report on all of your notes, so you flag the ones you want to report

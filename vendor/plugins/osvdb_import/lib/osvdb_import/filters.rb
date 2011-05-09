@@ -59,7 +59,7 @@ module OSVDBImport
           ]
         end
 
-        logger = params.fetch( :logger, RAILS_DEFAULT_LOGGER )        
+        logger = params.fetch( :logger, Rails.logger )        
         query = CGI::escape( params.fetch( :query, '') )
 
         logger.info{ "Running a general search in the OSVDB with the query: #{query}" }
@@ -85,7 +85,7 @@ module OSVDBImport
           ]
         end
 
-        logger = params.fetch( :logger, RAILS_DEFAULT_LOGGER )        
+        logger = params.fetch( :logger, Rails.logger )        
         query = CGI::escape( params.fetch( :query, '1234') )
 
         logger.info{ "Running a OSVDB ID lookup on: #{query}" }

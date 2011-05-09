@@ -32,7 +32,7 @@ module ProjectExport
     public
 
     def self.commit(params={})
-      logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+      logger = params.fetch(:logger, Rails.logger)
       title = params.fetch(:title, "NewProject_#{DateTime.now.strftime('%Y-%m-%d')}")
 
       # Step 1: Find the right Project to commit a new Revision to

@@ -7,7 +7,7 @@ module SurecheckUpload
   # This method will be called by the framework when the user selects your 
   # plugin from the drop down list of the 'Import from file' dialog
   def self.import(params={})
-    @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    @@logger = params.fetch(:logger, Rails.logger)
 
     @@logger.debug{ 'Parsing SureCheck output...' }
     screport = Surecheck::Parser.parsefile( params[:file] )

@@ -13,7 +13,7 @@ module W3afUpload
 
     w3af_node = Node.create(:label => Configuration.node_label)
 
-    @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    @@logger = params.fetch(:logger, Rails.logger)
     @@logger.level = Logger::DEBUG
     @@logger.debug('Started Logging')
 

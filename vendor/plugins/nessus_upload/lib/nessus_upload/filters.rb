@@ -10,7 +10,8 @@ module NessusUpload
   # @returns true if the operation was successful, false otherwise
   def self.import(params={})
     file_content    = File.read( params[:file] )
-    @@logger        = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    @@logger        = params.fetch(:logger, Rails.logger)
+    p @@logger.class
     
     @@logger.debug{'Parsing nessus output file'}
     parser = Nessus::Parser.parse_string(file_content)
