@@ -2,7 +2,7 @@
 # upload a project archive (generated using ProjectExport::Processor::full_project)
 module ProjectPackageUpload
   def self.import(params={})
-    logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    logger = params.fetch(:logger, Rails.logger)
 
     package = params[:file]
     success = false

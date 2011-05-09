@@ -17,7 +17,7 @@ module ProjectTemplateUpload
   # table to re-associate the attachments in the project archive with the new
   # node IDs in the current project.
   def self.import(params={})
-    logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    logger = params.fetch(:logger, Rails.logger)
  
     # load the template
     logger.debug{ "Loading template file from: #{params[:file]}" }

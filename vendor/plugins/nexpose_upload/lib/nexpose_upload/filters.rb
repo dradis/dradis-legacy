@@ -14,7 +14,10 @@ module NexposeUpload
     #Create a parent node for the NeXpose output
     @nexpose_node = Node.create(:label => Configuration.node_label)
 
-    @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    @@logger = params.fetch(:logger, Rails.logger)
+    @@logger.level = Logger::DEBUG
+    @@logger.debug('started debugging')
+
 
     file_content = File.read( params[:file] )
 

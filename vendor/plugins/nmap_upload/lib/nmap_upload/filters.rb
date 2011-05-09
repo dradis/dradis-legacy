@@ -13,7 +13,7 @@ module NmapUpload
   # @returns true if the operation was successful, false otherwise
   def self.import(params={})
     file_content = File.read( params[:file] ) 
-    @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    @@logger = params.fetch(:logger, Rails.logger)
 
     @@logger.debug{ 'Validating Nmap upload...' }
     NmapValidate.validate(file_content)

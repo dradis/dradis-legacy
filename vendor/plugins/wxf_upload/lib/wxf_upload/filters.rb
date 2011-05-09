@@ -8,7 +8,7 @@ module WxfUpload
   # plugin from the drop down list of the 'Import from file' dialog
   def self.import(params={})
     file_content = File.read( params[:file] )
-    @@logger = params.fetch(:logger, RAILS_DEFAULT_LOGGER)
+    @@logger = params.fetch(:logger, Rails.logger)
 
     @@logger.debug{ 'Parsing wXf output...' }
     wxftext = Wxf::Parser.parsestring( file_content )
