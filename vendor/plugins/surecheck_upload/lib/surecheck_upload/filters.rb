@@ -9,16 +9,16 @@ module SurecheckUpload
   def self.import(params={})
     @@logger = params.fetch(:logger, Rails.logger)
 
-    @@logger.debug{ 'Parsing SureCheck output...' }
+    @@logger.info{ 'Parsing SureCheck output...' }
     screport = Surecheck::Parser.parsefile( params[:file] )
-    @@logger.debug{ 'Done.' }
+    @@logger.info{ 'Done.' }
 
     category = Category.find_by_name(Configuration.category)
 
     sc_node = Node.create( :label => Configuration.node_label)
 
     screport.findings.each do |finding|
-      @@logger.debug{ "Adding SureCheck Finding \##{finding.id.to_s}" }
+      @@logger.info{ "Adding SureCheck Finding \##{finding.id.to_s}" }
       finding_detail = ''
 
       if finding.title
@@ -60,7 +60,7 @@ module SurecheckUpload
       )
     end
     
-    @@logger.debug{ 'SureCheck results successfully imported' }
+    @@logger.info{ 'SureCheck results successfully imported' }
 
     return true
   end

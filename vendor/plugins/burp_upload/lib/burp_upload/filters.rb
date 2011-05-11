@@ -10,9 +10,9 @@ module BurpUpload
     file_content = File.read( params[:file] )
     @@logger = params.fetch(:logger, Rails.logger)
 
-    @@logger.debug{ 'Parsing Burp Scanner output...' }
+    @@logger.info{ 'Parsing Burp Scanner output...' }
     burpscan = Burp::Parser.parsestring( file_content )
-    @@logger.debug{ 'Done.' }
+    @@logger.info{ 'Done.' }
 
     category = Category.find_by_name(Configuration.category)
 
@@ -21,7 +21,7 @@ module BurpUpload
     issue_types = {}
 
     burpscan.issues.each do |issue|
-      @@logger.debug{ "Adding #{issue.name[:text]}" }
+      @@logger.info{ "Adding #{issue.name[:text]}" }
 
       issue_type = issue.type[:text].to_i
 
@@ -91,7 +91,7 @@ module BurpUpload
       )
     end
 
-    @@logger.debug{ 'Burp Scanner results successfully imported' }
+    @@logger.info{ 'Burp Scanner results successfully imported' }
 
     return true
 
