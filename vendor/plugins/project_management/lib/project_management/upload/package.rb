@@ -26,7 +26,7 @@ module ProjectPackageUpload
       logger.debug{ 'Loading XML state file' } 
       node_lookup = ProjectTemplateUpload.import( 
                                           :logger => logger, 
-                                          :file => File.new(Rails.root.join('tmp', 'zip', 'dradis-repository.xml'))
+                                          :file => Rails.root.join('tmp', 'zip', 'dradis-repository.xml')
                                         ) 
 
       logger.debug{ 'Moving attachments to their final destinations' }
