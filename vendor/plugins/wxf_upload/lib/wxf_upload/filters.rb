@@ -10,9 +10,9 @@ module WxfUpload
     file_content = File.read( params[:file] )
     @@logger = params.fetch(:logger, Rails.logger)
 
-    @@logger.debug{ 'Parsing wXf output...' }
+    @@logger.info{ 'Parsing wXf output...' }
     wxftext = Wxf::Parser.parsestring( file_content )
-    @@logger.debug{ 'Done.' }
+    @@logger.info{ 'Done.' }
 
     category = Category.find_by_name(Configuration.category)
 
@@ -21,7 +21,7 @@ module WxfUpload
     wxf_name = {} 
     
       wxftext.contentdata.each do |cdata|
-      @@logger.debug{ "Adding #{cdata.name[:text]}" }
+      @@logger.info{ "Adding #{cdata.name[:text]}" }
      
         wxfName = cdata.name[:text]
         
@@ -53,7 +53,7 @@ module WxfUpload
       )
     end
 
-    @@logger.debug{ 'wXf results/output successfully imported' }
+    @@logger.info{ 'wXf results/output successfully imported' }
 
     return true
 

@@ -20,7 +20,7 @@ module ProjectTemplateUpload
     logger = params.fetch(:logger, Rails.logger)
  
     # load the template
-    logger.debug{ "Loading template file from: #{params[:file]}" }
+    logger.info{ "Loading template file from: #{params[:file]}" }
     template = REXML::Document.new( File.read( params[:file] ) )
 
     # we need this to be able to convert from old category_id to the new
@@ -41,7 +41,7 @@ module ProjectTemplateUpload
       category = nil
 
       # Prevent creating duplicate categories
-      logger.debug{ "Looking for category: #{name}" }
+      logger.info{ "Looking for category: #{name}" }
       if (category = Category.find_by_name(name)).nil?
         category = Category.create :name => name
       end
@@ -61,7 +61,7 @@ module ProjectTemplateUpload
       created_at  = xml_node.elements['created-at'].text.strip
       updated_at  = xml_node.elements['updated-at'].text.strip
 
-      logger.debug{ "New node detected: #{label}, parent_id: #{parent_id}, type_id: #{type_id}" }
+      logger.info{ "New node detected: #{label}, parent_id: #{parent_id}, type_id: #{type_id}" }
 
       # There is one exception to the rule, the Configuration.uploadsNode node,
       # it does not make sense to have more than one of this nodes, in any 
@@ -87,7 +87,7 @@ module ProjectTemplateUpload
           old_id = xml_note.elements['category-id'].text.strip
           new_id = category_lookup[old_id]
 
-          logger.debug{ "Note category rewrite, used to be #{old_id}, now is #{new_id}" }
+          logger.info{ "Note category rewrite, used to be #{old_id}, now is #{new_id}" }
           note = Note.create :author      => xml_note.elements['author'].text.strip,
                               :node_id     => node.id,
                               :category_id => new_id,
@@ -108,7 +108,7 @@ module ProjectTemplateUpload
     
     # look for the parent_id of each orphaned node in the node_lookup table
     orphan_nodes.each do |node|
-      logger.debug{ "Finding parent for orphaned node: #{node.label}. Former parent was #{node.parent_id}" }
+      logger.info{ "Finding parent for orphaned node: #{node.label}. Former parent was #{node.parent_id}" }
       node.parent_id = node_lookup[node.parent_id.to_s]
       node.save
     end

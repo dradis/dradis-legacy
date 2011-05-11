@@ -15,12 +15,12 @@ module NmapUpload
     file_content = File.read( params[:file] ) 
     @@logger = params.fetch(:logger, Rails.logger)
 
-    @@logger.debug{ 'Validating Nmap upload...' }
+    @@logger.info{ 'Validating Nmap upload...' }
     NmapValidate.validate(file_content)
 
-    @@logger.debug{ 'Parsing Nmap output...' }
+    @@logger.info{ 'Parsing Nmap output...' }
     parser = Nmap::Parser.parsestring( file_content )
-    @@logger.debug{ 'Done.' }
+    @@logger.info{ 'Done.' }
 
     # get the "nmap output" category instance or create it if it does not exist
     category = Category.find_by_name( Configuration.category ) 

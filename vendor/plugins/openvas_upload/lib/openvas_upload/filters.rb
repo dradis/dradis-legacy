@@ -17,8 +17,7 @@ module OpenvasUpload
     @openvas_node = Node.create(:label => Configuration.node_label)
 
     @@logger = params.fetch(:logger, Rails.logger)
-    @@logger.level = Logger::DEBUG
-    @@logger.debug('started debugging')
+    @@logger.info('started debugging')
 
     file_content = File.read( params[:file] )
 
