@@ -16,8 +16,10 @@ module OpenvasUpload
     #Create a parent node for the OpenVAS output
     @openvas_node = Node.create(:label => Configuration.node_label)
 
+
     @@logger = params.fetch(:logger, Rails.logger)
     @@logger.info('started debugging')
+
 
     file_content = File.read( params[:file] )
 

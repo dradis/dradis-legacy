@@ -17,6 +17,7 @@ module NexposeUpload
     @@logger = params.fetch(:logger, Rails.logger)
     @@logger.info('started debugging')
 
+
     file_content = File.read( params[:file] )
 
     doc = Nokogiri::XML(file_content)
