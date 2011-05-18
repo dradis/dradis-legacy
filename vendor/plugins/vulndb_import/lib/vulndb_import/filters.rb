@@ -5,6 +5,10 @@ module VulndbImport
 
       def self.run(params={}) 
         records = []       
+
+        # In case the user has changed the vulndb:rest_url setting
+        Page.site = Configuration.rest_url
+
         begin              
           records = Page.find(:all, :params => {:q => params[:query]}).collect do |page| 
             { 
