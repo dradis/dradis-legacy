@@ -1,6 +1,9 @@
 v2.8
  - Updated to Rails 3.0.7
 
+v2.7.1
+ - Bugs fixed: #3, #4, #7, #8, #10
+
 v2.7 (19th of April 2011)
  - Improved command line API with Thor (thor -T)
  - New Configuration Manager
