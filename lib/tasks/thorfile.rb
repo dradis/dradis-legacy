@@ -126,6 +126,18 @@ class DradisTasks < Thor
     end
 
 
+    desc "password NEW_PASSWORD", "Set a new shared password to access the web interface"
+    def password(new_password = nil)
+      require 'config/environment'
+    
+      if new_password.nil? || new_password.empty?
+        say("Please provide a new password as an argument", Thor::Shell::Color::RED)
+        return
+      end
+
+      Configuration.find_by_name('password').update_attribute(:value, ::Digest::SHA512.hexdigest(new_password))
+      say("Done", Thor::Shell::Color::GREEN)
+    end
 
     desc "migrate", "ensures the database schema is up-to-date"
     def migrate
