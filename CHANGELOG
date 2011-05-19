@@ -1,5 +1,5 @@
 v2.7.1
- - Bugs fixed: #3, #4, #7, #8, #10
+ - Bugs fixed: #3, #4, #6, #7, #8, #10
 
 v2.7 (19th of April 2011)
  - Improved command line API with Thor (thor -T)
