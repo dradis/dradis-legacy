@@ -204,7 +204,7 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
     // After parent code
     // e.g. install event handlers on rendered component
 
-    this.relayEvents( this.dataStore, ['load'])
+    this.relayEvents( this.dataStore, ['load', 'remove'])
 
     this.fields.uploader.on( 'allfinished', function(uploader, options){ 
       this.fields.viewer.refresh();
