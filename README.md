@@ -5,12 +5,14 @@ Dradis is an open source framework to enable effective information sharing,
 specially during security assessments.
 
 Our goals:
+
 * Share the information effectively.
 * Easy to use, easy to be adopted. Otherwise it would present little benefit over other systems.
 * Flexible: with a powerful and simple extensions interface. 
 * Small and portable. You should be able to use it while on site (no outside connectivity). It should be OS independent (no two testers use the same OS).
 
 Some of the features:
+
 * Platform independent
 * Easy report generation: in Word, HTML, etc.
 * Markup support for the notes: styles, images, links, etc. 
