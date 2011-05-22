@@ -34,6 +34,22 @@ Some of the features:
 Getting started
 ---------------
 
+In http://dradisframework.org/downloads.html you will find a Windows installer
+and .tar.gz and .tar.bz2 packages.
+
+Uncompress, verify and prepare the environment:
+
+    $ tar xvvjf dradis-vX.Y.Z.tar.bz2
+    $ cd dradis-vX.Y/
+    $ ./verify.sh
+      # follow instructions / install dependencies
+    $ ./reset.sh
+
+Once the environment is ready, you can start the server with:
+
+    $ ./start.sh
+
+And browse to https://localhost:3004 to start using Dradis
 
 Getting help
 ------------
