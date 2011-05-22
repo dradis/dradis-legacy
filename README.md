@@ -17,18 +17,18 @@ Some of the features:
 * Easy report generation: in Word, HTML, etc.
 * Markup support for the notes: styles, images, links, etc. 
 * Integration with existing systems and tools:
-  * Burp Scanner
-  * Metasploit
-  * Nessus
-  * NeXpose
-  * Nikto
-  * Nmap
-  * OpenVAS
-  * OSVDB
-  * SureCheck
-  * Vuln::DB
-  * w3af
-  * wXf
+  * [Burp Scanner](http://portswigger.net/burp/scanner.html)
+  * [Metasploit](http://www.metasploit.com/)
+  * [Nessus](http://www.nessus.org/products/nessus)
+  * [NeXpose](http://www.rapid7.com/products/nexpose-community-edition.jsp)
+  * [Nikto](http://cirt.net/nikto2)
+  * [Nmap](http://nmap.org)
+  * [OpenVAS](http://www.openvas.org/)
+  * [OSVDB](http://osvdb.org)
+  * [SureCheck](http://www.wildcroftsecurity.com/)
+  * [Vuln::DB](http://securityroots.com/vulndb/)
+  * [w3af](http://w3af.sourceforge.net/)
+  * [wXf](https://github.com/WebExploitationFramework/wXf)
 
 
 Getting started
