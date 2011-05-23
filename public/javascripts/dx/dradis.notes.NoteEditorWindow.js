@@ -3,7 +3,7 @@
 Ext.ns('dradis.notes');
 
 /********************************************************************* Panel */
-dradis.notes.NoteEditorPanel=Ext.extend(Ext.Panel, {
+dradis.notes.NoteEditorPanel=Ext.extend(Ext.TabPanel, {
   //props (overridable by caller)
   fields: {},
 
@@ -11,18 +11,19 @@ dradis.notes.NoteEditorPanel=Ext.extend(Ext.Panel, {
     // Called during component initialization
     var config ={
       //props (non-overridable)
-      layout: 'border',
+      deferredRender: false,
+      activeTab: 0,
       border: false,
       items:[
         this.fields.editor = new Ext.form.TextArea({
-          region: 'north',
-          height: 240,
-          split: true,
+          title: 'Write',
           autoScroll: true,
           border: true,
           enableKeyEvents: true
         }),
-        this.fields.preview = new dradis.notes.NotePreviewPanel()
+        this.fields.preview = new dradis.notes.NotePreviewPanel({
+          title: 'Preview'
+        })
       ],
       buttons:[
         {
@@ -54,9 +55,12 @@ dradis.notes.NoteEditorPanel=Ext.extend(Ext.Panel, {
 
     // After parent code
     // e.g. install event handlers on rendered component
-    this.fields.editor.on( 'keypress', function(field, evt){
-      this.fields.preview.update(field.getValue());
-    }, this, {buffer: 500});
+    this.on( 'beforetabchange', function(panel, newTab, currentTab){
+      if (newTab == this.fields.preview)
+      {
+        this.fields.preview.update(this.fields.editor.getValue());
+      }
+    });
   },
 
   // other methods/actions
