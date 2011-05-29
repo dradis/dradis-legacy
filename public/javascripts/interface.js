@@ -106,13 +106,15 @@ nodestree.on('notesdrop', function(drop_ev) {
   }
 });
 
-attachments.on('load', function(store, records, options){
-  if (records.length > 0) {
+update_attachments_tab = function(store){
+  if (store.data.length > 0) {
     attachments.setTitle('Attachments (!)');
   } else {
     attachments.setTitle('Attachments');
   }
-});
+};
+attachments.on('load', update_attachments_tab);
+attachments.on('remove', update_attachments_tab);
 
 importer.on('importrecord',function(record){ 
     notesbrowser.addNote(record.data.description ); 
