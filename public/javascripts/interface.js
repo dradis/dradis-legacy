@@ -25,6 +25,7 @@ var dradistabs = new Ext.TabPanel({
   activeTab: 0,
   border: false,
   deferredRender: false,
+  disabled: true,
   //margins: '0 5 0 0',
   items: [
     notesbrowser,
