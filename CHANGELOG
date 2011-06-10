@@ -1,5 +1,6 @@
 v2.8
  - Updated to Rails 3.0.7
+ - Bugs fixed: #16
 
 v2.7.1
  - Improved note editor: more space, less Ajax
