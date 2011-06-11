@@ -3,6 +3,6 @@
 require 'rubygems'
 require 'thor'
 
-require 'lib/tasks/thorfile'
+require File.expand_path('../lib/tasks/thorfile', __FILE__)
 
 DradisTasks.start
