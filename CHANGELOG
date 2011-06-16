@@ -1,5 +1,6 @@
 v2.8
- - Updated to Rails 3.0.7
+ - Updated to Rails 3.0.8
+ - Improved startup scripts
  - Bugs fixed: #13, #16
 
 v2.7.1
