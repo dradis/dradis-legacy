@@ -49,7 +49,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
             var root = this.getRootNode();
             var label = 'branch #' + (root.childNodes.length +1);
             var node = root.appendChild(new Ext.tree.TreeNode({ text: label }));
-            addnode(node, function(new_id){ node.id = new_id; });
+            this.createNode(node, null);
             this.editor.triggerEdit(node,false);
           }
         },    
@@ -89,11 +89,12 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
         { 
           text: 'add child', 
           iconCls: 'add', 
+          scope: this,
           handler: function(){ 
-            var parent = this.parentMenu.contextNode;
+            var parent = this.itemMenu.contextNode;
             var node = new Ext.tree.TreeNode({ text:'child node #' + (parent.childNodes.length+1) });
             parent.appendChild(node);
-            addnode(node, function(new_id){ node.id = new_id; });
+            this.createNode(node, parent.id);
             node.getOwnerTree().editor.triggerEdit(node,false);
           }
         },
@@ -253,6 +254,22 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // ==================================================== /event handlers
   },
+  createNode: function(node, parent_id){
+    Ext.Ajax.request({
+      url: 'nodes.json',
+      method: 'post',
+      params: {
+        data: Ext.util.JSON.encode( {label: node.text, parent_id: parent_id} )
+      },
+      success: function(response, options) {
+        dradisstatus.setStatus({text: 'Node created', clear: 5000 });
+        node.id = Ext.util.JSON.decode(response.responseText).id;
+      },
+      failure: function(response, options) {
+        dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000 });
+      }
+    });
+  },  
   updateNode: function(node, params){
     Ext.Ajax.request({
       url: 'nodes/' + node.id + '.json',
