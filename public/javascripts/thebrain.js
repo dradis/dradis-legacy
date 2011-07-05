@@ -31,30 +31,6 @@ function addnode(node, callback) {
   });
 }
 
-function delnode(node, callback){
-  var p = { id: node.id };
-  Ext.Ajax.request({
-    url: 'json/node_delete',
-    params: p, 
-    success: function(response, options) {
-      dradisstatus.setStatus({ 
-        text: 'Node removed from the server',
-        clear: 5000
-      });
-      dradis.revision += 1; 
-    },
-    failure: function(response, options) {
-      dradisstatus.setStatus({
-        text: 'An error occured with the Ajax request',
-        iconCls: 'error',
-        clear: 5000
-      });
-    }
-  });
-
-}
-
-
 //------------------------------------------------------------------------ revision poller
 
 function checkrevision(interval) {
