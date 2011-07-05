@@ -271,15 +271,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
   },
   changeNodeType: function(node, type) {
     node.setIconCls('icon-node-'+ ['default','host'][type]);
-    Ext.Ajax.request({
-      url: 'nodes/' + node.id + '.json',
-      method: 'put',
-      params: {
-        data: Ext.util.JSON.encode({ type_id: type })
-      },
-      success:function(){ dradisstatus.setStatus({text: 'Changed', clear: 5000}) },
-      failure:function(){ dradisstatus.setStatus({text: 'Request failed', clear: 5000}) }
-    })
+    this.updateNode(node, {type_id: type})
   },
   deleteNode: function(node){
     Ext.Ajax.request({
