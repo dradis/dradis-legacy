@@ -239,7 +239,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     this.on('nodedrop', function(ev) {
       var point = ev.point;
       var node = ev.dropNode;
-      var p = { };
+      var p = { parent_id: null };
       if ( point == 'append') {
         p.parent_id = ev.target.id;
       } else {
@@ -248,27 +248,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           p.parent_id = parent.id;
         }
       }
-      Ext.Ajax.request({
-        url: 'nodes/' + node.id + '.json',
-        method: 'put',
-        params: {
-          data: Ext.util.JSON.encode(p)
-        },
-        success: function(response, options) {
-                    dradisstatus.setStatus({ 
-                      text: 'Node repositioned',
-                      clear: 5000
-                  });
-        },
-        failure: function(response, options) {
-                    dradisstatus.setStatus({
-                      text: 'An error occured with the Ajax request',
-                      iconCls: 'error',
-                      clear: 5000
-                    });
-        }
-      });
-
+      this.updateNode(node, p)
     });
 
     // ==================================================== /event handlers
