@@ -264,7 +264,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     this.on('nodedrop', function(ev) {
       var point = ev.point;
       var node = ev.dropNode;
-      var p = { id: node.id, label: node.text }
+      var p = { };
       if ( point == 'append') {
         p.parent_id = ev.target.id;
       } else {
@@ -276,7 +276,9 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       Ext.Ajax.request({
         url: 'nodes/' + node.id + '.json',
         method: 'put',
-        params: p, 
+        params: {
+          data: Ext.util.JSON.encode(p)
+        },
         success: function(response, options) {
                     dradisstatus.setStatus({ 
                       text: 'Node repositioned',
