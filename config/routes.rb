@@ -4,6 +4,8 @@ Dradis::Application.routes.draw do
   match '/login' => 'sessions#new', :as => :login
   match '/logout' => 'sessions#destroy', :as => :logout
 
+  match 'nodes/:node_id/attachments/:id' => 'attachments#show', :constraints => { :id => /.*/ }
+
   resources :configurations
   resources :categories
   resources :feeds
