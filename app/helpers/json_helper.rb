@@ -1,2 +1,0 @@
-module JsonHelper # :nodoc:
-end
