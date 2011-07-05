@@ -1,7 +1,7 @@
 v2.8
  - Updated to Rails 3.0.9
  - Improved startup scripts
- - Bugs fixed: #13, #15, #16
+ - Bugs fixed: #13, #15, #16, #19
 
 v2.7.1
  - Improved note editor: more space, less Ajax
