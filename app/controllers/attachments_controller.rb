@@ -41,7 +41,7 @@ class AttachmentsController < ApplicationController
     if !File.exist?(destination) && ( !destination.match(/^#{Attachment.pwd}/).nil? )
       File.rename( attachment.fullpath, destination  )
     end
-    redirect_to "#{node_path(attachment.node_id)}/attachments/#{CGI::escape(new_name)}" 
+    render :json => {:success => true}
   end
 
   # This function will send the Attachment file to the browser. It will try to 
@@ -92,7 +92,7 @@ class AttachmentsController < ApplicationController
     
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     @attachment.delete
-    redirect_to node_attachments_path(params[:node_id])
+    render :json => {:success => true}
   end
 
   private
