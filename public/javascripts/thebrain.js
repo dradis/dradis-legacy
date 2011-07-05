@@ -1,35 +1,4 @@
-// TODO: think REST please!!!
 // TODO: this should be an object, not functions
-
-//------------------------------------------------------------------------ nodes
-function addnode(node, callback) {
-  var parent = node.parentNode;
-  var p = { 
-    label: node.text 
-  };
-  if (parent.id != 'root-node') {
-    p.parent_id = parent.id
-  }
-  Ext.Ajax.request({
-    url: 'json/node_create',
-    params: p, 
-    success: function(response, options) {
-                   dradisstatus.setStatus({ 
-                        text: 'New node sent to the server',
-                        clear: 5000
-                   });
-              dradis.revision += 1; 
-              callback(response.responseText);
-    },
-    failure: function(response, options) {
-                   dradisstatus.setStatus({
-                        text: 'An error occured with the Ajax request',
-                        iconCls: 'error',
-                        clear: 5000
-                   });
-    }
-  });
-}
 
 //------------------------------------------------------------------------ revision poller
 
