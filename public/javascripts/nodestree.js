@@ -211,27 +211,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // Handle label edits
     this.on('textchange', function(node, new_text, old_text){
-      Ext.Ajax.request({
-          url: 'nodes/' + node.id + '.json',
-          method: 'put',
-          params: {
-            data: Ext.util.JSON.encode({ label: new_text })
-          },
-          success: function(response, options) {
-                      dradisstatus.setStatus({
-                        text: 'Node label edited',
-                        clear: 5000
-                    });
-          },
-          failure: function(response, options) {
-                      dradisstatus.setStatus({
-                        text: 'An error occured with the Ajax request',
-                        iconCls: 'error',
-                        clear: 5000
-                      });
-                      node.text = old_text;
-          }
-        });
+      this.updateNode(node, {label: new_text});
     });
 
     // Handle node drops (drag'n'drop)
@@ -292,6 +272,22 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     });
 
     // ==================================================== /event handlers
+  },
+  updateNode: function(node, params){
+    Ext.Ajax.request({
+      url: 'nodes/' + node.id + '.json',
+      method: 'put',
+      params: {
+        data: Ext.util.JSON.encode(params)
+      },
+      success: function(response, options) {
+        dradisstatus.setStatus({text: 'Node updated', clear: 5000 });
+      },
+      failure: function(response, options) {
+        dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000 });
+        node.text = old_text;
+      }
+    });
   },
   changeNodeType: function(node, type) {
     node.setIconCls('icon-node-'+ ['default','host'][type]);
