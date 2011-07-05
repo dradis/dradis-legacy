@@ -100,13 +100,8 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
         { 
           text: 'delete node', 
           iconCls: 'del',
-          handler: function(){
-            var node = this.parentMenu.contextNode;
-            if (node.parentNode) {
-              delnode(node);
-              node.remove();
-            }     
-          }
+          scope: this,
+          handler: function(){ this.deleteNode(this.itemMenu.contextNode); }
         },
         '-',
         {
@@ -309,6 +304,19 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       success:function(){ dradisstatus.setStatus({text: 'Changed', clear: 5000}) },
       failure:function(){ dradisstatus.setStatus({text: 'Request failed', clear: 5000}) }
     })
+  },
+  deleteNode: function(node){
+    Ext.Ajax.request({
+      url: 'nodes/' + node.id + '.json',
+      method: 'delete',
+      success: function() {
+        dradisstatus.setStatus({text: 'Node removed from the server',clear: 5000});
+        node.remove();
+      },
+      failure: function() {
+        dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000});
+      }
+    });
   },
 
   // other methods/actions
