@@ -149,12 +149,11 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
     fields:['filename', 'size', 'created_at'],
     listeners:{
       update:function(store, record, operation){
-        dradis.ajax.request({
+        Ext.Ajax.request({
           url: '/nodes/' + this.currentNode + '/attachments/' + record.modified.filename,
-          method: 'POST',
+          method: 'put',
           record: record,
           params: {
-            '_method' : 'put',
             rename: record.get('filename')
           },
           listeners:{
@@ -165,10 +164,9 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
 
       },
       remove:function(store, record, index){
-        dradis.ajax.request({
+        Ext.Ajax.request({
           url: '/nodes/' + this.currentNode + '/attachments/' + record.get('filename'),
-          method: 'POST',
-          params: {'_method' : 'delete'}
+          method: 'delete'
         });
       }
     }
