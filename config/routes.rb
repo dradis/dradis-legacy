@@ -7,9 +7,12 @@ Dradis::Application.routes.draw do
   resources :configurations
   resources :categories
   resources :feeds
+
   resources :nodes do
     resources :notes
-    resources :attachments
+    constraints(:id => /.*/) do
+      resources :attachments
+    end
   end
 
   root :to => 'home#index'

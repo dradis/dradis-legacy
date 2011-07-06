@@ -33,15 +33,15 @@ class AttachmentsController < ApplicationController
   # functionality.
   def update
     filename = params[:id]
-    filename += '.' + params[:format] if params[:format]
     attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     attachment.close
     new_name = CGI::unescape( params[:rename] )
-    destination = File.expand_path( File.join( Attachment.pwd, params[:node_id], new_name ) )
+    destination = Attachment.pwd.join( params[:node_id], new_name ).to_s
+
     if !File.exist?(destination) && ( !destination.match(/^#{Attachment.pwd}/).nil? )
       File.rename( attachment.fullpath, destination  )
     end
-    redirect_to "#{node_path(attachment.node_id)}/attachments/#{CGI::escape(new_name)}" 
+    render :json => {:success => true}
   end
 
   # This function will send the Attachment file to the browser. It will try to 
@@ -49,10 +49,7 @@ class AttachmentsController < ApplicationController
   # displayed inline. By default the <tt>Content-disposition</tt> will be set to
   # +attachment+.
   def show
-    # we send the file name as the id, the rails parser however split the filename
-    # at the fullstop so we join it again
     filename = params[:id]
-    filename += '.' + params[:format] if params[:format]
 
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     send_options = { :filename => @attachment.filename }
@@ -85,14 +82,11 @@ class AttachmentsController < ApplicationController
   # attachment's file name in the :id parameter and the corresponding node in
   # the :node_id parameter.
   def destroy
-    # we send the file name as the id, the rails parser however split the filename
-    # at the fullstop so we join it again
     filename = params[:id]
-    filename += '.' + params[:format] if params[:format]
     
     @attachment = Attachment.find(filename, :conditions => {:node_id => Node.find(params[:node_id]).id})
     @attachment.delete
-    redirect_to node_attachments_path(params[:node_id])
+    render :json => {:success => true}
   end
 
   private
@@ -107,6 +101,4 @@ class AttachmentsController < ApplicationController
       redirect_to root_path
     end
   end
-
-  
 end

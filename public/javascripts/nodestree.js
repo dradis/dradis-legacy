@@ -49,7 +49,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
             var root = this.getRootNode();
             var label = 'branch #' + (root.childNodes.length +1);
             var node = root.appendChild(new Ext.tree.TreeNode({ text: label }));
-            addnode(node, function(new_id){ node.id = new_id; });
+            this.createNode(node, null);
             this.editor.triggerEdit(node,false);
           }
         },    
@@ -89,24 +89,20 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
         { 
           text: 'add child', 
           iconCls: 'add', 
+          scope: this,
           handler: function(){ 
-            var parent = this.parentMenu.contextNode;
+            var parent = this.itemMenu.contextNode;
             var node = new Ext.tree.TreeNode({ text:'child node #' + (parent.childNodes.length+1) });
             parent.appendChild(node);
-            addnode(node, function(new_id){ node.id = new_id; });
+            this.createNode(node, parent.id);
             node.getOwnerTree().editor.triggerEdit(node,false);
           }
         },
         { 
           text: 'delete node', 
           iconCls: 'del',
-          handler: function(){
-            var node = this.parentMenu.contextNode;
-            if (node.parentNode) {
-              delnode(node);
-              node.remove();
-            }     
-          }
+          scope: this,
+          handler: function(){ this.deleteNode(this.itemMenu.contextNode); }
         },
         '-',
         {
@@ -216,7 +212,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // Handle label edits
     this.on('textchange', function(node, new_text, old_text){
-        updatenode(node);
+      this.updateNode(node, {label: new_text});
     });
 
     // Handle node drops (drag'n'drop)
@@ -244,7 +240,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     this.on('nodedrop', function(ev) {
       var point = ev.point;
       var node = ev.dropNode;
-      var p = { id: node.id, label: node.text }
+      var p = { parent_id: null };
       if ( point == 'append') {
         p.parent_id = ev.target.id;
       } else {
@@ -253,39 +249,59 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           p.parent_id = parent.id;
         }
       }
-      Ext.Ajax.request({
-        url: 'json/node_update',
-        params: p, 
-        success: function(response, options) {
-                    dradisstatus.setStatus({ 
-                      text: 'Node repositioned',
-                      clear: 5000
-                  });
-        },
-        failure: function(response, options) {
-                    dradisstatus.setStatus({
-                      text: 'An error occured with the Ajax request',
-                      iconCls: 'error',
-                      clear: 5000
-                    });
-        }
-      });
-
+      this.updateNode(node, p)
     });
 
     // ==================================================== /event handlers
   },
-  changeNodeType: function(node, type) {
-    node.setIconCls('icon-node-'+ ['default','host'][type]);
+  createNode: function(node, parent_id){
+    Ext.Ajax.request({
+      url: 'nodes.json',
+      method: 'post',
+      params: {
+        data: Ext.util.JSON.encode( {label: node.text, parent_id: parent_id} )
+      },
+      success: function(response, options) {
+        dradisstatus.setStatus({text: 'Node created', clear: 5000 });
+        node.id = Ext.util.JSON.decode(response.responseText).id;
+      },
+      failure: function(response, options) {
+        dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000 });
+      }
+    });
+  },  
+  updateNode: function(node, params){
     Ext.Ajax.request({
       url: 'nodes/' + node.id + '.json',
       method: 'put',
       params: {
-        data: Ext.util.JSON.encode({ type_id: type })
+        data: Ext.util.JSON.encode(params)
       },
-      success:function(){ dradisstatus.setStatus({text: 'Changed', clear: 5000}) },
-      failure:function(){ dradisstatus.setStatus({text: 'Request failed', clear: 5000}) }
-    })
+      success: function(response, options) {
+        dradisstatus.setStatus({text: 'Node updated', clear: 5000 });
+      },
+      failure: function(response, options) {
+        dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000 });
+        node.text = old_text;
+      }
+    });
+  },
+  changeNodeType: function(node, type) {
+    node.setIconCls('icon-node-'+ ['default','host'][type]);
+    this.updateNode(node, {type_id: type})
+  },
+  deleteNode: function(node){
+    Ext.Ajax.request({
+      url: 'nodes/' + node.id + '.json',
+      method: 'delete',
+      success: function() {
+        dradisstatus.setStatus({text: 'Node removed from the server',clear: 5000});
+        node.remove();
+      },
+      failure: function() {
+        dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000});
+      }
+    });
   },
 
   // other methods/actions

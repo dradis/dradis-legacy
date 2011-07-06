@@ -31,8 +31,8 @@ Some of the features:
   * [wXf](https://github.com/WebExploitationFramework/wXf)
 
 
-Getting started
----------------
+Getting started (stable release)
+--------------------------------
 
 In http://dradisframework.org/downloads.html you will find a Windows installer
 and .tar.gz and .tar.bz2 packages.
@@ -50,6 +50,33 @@ Once the environment is ready, you can start the server with:
     $ ./start.sh
 
 And browse to https://localhost:3004 to start using Dradis
+
+
+Getting started (git release)
+-----------------------------
+
+First, clone the repo:
+
+    $ mkdir dradis-git
+    $ cd dradis-git/
+    $ git clone https://github.com/dradis/dradisframework.git server
+
+Then download the verify, reset and start scripts to your dradis-git/ folder:
+
+    $ wget https://raw.github.com/dradis/meta/master/verify.sh
+    $ wget https://raw.github.com/dradis/meta/master/reset.sh
+    $ wget https://raw.github.com/dradis/meta/master/start.sh
+    $ chmod +x *.sh
+    $ ./verify.sh
+      # follow instructions / install dependencies
+    $ ./reset.sh
+
+Once the environment is ready, you can start the server with:
+
+    $ ./start.sh
+
+And browse to https://localhost:3004 to start using Dradis
+
 
 Getting help
 ------------

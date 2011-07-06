@@ -47,7 +47,7 @@ class NodesController < ApplicationController
           render_optional_error_file :not_found
         end
       else
-        @node = Node.new(params[:node])
+        @node = Node.new(params[:node] || ActiveSupport::JSON.decode(params[:data]))
       end
     end        
 
