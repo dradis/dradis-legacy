@@ -205,10 +205,10 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       ev.stopEvent();
     }, this);
 
-    // Handle node click  
-    this.on('click', function(node) {
+    // Handle node click and selection change
+    this.getSelectionModel().on('selectionchange', function(tree,node) {
       this.fireEvent('nodeclick', node.id);
-    });
+    }, this);
 
     // Handle label edits
     this.on('textchange', function(node, new_text, old_text){
