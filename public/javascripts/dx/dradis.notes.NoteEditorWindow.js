@@ -12,10 +12,10 @@ dradis.notes.NoteEditorPanel=Ext.extend(Ext.TabPanel, {
     var config ={
       //props (non-overridable)
       deferredRender: false,
-      activeTab: 0,
       border: false,
       items:[
         this.fields.editor = new Ext.form.TextArea({
+          id: 'editor',
           title: 'Write',
           autoScroll: true,
           border: true,
@@ -116,6 +116,11 @@ dradis.notes.NoteEditorWindow=Ext.extend(Ext.Window, {
     this.fields.panel.on('cancel', function(){ this.hide(); }, this );
 
     this.fields.panel.on('save', function(){ this.hide(); }, this );
+
+    this.on('beforeshow', function(){ 
+      this.fields.panel.activate('editor');
+      this.fields.panel.fields.editor.focus(false, 500)
+    }, this);
   },
 
   // other methods/actions
