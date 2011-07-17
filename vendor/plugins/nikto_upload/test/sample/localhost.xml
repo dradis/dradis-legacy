@@ -1,0 +1,319 @@
+<?xml version="1.0" ?>
+<!DOCTYPE niktoscan SYSTEM "docs/nikto.dtd">
+<niktoscan hoststest="0" options="-h localhost -p 80 -out /tmp/localhost.xml" version="2.1.4" scanstart="Sun Jul 17 19:54:10 2011" scanend="Thu Jan  1 01:00:00 1970" scanelapsed=" seconds" nxmlversion="1.1">
+<scandetails targetip="127.0.0.1" targethostname="localhost" targetport="80" targetbanner="Apache/2.2.16 (Debian)" starttime="2011-07-18 19:54:10" sitename="http://localhost:80/" siteip="http://127.0.0.1:80/" hostheader="localhost">
+
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/: Directory indexing found.]]></description>
+<uri><![CDATA[/]]></uri>
+<namelink><![CDATA[http://localhost:80/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/]]></iplink>
+</item>
+
+<item id="600050" osvdbid="0" osvdblink="0_LINK" method="HEAD">
+<description><![CDATA[Apache/2.2.16 appears to be outdated (current is at least Apache/2.2.19). Apache 1.3.42 (final release) and 2.0.64 are also current.]]></description>
+<uri><![CDATA[/]]></uri>
+<namelink><![CDATA[http://localhost:80/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/]]></iplink>
+</item>
+
+<item id="999990" osvdbid="0" osvdblink="0_LINK" method="GET">
+<description><![CDATA[Allowed HTTP Methods: GET, HEAD, POST, OPTIONS ]]></description>
+<uri><![CDATA[/]]></uri>
+<namelink><![CDATA[http://localhost:80/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/./: Directory indexing found.]]></description>
+<uri><![CDATA[/./]]></uri>
+<namelink><![CDATA[http://localhost:80/./]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/./]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?mod=node&nid=some_thing&op=view: Directory indexing found.]]></description>
+<uri><![CDATA[/?mod=node&nid=some_thing&op=view]]></uri>
+<namelink><![CDATA[http://localhost:80/?mod=node&nid=some_thing&op=view]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?mod=node&nid=some_thing&op=view]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?mod=some_thing&op=browse: Directory indexing found.]]></description>
+<uri><![CDATA[/?mod=some_thing&op=browse]]></uri>
+<namelink><![CDATA[http://localhost:80/?mod=some_thing&op=browse]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?mod=some_thing&op=browse]]></iplink>
+</item>
+
+<item id="000327" osvdbid="0" osvdblink="0_LINK" method="GET">
+<description><![CDATA[/./: Appending '/./' to a directory allows indexing]]></description>
+<uri><![CDATA[/./]]></uri>
+<namelink><![CDATA[http://localhost:80/./]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/./]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[//: Directory indexing found.]]></description>
+<uri><![CDATA[//]]></uri>
+<namelink><![CDATA[http://localhost:80//]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80//]]></iplink>
+</item>
+
+<item id="000396" osvdbid="0" osvdblink="0_LINK" method="GET">
+<description><![CDATA[//: Apache on Red Hat Linux release 9 reveals the root directory listing by default if there is no index page.]]></description>
+<uri><![CDATA[//]]></uri>
+<namelink><![CDATA[http://localhost:80//]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80//]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?Open: Directory indexing found.]]></description>
+<uri><![CDATA[/?Open]]></uri>
+<namelink><![CDATA[http://localhost:80/?Open]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?Open]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?OpenServer: Directory indexing found.]]></description>
+<uri><![CDATA[/?OpenServer]]></uri>
+<namelink><![CDATA[http://localhost:80/?OpenServer]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?OpenServer]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/%2e/: Directory indexing found.]]></description>
+<uri><![CDATA[/%2e/]]></uri>
+<namelink><![CDATA[http://localhost:80/%2e/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/%2e/]]></iplink>
+</item>
+
+<item id="000462" osvdbid="576" osvdblink="576_LINK" method="GET">
+<description><![CDATA[/%2e/: Weblogic allows source code or directory listing, upgrade to v6.0 SP1 or higher. BID-2513.]]></description>
+<uri><![CDATA[/%2e/]]></uri>
+<namelink><![CDATA[http://localhost:80/%2e/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/%2e/]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?mod=<script>alert(document.cookie)</script>&op=browse: Directory indexing found.]]></description>
+<uri><![CDATA[/?mod=&lt;script&gt;alert(document.cookie)&lt;/script&gt;&op=browse]]></uri>
+<namelink><![CDATA[http://localhost:80/?mod=&lt;script&gt;alert(document.cookie)&lt;/script&gt;&op=browse]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?mod=&lt;script&gt;alert(document.cookie)&lt;/script&gt;&op=browse]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?sql_debug=1: Directory indexing found.]]></description>
+<uri><![CDATA[/?sql_debug=1]]></uri>
+<namelink><![CDATA[http://localhost:80/?sql_debug=1]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?sql_debug=1]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[///: Directory indexing found.]]></description>
+<uri><![CDATA[///]]></uri>
+<namelink><![CDATA[http://localhost:80///]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80///]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[http://127.0.0.1:2301/ HTTP/1.0: Directory indexing found.]]></description>
+<uri><![CDATA[http://127.0.0.1:2301/ HTTP/1.0]]></uri>
+<namelink><![CDATA[http://localhost:80http://127.0.0.1:2301/ HTTP/1.0]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80http://127.0.0.1:2301/ HTTP/1.0]]></iplink>
+</item>
+
+<item id="001406" osvdbid="561" osvdblink="561_LINK" method="GET">
+<description><![CDATA[/server-status: This reveals Apache information. Comment out appropriate line in httpd.conf or restrict access to allowed hosts.]]></description>
+<uri><![CDATA[/server-status]]></uri>
+<namelink><![CDATA[http://localhost:80/server-status]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/server-status]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?PageServices: Directory indexing found.]]></description>
+<uri><![CDATA[/?PageServices]]></uri>
+<namelink><![CDATA[http://localhost:80/?PageServices]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?PageServices]]></iplink>
+</item>
+
+<item id="001407" osvdbid="119" osvdblink="119_LINK" method="GET">
+<description><![CDATA[/?PageServices: The remote server may allow directory listings through Web Publisher by forcing the server to show all files via 'open directory browsing'. Web Publisher should be disabled. CVE-1999-0269.]]></description>
+<uri><![CDATA[/?PageServices]]></uri>
+<namelink><![CDATA[http://localhost:80/?PageServices]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?PageServices]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?wp-cs-dump: Directory indexing found.]]></description>
+<uri><![CDATA[/?wp-cs-dump]]></uri>
+<namelink><![CDATA[http://localhost:80/?wp-cs-dump]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?wp-cs-dump]]></iplink>
+</item>
+
+<item id="001408" osvdbid="119" osvdblink="119_LINK" method="GET">
+<description><![CDATA[/?wp-cs-dump: The remote server may allow directory listings through Web Publisher by forcing the server to show all files via 'open directory browsing'. Web Publisher should be disabled. CVE-1999-0269.]]></description>
+<uri><![CDATA[/?wp-cs-dump]]></uri>
+<namelink><![CDATA[http://localhost:80/?wp-cs-dump]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?wp-cs-dump]]></iplink>
+</item>
+
+<item id="999986" osvdbid="0" osvdblink="0_LINK" method="GET">
+<description><![CDATA[Retrieved x-powered-by header: PHP/5.3.3-7]]></description>
+<uri><![CDATA[/includes/]]></uri>
+<namelink><![CDATA[http://localhost:80/includes/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/includes/]]></iplink>
+</item>
+
+<item id="001702" osvdbid="3092" osvdblink="3092_LINK" method="GET">
+<description><![CDATA[/includes/: This might be interesting...]]></description>
+<uri><![CDATA[/includes/]]></uri>
+<namelink><![CDATA[http://localhost:80/includes/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/includes/]]></iplink>
+</item>
+
+<item id="002493" osvdbid="3093" osvdblink="3093_LINK" method="GET">
+<description><![CDATA[/includes/footer.php3: This might be interesting... has been seen in web logs from an unknown scanner.]]></description>
+<uri><![CDATA[/includes/footer.php3]]></uri>
+<namelink><![CDATA[http://localhost:80/includes/footer.php3]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/includes/footer.php3]]></iplink>
+</item>
+
+<item id="002494" osvdbid="3093" osvdblink="3093_LINK" method="GET">
+<description><![CDATA[/includes/header.php3: This might be interesting... has been seen in web logs from an unknown scanner.]]></description>
+<uri><![CDATA[/includes/header.php3]]></uri>
+<namelink><![CDATA[http://localhost:80/includes/header.php3]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/includes/header.php3]]></iplink>
+</item>
+
+<item id="002743" osvdbid="3093" osvdblink="3093_LINK" method="GET">
+<description><![CDATA[/.bash_history: A user's home directory may be set to the web root, the shell history was retrieved. This should not be accessible via the web.]]></description>
+<uri><![CDATA[/.bash_history]]></uri>
+<namelink><![CDATA[http://localhost:80/.bash_history]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/.bash_history]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/icons/: Directory indexing found.]]></description>
+<uri><![CDATA[/icons/]]></uri>
+<namelink><![CDATA[http://localhost:80/icons/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/icons/]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////: Directory indexing found.]]></description>
+<uri><![CDATA[///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////]]></uri>
+<namelink><![CDATA[http://localhost:80///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////]]></iplink>
+</item>
+
+<item id="003029" osvdbid="3288" osvdblink="3288_LINK" method="GET">
+<description><![CDATA[///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////: Abyss 1.03 reveals directory listing when 	 /'s are requested.]]></description>
+<uri><![CDATA[///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////]]></uri>
+<namelink><![CDATA[http://localhost:80///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?pattern=/etc/*&sort=name: Directory indexing found.]]></description>
+<uri><![CDATA[/?pattern=/etc/*&sort=name]]></uri>
+<namelink><![CDATA[http://localhost:80/?pattern=/etc/*&sort=name]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?pattern=/etc/*&sort=name]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?D=A: Directory indexing found.]]></description>
+<uri><![CDATA[/?D=A]]></uri>
+<namelink><![CDATA[http://localhost:80/?D=A]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?D=A]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?N=D: Directory indexing found.]]></description>
+<uri><![CDATA[/?N=D]]></uri>
+<namelink><![CDATA[http://localhost:80/?N=D]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?N=D]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?S=A: Directory indexing found.]]></description>
+<uri><![CDATA[/?S=A]]></uri>
+<namelink><![CDATA[http://localhost:80/?S=A]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?S=A]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?M=A: Directory indexing found.]]></description>
+<uri><![CDATA[/?M=A]]></uri>
+<namelink><![CDATA[http://localhost:80/?M=A]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?M=A]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?\"><script>alert('Vulnerable');</script>: Directory indexing found.]]></description>
+<uri><![CDATA[/?\&quot;&gt;&lt;script&gt;alert('Vulnerable');&lt;/script&gt;]]></uri>
+<namelink><![CDATA[http://localhost:80/?\&quot;&gt;&lt;script&gt;alert('Vulnerable');&lt;/script&gt;]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?\&quot;&gt;&lt;script&gt;alert('Vulnerable');&lt;/script&gt;]]></iplink>
+</item>
+
+<item id="003584" osvdbid="3233" osvdblink="3233_LINK" method="GET">
+<description><![CDATA[/icons/README: Apache default file found.]]></description>
+<uri><![CDATA[/icons/README]]></uri>
+<namelink><![CDATA[http://localhost:80/icons/README]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/icons/README]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?_CONFIG[files][functions_page]=http://cirt.net/rfiinc.txt?: Directory indexing found.]]></description>
+<uri><![CDATA[/?_CONFIG[files][functions_page]=http://cirt.net/rfiinc.txt?]]></uri>
+<namelink><![CDATA[http://localhost:80/?_CONFIG[files][functions_page]=http://cirt.net/rfiinc.txt?]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?_CONFIG[files][functions_page]=http://cirt.net/rfiinc.txt?]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?npage=-1&content_dir=http://cirt.net/rfiinc.txt?%00&cmd=ls: Directory indexing found.]]></description>
+<uri><![CDATA[/?npage=-1&content_dir=http://cirt.net/rfiinc.txt?%00&cmd=ls]]></uri>
+<namelink><![CDATA[http://localhost:80/?npage=-1&content_dir=http://cirt.net/rfiinc.txt?%00&cmd=ls]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?npage=-1&content_dir=http://cirt.net/rfiinc.txt?%00&cmd=ls]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?npage=1&content_dir=http://cirt.net/rfiinc.txt?%00&cmd=ls: Directory indexing found.]]></description>
+<uri><![CDATA[/?npage=1&content_dir=http://cirt.net/rfiinc.txt?%00&cmd=ls]]></uri>
+<namelink><![CDATA[http://localhost:80/?npage=1&content_dir=http://cirt.net/rfiinc.txt?%00&cmd=ls]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?npage=1&content_dir=http://cirt.net/rfiinc.txt?%00&cmd=ls]]></iplink>
+</item>
+
+<item id="750000" osvdbid="3268" osvdblink="3268_LINK" method="GET">
+<description><![CDATA[/?show=http://cirt.net/rfiinc.txt??: Directory indexing found.]]></description>
+<uri><![CDATA[/?show=http://cirt.net/rfiinc.txt??]]></uri>
+<namelink><![CDATA[http://localhost:80/?show=http://cirt.net/rfiinc.txt??]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/?show=http://cirt.net/rfiinc.txt??]]></iplink>
+</item>
+
+<item id="006184" osvdbid="3093" osvdblink="3093_LINK" method="GET">
+<description><![CDATA[/includes/db.inc: Include files (.inc) should not be served in plain text.]]></description>
+<uri><![CDATA[/includes/db.inc]]></uri>
+<namelink><![CDATA[http://localhost:80/includes/db.inc]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/includes/db.inc]]></iplink>
+</item>
+
+<item id="006185" osvdbid="3093" osvdblink="3093_LINK" method="GET">
+<description><![CDATA[/includes/sendmail.inc: Include files (.inc) should not be served in plain text.]]></description>
+<uri><![CDATA[/includes/sendmail.inc]]></uri>
+<namelink><![CDATA[http://localhost:80/includes/sendmail.inc]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/includes/sendmail.inc]]></iplink>
+</item>
+
+<item id="006495" osvdbid="0" osvdblink="0_LINK" method="GET">
+<description><![CDATA[/phpmyadmin/: phpMyAdmin directory found]]></description>
+<uri><![CDATA[/phpmyadmin/]]></uri>
+<namelink><![CDATA[http://localhost:80/phpmyadmin/]]></namelink>
+<iplink><![CDATA[http://127.0.0.1:80/phpmyadmin/]]></iplink>
+</item>
+
+<statistics elapsed="10" itemsfound="44" itemstested="6456" endtime="2011-07-18 19:54:20" />
+</scandetails>
+
+
+</niktoscan>
