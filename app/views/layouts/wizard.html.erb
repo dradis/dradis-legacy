@@ -3,12 +3,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>First Time User's Wizard - <%= Core::VERSION::string %></title>
-  <link href="/favicon.ico" rel="shortcut icon" />
-  <link href="/favicon.ico" rel="icon" />
+  <%= favicon_link_tag %>
   <style type="text/css">
     body{
 
-      background: #F9F9F7 url('../images/wizard/a1.gif') repeat-x;
+      background: #F9F9F7 url(<%= image_path 'wizard/a1.gif' %>) repeat-x;
       font-family:"trebuchet ms", Arial, Helvetica, sans-serif; 
       /*font-size:13px;*/
     }
@@ -18,7 +17,7 @@
       /*width:600px;*/
       width:75%;
       /*background:#FFF;*/
-      background: #FFF url(../images/wizard/a33.gif) 100% 100% repeat-x;
+      background: #FFF url(<%= image_path 'wizard/a33.gif' %>) 100% 100% repeat-x;
       border: 1px solid #CCC;
       padding: 40px 20px 5px 20px;
     }
@@ -28,8 +27,8 @@
     ul.tab, .tab li{border:0; margin:0; padding:0; list-style:none;}
     ul.tab{border-bottom:solid 1px #DEDEDE; height:29px; padding-left:20px;}
     .tab li{float:left; margin-right:2px;}
-    .tab a:link, .tab a:visited{
-    	background:url(../images/wizard/tab-round.png) right 60px;
+    .tab a:link, .tab a:visited {
+    	background:url(<%= image_path 'wizard/tab-round.png' %>) right 60px;
     	color:#666666;
     	display:block;
     	font-weight:bold;
@@ -37,29 +36,29 @@
     	line-height:30px;
     	text-decoration:none;
     }
-    .tab a span{
-    	background:url(../images/wizard/tab-round.png) left 60px;
+    .tab a span {
+    	background:url(<%= image_path 'wizard/tab-round.png' %>) left 60px;
     	display:block;
     	height:30px;
     	margin-right:14px;
     	padding-left:14px;
     }
-    .tab a:hover{
-    	background:url(../images/wizard/tab-round.png) right 30px;
+    .tab a:hover {
+    	background:url(<%= image_path 'wizard/tab-round.png' %>) right 30px;
     	display:block;
     }
-    .tab a:hover span{
-    	background:url(../images/wizard/tab-round.png) left 30px;
+    .tab a:hover span {
+    	background:url(<%= image_path 'wizard/tab-round.png' %>) left 30px;
     	display:block;
     }
 
     /* -------------------------------- */
     /* 	ACTIVE ELEMENTS					*/
-    .active a:link, .active a:visited, .active a:visited, .active a:hover{
-    	background:url(../images/wizard/tab-round.png) right 0 no-repeat;
+    .active a:link, .active a:visited, .active a:visited, .active a:hover {
+    	background:url(<%= image_path 'wizard/tab-round.png' %>) right 0 no-repeat;
     } 
     .active a span, .active a:hover span{
-    	background:url(../images/wizard/tab-round.png) left 0 no-repeat;
+    	background:url(<%= image_path 'wizard/tab-round.png' %>) left 0 no-repeat;
     }
 
     #footer { 
@@ -68,7 +67,7 @@
       min-height: 64px;
       height: auto !important;
       height: 64px;
-      background: url('../images/logo_tiny.png') 100% 50% no-repeat;
+      background: url(<%= image_path 'logo_tiny.png' %>) 100% 50% no-repeat;
       clear: both;
     }
 
@@ -86,7 +85,7 @@
     <ul class="tab">
     <%= menu_tabs.html_safe %>
     </ul>
-    <div id="back"><a href="/">&lsaquo; back to the app.</a></div>
+    <div id="back"><%= link_to '&lsaquo; back to the app'.html_safe, root_path %></div>
 
     <%= yield %>
     <div id="footer">
