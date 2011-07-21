@@ -4,6 +4,8 @@ Dradis::Application.routes.draw do
   match '/login' => 'sessions#new', :as => :login
   match '/logout' => 'sessions#destroy', :as => :logout
 
+  match '/wizard' => 'wizard#index', :as => :wizard
+
   resources :configurations
   resources :categories
   resources :feeds
