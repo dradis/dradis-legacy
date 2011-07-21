@@ -90,7 +90,7 @@ var dradisstatus = new Ext.ux.StatusBar({
 
 nodestree.on('nodeclick', function(node_id){
   notesbrowser.updateNotes(node_id);
-  newnotes.body.load('/nodes/' + node_id + '/notes');
+  newnotes.body.load('nodes/' + node_id + '/notes');
   attachments.updateAttachments(node_id);
   dradistabs.enable();
   if (dradistabs.getActiveTab() === null) {

@@ -98,7 +98,7 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
     // After parent code
     // e.g. install event handlers on rendered component
     this.fields.dv.on('dblclick', function(dv, index, node, ev){ 
-      window.open('/nodes/' + dv.store.currentNode + '/attachments/' + escape(node.id));
+      window.open('nodes/' + dv.store.currentNode + '/attachments/' + escape(node.id));
     }, this);
     
     this.fields.dv.on('contextmenu', function(dv, index, node, ev){  
@@ -124,7 +124,7 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
   // other methods/actions
   updateAttachments:function(node_id){
     this.fields.dv.store.currentNode = node_id
-    this.fields.dv.store.proxy.setUrl( '/nodes/'+node_id+'/attachments.json' );
+    this.fields.dv.store.proxy.setUrl( 'nodes/'+node_id+'/attachments.json' );
     this.fields.dv.store.load();
   },
   refresh:function(){
@@ -145,12 +145,12 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
   layout:'border',
   dataStore: new Ext.data.JsonStore({
     currentNode:1,
-    url:'/nodes/' + this.currentNode + '/attachments.json',
+    url:'nodes/' + this.currentNode + '/attachments.json',
     fields:['filename', 'size', 'created_at'],
     listeners:{
       update:function(store, record, operation){
         Ext.Ajax.request({
-          url: '/nodes/' + this.currentNode + '/attachments/' + record.modified.filename,
+          url: 'nodes/' + this.currentNode + '/attachments/' + record.modified.filename,
           method: 'put',
           record: record,
           params: {
@@ -165,7 +165,7 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
       },
       remove:function(store, record, index){
         Ext.Ajax.request({
-          url: '/nodes/' + this.currentNode + '/attachments/' + record.get('filename'),
+          url: 'nodes/' + this.currentNode + '/attachments/' + record.get('filename'),
           method: 'delete'
         });
       }
@@ -216,7 +216,7 @@ dradis.attachments.AttachmentsPanel=Ext.extend(Ext.Panel, {
   */
   updateAttachments:function(node_id){
     this.fields.viewer.updateAttachments(node_id);
-    this.fields.uploader.setUrl( '/nodes/'+node_id+'/attachments.json' );
+    this.fields.uploader.setUrl( 'nodes/'+node_id+'/attachments.json' );
   },
   refresh:function(){
     this.fields.viewer.refresh();
