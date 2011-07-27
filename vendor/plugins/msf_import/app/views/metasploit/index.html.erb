@@ -1,0 +1,52 @@
+<% title 'Metasploit Import Wizard' %>
+
+<p>From this screen you can pick and choose the information you want to import
+into your Dradis repository.</p>
+<p><%= link_to 'Show current configuration', 'javascript:return null;', :id => 'show-hide-configuration' %>
+
+<div id="configuration" class="block" style="display: none;">
+  <h2>Configuration</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Setting</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%- for setting in MsfImport::Configuration.settings -%>
+      <tr>
+        <td><%= setting.name %></td>
+        <td><%= setting.value %></td>
+      </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+
+  <p><%= link_to 'Edit configuration', configurations_path() %></p>
+</div>
+
+<div id="step_retrieve-hosts" class="block">
+  <h2>First step: pull available hosts and services</h2>
+  <p><%= link_to 'Pull hosts', 'javascript:return null;', :id => 'pull-hosts' %></p>
+</div>
+
+<div id="metasploit-hosts" class="block" style="display: none;">
+  <div id="spinner"><%= image_tag 'loading.gif', :width => 16, :height => 16, :alt => 'Ajax loading spinner' %></div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+$(function(){
+  $('#show-hide-configuration').click(function(){
+    $('#configuration').toggle();
+  });
+  $('#pull-hosts').click(function(){
+    $('#metasploit-hosts').show();
+    $('#spinner').show();
+    $('#flash_error').remove();
+    $.getScript( '/metasploit/hosts' );
+  });
+});
+</script>

@@ -1,0 +1,8 @@
+$('#spinner').hide();
+
+<%- if @success -%>
+// Render the @hosts and @services
+
+<%- else -%>
+$('#metasploit-hosts').append('<div id="flash_error"><%= flash.now[:error] %></div>')
+<%- end -%>  
