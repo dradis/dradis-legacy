@@ -26,7 +26,7 @@ uploaded them you can process with the different <a href="#" id="available">plug
 
 <div class="block">
 <h2>Upload file</h2>
-  <%= form_tag '/upload/create', :multipart => true do %>
+  <%= form_tag 'upload/create', :multipart => true do %>
     <%= select_tag  'uploader', options_from_collection_for_select( @plugins, 'name', 'name' ) %>
     <%= file_field_tag 'file' %>
     <%= hidden_field_tag 'item_id' %>

@@ -27,7 +27,7 @@ dradis.plugins.PluginManager = function(){
             item.disabled = true; 
           } else if (record.data.actions.length == 1)
           {
-            item.on('click', function(){ window.location = '/export/'+record.data.actions[0]; });
+            item.on('click', function(){ window.location = 'export/'+record.data.actions[0]; });
           } else
           {
             item.menu = new Ext.menu.Menu({});
