@@ -106,7 +106,7 @@ class SessionsController < ApplicationController
     if not ( usr.nil? || pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != Configuration.password)
       flash[:first_login] = first_login?
       self.current_user = usr
-      redirect_back_or_default('/')
+      redirect_back_or_default( root_path )
       #flash[:notice] = 'Logged in successfully.'
     else
       flash.now[:error] = 'Try again.'

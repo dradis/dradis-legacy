@@ -28,7 +28,7 @@ class NodesController < ApplicationController
 
   # PUT /node/<id>
   def update
-    if @node.update_attributes( params[:node] )
+    if @node.update_attributes( params[:node] || ActiveSupport::JSON.decode(params[:data]) )
       flash[:notice] = 'Successfully updated node.' 
     end
     respond_with(@node)
@@ -42,12 +42,12 @@ class NodesController < ApplicationController
 
   protected
     def find_or_initialize_node
-      if params[:node_id]
-        unless @node = Node.find_by_id(params[:node_id])
+      if params[:id]
+        unless @node = Node.find_by_id(params[:id])
           render_optional_error_file :not_found
         end
       else
-        @node = Node.new(params[:node])
+        @node = Node.new(params[:node] || ActiveSupport::JSON.decode(params[:data]))
       end
     end        
 

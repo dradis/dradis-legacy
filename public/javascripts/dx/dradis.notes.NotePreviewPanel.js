@@ -8,6 +8,7 @@ dradis.notes.NotePreviewPanel=Ext.extend(Ext.Panel, {
   autoScroll: true,
   border: true,
   bodyCssClass: 'preview',
+  rawText: '',
 
   initComponent: function(){
     // Called during component initialization
@@ -38,23 +39,27 @@ dradis.notes.NotePreviewPanel=Ext.extend(Ext.Panel, {
   },
 
   update:function(rawText){
-    this.body.update('<div class="loading-indicator">Loading...</div>');
-    Ext.Ajax.request({
-      url: 'home/textilize/index.json', 
-      params: { text: rawText },
-      scope: this,
-      success:function(response, options){
-        var html = Ext.decode(response.responseText).html;
-        this.body.update(html);
-      },
-      failure:function(response,options){
-        dradisstatus.setStatus({
-          text: 'Could not get a text preview',
-          iconCls: 'error',
-          clear: 5000
-        });
-      }
-    });
+    if (rawText != this.rawText)
+    {
+      this.body.update('<div class="loading-indicator">Loading...</div>');
+      Ext.Ajax.request({
+        url: 'home/textilize/index.json', 
+        params: { text: rawText },
+        scope: this,
+        success:function(response, options){
+          var html = Ext.decode(response.responseText).html;
+          this.body.update(html);
+          this.rawText = rawText;
+        },
+        failure:function(response,options){
+          dradisstatus.setStatus({
+            text: 'Could not get a text preview',
+            iconCls: 'error',
+            clear: 5000
+          });
+        }
+      });
+    }
   }
 
 });

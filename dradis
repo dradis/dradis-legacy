@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'thor'
+
+require File.expand_path('../lib/tasks/thorfile', __FILE__)
+
+DradisTasks.start

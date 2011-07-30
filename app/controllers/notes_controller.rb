@@ -12,7 +12,7 @@ class NotesController < ApplicationController
   def index
     @notes = Note.find(:all, :conditions => {:node_id => @node.id})
     respond_to do |format|
-      format.html { head :method_not_allowed }
+      format.html { }
       
       format.xml { render :xml => @notes.to_xml}
       format.json { 

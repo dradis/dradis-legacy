@@ -12,7 +12,11 @@ module WizardHelper
       if (action == link)
         "<li class=\"active\"><a href=\"#\"><span>#{title}</span></a></li>"  
       else
-        "<li><a href=\"/wizard/#{link}\"><span>#{title}</span></a></li>"  
+        content_tag :li do
+          link_to wizard_path() + '/' + link do
+            content_tag :span, title
+          end
+        end
       end
     end.join
   end

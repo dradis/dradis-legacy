@@ -13,7 +13,7 @@ class Node < ActiveRecord::Base
   # Return the JSON structure representing this Node and any child nodes
   # associated with it.
   def as_json(options={})
-    json = { :text => self.label, :id => self.attributes['id'] }
+    json = { :text => self.label, :id => self.attributes['id'], :type => self.type_id || 0 }
     if (self.children.any?)
       json[:children] = self.children
     end

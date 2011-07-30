@@ -27,7 +27,7 @@ dradis.plugins.PluginManager = function(){
             item.disabled = true; 
           } else if (record.data.actions.length == 1)
           {
-            item.on('click', function(){ window.location = '/export/'+record.data.actions[0]; });
+            item.on('click', function(){ window.location.href = 'export/'+record.data.actions[0]; });
           } else
           {
             item.menu = new Ext.menu.Menu({});
@@ -36,7 +36,7 @@ dradis.plugins.PluginManager = function(){
             for ( var i =0; i<record.data.actions.length; i++){
               action = record.data.actions[i];
               label = Ext.util.Format.capitalize( action.replace(/_/g, ' ') );
-              item.menu.add( new Ext.menu.Item({ text: label, url: 'export/' + action, handler: function(){ window.location = this.url; } }) );
+              item.menu.add( new Ext.menu.Item({ text: label, url: 'export/' + action, handler: function(){ window.location.href = this.url; } }) );
             };
           }
           exporters.add(item);

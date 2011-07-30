@@ -86,6 +86,13 @@ class DradisTasks < Thor
     end
   end
 
+  desc "version", "displays the version of the dradis server"
+  def version
+    require 'config/environment'
+    
+    puts Core::VERSION::string
+  end
+  
 
   class Import < Thor; end
   class Export < Thor; end

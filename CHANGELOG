@@ -1,3 +1,8 @@
+v2.8
+ - Updated to Rails 3.0.9
+ - Improved startup scripts
+ - Bugs fixed: #5, #9, #13, #14, #15, #16, #19, #20
+
 v2.7.1 (24th of May 2011)
  - Improved note editor: more space, less Ajax
  - Bugs fixed: #3, #4, #6, #7, #8, #10
@@ -17,6 +22,7 @@ v2.7 (19th of April 2011)
    * Nessus plugin supports .nessus v2
    * Vuln::DB import plugin updated to work with the latest release
  - Bugs fixed: #2888332, #2973256
+ - Updated to Rails 3.0.6
 
 v2.6.1 (11th of February 2011)
  - Fixed a 'back slash' vs 'forward slash' issue in start.sh
