@@ -1,4 +1,4 @@
-v2.8
+v2.7.2 ()
  - Updated to Rails 3.0.9
  - Improved startup scripts
  - Bugs fixed: #5, #9, #13, #14, #15, #16, #19, #20
