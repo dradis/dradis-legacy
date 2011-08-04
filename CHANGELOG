@@ -1,3 +1,6 @@
+vX.Y.Z ()
+ - Bugs fixed: #17
+
 v2.7.2 (1st of August 2011)
  - Updated to Rails 3.0.9
  - Improved startup scripts
