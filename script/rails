@@ -13,6 +13,9 @@ module Rails
             super.merge({
                 :Port => 3004,
                 :Host => "127.0.0.1",
+                # hopefully this closes #17
+                # ref: http://stackoverflow.com/questions/1156759/
+                :DoNotReverseLookup => nil,
                 :environment => (ENV['RAILS_ENV'] || "development").dup,
                 :daemonize => false,
                 :debugger => false,
