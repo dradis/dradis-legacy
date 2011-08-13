@@ -1,4 +1,5 @@
 vX.Y.Z ()
+ - New version of the Nmap upload plugin
  - ./verify.sh now checks that libxml2 is installed
  - Bugs fixed: #17
 
