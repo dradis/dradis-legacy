@@ -1,5 +1,6 @@
 # NmapUploadImport
 
+require 'nmap_upload/validator'
 require 'nmap_upload/filters'
 require 'nmap_upload/meta'
 

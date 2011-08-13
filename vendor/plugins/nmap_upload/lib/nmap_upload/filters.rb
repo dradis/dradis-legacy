@@ -1,5 +1,4 @@
 require 'nmap/parser'
-require 'nmap_upload/nmap_validate'
 
 module NmapUpload
 
@@ -21,7 +20,7 @@ module NmapUpload
     parent = Node.find_or_create_by_label( Configuration.parent_node)
 
     @@logger.info{ 'Validating Nmap upload...' }
-    errors = NmapValidate.validate(file_content)
+    errors = Validator.validate(file_content)
     if errors.any?
       errors.each do |error|
         error << "\n#[File name]#\n#{File.basename( params[:file] )}\n\n"
