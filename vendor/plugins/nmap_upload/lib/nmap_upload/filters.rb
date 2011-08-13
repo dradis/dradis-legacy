@@ -44,8 +44,7 @@ module NmapUpload
     parser.hosts do |host|
       host_label = host.addr
       host_label = "#{host_label} (#{host.hostname})" if host.hostname
-      host_node = Node.new( :label => host_label, :parent_id => parent.id)
-      host_node.save
+      host_node = parent.children.find_or_create_by_label_and_type_id( host_label, Node::Types::HOST )
 
       # add the nmap output for the host as notes to the node
       host_info = "#{host.addr}:\n"
@@ -76,8 +75,7 @@ module NmapUpload
 
       port_hash.each do |port_name, info|
         # Add a node for the port
-        port_node = Node.new( :parent_id => host_node.id, :label => "#{port_name}" )
-        port_node.save
+        port_node = host_node.children.find_or_create_by_label( port_name )
 
         # add a note with the port information
         Note.new(
