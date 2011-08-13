@@ -15,9 +15,10 @@ module NmapUpload
     file_content = File.read( params[:file] ) 
     @@logger = params.fetch(:logger, Rails.logger)
 
+    # get the "nmap output" category instance or create it if it does not exist
+    category = Category.find_or_create_by_name( Configuration.category )
     # create the parent early so we can use it to provide feedback on errors
-    category = Category.find_by_name( Configuration.category )
-    parent = Node.create( :label => Configuration.parent_node)
+    parent = Node.find_or_create_by_label( Configuration.parent_node)
 
     @@logger.info{ 'Validating Nmap upload...' }
     NmapValidate.validate(file_content)
