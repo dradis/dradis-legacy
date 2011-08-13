@@ -15,6 +15,10 @@ module NmapUpload
     file_content = File.read( params[:file] ) 
     @@logger = params.fetch(:logger, Rails.logger)
 
+    # create the parent early so we can use it to provide feedback on errors
+    category = Category.find_by_name( Configuration.category )
+    parent = Node.create( :label => Configuration.parent_node)
+
     @@logger.info{ 'Validating Nmap upload...' }
     NmapValidate.validate(file_content)
 
@@ -22,9 +26,6 @@ module NmapUpload
     parser = Nmap::Parser.parsestring( file_content )
     @@logger.info{ 'Done.' }
 
-    # get the "nmap output" category instance or create it if it does not exist
-    category = Category.find_by_name( Configuration.category ) 
-    parent = Node.create( :label => "#{ File.basename( params[:file] ) } - Nmap scan")
 
     # TODO: do something with the Nmap::Parser::Session information
     
