@@ -1,3 +1,6 @@
+/*========================================== General application-wide styles */
+body { background-color: #dadada;}
+
 #flash_notice, #flash_error, #flash_alert {
   padding: 5px 8px;
   margin: 10px 0;
@@ -11,4 +14,34 @@
 #flash_error, #flash_alert {
   background-color: #FCC;
   border: solid 1px #C66;
+}
+
+.content {
+  background: #fff;
+  padding: 40px;
+  margin: 40px auto;
+  width: 880px;
+  -moz-border-radius: 24px;
+  -webkit-border-radius: 24px;
+}
+
+.content .block {
+  margin-top: 2ex;
+}
+
+#footer {
+  margin: 0 auto;
+  width: 880px;
+  text-align: right;
+  font-size: 80%;
+  color: #888;
+}
+
+
+/*=========================================================== Upload Manager */
+#console {
+  background-color: #000;
+  color: #CCC;
+  padding: 2ex 1ex;
+  margin-top: 2ex;
 }
