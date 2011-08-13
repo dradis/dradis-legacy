@@ -21,7 +21,17 @@ module NmapUpload
     parent = Node.find_or_create_by_label( Configuration.parent_node)
 
     @@logger.info{ 'Validating Nmap upload...' }
-    NmapValidate.validate(file_content)
+    errors = NmapValidate.validate(file_content)
+    if errors.any?
+      errors.each do |error|
+        error << "\n#[File name]#\n#{File.basename( params[:file] )}\n\n"
+        parent.notes.create(
+          :author => Configuration.author,
+          :category_id => category.id,
+          :text => error)
+      end
+      return false
+    end
 
     @@logger.info{ 'Parsing Nmap output...' }
     parser = Nmap::Parser.parsestring( file_content )
