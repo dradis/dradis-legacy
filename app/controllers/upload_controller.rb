@@ -7,9 +7,8 @@
 #
 # A convenience list method is provided that will return all the currently
 # loaded plugins of this category.
-class UploadController < ApplicationController
+class UploadController < AuthenticatedController
   include Plugins::Upload
-  before_filter :login_required
   before_filter :validate_uploader, :only => [:import, :create, :parse]
   after_filter :wrap_ajax_file_upload_response, :only => [:create]
 
