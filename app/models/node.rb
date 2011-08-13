@@ -32,4 +32,9 @@ class Node < ActiveRecord::Base
     attachments_dir = Attachment.pwd.join(self.id.to_s)
     FileUtils.rm_rf attachments_dir if File.exists?(attachments_dir)
   end
+
+  module Types
+    DEFAULT = 0
+    HOST = 1
+  end
 end
