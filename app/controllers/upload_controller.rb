@@ -103,13 +103,20 @@ class UploadController < AuthenticatedController
     flash.now[:notice] = 'successfully uploaded'
   end
 
-  def parse   
+  def parse
     item_id = params[:item_id]
     uploadsNode = Node.find_or_create_by_label(::Configuration.uploadsNode)
     attachment = Attachment.find(params[:file], :conditions => { :node_id => uploadsNode.id })
 
-    Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
-    Bj.submit "ruby script/rails runner lib/upload_processing_job.rb %s \"%s\" %s" % [ params[:uploader], attachment.fullpath, params[:item_id] ]
+    if File.size(attachment.fullpath) < 1024*1024
+      logger = Log.new(:uid => item_id)
+      logger.write('Small attachment detected. Processing in line.')
+      @uploader.import(:file => attachment.fullpath, :logger => logger)
+      logger.write('Worker process completed.')
+    else
+      Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
+      Bj.submit "ruby script/rails runner lib/upload_processing_job.rb %s \"%s\" %s" % [ params[:uploader], attachment.fullpath, params[:item_id] ]
+    end
   end
 
   def status
