@@ -10,6 +10,7 @@ uploaded them you can process with the different <a href="#" id="available">plug
     <thead>
       <tr>
         <th>Name</th>
+        <th>Expects</th>
         <th>Version</th>
       </tr>
     </thead>
@@ -17,6 +18,7 @@ uploaded them you can process with the different <a href="#" id="available">plug
       <% @plugins.each do |plugin| %>
       <tr>
         <td><%= plugin::Meta::NAME %></td>
+        <td><%= defined?(plugin::Meta::EXPECTS) ? plugin::Meta::EXPECTS : "[undefined]" %></td>
         <td><%= plugin::Meta::VERSION::STRING %></td>
       </tr>
       <% end %>
