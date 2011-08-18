@@ -9,9 +9,6 @@ module RetinaUpload
     setting :category, :default => 'Retina Scanner Output'
     setting :author, :default => 'Retina Scanner Plugin'
     setting :node_label, :default => 'Retina Output'
-
-    # setting :my_setting, :default => 'Something'
-    # setting :another, :default => 'Something Else'
   end
 end
 

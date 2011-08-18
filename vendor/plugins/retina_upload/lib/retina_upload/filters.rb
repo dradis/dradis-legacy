@@ -7,7 +7,6 @@ module RetinaUpload
   # This method will be called by the framework when the user selects your 
   # plugin from the drop down list of the 'Import from file' dialog
   def self.import(params={})
-    #require 'ruby-debug19'
     @plugin_author_name = Configuration.author
 
     @category = Category.find_by_name(Configuration.category)
