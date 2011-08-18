@@ -11,5 +11,7 @@ module <%= class_name %>
     @@logger = params.fetch(:logger, Rails.logger)
 
     # TODO: do something with the contents of the file!
+    # if you want to print out something to the screen or to the uploader 
+    # interface use @@logger.info("Your message")
   end
 end

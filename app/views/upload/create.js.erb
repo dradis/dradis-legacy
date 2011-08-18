@@ -1,7 +1,7 @@
 <% if @success -%>
   $("#files div:last-child").replaceWith( '<%= escape_javascript( render @attachment ) %>' );
   parsing = true;
-  $.get('/upload/parse?item_id=<%= params[:item_id] %>&uploader=<%= params[:uploader]%>&file=<%= @attachment.filename %>', null, null, 'script');
+  $.get('upload/parse?item_id=<%= params[:item_id] %>&uploader=<%= params[:uploader]%>&file=<%= @attachment.filename %>', null, null, 'script');
   setTimeout(updateConsole, 2000);
 <% else -%>
 $("#<%= params[:item_id]  %>").find('span').html('(<%= flash.now[:error] %>)');

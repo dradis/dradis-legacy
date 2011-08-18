@@ -1,6 +1,15 @@
+noscript #logo {
+  background: url('/images/logo_small.png') no-repeat;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
 noscript p {
   font-family: Verdana,Arial,Helvetica,sans-serif;
   padding: 0.5ex;
+  margin: 3ex 3ex;
 }
 
 .add { 

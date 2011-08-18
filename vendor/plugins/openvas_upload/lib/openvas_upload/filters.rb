@@ -18,8 +18,7 @@ module OpenvasUpload
 
 
     @@logger = params.fetch(:logger, Rails.logger)
-    @@logger.level = Logger::DEBUG
-    @@logger.debug('started debugging')
+    @@logger.info('started debugging')
 
 
     file_content = File.read( params[:file] )

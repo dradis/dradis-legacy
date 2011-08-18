@@ -276,7 +276,7 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
   },
 
   load: function(node_id){
-    this.store.proxy.setUrl( '/nodes/' + node_id + '/notes.json', true );
+    this.store.proxy.setUrl( 'nodes/' + node_id + '/notes.json', true );
     this.store.load();
   }
 });

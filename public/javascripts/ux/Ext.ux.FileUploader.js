@@ -629,8 +629,7 @@ Ext.extend(Ext.ux.FileUploader, Ext.util.Observable, {
 		this.upCount++;
 
 		// request upload
-		//Ext.Ajax.request(o);
-    dradis.ajax.request(o);
+		Ext.Ajax.request(o);
 
 		// todo:delete after devel
 		this.getIframe.defer(100, this, [record]);

@@ -1,5 +1,15 @@
-v2.8
- - Updated to Rails 3.0.7
+vX.Y.Z ()
+ - ./verify.sh now checks that libxml2 is installed
+ - Bugs fixed: #17
+
+v2.7.2 (1st of August 2011)
+ - Updated to Rails 3.0.9
+ - Improved startup scripts
+ - Bugs fixed: #5, #9, #13, #14, #15, #16, #19, #20
+
+v2.7.1 (24th of May 2011)
+ - Improved note editor: more space, less Ajax
+ - Bugs fixed: #3, #4, #6, #7, #8, #10
 
 v2.7 (19th of April 2011)
  - Improved command line API with Thor (thor -T)

@@ -22,13 +22,13 @@
         can use this plugin to extract information from it.</li>
 
       </ul>
-      <div class="center"><img src="/images/wizard/import_plugins.png"/></div>
+      <div class="center"><%= image_tag 'wizard/import_plugins.png', :height => 399, :width => 659, :alt => 'The Dradis Note import panel' %></div>
       </li>
 
       <li><strong>Export</strong>: to get information out of Dradis (see the 
-      section on <a href="/wizard/reporting">Reporting</a>). To see these
+      section on <%= link_to 'Reporting', wizard_path() + '/reporting' %>). To see these
       plugins in action, use the <strong>Export</strong> menu in the toolbar:
-      <div class="center"><img src="/images/wizard/export_plugins.png"/></div>
+      <div class="center"><%= image_tag 'wizard/export_plugins.png', :height => 108, :width => 224, :alt => 'A zoomed in screenshot of the Dradis Export menu' %></div>
       </li>
       <li><strong>Upload</strong>: plugins that let you upload and process a 
       file (e.g. output produced by a tool). Choose <code>import from file...</code> 
@@ -44,7 +44,7 @@
           <li><code>W3afUpload</code>: web application attack and audit framework - <a href="http://w3af.sourceforge.net/">w3af</a></li>
           <li><code>WxfUpload</code>: the web exploitation framework - <a href="https://github.com/WebExploitationFramework/wXf">wXf</a></li>
         </ul>
-        <div class="center"><img src="/images/wizard/upload_plugins.png"/></div>
+      <div class="center"><%= image_tag 'wizard/upload_plugins.png', :height => 223, :width => 313, :alt => 'The Dradis Import from file dialog' %></div>
       </li>
     </ul>
   </div>

@@ -25,6 +25,7 @@ var dradistabs = new Ext.TabPanel({
   activeTab: 0,
   border: false,
   deferredRender: false,
+  disabled: true,
   //margins: '0 5 0 0',
   items: [
     notesbrowser,
@@ -89,7 +90,7 @@ var dradisstatus = new Ext.ux.StatusBar({
 
 nodestree.on('nodeclick', function(node_id){
   notesbrowser.updateNotes(node_id);
-  newnotes.body.load('/nodes/' + node_id + '/notes');
+  newnotes.body.load('nodes/' + node_id + '/notes');
   attachments.updateAttachments(node_id);
   dradistabs.enable();
   if (dradistabs.getActiveTab() === null) {
@@ -106,13 +107,15 @@ nodestree.on('notesdrop', function(drop_ev) {
   }
 });
 
-attachments.on('load', function(store, records, options){
-  if (records.length > 0) {
+update_attachments_tab = function(store){
+  if (store.data.length > 0) {
     attachments.setTitle('Attachments (!)');
   } else {
     attachments.setTitle('Attachments');
   }
-});
+};
+attachments.on('load', update_attachments_tab);
+attachments.on('remove', update_attachments_tab);
 
 importer.on('importrecord',function(record){ 
     notesbrowser.addNote(record.data.description ); 

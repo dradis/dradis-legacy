@@ -10,7 +10,7 @@ module WikiImport
     configure :namespace => 'wikiimport'
     setting :host, :default => 'localhost'
     setting :port, :default => 80
-    setting :path, :default => '/mediawiki-1.14.0/api.php'
+    setting :path, :default => '/mediawiki/api.php'
     setting :fields, :default => 'Title,Impact,Probability,Description,Recommendation'
   end
 
@@ -20,7 +20,7 @@ module WikiImport
     dradis_fields = wikitext
     fields = Configuration.fields.split(',')
     fields.each do |f|
-      dradis_fields.sub!( /=#{f}=/, "#[#{f}]#" )
+      dradis_fields.sub!( /=+#{f}=+/, "#[#{f}]#" )
     end
     return dradis_fields
   end

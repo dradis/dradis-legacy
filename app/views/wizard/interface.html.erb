@@ -10,13 +10,13 @@
       window there is a <strong>list of notes</strong> and in the lower section
       there is a <strong>preview</strong> panel.</li>
     </ul>
-    <div class="center"><img src="/images/wizard/interface.png"/></div>
+    <div class="center"><%= image_tag 'wizard/interface.png', :height => 527, :width => 700, :alt => 'Screenshot of the Dradis interface' %></div>
     <p>Just below the notes list there is a tabbed control that lets you choose
     between: </p>
     <ul>
       <li><strong>Notes</strong>: the view shown in the screenshot.</li>
       <li><strong>Import note...</strong>: to invoke the Import plugins (see the 
-      section on <a href="/wizard/plugins">Plugins</a> of this Wizard).</li>
+      section on <%= link_to 'Plugins', wizard_path() + '/plugins' %> of this Wizard).</li>
       <li><strong>Attachments</strong>: so you can attach files to your 
       repository (e.g. a screenshot, a scope document, etc.).</li>
   </div>

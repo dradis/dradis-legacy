@@ -35,6 +35,6 @@ function updateConsole() {
   } else {
     after = '0';
   }
-  $.getScript( '/upload/status?item_id=' + upload_id + '&after=' + after );
+  $.getScript( 'upload/status?item_id=' + upload_id + '&after=' + after );
   setTimeout(updateConsole, 2000);
 }

@@ -82,9 +82,9 @@ EON
 
   root = Node.create!(:label => 'Dradis Framework 2.7')
   root.notes.create!( :author => 'First time wizard', :category_id => 1, :text => NOTE1)
-  destination = File.join(Rails.root, 'attachments', root.id.to_s)
+  destination = Attachment.pwd.join(root.id.to_s)
   FileUtils.mkdir_p(destination)
-  FileUtils.cp( File.join(Rails.root, 'public', 'images', 'logo_small.png'), File.join(destination, 'logo.png') )
+  FileUtils.cp( Rails.root.join('public', 'images', 'logo_small.png'), destination.join('logo.png') )
 
   whats_new = root.children.create!( :label => 'What\'s new?')
   whats_new.notes.create!( :author => 'First time wizard', :category_id => 1, :text =>  NOTE2)
