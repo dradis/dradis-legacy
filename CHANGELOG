@@ -1,7 +1,7 @@
 vX.Y.Z ()
  - New version of the Nmap upload plugin
  - ./verify.sh now checks that libxml2 is installed
- - Bugs fixed: #17
+ - Bugs fixed: #17, #37
 
 v2.7.2 (1st of August 2011)
  - Updated to Rails 3.0.9
