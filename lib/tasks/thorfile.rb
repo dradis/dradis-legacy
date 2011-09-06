@@ -132,20 +132,6 @@ class DradisTasks < Thor
       end
     end
 
-
-    desc "password NEW_PASSWORD", "Set a new shared password to access the web interface"
-    def password(new_password = nil)
-      require 'config/environment'
-    
-      if new_password.nil? || new_password.empty?
-        say("Please provide a new password as an argument", Thor::Shell::Color::RED)
-        return
-      end
-
-      Configuration.find_by_name('password').update_attribute(:value, ::Digest::SHA512.hexdigest(new_password))
-      say("Done", Thor::Shell::Color::GREEN)
-    end
-
     desc "migrate", "ensures the database schema is up-to-date"
     def migrate
       require 'config/environment'
@@ -235,22 +221,20 @@ class DradisTasks < Thor
       puts(Dir.glob('log/*.log').empty? ? "[  DONE  ]" : "[ FAILED ]")
     end
 
-    desc "password", "change the password for your dradis server"
-    def password
+    desc "password", "Set a new shared password to access the web interface"
+    def password()
       require 'config/environment'
-      
-      puts "Changing password for dradis server."
 
-      password = ask "Enter new dradis password:"
-      confirmation = ask "Retype new dradis password:"
+      say "Changing password for Dradis server."
+      password = ask "Enter new Dradis password:"
+      confirmation = ask "Retype new Dradis password:"
 
       if !password.blank? && password == confirmation
-        Configuration.find_or_create_by_name('password').update_attribute :value, password
-        puts "Password Changed."
+        Configuration.find_or_create_by_name('password').update_attribute(:value, ::Digest::SHA512.hexdigest(password))
+        say("Password Changed.", Thor::Shell::Color::GREEN)
       else
-        puts "Passwords do not match. Password Unchanged."
+        say("Passwords do not match. Password Unchanged.", Thor::Shell::Color::RED)
       end
     end
-    
   end
 end
