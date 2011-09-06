@@ -13,11 +13,11 @@ else
   gem 'sqlite3', '1.3.3', :require => 'sqlite3'
 end
 
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-group :development, :test do
-  gem 'rspec-rails'
+# Gems required for testing
+gem 'rspec-rails', :group => [:development, :test]
+
+group :test do
   gem 'factory_girl'
-#   gem 'webrat'
+  gem 'capybara'
+  gem 'guard-rspec'
 end
