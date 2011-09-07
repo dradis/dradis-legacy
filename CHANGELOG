@@ -1,6 +1,6 @@
 vX.Y.Z ()
  - ./verify.sh now checks that libxml2 is installed
- - Bugs fixed: #17, #37, #43
+ - Bugs fixed: #17, #31, #37, #43
 
 v2.7.2 (1st of August 2011)
  - Updated to Rails 3.0.9

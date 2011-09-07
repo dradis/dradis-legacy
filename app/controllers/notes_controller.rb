@@ -111,7 +111,7 @@ class NotesController < ApplicationController
   # are going to be working with based on the :id passed by the user.
   def find_or_initialize_note
     if params[:id]
-      unless @note = Note.find_by_id(params[:id])
+      unless @note = Note.find(params[:id])
         render_optional_error_file :not_found
       end
     else
