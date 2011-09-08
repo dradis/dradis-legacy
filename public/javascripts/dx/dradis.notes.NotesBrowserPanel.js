@@ -258,7 +258,7 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
       '<tpl for=".">',
         '<div>',
           '{value}',
-          '<div style="text-align: right; font-size: 90%; color: #ddd;">',
+          '<div style="text-align: right; font-size: 90%; color: #ccc;">',
             '<div style="float: left;">{author}</div>',
             '{date}',
           '</div>',
