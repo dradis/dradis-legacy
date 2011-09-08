@@ -170,21 +170,22 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
       columns: [
         {
           id:'text',
-          header: 'Text', 
-          width: 180, 
+          header: 'Summary',
+          width: '100%',
           sortable: true, 
           dataIndex: 'text',
-          renderer: Ext.util.Format.htmlEncode
+          renderer: this.textRenderer
+          //renderer: Ext.util.Format.htmlEncode
         },
         {
           header: 'Category', 
-          width: 40, 
+          hidden: true,
           sortable: true, 
           dataIndex: 'category_id',
           scope: this.categories,
           renderer: this.categoryRenderer,
           editor: this.categories.editor()
-        },
+        }/*,
         {
           header: 'Author', 
           width: 20, 
@@ -204,6 +205,7 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
                 minValue: '01/01/08'
             })
         }
+        */
       ],
       autoExpandColumn: 'text',
       view: new Ext.grid.GroupingView({ forceFit: true }),
@@ -251,6 +253,31 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
     }, this);
   },
 
+  textRenderer: function(value, metadata, record, rowIndex, colIndex, store) {
+    var template = new Ext.XTemplate(
+      '<tpl for=".">',
+        '<div>',
+          '{value}',
+          '<div style="text-align: right; font-size: 90%; color: #ddd;">',
+            '<div style="float: left;">{author}</div>',
+            '{date}',
+          '</div>',
+        '</div>',
+      '</tpl>', '<div class="x-clear"></div>'
+    );
+    var regexp = /#\[Title\]#\n(.*)/;
+    var matchArray;
+    if (matchArray = regexp.exec(value))
+    {
+      value = matchArray[1];
+    }
+    var values = {
+      value: value,
+      author: record.get('author'),
+      date: Ext.util.Format.date( record.get('updated_at'), 'd M Y h:i')
+    };
+    return template.apply(values);
+  },
   categoryRenderer: function(value, metadata, record, rowIndex, colIndex, store) {
     var idx = notesbrowser.categories.store.find('id', value);
     return notesbrowser.categories.store.getAt(idx).get('name');
@@ -326,7 +353,7 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
         ]
       }),
       items: [
-        this.fields.grid = new dradis.notes.Grid({ categories: this.categories }),
+        this.fields.grid = new dradis.notes.Grid({ categories: this.categories, region: 'west', width: '20%' }),
         this.fields.preview = new dradis.notes.NotePreviewPanel()
       ]
     };
