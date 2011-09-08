@@ -373,9 +373,13 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
     // e.g. install event handlers on rendered component
 
     //------------------------------------------------------------- grid events
-    this.fields.grid.on('rowclick', function(grid, row, evt){
-      var record = grid.getStore().getAt(row);
-      this.fields.preview.update( record.get('text') );
+    this.fields.grid.selModel.on('selectionchange', function(grid){
+      if (grid.selections.length > 0) {
+        // For the time being if multiple rows are selected, preview the last
+        // one. Maybe in the future we should preview multiple notes.
+        var last_selected = grid.selections.length - 1;
+        this.fields.preview.update( grid.selections.items[last_selected].get('text') );
+      }
     }, this);
 
     this.fields.grid.on('editnote', function(record){
