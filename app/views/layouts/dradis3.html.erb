@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><%= content_for?(:title) ? yield(:title) : 'Untitled' %> - <%= Core::VERSION::string %></title>
 
-    <%= javascript_include_tag 'jquery.min', 'jquery.form', 'upload', :cache => 'upload_manager' %>
+    <%= javascript_include_tag 'jquery.min', 'jquery.form', :cache => 'dradis3' %>
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
 
