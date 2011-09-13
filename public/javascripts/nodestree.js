@@ -89,13 +89,22 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
         { 
           text: 'add child', 
           iconCls: 'add', 
-          scope: this,
-          handler: function(){ 
-            var parent = this.itemMenu.contextNode;
-            var node = new Ext.tree.TreeNode({ text:'child node #' + (parent.childNodes.length+1) });
-            parent.appendChild(node);
-            this.createNode(node, parent.id);
-            node.getOwnerTree().editor.triggerEdit(node,false);
+          menu: {
+            items: [
+              {
+                text: 'Default',
+                iconCls: 'icon-node-default',
+                scope: this,
+                handler: function(){ this.createNode( this.itemMenu.contextNode, 0) }
+              },
+              {
+                text: 'Host',
+                iconCls: 'icon-node-host',
+                scope: this,
+                handler: function(){ this.createNode( this.itemMenu.contextNode, 1) }
+              }
+
+            ]
           }
         },
         { 
@@ -254,12 +263,18 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // ==================================================== /event handlers
   },
-  createNode: function(node, parent_id){
+  createNode: function(parent, type){
+    var node = new Ext.tree.TreeNode({
+      text:'child node #' + (parent.childNodes.length+1),
+      iconCls: 'icon-node-' + ['default','host'][type]
+    });
+    parent.appendChild(node);
+
     Ext.Ajax.request({
       url: 'nodes.json',
       method: 'post',
       params: {
-        data: Ext.util.JSON.encode( {label: node.text, parent_id: parent_id} )
+        data: Ext.util.JSON.encode( {label: node.text, parent_id: parent.id, type_id: type} )
       },
       success: function(response, options) {
         dradisstatus.setStatus({text: 'Node created', clear: 5000 });
@@ -269,6 +284,8 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
         dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000 });
       }
     });
+    node.getOwnerTree().editor.triggerEdit(node,false);
+
   },  
   updateNode: function(node, params){
     Ext.Ajax.request({
