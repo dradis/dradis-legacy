@@ -31,3 +31,6 @@
 .preview em { font-style: italic; }
 
 .preview pre { background-color: #ccc; }
+
+.preview table { border: 1px solid #ccc; margin-top: 1ex; width: 80%; margin: 0 auto; }
+.preview th { font-weight: bold; padding: 0 1ex; border-bottom: 1px solid #ccc; background-color: #ccc; }
