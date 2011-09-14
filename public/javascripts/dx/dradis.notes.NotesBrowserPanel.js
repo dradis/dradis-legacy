@@ -212,7 +212,10 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
       contextMenu: new Ext.menu.Menu({
           grid: this,
           record: undefined,
-          items: [  { text: 'Delete Note', iconCls: 'del' } ],
+          items: [
+            { text: 'Assign to...', iconCls: 'options', menu:{ items:[] } },
+            { text: 'Delete Note', iconCls: 'del' }
+          ],
           listeners: {
             itemclick: function(item){
               var s1 = item.parentMenu.grid.getStore();
@@ -305,6 +308,25 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
   load: function(node_id){
     this.store.proxy.setUrl( 'nodes/' + node_id + '/notes.json', true );
     this.store.load();
+  },
+
+  updateContextMenu: function(){
+    var categoriesMenu = this.contextMenu.get(0).menu;
+    categoriesMenu.removeAll();
+    this.categories.store.each(function(record){
+      item = new Ext.menu.Item({
+        text: Ext.util.Format.htmlEncode(record.get('name')),
+        categoryId: record.get('id'),
+        scope: this,
+        handler: function(item, evt){
+          var record = item.parentMenu.parentMenu.record;
+          var grid = item.parentMenu.parentMenu.grid;
+          record.set('category_id', item.categoryId);
+          grid.getView().refresh();
+        }
+      });
+      this.add(item);
+    }, categoriesMenu);
   }
 });
 
@@ -408,6 +430,7 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
     //------------------------------------------------------- categories events
     this.categories.on('refresh', function(){ 
       this.fields.grid.load(this.selectedNode);
+      this.fields.grid.updateContextMenu();
       this.fields.preview.clear();
     }, this);
   },
