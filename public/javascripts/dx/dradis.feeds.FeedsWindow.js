@@ -20,7 +20,6 @@ dradis.feeds.DataView=Ext.extend(Ext.DataView, {
     itemSelector:'div.thumb-wrap',
     emptyText: 'No feeds to display',
     initComponent: function(){
-      this.store.load();
       // Call parent (required)
       dradis.feeds.DataView.superclass.initComponent.apply(this, arguments);
     }
