@@ -2,6 +2,9 @@
 Ext.BLANK_IMAGE_URL = 'images/default/s.gif';
 //Ext.state.Manager.setProvider(new Ext.state.CookieProvider);
 
+// ------------------------------------------------------- smart Ajax polling
+var pollingTask = { run: statusUpdate, interval: 10000, after: 0, current_node: 0 }
+
 // ------------------------------------------------------- custom ExtJS widgets
 var plugins = new dradis.plugins.PluginManager();
 var uploaders = new dradis.plugins.UploadFormWindow();
@@ -87,8 +90,8 @@ var dradisstatus = new Ext.ux.StatusBar({
  * notifications are passed to other widgets of the interface were appropriate.
  * ----------------------------------------------------------------------------
  */
-
 nodestree.on('nodeclick', function(node_id){
+  pollingTask.current_node = node_id;
   notesbrowser.updateNotes(node_id);
   newnotes.body.load('nodes/' + node_id + '/notes');
   attachments.updateAttachments(node_id);
@@ -284,7 +287,7 @@ Ext.onReady(function() {
   attachments.fields.uploader.uploader.baseParams['authenticity_token'] = csrf_token;
   uploaders.fields.form.add( new Ext.form.Hidden({name:'authenticity_token', value: csrf_token}) );
 
-  Ext.TaskMgr.start({ run: checkrevision, interval: 10000 });
+  Ext.TaskMgr.start(pollingTask);
   plugins.refresh();
 
 });
