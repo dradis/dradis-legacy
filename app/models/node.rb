@@ -5,6 +5,12 @@
 # Each Node has a :parent node and a :label. Nodes can also have many 
 # Attachment objects associated with them.
 class Node < ActiveRecord::Base
+  #TODO: attr_accessible :name
+  # Virtual attribute:
+  #   * Set by the NotesController when modifying a note
+  #   * Used by the RevisionObserver to track record changes
+  attr_accessor :updated_by
+
   before_destroy :destroy_attachments
   acts_as_tree
   validates_presence_of :label
