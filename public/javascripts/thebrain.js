@@ -38,7 +38,10 @@ function checkrevision(interval) {
 }
 
 function statusUpdate(lastUpdate){
-  console.log(this);
+  if (lastUpdate < 3) {
+    // wait at least 30 secs before polling
+    return;
+  }
   Ext.Ajax.request({
     url: 'logs.json',
     method: 'GET',
@@ -68,8 +71,19 @@ function statusUpdate(lastUpdate){
 
         // Skip node events for the time being
         if (update.resource == 'node') {
-          console.log('skipping node event');
-          return;
+          var parent = nodestree.getRootNode();
+          if (update.record.parent_id) {
+            parent = nodestree.getNodeById(update.record.parent_id)
+            if (parent == undefined) {
+              // The node's parent has not been loaded yet. Nothing to do here.
+              return;
+            }
+          }
+          // If the parent node has not been loaded yet do nothing, the update
+          // will be received when the parent node is loaded.
+          if (parent.isLoaded()) {
+            parent.reload();
+          }
         }
       }, this);
 
