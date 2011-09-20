@@ -341,6 +341,7 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
   editor: new dradis.notes.NoteEditorWindow(),  // NoteEditorWindow
   note: undefined,                              // current note (for edit)
   categories: new dradis.notes.CategoriesManager(),
+  dirtyView: false,
 
   initComponent: function(){
     // Called during component initialization
@@ -425,7 +426,31 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
         this.fields.preview.update(newValue);
       }
       this.note = undefined;
+
+      // There was a server update (e.g. other user added a note) while the
+      // editor was open
+      if (this.dirtyView) {
+        this.onRefresh();
+        this.dirtyView = false;
+      }
     }, this);
+
+    this.editor.on('cancel', function(){
+      // There was a server update (e.g. other user added a note) while the
+      // editor was open
+      if (this.dirtyView) {
+        this.onRefresh();
+        this.dirtyView = false;
+      }
+    }, this)
+    this.editor.on('hide', function(){
+      // There was a server update (e.g. other user added a note) while the
+      // editor was open
+      if (this.dirtyView) {
+        this.onRefresh();
+        this.dirtyView = false;
+      }
+    }, this)
 
     //------------------------------------------------------- categories events
     this.categories.on('refresh', function(){ 
@@ -462,6 +487,19 @@ dradis.notes.NotesBrowserPanel=Ext.extend(Ext.Panel, {
   moveNoteToNode: function(noteId, nodeId){
     this.fields.grid.moveNoteToNode(noteId, nodeId);
     this.updateNotes(this.selectedNode);
+  },
+
+  // When the poller detects there are some updates in the server for the
+  // current node it invokes this function.
+  markDirty: function() {
+    if (this.editor.isVisible()){
+      // we have to wait until the editor is done, set the dirty flag
+      this.dirtyView = true;
+    } else {
+      // TODO: maybe in the future make onRefresh() take into account current
+      // selections / state of the preview pane
+      this.onRefresh();
+    }
   }
 });
 
