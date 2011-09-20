@@ -267,7 +267,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       node_label = label;
     }
 
-    var node = new Ext.tree.TreeNode({
+    var node = new Ext.tree.AsyncTreeNode({
       text: node_label,
       iconCls: 'icon-node-' + ['default','host'][type]
     });
@@ -286,7 +286,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       },
       success: function(response, options) {
         dradisstatus.setStatus({text: 'Node created', clear: 5000 });
-        node.id = Ext.util.JSON.decode(response.responseText).id;
+        node.setId(Ext.util.JSON.decode(response.responseText).id);
       },
       failure: function(response, options) {
         dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000 });
