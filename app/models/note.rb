@@ -25,6 +25,11 @@
 #
 # This behaviour is extensively used by import/export plugins such as WordExport.
 class Note < ActiveRecord::Base
+  # Virtual attribute:
+  #   * Set by the NotesController when modifying a note
+  #   * Used by the RevisionObserver to track record changes
+  attr_accessor :updated_by
+
   belongs_to :category
   belongs_to :node
 

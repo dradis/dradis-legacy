@@ -117,6 +117,7 @@ class NotesController < ApplicationController
     else
       @note = Note.new(params[:note] || ActiveSupport::JSON.decode(params[:data]))
       @note.node = @node
+      @note.updated_by = current_user
     end
   end
 
