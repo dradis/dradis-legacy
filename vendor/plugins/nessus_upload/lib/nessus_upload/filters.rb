@@ -22,7 +22,7 @@ module NessusUpload
     host_item_template   = File.read(Rails.root.join('vendor', 'plugins', 'nessus_upload', 'host_template.txt'))
 
     # get the "Nessus Output" category instance or create it if it does not exist
-    category = Category.find_by_name('Nessus output') 
+    category = Category.find_or_create_by_name( NessusUpload::Configuration.category )
     parent   = Node.create(:label => "#{File.basename( params[:file] )} - Nessus scan")
   
     parser.reports.each do |report|
