@@ -11,7 +11,6 @@ module NessusUpload
   def self.import(params={})
     file_content    = File.read( params[:file] )
     @@logger        = params.fetch(:logger, Rails.logger)
-    p @@logger.class
     
     @@logger.debug{'Parsing nessus output file'}
     parser = Nessus::Parser.parse_string(file_content)
@@ -23,7 +22,8 @@ module NessusUpload
 
     # get the "Nessus Output" category instance or create it if it does not exist
     category = Category.find_or_create_by_name( NessusUpload::Configuration.category )
-    parent   = Node.create(:label => "#{File.basename( params[:file] )} - Nessus scan")
+    # create the parent early so we can use it to provide feedback on errors
+    parent = Node.find_or_create_by_label( Configuration.parent_node)
   
     parser.reports.each do |report|
       report_label = report.name
