@@ -37,12 +37,12 @@ module NessusUpload
 
     parser.reports.each do |report|
       report_label = report.name
-      report_node = Node.create(:label => report_label, :parent_id => parent.id)
+      report_node = parent.children.find_or_create_by_label(report_label)
       
       report.hosts.each do |host|
         host_label = host.name
         host_label = "#{host_label} (#{host.fqdn})" if host.fqdn
-        host_node = Node.create(:label => host_label, :parent_id => report_node.id)
+        host_node = report_node.children.find_or_create_by_label(host_label)
           
         note_template   = ERB.new(host_item_template,0,'>')
         node_text       = note_template.result(binding)
@@ -56,7 +56,7 @@ module NessusUpload
         host.report_items.each do |report_item|
           next if report_item.plugin_id == "0"
           item_label = "#{report_item.port}/#{report_item.protocol}"
-          item_node  = Node.find_or_create_by_label(item_label, {:parent_id => host_node.id})
+          item_node  = host_node.children.find_or_create_by_label(item_label)
       
           note_template   = ERB.new(report_item_template,0,'>')
           node_text       = note_template.result(binding)
