@@ -1,5 +1,8 @@
 vX.Y.Z ()
+ - Cleaner three-column layout
+ - Smarter Ajax polling and auto-updating
  - New version of the Nmap upload plugin
+ - New version of the Nessus upload plugin
  - ./verify.sh now checks that libxml2 is installed
  - Bugs fixed: #17, #37, #43
 
