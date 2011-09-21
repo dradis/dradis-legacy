@@ -4,18 +4,18 @@ module NessusUpload
   @@logger = nil
 
   public
-  
+
   # The framework will call this function if the user selects this plugin from
   # the dropdown list and uploads a file.
   # @returns true if the operation was successful, false otherwise
   def self.import(params={})
     file_content    = File.read( params[:file] )
     @@logger        = params.fetch(:logger, Rails.logger)
-    
+
     @@logger.debug{'Parsing nessus output file'}
     parser = Nessus::Parser.parse_string(file_content)
     @@logger.debug{'Parsing done'}
-    
+
     # Read the template file which are needed to create the note elements
     report_item_template = File.read(Rails.root.join('vendor', 'plugins', 'nessus_upload', 'item_template.txt'))
     host_item_template   = File.read(Rails.root.join('vendor', 'plugins', 'nessus_upload', 'host_template.txt'))
@@ -24,7 +24,17 @@ module NessusUpload
     category = Category.find_or_create_by_name( NessusUpload::Configuration.category )
     # create the parent early so we can use it to provide feedback on errors
     parent = Node.find_or_create_by_label( Configuration.parent_node)
-  
+
+    if parser.reports.empty?
+      error = "No reports were detected in the uploaded file (//NessusClientData_v2/Report). Ensure you uploaded a Nessus XML v2 (.nessus) report."
+      @@logger.fatal{ error }
+      parent.notes.create(
+        :author => Configuration.author,
+        :category_id => category.id,
+        :text => error)
+      return false
+    end
+
     parser.reports.each do |report|
       report_label = report.name
       report_node = Node.create(:label => report_label, :parent_id => parent.id)
