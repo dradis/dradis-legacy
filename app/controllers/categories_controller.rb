@@ -12,6 +12,7 @@ class CategoriesController < ApplicationController
       end
     else
       @category = Category.new(params[:category] || ActiveSupport::JSON.decode(params[:data]))
+      @category.updated_by = current_user
     end
   end
 
