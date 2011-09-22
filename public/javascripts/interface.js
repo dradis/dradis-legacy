@@ -288,7 +288,11 @@ Ext.onReady(function() {
   uploaders.fields.form.add( new Ext.form.Hidden({name:'authenticity_token', value: csrf_token}) );
 
   pollingTask.after = dradis.last_audit;
-  Ext.TaskMgr.start(pollingTask);
+  // Delay status polling 20 secs so the initial GUI and Ajax calls are already
+  // rendered and completed.
+  new Ext.util.DelayedTask(function(){
+    Ext.TaskMgr.start(pollingTask);
+  }).delay(15000);
+  
   plugins.refresh();
-
 });
