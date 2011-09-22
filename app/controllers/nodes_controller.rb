@@ -49,6 +49,6 @@ class NodesController < ApplicationController
       else
         @node = Node.new(params[:node] || ActiveSupport::JSON.decode(params[:data]))
       end
-    end        
-
+      @node.updated_by = current_user
+    end
 end

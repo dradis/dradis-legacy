@@ -8,6 +8,10 @@ class HomeController < ApplicationController
   # The only action provided by the controller renders the home page view
   # located at app/views/home/index.html.erb.
   def index
+    @last_audit = 0
+    if Log.where(:uid=>0).count > 0
+      @last_audit = Log.where(:uid => 0).order('created_at desc').limit(1)[0].id
+    end
   end
   
   # Returns the Textile version of a text passed as parameter

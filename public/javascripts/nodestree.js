@@ -36,7 +36,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
   	    createNode : function(attr){
           attr.text = Ext.util.Format.htmlEncode(attr.text);
           attr.iconCls = 'icon-node-'+ ['default','host'][attr.type];
-          return this.constructor.prototype.createNode.call(this, attr);
+          return Ext.tree.TreeLoader.prototype.createNode.call(this, attr);
         }
       }),
 
@@ -214,7 +214,9 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // Handle node click and selection change
     this.getSelectionModel().on('selectionchange', function(tree,node) {
-      this.fireEvent('nodeclick', node.id);
+      if (node) {
+        this.fireEvent('nodeclick', node.id);
+      }
     }, this);
 
     // Handle label edits
@@ -267,7 +269,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       node_label = label;
     }
 
-    var node = new Ext.tree.TreeNode({
+    var node = new Ext.tree.AsyncTreeNode({
       text: node_label,
       iconCls: 'icon-node-' + ['default','host'][type]
     });
@@ -286,7 +288,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
       },
       success: function(response, options) {
         dradisstatus.setStatus({text: 'Node created', clear: 5000 });
-        node.id = Ext.util.JSON.decode(response.responseText).id;
+        node.setId(Ext.util.JSON.decode(response.responseText).id);
       },
       failure: function(response, options) {
         dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000 });
