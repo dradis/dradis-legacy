@@ -36,7 +36,7 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
   	    createNode : function(attr){
           attr.text = Ext.util.Format.htmlEncode(attr.text);
           attr.iconCls = 'icon-node-'+ ['default','host'][attr.type];
-          return this.constructor.prototype.createNode.call(this, attr);
+          return Ext.tree.TreeLoader.prototype.createNode.call(this, attr);
         }
       }),
 
@@ -214,7 +214,9 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
 
     // Handle node click and selection change
     this.getSelectionModel().on('selectionchange', function(tree,node) {
-      this.fireEvent('nodeclick', node.id);
+      if (node) {
+        this.fireEvent('nodeclick', node.id);
+      }
     }, this);
 
     // Handle label edits
