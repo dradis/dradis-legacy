@@ -54,7 +54,7 @@ function statusUpdate(lastUpdate){
         // Category-related events are not important as changing to a new node
         // will refresh the list of categories anyway
         if (update.resource == 'category') {
-          console.log('skipping category event');
+          //console.log('skipping category event');
           return;
         }
 
@@ -62,27 +62,49 @@ function statusUpdate(lastUpdate){
           // If there is a note-related event but for a different node we are not
           // interested
           if (update.record.node_id != this.current_node) {
-            console.log('skipping note update for different node');
+            //console.log('skipping note update for different node');
             return;
           }
-          console.log('marking notes browser view as dirty');
+          //console.log('marking notes browser view as dirty');
           notesbrowser.markDirty();
         }
 
         // Skip node events for the time being
         if (update.resource == 'node') {
-          var parent = nodestree.getRootNode();
-          if (update.record.parent_id) {
-            parent = nodestree.getNodeById(update.record.parent_id)
-            if (parent == undefined) {
-              // The node's parent has not been loaded yet. Nothing to do here.
-              return;
+          //console.log('Processing new node :' + update.action + ' event');
+          var parent = nodestree.getNodeById(update.record.parent_id || 'root-node');
+          if (parent){
+            //console.log('Parent found: ' + parent.id);
+            if (parent.isLoaded()) {
+              var node;
+              switch (update.action) {
+                case 'create':
+                  node = new Ext.tree.AsyncTreeNode({
+                    id: update.record.id,
+                    text: update.record.label,
+                    iconCls: 'icon-node-' + ['default','host'][update.record.type_id]
+                  });
+                  parent.appendChild(node);
+                  break
+                case 'update':
+                  node = parent.findChild('id', update.record.id);
+                  console.log(node);
+                  var oldText = node.text;
+                  var text = update.record.label;
+                  node.text = node.attributes.text = text;
+                  node.ui.onTextChange(node, text, oldText);
+                  node.setIconCls('icon-node-' + ['default','host'][update.record.type_id]);
+                  break;
+                case 'destroy':
+                  node = parent.findChild('id', update.record.id);
+                  node.remove(true);
+                  break;
+              }
+            } else {
+              //console.log('Parent node not yet loaded. Nothing to be done.');
             }
-          }
-          // If the parent node has not been loaded yet do nothing, the update
-          // will be received when the parent node is loaded.
-          if (parent.isLoaded()) {
-            parent.reload();
+          } else{
+            //console.log('Parent node not yet found in tree. Nothing to be done.');
           }
         }
       }, this);
