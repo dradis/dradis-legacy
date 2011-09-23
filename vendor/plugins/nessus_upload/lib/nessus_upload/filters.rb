@@ -42,7 +42,7 @@ module NessusUpload
       report.hosts.each do |host|
         host_label = host.name
         host_label = "#{host_label} (#{host.fqdn})" if host.fqdn
-        host_node = report_node.children.find_or_create_by_label(host_label)
+        host_node = report_node.children.find_or_create_by_label_and_type_id(host_label, Node::Types::HOST)
           
         note_template   = ERB.new(host_item_template,0,'>')
         node_text       = note_template.result(binding)
