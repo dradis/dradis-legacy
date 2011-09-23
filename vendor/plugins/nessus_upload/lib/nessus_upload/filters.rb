@@ -12,9 +12,9 @@ module NessusUpload
     file_content    = File.read( params[:file] )
     @@logger        = params.fetch(:logger, Rails.logger)
 
-    @@logger.debug{'Parsing nessus output file'}
+    @@logger.info{'Parsing nessus output file...'}
     parser = Nessus::Parser.parse_string(file_content)
-    @@logger.debug{'Parsing done'}
+    @@logger.info{'Parsing done'}
 
     # Read the template file which are needed to create the note elements
     report_item_template = File.read(Rails.root.join('vendor', 'plugins', 'nessus_upload', 'item_template.txt'))
@@ -36,6 +36,7 @@ module NessusUpload
     end
 
     parser.reports.each do |report|
+      @@logger.info{ "Processing report: #{report.name}" }
       report_label = report.name
       report_node = parent.children.find_or_create_by_label(report_label)
       
@@ -43,6 +44,7 @@ module NessusUpload
         host_label = host.name
         host_label = "#{host_label} (#{host.fqdn})" if host.fqdn
         host_node = report_node.children.find_or_create_by_label_and_type_id(host_label, Node::Types::HOST)
+        @@logger.info{ "\tHost: #{host_label}" }
           
         note_template   = ERB.new(host_item_template,0,'>')
         node_text       = note_template.result(binding)
@@ -69,6 +71,7 @@ module NessusUpload
         end
 
       end #/report
+      @@logger.info{ "Report processed." }
 
     end	#/parser
     
