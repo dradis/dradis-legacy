@@ -36,6 +36,7 @@ class UploadController < AuthenticatedController
     @plugins = Plugins::Upload::included_modules.sort do |a,b|
       a::Meta::NAME <=> b::Meta::NAME
     end
+    @last_bj_uid = Log.maximum(:uid) || 1
   end
 
   # This method provides a list of all the available uploader plugins. It 
