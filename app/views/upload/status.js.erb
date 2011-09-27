@@ -2,4 +2,7 @@
 $("#console").append( '<%= escape_javascript(render(@logs)) %>' );
 parsing = <%= @uploading %>;
 $("#console").attr({ scrollTop: $("#console").attr("scrollHeight") });
+setTimeout(updateConsole, 2000);
+<% else -%>
+setTimeout(updateConsole, 4000);
 <% end -%>
