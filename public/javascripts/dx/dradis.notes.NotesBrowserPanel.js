@@ -275,8 +275,8 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
       value = matchArray[1];
     }
     var values = {
-      value: value,
-      author: record.get('author'),
+      value: Ext.util.Format.htmlEncode(value),
+      author: Ext.util.Format.htmlEncode(record.get('author')),
       date: Ext.util.Format.date( record.get('updated_at'), 'd M Y h:i')
     };
     return template.apply(values);
