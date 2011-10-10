@@ -1,4 +1,4 @@
-vX.Y.Z ()
+v2.8 (10th of October 2011)
  - Cleaner three-column layout
  - Smarter Ajax polling and auto-updating
  - New version of the Nmap upload plugin
