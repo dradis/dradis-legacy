@@ -31,7 +31,7 @@ magic_file = File.join( Rails.root, 'config', 'first_login.txt' )
 if ( !File.exists?(magic_file) )
 
   NOTE1 =<<EON
-Here are your notes for the node you just clicked (*Dradis Framework 2.7*)
+Here are your notes for the node you just clicked (*Dradis Framework 2.8*)
 
 If a node has attachments associated with it you will see an exclamation mark @(!)@ by the _Attachments_ title in the tab strip below.
 EON
@@ -41,28 +41,26 @@ h1. What's new in this release?
 
 !{float:left;}/images/logo_small.png!
 
-We have improved the web interface with a new 
-"Configuration Manager":configurations to handle all your plugin's configuration.
+We always try to improve the interface and UX for our users. With this realease
+we are introducing a cleaner three-column layout that maximizes the amount of
+space available to view your notes and removes the clutter in the note list.
 
-There is also a new "Upload Manager":upload that processes uploads in the 
-background while providing you with status updates via Ajax.
+Read more about the three-column layout here:
+"http://blog.dradisframework.org/2011/09/new-in-dradis-28-three-column-layout.html":http://blog.dradisframework.org/2011/09/new-in-dradis-28-three-column-layout.html
 
-We have lots of new plugins:
-* "Metasploit":http://www.metasploit.com import
-* "NeXpose":http://www.rapid7.com/products/nexpose-community-edition.jsp (.xml) upload
-* "OpenVAS":http://openvas.org/ (.xml) upload
-* "SureCheck":http://www.wildcroftsecurity.com/ (.sc) upload (for build reviews)
-* "w3af":http://w3af.sourceforge.net/ (.xml) upload
-* "Web Exploitation Framework":https://github.com/WebExploitationFramework/wXf (wXf) upload
+Knowing that there is a new revision in the server and that we should update is
+a good way to learn that others in the team are making changes, however the new
+smart updates will bring any changes made by your team mates to your current
+session without having to hit refresh or take any other action. Automagic!
 
-And a few that have been updated:
-* "Nessus":http://www.tenable.com/products/nessus plugin supports .nessus version 2
-* "Vuln::DB":http://securityroots.com/vulndb/ import plugin updated to work with the latest release
+A screencast showing the smart ajax updates in action can be found here:
+"http://blog.dradisframework.org/2011/09/new-in-dradis-28-smart-refresh.html":http://blog.dradisframework.org/2011/09/new-in-dradis-28-smart-refresh.html
 
-Oh, and we have also improved the command line API with Thor. To checkout all 
-the available tasks, go to the server folder and run:
+In addition to the above, we have worked on an improved version of the Nmap and
+Nessus upload plugins to re-use existing host nodes and thus avoid duplication.
 
-bc. thor -T
+Send us your feature requests! Add them to the project tracker:
+"https://github.com/dradis/dradisframework/issues/new":https://github.com/dradis/dradisframework/issues/new
 
 Remember that the _First Time User's Wizard_ can be found at "/wizard":/wizard
 
@@ -74,13 +72,14 @@ EON
   NOTE3 =<<EON
 h1. Getting Help
 * Project Site: "http://dradisframework.org":http://dradisframework.org
+* Dradis Guides: "http://guides.dradisframework.org":http://guides.dradisframework.org
 * "Community Forums":http://dradisframework.org/community/
 * "Request a feature":http://dradisframework.uservoice.com/
 * Found a bug? "Report it!":http://sourceforge.net/tracker/?atid=1010917&group_id=209736&func=browse
 * IRC: *#dradis* @irc.freenode.org
 EON
 
-  root = Node.create!(:label => 'Dradis Framework 2.7')
+  root = Node.create!(:label => 'Dradis Framework 2.8')
   root.notes.create!( :author => 'First time wizard', :category_id => 1, :text => NOTE1)
   destination = Attachment.pwd.join(root.id.to_s)
   FileUtils.mkdir_p(destination)
