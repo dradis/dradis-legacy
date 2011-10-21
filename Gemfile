@@ -6,7 +6,7 @@ gem 'jquery-rails'
 gem 'builder'
 gem 'nokogiri'
 
-gem 'RedCloth', '4.2.5', :require => 'redcloth'
+gem 'RedCloth', '4.2.8', :require => 'redcloth'
 gem 'thor', '0.14.6'
 
 if !( (RUBY_PLATFORM =~ /mswin/i) || (RUBY_PLATFORM =~ /mingw/i) )
