@@ -8,6 +8,7 @@ class Log < ActiveRecord::Base
   alias :info :write
   alias :debug :write
   alias :error :write
+  alias :fatal :write
 
   def read
     "[#{created_at.strftime('%H:%M:%S')}]  #{text}"
