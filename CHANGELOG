@@ -1,3 +1,7 @@
+v2.9
+ - Faster (60x times) Nessus upload plugin
+ - Faster Nmap upload plugin (through ruby-nmap gem)
+
 v2.8 (10th of October 2011)
  - Cleaner three-column layout
  - Smarter Ajax polling and auto-updating
