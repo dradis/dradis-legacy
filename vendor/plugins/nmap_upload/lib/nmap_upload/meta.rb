@@ -5,7 +5,7 @@ module NmapUpload
     # change this to the appropriate version
     module VERSION #:nodoc:
       MAJOR = 2
-      MINOR = 8
+      MINOR = 9
       TINY = 0
 
       STRING = [MAJOR, MINOR, TINY].join('.')
