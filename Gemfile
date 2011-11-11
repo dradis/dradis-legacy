@@ -9,6 +9,8 @@ gem 'nokogiri'
 gem 'RedCloth', '4.2.8', :require => 'redcloth'
 gem 'thor', '0.14.6'
 
+gem 'ruby-nmap'
+
 if !( (RUBY_PLATFORM =~ /mswin/i) || (RUBY_PLATFORM =~ /mingw/i) )
   gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 else

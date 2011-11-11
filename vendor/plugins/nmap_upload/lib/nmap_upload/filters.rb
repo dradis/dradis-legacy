@@ -1,4 +1,12 @@
-require 'nmap/parser'
+require 'nmap/xml'
+
+class Nmap::Port
+  def service_node
+    @service_node ||= if (service = @node.at('service'))
+                        service
+                      end
+  end
+end
 
 module NmapUpload
 
@@ -11,6 +19,7 @@ module NmapUpload
   # the dropdown list and uploads a file.
   # @returns true if the operation was successful, false otherwise
   def self.import(params={})
+    file_path = params[:file]
     file_content = File.read( params[:file] ) 
     @@logger = params.fetch(:logger, Rails.logger)
 
@@ -21,6 +30,8 @@ module NmapUpload
     # create the parent early so we can use it to provide feedback on errors
     parent = Node.find_or_create_by_label( Configuration.parent_node)
 
+    # TODO: figure out if this can be done with Nokogiri
+    #   http://nmap.org/svn/docs/nmap.dtd
     @@logger.info{ 'Validating Nmap upload...' }
     errors = Validator.validate(file_content)
     if errors.any?
@@ -35,38 +46,36 @@ module NmapUpload
     end
 
     @@logger.info{ 'Parsing Nmap output...' }
-    parser = Nmap::Parser.parsestring( file_content )
+    doc = Nmap::XML::new(file_path)
     @@logger.info{ 'Done.' }
 
-
     # TODO: do something with the Nmap::Parser::Session information
-    
     port_notes_to_add = {}
 
-    parser.hosts do |host|
-      host_label = host.addr
-      host_label = "#{host_label} (#{host.hostname})" if host.hostname
+
+    doc.each_host do |host|
+      host_label = host.ip
+      host_label += " (#{host.hostnames.uniq.join(', ')})" if host.hostnames.any?
       host_node = parent.children.find_or_create_by_label_and_type_id( host_label, Node::Types::HOST )
 
       # add the nmap output for the host as notes to the node
-      host_info = "#{host.addr}:\n"
+      host_info = "#{host.ip}:\n"
       host_info << "\tHostnames: #{host.hostnames}\n"
-      host_info << "\tPort info:\n"
+      host_info << "\tPort info:\n\n"
 
       port_hash = {}
-	    host.getports(:any) do |port|
+      host.each_port do |port|
         port_info = ''
-        srv = port.service
-        port_info << "\t\tPort ##{port.num}/#{port.proto} is #{port.state} (#{port.reason})\n"
-        port_info << "\t\t\tService: #{srv.name}\n" if srv.name
-        port_info << "\t\t\tProduct: #{srv.product}\n" if srv.product
-        port_info << "\t\t\tVersion: #{srv.version}\n" if srv.version
+        port_info << "\t\tPort ##{port.number}/#{port.protocol} is #{port.state} (#{port.reason})\n"
+        srv = port.service_node
+        port_info << "\t\t\tService: #{srv['name']}\n" if srv['name']
+        port_info << "\t\t\tProduct: #{srv['product']}\n" if srv['product']
+        port_info << "\t\t\tVersion: #{srv['version'] }\n" if srv['version']
         port_info << "\n"
 
-        port_hash[ "#{port.num}/#{port.proto}" ] = port_info
+        port_hash["#{port.number}/#{port.protocol}"] = port_info
         host_info << port_info
-  		end
-
+      end
 
       Note.new(
         :node_id => host_node.id,
