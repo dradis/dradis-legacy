@@ -21,5 +21,6 @@ Example:
         vendor/plugins/nessus_upload/uninstall.rb
         vendor/plugins/nessus_upload/Rakefile
         vendor/plugins/nessus_upload/lib/nessus_upload.rb
-        vendor/plugins/nessus_upload/test/nessus_upload_test.rb
+        vendor/plugins/nessus_upload/spec/spec_helper.rb
+        vendor/plugins/nessus_upload/spec/nessus_upload_spec.rb
         vendor/plugins/nessus_upload/tasks/nessus_upload_tasks.rake

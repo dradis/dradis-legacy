@@ -51,7 +51,8 @@ class UploadPluginGenerator < Rails::Generators::NamedBase
     template 'plugin.rb',     "#{file_name}/lib/#{file_name}.rb"
     template 'thorfile.rb',   "#{file_name}/lib/tasks/thorfile.rb"
     template 'tasks.rake',    "#{file_name}/lib/tasks/#{file_name}_tasks.rake"
-    template 'unit_test.rb',  "#{file_name}/test/#{file_name}_test.rb"
+    template 'spec_helper.rb',  "#{file_name}/spec/spec_helper.rb"
+    template 'plugin_spec.rb',  "#{file_name}/spec/#{file_name}_spec.rb"
     template 'meta.rb',       "#{file_name}/lib/#{file_name}/meta.rb"
     template 'filters.rb',    "#{file_name}/lib/#{file_name}/filters.rb"
 
