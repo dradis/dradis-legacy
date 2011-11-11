@@ -19,5 +19,6 @@ Example:
         vendor/plugins/word_export/init.rb
         vendor/plugins/word_export/install.rb
         vendor/plugins/word_export/lib/word_export.rb
-        vendor/plugins/word_export/test/word_export_test.rb
+        vendor/plugins/word_export/spec/spec_helper.rb
+        vendor/plugins/word_export/spec/word_export_spec.rb
         vendor/plugins/word_export/tasks/word_export_tasks.rake
