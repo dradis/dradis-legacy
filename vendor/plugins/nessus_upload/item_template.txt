@@ -87,3 +87,10 @@
 <%= "#{cve}\n" %>
 <% end %>
 <% end %>
+
+<% if report_item.xref_entries then %>
+#[XREF Entries]#
+<% report_item.xref_entries.each do |xref| %>
+<%= "#{xref}\n" %>
+<% end %>
+<% end %>

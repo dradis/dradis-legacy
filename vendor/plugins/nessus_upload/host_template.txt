@@ -6,6 +6,7 @@
 # You can access the details of the current host by using the "host" object which has the following 
 # properties:
 #
+# host.name                 The name given at scan time, usually an IP address
 # host.ip                   The ip address of the host
 # host.fqdn                 The full qualified domain name of the host
 # host.operating_system     The OS of the system if detected
@@ -25,6 +26,7 @@
 # Keep that in mind when you create your template 
 %>
 #[Host information]#
+<%= "Name: #{host.name}\n" %>
 <%= "IP address: #{host.ip}\n" if host.ip %>
 <%= "FQDN: #{host.fqdn}\n" if host.fqdn %>
 <%= "OS: #{host.operating_system}\n" if host.operating_system %>
