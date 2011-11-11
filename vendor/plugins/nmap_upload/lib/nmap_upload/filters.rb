@@ -16,6 +16,8 @@ module NmapUpload
 
     # get the "nmap output" category instance or create it if it does not exist
     category = Category.find_or_create_by_name( Configuration.category )
+    # every note we create will be assigned to this author
+    author = Configuration.author
     # create the parent early so we can use it to provide feedback on errors
     parent = Node.find_or_create_by_label( Configuration.parent_node)
 
@@ -25,7 +27,7 @@ module NmapUpload
       errors.each do |error|
         error << "\n#[File name]#\n#{File.basename( params[:file] )}\n\n"
         parent.notes.create(
-          :author => Configuration.author,
+          :author => author,
           :category_id => category.id,
           :text => error)
       end
@@ -68,7 +70,7 @@ module NmapUpload
 
       Note.new(
         :node_id => host_node.id,
-        :author => Configuration.author,
+        :author => author,
         :category_id => category.id,
         :text => host_info
       ).save
@@ -80,7 +82,7 @@ module NmapUpload
         # add a note with the port information
         Note.new(
           :node_id => port_node.id,
-          :author => 'Nmap',
+          :author => author,
           :category_id => category.id,
           :text => info
         ).save
