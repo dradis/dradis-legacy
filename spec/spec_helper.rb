@@ -8,14 +8,6 @@ require File.expand_path("../factories", __FILE__)
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-# To ensure that Travis-CI engine can run the test suite we need
-# to stablish an ActiveRecord connection even if we just have a
-# template config
-config_file = File.exists?( 'config/database.yml' ) ? 'config/database.yml' : 'config/database.yml.template'
-ActiveRecord::Base.configurations = YAML.load_file( config_file )
-ActiveRecord::Base.establish_connection('test')
-ActiveRecord::Base.default_timezone = :utc
-
 RSpec.configure do |config|
   # == Mock Framework
   #
