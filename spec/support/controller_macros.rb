@@ -2,6 +2,7 @@ module ControllerMacros
 
   def self.included(base)
     base.extend(ClassMethods)
+    base.fixtures(:configurations)
   end
 
   module ClassMethods
