@@ -9,7 +9,7 @@ module W3afUpload
   def self.import(params={})
     plugin_author_name = Configuration.author
 
-    category = Category.find_by_name(Configuration.category)
+    category = Category.find_or_create_by_name(Configuration.category)
 
     w3af_node = Node.create(:label => Configuration.node_label)
 

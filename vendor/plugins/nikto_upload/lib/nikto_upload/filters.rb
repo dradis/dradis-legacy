@@ -14,7 +14,7 @@ module NiktoUpload
     niktoscan = Nikto::Parser.parsestring( file_content )
     @@logger.info{ 'Done.' }
 
-    category = Category.find_by_name( Configuration.category )
+    category = Category.find_or_create_by_name( Configuration.category )
 
     niktoscan.scans.each do |scan|
       scan_node = Node.create( :label => "#{scan.siteip} - Nikto scan" )    

@@ -11,7 +11,7 @@ module OpenvasUpload
     #Set an author name for the notes.
     @plugin_author_name = Configuration.author
 
-    @category = Category.find_by_name(Configuration.category)
+    @category = Category.find_or_create_by_name(Configuration.category)
 
     #Create a parent node for the OpenVAS output
     @openvas_node = Node.create(:label => Configuration.node_label)

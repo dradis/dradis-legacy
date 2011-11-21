@@ -13,7 +13,7 @@ module SurecheckUpload
     screport = Surecheck::Parser.parsefile( params[:file] )
     @@logger.info{ 'Done.' }
 
-    category = Category.find_by_name(Configuration.category)
+    category = Category.find_or_create_by_name(Configuration.category)
 
     sc_node = Node.create( :label => Configuration.node_label)
 
