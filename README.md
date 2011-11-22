@@ -1,6 +1,8 @@
 Welcome to Dradis
 =================
 
+[![Build Status](https://secure.travis-ci.org/dradis/dradisframework.png)](https://secure.travis-ci.org/dradis/dradisframework)
+
 Dradis is an open source framework to enable effective information sharing, 
 specially during security assessments.
 
@@ -29,6 +31,7 @@ Some of the features:
   * [Vuln::DB](http://securityroots.com/vulndb/)
   * [w3af](http://w3af.sourceforge.net/)
   * [wXf](https://github.com/WebExploitationFramework/wXf)
+  * [Zed Attack Proxy](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)
 
 
 Getting started (stable release)
