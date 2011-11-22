@@ -25,7 +25,7 @@ module Dradis
 
     if (
       (File.basename($0) == 'rake') &&
-      (%w{create drop migrate reset seed}.any? { |task| ARGV.include?("db:#{task}")||ARGV.include?("dradis:#{task}") }) ||
+      (%w{create drop migrate reset seed test:ci}.any? { |task| ARGV.include?("db:#{task}")||ARGV.include?("dradis:#{task}") }) ||
       (File.basename($0) == 'thor') &&
       (%w{reset}.any? { |task| ARGV.include?("dradis:#{task}") })
     )

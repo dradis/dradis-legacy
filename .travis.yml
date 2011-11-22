@@ -12,4 +12,4 @@ notifications:
 bundler_args: --path vendor/bundle
 before_script:
   - "cp config/database.yml.template config/database.yml"
-script: "RAILS_ENV=test bundle exec rake --trace"
+script: "RAILS_ENV=test bundle exec rake drados:test:ci --trace"
