@@ -13,4 +13,5 @@ bundler_args: --path vendor/bundle
 before_script:
   - "cp config/database.yml.template config/database.yml"
   - "mkdir -p tmp/attachments/"
+  - "touch config/first_login.txt"
 script: "RAILS_ENV=test bundle exec rake dradis:test:ci --trace"
