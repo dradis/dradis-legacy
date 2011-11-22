@@ -13,7 +13,7 @@ describe SessionsController do
       
       get :new
 
-      response.should be_success
+      response.code.should eq('200')
       response.should render_template("sessions/not_ready")
     end
 
