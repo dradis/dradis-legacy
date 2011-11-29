@@ -79,12 +79,18 @@ module NexposeUpload
   def self.parse_nexpose_simple_xml(doc)
     results = doc.search('device')
     hosts = Array.new
-
-    results.each do |host|
+    
+    #Extrapolate the index value "idx"
+    results.each_with_index do |host, idx|
       current_host = Hash.new
       current_host['address'] = host['address']
-      current_host['fingerprint'] = host.search('fingerprint')[0]['certainty']
-      current_host['description'] = host.search('description')[0].text
+      
+      # The following code simple ensures that a nil value is handled properly
+      actual_device = host.xpath('//device')[idx]
+      certainty = actual_device.search('fingerprint')[0]
+      current_host['fingerprint'] = certainty.nil? ? "N/A" : certainty['certainty']
+      desc = actual_device.search('description')[0]
+      current_host['description'] = desc.nil? ? "N/A" : desc.text
 
 
       #So there's two sets of vulns in a NeXpose simple XML report for each host
