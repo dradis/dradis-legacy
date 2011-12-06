@@ -83,8 +83,8 @@ module NexposeUpload
     results.each do |host|
       current_host = Hash.new
       current_host['address'] = host['address']
-      current_host['fingerprint'] = host.search('fingerprint')[0]['certainty']
-      current_host['description'] = host.search('description')[0].text
+      current_host['fingerprint'] = host.search('fingerprint')[0].nil? ? "N/A" : host.search('fingerprint')[0]['certainty']
+      current_host['description'] = host.search('description')[0].nil? ? "N/A" : host.search('description')[0].text
 
 
       #So there's two sets of vulns in a NeXpose simple XML report for each host
