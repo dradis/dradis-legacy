@@ -1,11 +1,12 @@
 module RetinaUpload  
   module Meta
-    NAME = "This plugin does not have a name, define it at #{__FILE__.gsub(/#{Rails.root.to_s}/,'.')}"
+    NAME = "Retina Network Security Scanner (.xml) file upload"
+    EXPECTS = "Retina XML Vulnerability Export"
     # change this to the appropriate version
     module VERSION #:nodoc:
       MAJOR = 2
-      MINOR = 7
-      TINY = 2
+      MINOR = 9
+      TINY = 0
 
       STRING = [MAJOR, MINOR, TINY].join('.')
     end

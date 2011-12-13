@@ -10,7 +10,7 @@ module RetinaUpload
     #require 'ruby-debug19'
     @plugin_author_name = Configuration.author
 
-    @category = Category.find_by_name(Configuration.category)
+    @category = Category.find_or_create_by_name(Configuration.category)
 
     @retina_node = Node.create(:label => Configuration.node_label)
 
