@@ -1,10 +1,10 @@
 module VulndbImport
   module Meta
-    NAME = 'Vulnerability Database'
+    NAME = 'Vulnerability Database (VulndbHq.com)'
     module VERSION #:nodoc:
       MAJOR = 2
-      MINOR = 7
-      TINY  = 1
+      MINOR = 9
+      TINY  = 0
 
       STRING = [MAJOR, MINOR, TINY].join('.')
     end

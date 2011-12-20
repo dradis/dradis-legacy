@@ -7,6 +7,7 @@ module VulndbImport
   class Configuration < Core::Configurator
     configure :namespace => 'vulndb'
     setting :rest_url, :default => 'https://localhost/'
+    setting :hq_rest_url, :default => 'https://user.vulndbhq.com'
   end       
 
   class Page < ActiveResource::Base
