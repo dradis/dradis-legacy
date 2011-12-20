@@ -1,5 +1,7 @@
 v2.9
+ - New Retinate Network Security Scanner plugin
  - New Zed Attack Proxy upload plugin
+ - Updated VulnDB import plugin
  - Faster (60x times) Nessus upload plugin
  - Faster Nmap upload plugin (through ruby-nmap gem)
 
