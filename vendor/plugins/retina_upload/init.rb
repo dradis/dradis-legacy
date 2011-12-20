@@ -1,0 +1,2 @@
+require 'retina_upload'
+

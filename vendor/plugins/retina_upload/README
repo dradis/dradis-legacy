@@ -1,0 +1,11 @@
+RetinaUpload
+============
+
+Upload plugin for Retina vulnerability scanner.
+
+Currently this plugin works with the xml export from the scanner under the "vulnerability export" report.
+
+
+
+
+
