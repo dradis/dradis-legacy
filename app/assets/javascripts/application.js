@@ -1,3 +1,9 @@
+//= require jquery
+//= require jquery_ujs
+//= require_self
+//= require_tree .
+
+
 /* 
  * from the meta-server project browser: 
  * https://dradis.svn.sourceforge.net/svnroot/dradis/meta-server/trunk/public/javascripts/application.js
