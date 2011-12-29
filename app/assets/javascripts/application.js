@@ -1,8 +1,33 @@
-//= require jquery
-//= require jquery_ujs
-//= require_self
-//= require_tree .
+//= require adapter/ext/ext-base
+//= require ext-all
 
+//= require ux/Ext.ux.StatusBar
+//= require ux/Ext.ux.grid.RowExpander
+//= require data-view-plugins
+//= require ux/Ext.ux.form.BrowseButton
+//= require ux/Ext.ux.form.FileUploadField
+//= require ux/Ext.ux.FileUploader
+//= require ux/Ext.ux.UploadPanel
+
+//= require dx/dradis.plugins.PluginManager
+//= require dx/dradis.plugins.UploadFormPanel
+//= require dx/dradis.notes.NotePreviewPanel
+//= require dx/dradis.notes.NoteEditorWindow
+//= require dx/dradis.notes.NotesBrowserPanel
+//= require dx/dradis.feeds.FeedsWindow
+
+//= require thebrain
+//= require nodestree
+//= require importer
+//= require attachmentsviewer
+//= require interface
+
+//= require_self
+
+
+// require jquery
+// require jquery_ujs
+// require_tree .
 
 /* 
  * from the meta-server project browser: 
