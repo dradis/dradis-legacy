@@ -8,7 +8,7 @@ class ConfigurationsController < ApplicationController
   # request:
   # https://localhost:3004/configurations.xml
   def index
-    @configs = Configuration.find(:all)
+    @configs = ::Configuration.find(:all)
     respond_to do |format|
       format.html # index.html.erb
       format.xml { render :xml => @configs.to_xml}
@@ -86,11 +86,11 @@ class ConfigurationsController < ApplicationController
   # parameter in the request. If the :id is invalid an error page is rendered.
   def find_or_initialize_config
     if params[:id]
-      unless @config = params[:id].to_s =~ /\A[0-9]+\z/ ? Configuration.find(params[:id]) : Configuration.find_by_name(params[:id])
+      unless @config = params[:id].to_s =~ /\A[0-9]+\z/ ? ::Configuration.find(params[:id]) : ::Configuration.find_by_name(params[:id])
         render_optional_error_file :not_found
       end
     else
-      @config = Configuration.new(params[:config])
+      @config = ::Configuration.new(params[:config])
       
     end
   end

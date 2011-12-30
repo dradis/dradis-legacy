@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
   # Initialise the session, clear any objects that might currently exist and
   # present the session start up configuration HTML form.
   def init
-    unless (Configuration.password == 'improvable_dradis')
+    unless (::Configuration.password == 'improvable_dradis')
       redirect_to :action => :new
     end
     @projects = nil
@@ -103,7 +103,7 @@ class SessionsController < ApplicationController
   def create
     usr = params.fetch(:login, nil)
     pwd = params.fetch(:password, nil)
-    if not ( usr.nil? || pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != Configuration.password)
+    if not ( usr.nil? || pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != ::Configuration.password)
       flash[:first_login] = first_login?
       self.current_user = usr
       redirect_back_or_default( root_path )
@@ -127,9 +127,9 @@ class SessionsController < ApplicationController
   # before filter, if the database doesn't contain a valid password, a new
   # one is created.  
   def check_test_password
-    if Configuration.password.nil?
+    if ::Configuration.password.nil?
       render :action => :not_ready
-    elsif (Configuration.password == 'improvable_dradis')
+    elsif (::Configuration.password == 'improvable_dradis')
       redirect_to :action => :init
     end
   end
