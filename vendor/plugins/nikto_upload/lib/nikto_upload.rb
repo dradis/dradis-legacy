@@ -1,20 +1,27 @@
 # NiktoUpload
 
-require 'nikto_upload/parser'
 require 'nikto_upload/filters'
 require 'nikto_upload/meta'
 
 module NiktoUpload
   class Configuration < Core::Configurator
-    configure :namespace => 'nikto'
-    setting :category, :default => 'Nikto Scanner output'
-    setting :author, :default => 'Nikto Scanner plugin'
+    configure :namespace => 'nikto_upload'
+
+	# name of the note cateory that is created
+	setting :category, :default => "Nikto output"
+
+	# name of the author
+	setting :author, :default => "Nikto plugin"
+
+	# name of the node that will be created in your repository tree that will be ancestor to all plugin-generated content
+	setting :parent_node, :default => "Nikto scan"
+
+    # setting :my_setting, :default => 'Something'
+    # setting :another, :default => 'Something Else'
   end
 end
 
-
-
-# This includes the import plugin module in the dradis import plugin repository
+# This includes the upload plugin module in the Dradis upload plugin repository
 module Plugins
   module Upload 
     include NiktoUpload
