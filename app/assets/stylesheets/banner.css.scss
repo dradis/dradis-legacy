@@ -47,7 +47,7 @@ div.main div.top {
 div.main div.content_top {
   width: 636px; 
   height: 10px; 
-  background: url(/images/box_shared_f_t.gif) left top no-repeat;	
+  background: image-url('box_shared_f_t.gif') left top no-repeat;
   font-size: 0;
 }
 div.main div.content 
@@ -76,7 +76,7 @@ div.main div.content_bottom a
 }
 div.main div.content_bottom a:hover
 {
-  background: url(/images/white_2px.gif) left bottom repeat-x;
+  background: image-url('white_2px.gif') left bottom repeat-x;
 }
 div.text { 
   text-align: center; 
@@ -97,7 +97,7 @@ input.text, input.password
   padding: 4px;
   border: solid 1px #3d5919;
   width: 100%;
-  background-image: url( '/images/grey_bg.png' );
+  background-image: image-url( 'grey_bg.png' );
   background-repeat: repeat-x;
   background-position: top;
 }
@@ -177,7 +177,7 @@ input.text, input.password
   padding: 4px;
   border: solid 1px #3d5919;
   width: 100%;
-  background-image: url( '/images/grey_bg.png' );
+  background-image: image-url( 'grey_bg.png' );
   background-repeat: repeat-x;
   background-position: top;
 }
@@ -207,8 +207,8 @@ table tbody tr:hover { background-color:#ffffdd; }
 table tbody tr td.title { background-repeat: no-repeat; }
 table tbody tr td.title a { text-decoration: none; color: #2A5685; }
 table tbody tr td.title a:hover { text-decoration: underline; }
-tr span.expander {background-image: url(../images/silk/bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
-tr.open span.expander {background-image: url(../images/silk/bullet_toggle_minus.png);}
+tr span.expander {background-image: image-url('silk/bullet_toggle_plus.png'); padding-left: 8px; margin-left: 0; cursor: pointer;}
+tr.open span.expander {background-image: image-url('silk/bullet_toggle_minus.png');}
 
 .icon {
 background-position: 0% 40%;
@@ -217,8 +217,8 @@ padding-left: 20px;
 padding-top: 2px;
 padding-bottom: 3px;
 }
-.icon-folder { background-image: url(../images/silk/folder.png) ! important; }
-.icon-package { background-image: url(../images/silk/package.png) ! important; }
+.icon-folder { background-image: image-url('silk/folder.png') ! important; }
+.icon-package { background-image: image-url('silk/package.png') ! important; }
 
 /* for the configuration error page */
 p.info { margin: 0 10px; text-align: left; }
