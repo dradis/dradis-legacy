@@ -4,17 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><%= content_for?(:title) ? yield(:title) : 'Untitled' %> - <%= Core::VERSION::string %></title>
 
-    <%= javascript_include_tag 'jquery.min', 'jquery.form', 'jquery_ujs', :cache => 'dradis3' %>
+    <%= javascript_include_tag 'dradis3' %>
+    <%= stylesheet_link_tag 'dradis3' %>
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
-
-    <%= stylesheet_link_tag 'clean/reset',
-        'clean/defaults',
-        'clean/type',
-        'clean/forms',
-        'clean/tables',
-        'clean/lists',
-        'clean/screen', :cache => 'clean' %>
   </head>
 
   <body>
