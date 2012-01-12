@@ -1,59 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Configuration Manager - <%= Core::VERSION::string %></title>
-    <link href="/favicon.ico" rel="shortcut icon" />
-    <link href="/favicon.ico" rel="icon" />
+    <%= favicon_link_tag %>
 
-    <%= javascript_include_tag 'jquery.min', 'jquery.form', 'configurations', :cache => 'configuration_manager' %>
+    <%= javascript_include_tag 'dradis3' %>
+    <%= stylesheet_link_tag 'dradis3' %>
     <%= csrf_meta_tag %>
-
-    <%= stylesheet_link_tag 'clean/reset',
-        'clean/defaults',
-        'clean/type',
-        'clean/forms',
-        'clean/tables',
-        'clean/lists',
-        'clean/screen', :cache => 'clean' %>
-    <style type="text/css">
-    /* These are styles to make the page look nice */
-
-    body { background-color: #dadada;}
-
-    #console {
-      background-color: #000;
-      color: #CCC;
-      padding: 2ex 1ex;
-      margin-top: 2ex;
-    }
-
-    .content {
-      background: #fff;
-      padding: 40px;
-      margin: 40px auto;
-      width: 880px;
-      -moz-border-radius: 24px;
-      -webkit-border-radius: 24px;
-    }
-
-    .content .block {
-      margin-top: 2ex;
-    }
-
-    thead th.setting { width: 300px; }
-    thead th.status { width: 100px; text-align: center; }
-    thead th.value  { width: 480px; }
-
-    tbody td.status { text-align: center; }
-    tbody td.value input { background-position: right center; background-repeat: no-repeat; padding-right: 20px; width: 480px; }
-    tbody td.value input.editing { background-image: url(/images/silk/pencil.png); }
-    tbody td.value input.saving { background-image: url(/images/loading.gif); }
-    tbody td.value input.saved { background-image: url(/images/silk/accept.png); }
-    tbody td.value input.failed { background-image: url(/images/silk/stop.png); }
-    </style>
-
   </head>
 
   <body>
