@@ -13,34 +13,34 @@ noscript p {
 }
 
 .add { 
-  background-image: url(../images/silk/add.png) !important;
+  background-image: image-url('silk/add.png') !important;
 }
 .import { 
-  background-image: url(../images/import.gif) !important;
+  background-image: image-url('import.gif') !important;
 }
 .export { 
-  background-image: url(../images/export.png) !important;
+  background-image: image-url('export.png') !important;
 }
 .edit { 
-  background-image: url(../images/edit.gif) !important;
+  background-image: image-url('edit.gif') !important;
 }
 .del { 
-  background-image: url(../images/silk/delete.png) !important;
+  background-image: image-url('silk/delete.png') !important;
 }
 .options { 
-  background-image: url(../images/list-items.gif) !important;
+  background-image: image-url('list-items.gif') !important;
 }
 .error { 
-  background-image: url(../images/silk/exclamation.png) !important;
+  background-image: image-url('silk/exclamation.png') !important;
   background-repeat: no-repeat; 
 }
 
 .rss-off {
-  background-image: url(../images/silk/feed.png) !important;
+  background-image: image-url('silk/feed.png') !important;
 }
 
 .rss-on {
-  background-image: url(../images/silk/feed_add.png) !important;
+  background-image: image-url('silk/feed_add.png') !important;
 }
 
 .talleditor { height: 240px; }
@@ -96,7 +96,7 @@ noscript p {
 
 .topic {
     padding: 1ex 1ex 2em 20px;
-    background:#FFF url(../images/post.gif) no-repeat 0 2px;
+    background:#FFF image-url('post.gif') no-repeat 0 2px;
     border-bottom: 1px solid #CCC;
 }
 
