@@ -121,10 +121,10 @@ class NotesController < ApplicationController
     @note.updated_by = current_user
   end
 
-  # This is an sfter_filter that increments the current revision if a note was
+  # This is an after_filter that increments the current revision if a note was
   # modified as a result of any of the operations exposed by this controller.
   def update_revision_if_modified
     return unless @modified
-    Configuration.increment_revision
+    ::Configuration.increment_revision
   end
 end
