@@ -2,7 +2,7 @@
  * Ext JS Library 2.2
  * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
- * 
+ *
  * http://extjs.com/license
  */
 
@@ -17,7 +17,7 @@
 	position: absolute;
 	right: 0;
 	-moz-opacity: 0;
-	filter:alpha(opacity: 0);
+	filter:alpha(opacity=0);
 	opacity: 0;
 	z-index: 2;
     height: 22px;
