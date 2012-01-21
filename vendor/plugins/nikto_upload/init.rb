@@ -1,2 +1,1 @@
 require 'nikto_upload'
-
