@@ -1,8 +1,9 @@
 class DradisTasks < Thor
   class Upload < Thor
-    namespace     "dradis:upload"
+    namespace "dradis:upload"
 
-    desc      "nikto FILE", "upload nikto results"
+    desc  "nikto FILE", "upload nikto results"
+    long_desc "This will appear if the user runs 'thor help dradis:upload:nikto'"
     def nikto(file_path)
       require 'config/environment'
 
