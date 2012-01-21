@@ -10,10 +10,10 @@ class Category < ActiveRecord::Base
   private
   def valid_destroy
     if (self.id == 1) 
-      errors.add_to_base 'Cannot delete Default category.'
+      self.errors.add :base, 'Cannot delete Default category.'
     end
     if ( Note.count(:conditions =>{ :category_id => self.id }) > 0)
-      errors.add_to_base 'Cannot delete Category with notes.'
+      self.errors.add :base, 'Cannot delete Category with notes.'
     end
     return errors.count.zero? ? true : false
   end
