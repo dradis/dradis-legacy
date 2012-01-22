@@ -1,5 +1,5 @@
 
-Ext.BLANK_IMAGE_URL = '/assets/default/s.gif';
+// Ext.BLANK_IMAGE_URL = '/assets/default/s.gif';
 //Ext.state.Manager.setProvider(new Ext.state.CookieProvider);
 
 // ------------------------------------------------------- smart Ajax polling

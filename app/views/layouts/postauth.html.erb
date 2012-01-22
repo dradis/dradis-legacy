@@ -37,6 +37,7 @@
       dradis.last_audit = <%= @last_audit %>;
       dradis.version = "<%= Core::VERSION.string  %>";
       dradis.firstrender = <%= !!flash[:first_login] %>;
+      Ext.BLANK_IMAGE_URL = "<%= image_path 'default/s.gif' %>";
     </script>
   </body>
 </html>
