@@ -16,17 +16,14 @@
     reporting plugins will use these fields to fill in the templates and 
     generate your final reports.</p>
 
-    <div class="center"><%= image_tag 'wizard/note_editor.png', :height => 497, :width => 651, :alt => 'A screenshot of the Dradis Note Editor window' %></div>
+    <div class="center"><%= image_tag 'wizard/note_editor.png', :height => 492, :width => 650, :alt => 'A screenshot of the Dradis Note Editor window' %></div>
 
     <h3>HTML Reporting</h3>
     <p>The <code>HTMLExport</code> plugin will generate an HTML report of all 
     the notes assigned to the <strong>HTMLExport ready</strong> category.</p>
 
     <p>You can style your notes using the 
-    <a href="http://textile.thresholdstate.com/">Textile</a> markup language but
-    in order to do so, you will need the <a href="http://redcloth.org/">RedCloth</a> 
-    Ruby gem. Install it with: </p>
-    <div><code>gem install RedCloth</code></div>
+    <strong>Textile</strong> markup language. Learn more and try it out: <a href="http://redcloth.org/try-redcloth/">http://redcloth.org/try-redcloth/</a></p>
 
     <p>The report will be generated from the 
     <a href="http://www.ruby-doc.org/stdlib/libdoc/erb/rdoc/">ERB template</a> 
@@ -42,8 +39,8 @@
     <div><code>server/vendor/plugins/word_export/template.xml</code></div>
 
     <p>To learn more about how to create and use your own Word template, see
-    the <a href="http://dradisframework.org/WordExport_templates.html">WordExport templates</a>
-    documentation page of our site.</p>
+    the <a href="http://guides.dradisframework.org/word_reports.html">WordExport report templates</a>
+    guide.</p>
 
     <p>This plugin does not support styling at the moment, so you will need to
     keep your notes in plain text.</p>
