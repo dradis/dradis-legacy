@@ -10,6 +10,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+# In Production we need to be able to compile assets
+gem 'execjs'
+gem 'therubyracer'
+
 gem 'jquery-rails'
 
 gem 'builder'
