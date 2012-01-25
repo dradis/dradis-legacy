@@ -1,10 +1,11 @@
 v2.9
- - New Retinate Network Security Scanner plugin
+ - New Retina Network Security Scanner plugin
  - New Zed Attack Proxy upload plugin
  - Updated VulnDB import plugin
  - Faster (60x times) Nessus upload plugin
  - Faster Nmap upload plugin (through ruby-nmap gem)
- - Upgrade to Rails 3.1
+ - Updated First Time User's Wizard
+ - Upgrade to Rails 3.2
 
 v2.8 (10th of October 2011)
  - Cleaner three-column layout
