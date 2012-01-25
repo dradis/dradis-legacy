@@ -79,21 +79,30 @@ Once the environment is ready, you can start the server with:
 
     $ ./start.sh
 
-And browse to https://localhost:3004 to start using Dradis
+And browse to https://localhost:3004 to start using Dradis.
+
+If you would like to make Dradis accessible to other people on the network:
+
+    $ ./start.sh -b 0.0.0.0 -p 443
+
+The `-b` option defines Dradis' bind address and the `-p` option can be used to change the port.
 
 
 Getting help
 ------------
 
 * http://dradisframework.org/
+* Dradis Guides: http://guides.dradisframework.org
 * [Community Forums](http://dradisframework.org/community/)
 * IRC: **#dradis** `irc.freenode.org`
+
 
 Contributing
 ------------
 
 * Join the developer discussion at: [dradis-devel](https://lists.sourceforge.net/mailman/listinfo/dradis-devel)
 * [Report a bug](https://github.com/dradis/dradisframework/issues)
+* Help with the [Dradis Guides](https://github.com/dradis/dradisguides) project or submit your guide.
 * Submit a patch:
   * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
   * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
@@ -101,6 +110,7 @@ Contributing
   * Start a feature/bugfix branch
   * Commit and push until you are happy with your contribution
   * Make sure to add tests for it. This is important so we don't break it in a future version unintentionally.
+  * Review our [Contributor's Agreement](https://github.com/dradis/dradisframework/wiki/Contributor%27s-agreement). Sending us a pull request means you have read and accept to this agreement
   * Send us a [pull request](http://help.github.com/pull-requests/)
 
 
