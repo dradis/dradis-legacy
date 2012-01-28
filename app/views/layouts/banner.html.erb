@@ -1,11 +1,11 @@
 <html>
   <head>
     <title>Welcome to Dradis</title>
+    <%= javascript_include_tag 'dradis3' %>
     <%= stylesheet_link_tag 'banner' %>
-    <link href="/favicon.ico" rel="shortcut icon" />
-    <link href="/favicon.ico" rel="icon" />
+    <%= favicon_link_tag %>
   </head>
-  <body>
+  <body class="<%= controller_name %>">
     <div class="main main_margin">
 
       <div class="content">
