@@ -19,13 +19,11 @@
               <div class="form_group">
                 <div>
                   <label>New project</label>
-                  <%= radio_button_tag 'mode', 'new', @new_project,  
-                          :onclick=>"javascript:$(meta_server).hide();" %>
+                  <%= radio_button_tag 'mode', 'new', @new_project %>
                 </div>
                 <div>
                   <label>Checkout project</label>
-                  <%= radio_button_tag 'mode', 'meta-server', !@new_project,
-                          :onclick=>"javascript:$(meta_server).show();" %>
+                  <%= radio_button_tag 'mode', 'meta-server', !@new_project %>
 
                   <%= hidden_field_tag 'revision', nil %>
                 </div>
@@ -42,5 +40,10 @@
 
             </div>
             <script type="text/javascript">
-            <% if @new_project %>$(meta_server).hide();<% else %>$(meta_server).show();<% end %>
+            $(function(){
+              $("input[name='mode']").change(function(){
+                $("#meta_server").toggle( $("#mode_meta-server").is(":checked") );
+              });
+              <% if @new_project -%>$("#meta_server").hide();<% end -%>
+            });
             </script>
