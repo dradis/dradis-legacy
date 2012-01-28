@@ -37,7 +37,12 @@ uploaded them you can process with the different <a href="#" id="available">plug
 </div>
 
 
-<div id="files" class="block">
+<div class="block">
+  <div id="result" class="file" style="display: none;">
+    <div><strong>Filename</strong>: <span id="filename"></span> <span id="spinner"><%= image_tag 'loading.gif', :style => "margin:0;" %></span></div>
+    <div><strong>Size</strong>: <span id="filesize"></span></div>
+    <div id="console"></div>
+  </div>
 </div>
 
 <script type="text/javascript" charset="utf-8">
