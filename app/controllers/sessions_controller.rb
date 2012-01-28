@@ -56,7 +56,7 @@ class SessionsController < ApplicationController
   # that the ensure_valid_password and ensure_valid_metaserver_settings filters
   # have performed the necessary validation of the supplied input
   def setup
-    unless (Configuration.password == 'improvable_dradis')
+    unless (::Configuration.password == 'improvable_dradis')
       redirect_to :action => :new
       return
     end
@@ -64,15 +64,15 @@ class SessionsController < ApplicationController
    
     # Step 3: Initialise the project
     # @password was set by the ensure_valid_password filter
-    c = Configuration.find_by_name('password')
+    c = ::Configuration.find_by_name('password')
     c.value = ::Digest::SHA512.hexdigest(@password)
     c.save
 
     if (@new_project)
-      Configuration.create( :name => 'mode', :value => 'new' )
+      ::Configuration.create( :name => 'mode', :value => 'new' )
     else
       # Download project revision
-      uploadsNode = Node.find_or_create_by_label(Configuration.uploadsNode)
+      uploadsNode = Node.find_or_create_by_label(::Configuration.uploadsNode)
       import_path = Rails.root.join( 'attachments', uploadsNode.id.to_s )
       FileUtils.mkdir_p( import_path )
       package_file = File.join( import_path, 'revision_import.zip' )
@@ -86,8 +86,8 @@ class SessionsController < ApplicationController
                                 :node_id => uploadsNode.id) 
       )
 
-      Configuration.create( :name => 'mode', :value => 'meta-server' )
-      Configuration.create( :name => 'project', :value => @project_revision.prefix_options[:project_id].to_s )
+      ::Configuration.create( :name => 'mode', :value => 'meta-server' )
+      ::Configuration.create( :name => 'project', :value => @project_revision.prefix_options[:project_id].to_s )
     end
 
     flash[:notice] =  'Password set. Please log in.'
