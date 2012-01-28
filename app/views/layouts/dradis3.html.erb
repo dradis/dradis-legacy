@@ -9,7 +9,7 @@
     <%= csrf_meta_tag %>
   </head>
 
-  <body>
+  <body class="<%= controller_name %>">
     <div class="content">
       <noscript><div class="error">Please enable JavaScript support.</div></noscript>
       <% flash.each do |name, msg| %>

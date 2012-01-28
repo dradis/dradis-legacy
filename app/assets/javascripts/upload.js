@@ -1,5 +1,5 @@
 $(function(){
-  $('form').ajaxForm({dataType: 'script'});
+  $('body.upload form').ajaxForm({dataType: 'script'});
 
   $(':file').change(function(){
     $('#files').empty();
