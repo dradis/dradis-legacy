@@ -52,7 +52,8 @@ EON
     note.save
 
     note.fields.should have(2).values
-    note.fields.keys.should == ['Title', 'Description']
+    note.fields.keys.should include('Title')
+    note.fields.keys.should include('Description')
     note.fields['Title'].should == "RSpec Title"
     note.fields['Description'].should == "Nothing to see here, move on!"
   end
