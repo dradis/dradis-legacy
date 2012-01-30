@@ -83,7 +83,7 @@ EON
   root.notes.create!( :author => 'First time wizard', :category_id => 1, :text => NOTE1)
   destination = Attachment.pwd.join(root.id.to_s)
   FileUtils.mkdir_p(destination)
-  FileUtils.cp( Rails.root.join('public', 'images', 'logo_small.png'), destination.join('logo.png') )
+  FileUtils.cp( Rails.root.join('app', 'assets', 'images', 'logo_small.png'), destination.join('logo.png') )
 
   whats_new = root.children.create!( :label => 'What\'s new?')
   whats_new.notes.create!( :author => 'First time wizard', :category_id => 1, :text =>  NOTE2)
