@@ -31,7 +31,7 @@ magic_file = File.join( Rails.root, 'config', 'first_login.txt' )
 if ( !File.exists?(magic_file) )
 
   NOTE1 =<<EON
-Here are your notes for the node you just clicked (*Dradis Framework 2.8*)
+Here are your notes for the node you just clicked (*Dradis Framework 2.9*)
 
 If a node has attachments associated with it you will see an exclamation mark @(!)@ by the _Attachments_ title in the tab strip below.
 EON
@@ -39,28 +39,21 @@ EON
   NOTE2 =<<EON
 h1. What's new in this release?
 
-!{float:left;}/images/logo_small.png!
+!{float:left;}/assets/logo_small.png!
 
-We always try to improve the interface and UX for our users. With this realease
-we are introducing a cleaner three-column layout that maximizes the amount of
-space available to view your notes and removes the clutter in the note list.
+In this release we have worked on a number of new plugins and improvements to
+our existing ones:
 
-Read more about the three-column layout here:
-"http://blog.dradisframework.org/2011/09/new-in-dradis-28-three-column-layout.html":http://blog.dradisframework.org/2011/09/new-in-dradis-28-three-column-layout.html
+* New "Retina Network Security Scanner":http://www.eeye.com/products/retina/retina-network-scanner plugin
+* New "Zed Attack Proxy":https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project upload plugin
+* Faster (60x times) "Nessus":http://www.nessus.org/products/nessus upload plugin
+* Faster "Nmap":http://nmap.org upload plugin (through ruby-nmap gem)
+* Updated VulnDB import plugin (to support "VulnDB HQ":http://vulndbhq.com integration)
 
-Knowing that there is a new revision in the server and that we should update is
-a good way to learn that others in the team are making changes, however the new
-smart updates will bring any changes made by your team mates to your current
-session without having to hit refresh or take any other action. Automagic!
+We have also updated our core stack to use Rails 3.2, the latest release available.
 
-A screencast showing the smart ajax updates in action can be found here:
-"http://blog.dradisframework.org/2011/09/new-in-dradis-28-smart-refresh.html":http://blog.dradisframework.org/2011/09/new-in-dradis-28-smart-refresh.html
-
-In addition to the above, we have worked on an improved version of the Nmap and
-Nessus upload plugins to re-use existing host nodes and thus avoid duplication.
-
-Send us your feature requests! Add them to the project tracker:
-"https://github.com/dradis/dradisframework/issues/new":https://github.com/dradis/dradisframework/issues/new
+Do you have some ideas? Send us your feature requests!
+"http://dradisframework.uservoice.com/":http://dradisframework.uservoice.com/forums/38386-general
 
 Remember that the _First Time User's Wizard_ can be found at "/wizard":/wizard
 
