@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101029150104) do
+ActiveRecord::Schema.define(:version => 20120131171008) do
 
   create_table "bj_config", :primary_key => "bj_config_id", :force => true do |t|
     t.text "hostname"
@@ -59,6 +59,9 @@ ActiveRecord::Schema.define(:version => 20101029150104) do
     t.text     "stdout"
     t.text     "stderr"
     t.integer  "exit_status"
+  end
+
+  create_table "bj_tables", :force => true do |t|
   end
 
   create_table "categories", :force => true do |t|
