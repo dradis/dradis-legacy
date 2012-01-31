@@ -3,6 +3,23 @@ class Bj
 # table base class
 #
   class Table < ActiveRecord::Base
+    # In Rails 3.2 (ActiveRecord) tries to generate accesor methods for the
+    # parent's object DB columns when trying to do the same for a child (Job)
+    # This causes a problem because originally Bj::Table is not DB-backed.
+    #
+    # The code is in lib/active_record/attribute_methods.rb#define_attribute_methods()
+    #
+    # There was a way to trick ActiveRecord though:
+    # http://stackoverflow.com/questions/937429/activerecordbase-without-table
+    # http://railscasts.com/episodes/193-tableless-model
+    #
+    # Unfortunately something has changed in the internals of AR-3.2 and it no
+    # longer works.
+    #
+    # A workaround is to create a dummy table for this base class
+    self.table_name = "bj_tables"
+    self.primary_key = "#{ table_name }_id"
+
     module ClassMethods
       attribute("list"){ Array.new }
       attribute("migration"){}
@@ -90,8 +107,8 @@ class Bj
 # table classes
 #
     class Job < Table
-      set_table_name "bj_job"
-      set_primary_key "#{ table_name }_id"
+      self.table_name = "bj_job"
+      self.primary_key = "#{ table_name }_id"
 
       migration { 
         define_method :up do
@@ -165,8 +182,8 @@ class Bj
     end
 
     class JobArchive < Job
-      set_table_name "bj_job_archive"
-      set_primary_key "#{ table_name }_id"
+      self.table_name = "bj_job_archive"
+      self.primary_key = "#{ table_name }_id"
 
       migration {
         define_method(:up) do
@@ -203,8 +220,8 @@ class Bj
 
   # TODO - initialize with a set of global defaults and fallback to those on perhaps '* * key'
     class Config < Table
-      set_table_name "bj_config"
-      set_primary_key "#{ table_name }_id"
+      self.table_name = "bj_config"
+      self.primary_key = "#{ table_name }_id"
 
       migration {
         define_method(:up) do
