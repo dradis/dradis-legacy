@@ -53,7 +53,7 @@ var dradisstatus = new Ext.ux.StatusBar({
         enableToggle:true,
         listeners:{
           toggle:function(){
-            if ( dradistabs.items.length != 4 ) {
+            if ( dradistabs.items.length != 5 ) {
               this.welcome = new Ext.Panel({ 
                                   contentEl:'first_render', 
                                   title: 'What\'s new?', 
