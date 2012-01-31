@@ -1,7 +1,7 @@
-<h1>Welcome to dradis Framework v<%= Core::VERSION::STRING %></h1>
+<h1>Welcome to Dradis Framework v<%= Core::VERSION::STRING %></h1>
 
 <div class="portlet">
-  <div class="head">dradis server</div>
+  <div class="head">Dradis server</div>
 <!--
   <ul>
     <li>
@@ -28,25 +28,33 @@
 -->
   <ul>
     <li>
-      <div class="feature">Updated Plugins</div>
+      <div class="feature">New plugins</div>
       <ul>
-        <li><a href="http://nmap.org">Nmap</a> upload plugin re-uses existing host nodes</li>
-        <li><a href="http://www.nessus.org/products/nessus">Nessus</a> upload plugin re-uses existing host nodes.</li>
+        <li><a href="http://www.eeye.com/products/retina/retina-network-scanner">Retina Network Security Scanner</a> upload plugin.</li>
+        <li><a href="https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project">Zed Attack Proxy</a> upload plugin.</li>
+      </ul>
+    </li>
+
+    <li>
+      <div class="feature">Updated plugins</div>
+      <ul>
+        <li><a href="http://www.nessus.org/products/nessus">Nessus</a> upload plugin is orders of magnitude faster.</li>
+        <li><a href="http://cirt.net/nikto2">Nikto</a> upload plugin is orders of magnitude faster.</li>
+        <li><a href="http://nmap.org">Nmap</a> upload plugin is orders of magnitude faster.</li>
+        <li><strong>VulnDB</strong> import plugin (to support <a href="http://vulndbhq.com">VulnDB HQ</a> integration)</li>
       </ul>
     </li>
 
     <li>
       <div class="feature">Internals</div>
       <ul>
-        <li>New <a href="http://blog.dradisframework.org/2011/09/new-in-dradis-28-three-column-layout.html" target="_blank">three-column layout</a></li>
-        <li>New <a href="http://blog.dradisframework.org/2011/09/new-in-dradis-28-smart-refresh.html" target="_blank">smart refresh</a></li>
-        <li>Rails 3.0.10</li>
-        <li>Lots of bugs fixed: #17, #31, #37, #43, #48</li>
+        <li>Updated First Time User's Wizard (check it out at <a href="wizard" target="_blank">/wizard</a>).</li>
+        <li>Updated to Rails 3.2</li>
       </ul>
     </li>
   </ul>
 </div>
-
+<!--
 <div class="portlet">
   <div class="head">meta</div>
   <ul>
@@ -66,7 +74,7 @@
 
   </ul>
 </div>
-
+-->
 <!--
 <div class="portlet">
   <div class="head">Meta-Server</div>
@@ -88,7 +96,7 @@
         <li><a href="http://guides.dradisframework.org/">Dradis Guides</a></li>
         <li><a href="http://dradisframework.org/community/">Community Forums</a></li>
         <li><a href="http://dradisframework.uservoice.com/">Feature requests</a></li>
-        <li>Found a bug? <a href="http://sourceforge.net/tracker/?atid=1010917&group_id=209736&func=browse">report it</a>.</li>
+        <li>Found a bug? <a href="https://github.com/dradis/dradisframework/issues">report it</a>.</li>
         <li>IRC: <strong>#dradis</strong> @irc.freenode.org</li>
       </ul>
     </li>
