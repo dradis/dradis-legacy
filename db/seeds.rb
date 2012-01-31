@@ -47,6 +47,7 @@ our existing ones:
 * New "Retina Network Security Scanner":http://www.eeye.com/products/retina/retina-network-scanner plugin
 * New "Zed Attack Proxy":https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project upload plugin
 * Faster (60x times) "Nessus":http://www.nessus.org/products/nessus upload plugin
+* Faster "Nikto":http://cirt.net/nikto2 upload plugin
 * Faster "Nmap":http://nmap.org upload plugin (through ruby-nmap gem)
 * Updated VulnDB import plugin (to support "VulnDB HQ":http://vulndbhq.com integration)
 
