@@ -31,7 +31,7 @@ magic_file = File.join( Rails.root, 'config', 'first_login.txt' )
 if ( !File.exists?(magic_file) )
 
   NOTE1 =<<EON
-Here are your notes for the node you just clicked (*Dradis Framework 2.9*)
+Here are your notes for the node you just clicked (*#{Core::VERSION.string}*)
 
 If a node has attachments associated with it you will see an exclamation mark @(!)@ by the _Attachments_ title in the tab strip below.
 EON
@@ -73,7 +73,7 @@ h1. Getting Help
 * IRC: *#dradis* @irc.freenode.org
 EON
 
-  root = Node.create!(:label => 'Dradis Framework 2.8')
+  root = Node.create!(:label => Core::VERSION.string)
   root.notes.create!( :author => 'First time wizard', :category_id => 1, :text => NOTE1)
   destination = Attachment.pwd.join(root.id.to_s)
   FileUtils.mkdir_p(destination)
