@@ -38,19 +38,3 @@ p { margin-bottom: 10px; }
   font-size: 80%;
   color: #888;
 }
-
-
-/*=========================================================== Upload Manager */
-#console {
-  background-color: #000;
-  color: #CCC;
-  padding: 2ex 1ex;
-  margin-top: 2ex;
-}
-.file {
-  padding: 40px;
-  margin: 0 auto;
-  border: 1px solid #dadada;
-  -moz-border-radius: 24px;
-  -webkit-border-radius: 24px;
-}

@@ -1,7 +1,6 @@
 # Internal application Configuration settings are handled through this 
 # REST-enabled controller.
-class ConfigurationsController < ApplicationController
-  before_filter :login_required
+class ConfigurationsController < AuthenticatedController
   before_filter :find_or_initialize_config, :except => [ :index ]
 
   # Get all the Configuration objects. It only supports XML format. Sample 
