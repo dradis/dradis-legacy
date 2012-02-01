@@ -53,7 +53,11 @@ Once the environment is ready, you can start the server with:
 
     $ ./start.sh
 
-And browse to https://localhost:3004 to start using Dradis
+And browse to https://localhost:3004 to start using Dradis. If you need to bind
+to a different address (so others can connect to your instance) or another port
+number, you can use the -b and -p switches respectively:
+
+    $ ./start.sh -b 10.0.0.123 -p 443
 
 
 Getting started (git release)
@@ -67,13 +71,20 @@ First, clone the repo:
 
 Then download the verify, reset and start scripts to your dradis-git/ folder:
 
-    $ wget https://raw.github.com/dradis/meta/master/verify.sh
-    $ wget https://raw.github.com/dradis/meta/master/reset.sh
-    $ wget https://raw.github.com/dradis/meta/master/start.sh
+    $ curl -O https://raw.github.com/dradis/meta/master/verify.sh
+    $ curl -O https://raw.github.com/dradis/meta/master/reset.sh
+    $ curl -O https://raw.github.com/dradis/meta/master/start.sh
     $ chmod +x *.sh
     $ ./verify.sh
       # follow instructions / install dependencies
     $ ./reset.sh
+
+Dradis runs on top of Ruby on Rails so you need an extra step to make sure all
+the JavaScript files and stylesheets are served swiftly:
+
+    $ cd server/
+    $ RAILS_ENV=production bundle exec rake assets:precompile
+    $ cd ..
 
 Once the environment is ready, you can start the server with:
 
