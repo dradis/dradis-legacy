@@ -19,7 +19,7 @@ module Core #:nodoc:
 
     STRING = [MAJOR, MINOR, TINY].join('.')
     def VERSION.string
-      "dradis v#{STRING}";
+      "Dradis Framework v#{STRING}";
     end
     def VERSION.show
       puts VERSION.string; exit(0); 
