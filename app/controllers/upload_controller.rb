@@ -112,7 +112,12 @@ class UploadController < AuthenticatedController
     if File.size(attachment.fullpath) < 1024*1024
       logger = Log.new(:uid => item_id)
       logger.write('Small attachment detected. Processing in line.')
-      @uploader.import(:file => attachment.fullpath, :logger => logger)
+      begin
+        @uploader.import(:file => attachment.fullpath, :logger => logger)
+      rescue Exception => e
+        logger.write('There was a fatal error processing your upload:')
+        logger.write(e.message)
+      end
       logger.write('Worker process completed.')
     else
       Log.new(:uid => item_id).write("Enqueueing job to start in the background. Job id is #{item_id}")
