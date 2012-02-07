@@ -19,7 +19,7 @@ gem 'jquery-rails'
 gem 'builder'
 gem 'nokogiri'
 
-gem 'RedCloth', '4.2.8', :require => 'redcloth'
+gem 'RedCloth', '4.2.9', :require => 'redcloth'
 gem 'thor', '0.14.6'
 
 gem 'ruby-nmap'
