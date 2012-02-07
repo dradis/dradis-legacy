@@ -7,6 +7,7 @@ module VulndbImport
         records = []       
 
         # In case the user has changed the vulndb:rest_url setting
+        Page.format = :xml
         Page.site = Configuration.rest_url
 
         begin              
