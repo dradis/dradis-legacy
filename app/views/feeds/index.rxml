@@ -1,9 +1,9 @@
 xml.instruct!
 xml.rss("version" => "2.0") do
   xml.channel do
-    xml.title "dradis rss feed"
+    xml.title "Dradis rss feed"
     xml.link "/home/rss"
-    xml.description "This feed containt the latest updates to the dradis knowledge base"
+    xml.description "This feed containt the latest updates to the Dradis knowledge base"
     xml.language "en-gb"
 
     for feed in @feeds
