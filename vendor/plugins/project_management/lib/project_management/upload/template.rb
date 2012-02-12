@@ -58,6 +58,8 @@ module ProjectTemplateUpload
 
       element = xml_node.elements['parent-id']
       parent_id   = element.text.nil? ? nil : element.text.strip
+      element = xml_node.elements['position']
+      position   = element.text.nil? ? nil : element.text.strip
       created_at  = xml_node.elements['created-at'].text.strip
       updated_at  = xml_node.elements['updated-at'].text.strip
 
@@ -78,6 +80,7 @@ module ProjectTemplateUpload
         node = Node.create  :type_id     => type_id,
                             :label       => label,
                             :parent_id   => parent_id,
+                            :position    => position,
                             :created_at  => created_at,
                             :updated_at  => updated_at
       end
