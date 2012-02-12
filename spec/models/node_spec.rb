@@ -66,4 +66,19 @@ describe Node do
 
     File.exists?(Attachment.pwd.join(node.id.to_s)).should be_false
   end
+
+  it "should assign a default 0 position if none is provided" do
+    node = Factory.create(:node)
+    node.should respond_to(:position)
+    node.should respond_to(:position=)
+    node.position.should eq(0)
+  end
+
+  it "should keep the position when provided" do
+    node = Factory.create(:node)
+    node.position = 3
+    node.save.should eq(true)
+    node = Node.last
+    node.position.should eq(3)
+  end
 end
