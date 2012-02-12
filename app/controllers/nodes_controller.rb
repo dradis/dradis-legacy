@@ -2,7 +2,7 @@
 # resource.
 class NodesController < ApplicationController
   before_filter :login_required
-  before_filter :find_or_initialize_node, :except => [ :index ]
+  before_filter :find_or_initialize_node, :except => [ :index, :sort ]
 
   respond_to :json
 
@@ -24,6 +24,14 @@ class NodesController < ApplicationController
   # GET /nodes/<id>
   def show
     respond_with(@node)
+  end
+
+  # POST /nodes/sort
+  def sort
+    params[:nodes].each_with_index do |id, index|
+      Node.update_all({position: index+1}, {id: id})
+    end
+    render nothing: true
   end
 
   # PUT /node/<id>

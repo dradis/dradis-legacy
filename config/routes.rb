@@ -11,6 +11,7 @@ Dradis::Application.routes.draw do
   resources :feeds
 
   resources :nodes do
+    collection { post :sort }
     resources :notes
     constraints(:id => /.*/) do
       resources :attachments
