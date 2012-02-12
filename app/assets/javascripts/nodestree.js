@@ -258,7 +258,28 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
           p.parent_id = parent.id;
         }
       }
-      this.updateNode(node, p)
+      // only update the parent if it changed, if parent didn't change it means
+      // we are just sorting nodes.
+      if (p.parent_id != node.attributes['parent_id'])
+      {
+        this.updateNode(node, p)
+      }
+      // sorting
+      var params = "";
+      Ext.each(node.parentNode.childNodes, function(node){
+        params = params + "nodes[]=" + node.id + "&";
+      });
+      Ext.Ajax.request({
+        url: 'nodes/sort.json',
+        method: 'post',
+        params: params,
+        success: function(response, options) {
+          dradisstatus.setStatus({text: 'New position saved', clear: 5000 });
+        },
+        failure: function(response, options) {
+          dradisstatus.setStatus({text: 'Ajax error', iconCls: 'error', clear: 5000 });
+        }
+      });
     });
 
     // ==================================================== /event handlers
@@ -275,7 +296,11 @@ dradis.NodesTree = Ext.extend(Ext.tree.TreePanel, {
     });
     parent.appendChild(node);
 
-    var params = {label: node.text, type_id: type};
+    var params = {
+      label: node.text,
+      type_id: type,
+      position: parent.childNodes.indexOf(node)
+    };
     if (parent.id != 'root-node') {
       params.parent_id = parent.id;
     }
