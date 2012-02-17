@@ -29,7 +29,7 @@ class NodesController < ApplicationController
   # POST /nodes/sort
   def sort
     params[:nodes].each_with_index do |id, index|
-      Node.update_all({:position => index+1}, {id: id})
+      Node.update_all({:position => index+1}, {:id => id})
     end
     render :nothing => true
   end
