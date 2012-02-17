@@ -2,8 +2,5 @@
 # longer useful and can be disposed of.
 Rails.logger.info "Clearing old Logs and Feeds..."
 
-# Check that we are in normal operating mode, if we are in dradis:reset, skip.
-unless ActiveRecord::Migrator.new(:up, ActiveRecord::Migrator.migrations_paths).pending_migrations.empty?
-  Log.destroy_all
-  Feed.destroy_all
-end
+Log.destroy_all if Log.table_exists?
+Feed.destroy_all if Feed.table_exists?
