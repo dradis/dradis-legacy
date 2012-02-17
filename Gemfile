@@ -25,6 +25,9 @@ gem 'thor', '0.14.6'
 gem 'ruby-nmap'
 gem 'sqlite3'
 
+# To create/read project packages
+gem 'rubyzip', '~> 0.9.6.1'
+
 # Gems required for testing
 gem 'rspec-rails', :group => [:development, :test]
 
