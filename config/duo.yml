@@ -1,0 +1,17 @@
+development:
+  ikey: 
+  skey: 
+  akey: 
+  host:
+
+test:
+  ikey: 
+  skey: 
+  akey: 
+  host:
+
+production:
+  ikey: 
+  skey: 
+  akey: 
+  host:

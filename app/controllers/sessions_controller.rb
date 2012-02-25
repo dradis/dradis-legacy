@@ -1,15 +1,17 @@
 require 'digest/sha2'
+require 'duo_web.rb'
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
   layout 'banner'
   
   before_filter :check_test_password, :only => :new
+  skip_before_filter :verify_authenticity_token, :only => [:create]
 
   # Validate user settings before seting up the new project
   before_filter :update_user_selection, :only => :setup
   before_filter :ensure_valid_password, :only => :setup
   before_filter :ensure_valid_metaserver_settings, :only => :setup
-  
+
   # Initialise the session, clear any objects that might currently exist and
   # present the session start up configuration HTML form.
   def init
@@ -103,17 +105,37 @@ class SessionsController < ApplicationController
   def create
     usr = params.fetch(:login, nil)
     pwd = params.fetch(:password, nil)
-    if not ( usr.nil? || pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != ::Configuration.password)
+    if not ( usr.nil? || pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != ::Configuration.password )
       flash[:first_login] = first_login?
-      self.current_user = usr
-      redirect_back_or_default( root_path )
-      #flash[:notice] = 'Logged in successfully.'
+      if duo_enabled?
+        session[:tmp_usr] = usr
+        @sig_request = Duo::sign_request(DUO_CONFIG['ikey'], DUO_CONFIG['skey'], DUO_CONFIG['akey'], usr)
+        render :template => 'sessions/duo.html.erb'
+      else
+        self.current_user = usr
+        redirect_back_or_default( root_path )
+        #flash[:notice] = 'Logged in successfully.'
+      end
+    elsif params[:sig_response] and duo_enabled?
+      if Duo::verify_response(DUO_CONFIG['ikey'], DUO_CONFIG['skey'], DUO_CONFIG['akey'], params[:sig_response])
+        self.current_user = session[:tmp_usr]
+        session[:tmp_usr] = nil
+        redirect_back_or_default( root_path )
+        #flash[:notice] = 'Logged in successfully.'
+      else
+        flash.now[:error] = 'Try again.'
+        render :action => 'new'
+      end
     else
       flash.now[:error] = 'Try again.'
       render :action => 'new'
     end
   end
-  
+
+  def duo_enabled?
+    not(DUO_CONFIG['host'].blank? || DUO_CONFIG['ikey'].blank? || DUO_CONFIG['skey'].blank? || DUO_CONFIG['akey'].blank?)
+  end
+
   # Logout action. Reset the session.
   def destroy
     #self.current_user.forget_me if logged_in?

@@ -4,6 +4,15 @@
     <%= javascript_include_tag 'dradis3' %>
     <%= stylesheet_link_tag 'banner' %>
     <%= favicon_link_tag %>
+    <% if @sig_request %>
+      <%= javascript_include_tag 'duo' %>
+      <script>
+        Duo.init({
+          'host': '<%= DUO_CONFIG['host'] %>',
+          'sig_request': '<%= @sig_request %>',
+        });
+      </script>
+    <% end %>
   </head>
   <body class="<%= controller_name %>">
     <div class="main main_margin">
