@@ -125,6 +125,18 @@ Contributing
   * Send us a [pull request](http://help.github.com/pull-requests/)
 
 
+Duo Security
+------------
+
+Duo Security provides two-factor authentication to Dradis. In addition to the shared password, each user can have a Duo Security account which will individually authenticate their user using
+a software (Push, SMS, Phone Call) or hardware (Token) integration.
+
+To create a Duo Security account, visit `http://www.duosecurity.com/pricing` to sign-up and then visit `http://www.duosecurity.com/docs/getting_started` to learn how to setup a WebSDK integration.
+The preferred deployment of this integration would be allowing only pre-configured users to utilize Duo Security, rather than user enrollment which would allow anyone to setup a Duo Security user.
+
+To enable Duo Security in Dradis, edit config/duo.yml and configure all of the parameters listed for your WebSDK integration once you have users configured.
+
+
 License
 -------
 
