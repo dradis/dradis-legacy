@@ -42,8 +42,7 @@ module NexposeUpload
   def self.notes_simple(hosts)
     return if hosts.nil?
     hosts.each do |host|
-      host_node = Node.create(:label => host['address'], :parent_id => @nexpose_node.id)
-
+      host_node = @nexpose_node.children.find_or_create_by_label_and_type_id(host['address'], Node::Types::HOST)
       Note.create(
           :node => host_node,
           :author => @plugin_author_name,
@@ -444,3 +443,4 @@ module NexposeUpload
   end # self.parse_nexpose_full_xml ends
 
 end
+
