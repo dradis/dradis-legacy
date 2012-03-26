@@ -74,17 +74,19 @@ module ProjectTemplateUpload
       if ( label == Configuration.uploadsNode )
         node = Node.find_or_create_by_label( label, {
                                                       :type_id => type_id,
-                                                      :parent_id => parent_id,
-                                                      :created_at => created_at,
-                                                      :updated_at => updated_at
+                                                      :parent_id => parent_id
                                                     })
+
+        node.update_attribute(:created_at, created_at) if created_at
+        node.update_attribute(:updated_at, updated_at) if updated_at
       else
         node = Node.create  :type_id     => type_id,
                             :label       => label,
                             :parent_id   => parent_id,
-                            :position    => position,
-                            :created_at  => created_at,
-                            :updated_at  => updated_at
+                            :position    => position
+
+        node.update_attribute(:created_at, created_at) if created_at
+        node.update_attribute(:updated_at, updated_at) if updated_at
       end
 
       xml_node.elements.each('notes/note') do |xml_note|
