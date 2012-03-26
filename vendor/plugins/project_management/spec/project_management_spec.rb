@@ -20,8 +20,7 @@ describe 'ProjectManagement plugin' do
       fixture_file = "spec/fixtures/files/no_positions.xml"
       Node.count.should eq(0)
       Note.count.should eq(0)
-      # lambda{ ProjectTemplateUpload::import( :file => fixture_file ) }.should_not raise_error
-      ProjectTemplateUpload::import( :file => fixture_file )
+      lambda{ ProjectTemplateUpload::import( :file => fixture_file ) }.should_not raise_error
       Node.count.should eq(9)
       Note.count.should eq(3)
       node = Node.find_by_label('branch #1')
