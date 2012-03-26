@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8'?><dradis-template><nodes type='array'>
+  <node>
+    <created-at type='datetime'>2012-02-12T19:09:24Z</created-at>
+    <id type='integer'>28</id>
+    <label>Uploaded files</label>
+    <parent-id nil='true' type='integer'/>
+    <position type='integer'>0</position>
+    <type-id nil='true' type='integer'/>
+    <updated-at type='datetime'>2012-02-12T19:09:24Z</updated-at>
+    <notes type='array'>
+      <note>
+        <author>etd</author>
+        <category-id type='integer'>1</category-id>
+        <created-at type='datetime'>2012-03-26T06:33:03Z</created-at>
+        <id type='integer'>1</id>
+        <node-id type='integer'>28</node-id>
+        <text>one</text>
+        <updated-at type='datetime'>2012-03-26T06:33:03Z</updated-at>
+      </note>
+    </notes>
+  </node>
+  <node>
+    <created-at type='datetime'>2012-02-12T17:38:26Z</created-at>
+    <id type='integer'>29</id>
+    <label>branch #1</label>
+    <parent-id nil='true' type='integer'/>
+    <position type='integer'>2</position>
+    <type-id type='integer'>0</type-id>
+    <updated-at type='datetime'>2012-02-12T19:02:57Z</updated-at>
+    <notes type='array'>
+      <note>
+        <author>etd</author>
+        <category-id type='integer'>1</category-id>
+        <created-at type='datetime'>2012-03-26T06:33:09Z</created-at>
+        <id type='integer'>2</id>
+        <node-id type='integer'>29</node-id>
+        <text>two</text>
+        <updated-at type='datetime'>2012-03-26T06:33:09Z</updated-at>
+      </note>
+    </notes>
+  </node>
+  <node>
+    <created-at type='datetime'>2012-02-12T17:38:30Z</created-at>
+    <id type='integer'>30</id>
+    <label>3</label>
+    <parent-id type='integer'>32</parent-id>
+    <position type='integer'>3</position>
+    <type-id type='integer'>1</type-id>
+    <updated-at type='datetime'>2012-02-12T19:09:24Z</updated-at>
+    <notes type='array'/>
+  </node>
+  <node>
+    <created-at type='datetime'>2012-02-12T17:38:34Z</created-at>
+    <id type='integer'>31</id>
+    <label>b</label>
+    <parent-id type='integer'>29</parent-id>
+    <position type='integer'>2</position>
+    <type-id type='integer'>0</type-id>
+    <updated-at type='datetime'>2012-02-12T19:09:24Z</updated-at>
+    <notes type='array'/>
+  </node>
+  <node>
+    <created-at type='datetime'>2012-02-12T17:43:55Z</created-at>
+    <id type='integer'>32</id>
+    <label>branch #2</label>
+    <parent-id nil='true' type='integer'/>
+    <position type='integer'>0</position>
+    <type-id type='integer'>0</type-id>
+    <updated-at type='datetime'>2012-02-12T17:43:55Z</updated-at>
+    <notes type='array'>
+      <note>
+        <author>etd</author>
+        <category-id type='integer'>1</category-id>
+        <created-at type='datetime'>2012-03-26T06:33:16Z</created-at>
+        <id type='integer'>3</id>
+        <node-id type='integer'>32</node-id>
+        <text>three</text>
+        <updated-at type='datetime'>2012-03-26T06:33:16Z</updated-at>
+      </note>
+    </notes>
+  </node>
+  <node>
+    <created-at type='datetime'>2012-02-12T17:50:17Z</created-at>
+    <id type='integer'>33</id>
+    <label>2</label>
+    <parent-id type='integer'>32</parent-id>
+    <position type='integer'>2</position>
+    <type-id type='integer'>1</type-id>
+    <updated-at type='datetime'>2012-02-12T19:09:24Z</updated-at>
+    <notes type='array'/>
+  </node>
+  <node>
+    <created-at type='datetime'>2012-02-12T17:55:54Z</created-at>
+    <id type='integer'>34</id>
+    <label>a</label>
+    <parent-id type='integer'>29</parent-id>
+    <position type='integer'>3</position>
+    <type-id type='integer'>0</type-id>
+    <updated-at type='datetime'>2012-02-12T19:09:24Z</updated-at>
+    <notes type='array'/>
+  </node>
+  <node>
+    <created-at type='datetime'>2012-02-12T17:56:02Z</created-at>
+    <id type='integer'>35</id>
+    <label>1</label>
+    <parent-id type='integer'>32</parent-id>
+    <position type='integer'>1</position>
+    <type-id type='integer'>1</type-id>
+    <updated-at type='datetime'>2012-02-12T19:09:24Z</updated-at>
+    <notes type='array'/>
+  </node>
+  <node>
+    <created-at type='datetime'>2012-02-12T17:56:06Z</created-at>
+    <id type='integer'>36</id>
+    <label>c</label>
+    <parent-id type='integer'>29</parent-id>
+    <position type='integer'>1</position>
+    <type-id type='integer'>0</type-id>
+    <updated-at type='datetime'>2012-02-12T19:09:24Z</updated-at>
+    <notes type='array'/>
+  </node>
+</nodes><categories type='array'>
+  <category>
+    <created-at type='datetime'>2012-02-12T17:20:30Z</created-at>
+    <id type='integer'>1</id>
+    <name>default category</name>
+    <updated-at type='datetime'>2012-02-12T17:20:30Z</updated-at>
+  </category>
+  <category>
+    <created-at type='datetime'>2012-02-12T19:04:03Z</created-at>
+    <id type='integer'>5</id>
+    <name>default category</name>
+    <updated-at type='datetime'>2012-02-12T19:04:03Z</updated-at>
+  </category>
+  <category>
+    <created-at type='datetime'>2012-02-12T19:04:31Z</created-at>
+    <id type='integer'>6</id>
+    <name>HTMLExport ready</name>
+    <updated-at type='datetime'>2012-02-12T19:04:31Z</updated-at>
+  </category>
+  <category>
+    <created-at type='datetime'>2012-02-12T19:04:31Z</created-at>
+    <id type='integer'>7</id>
+    <name>WordExport ready</name>
+    <updated-at type='datetime'>2012-02-12T19:04:31Z</updated-at>
+  </category>
+</categories></dradis-template>

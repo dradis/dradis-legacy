@@ -58,8 +58,10 @@ module ProjectTemplateUpload
 
       element = xml_node.elements['parent-id']
       parent_id   = element.text.nil? ? nil : element.text.strip
+
+      # Node positions
       element = xml_node.elements['position']
-      position   = element.text.nil? ? nil : element.text.strip
+      position   = (element && !element.text.nil?) ? element.text.strip : nil
       created_at  = xml_node.elements['created-at'].text.strip
       updated_at  = xml_node.elements['updated-at'].text.strip
 
