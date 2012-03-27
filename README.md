@@ -35,6 +35,46 @@ Some of the features:
   * [Zed Attack Proxy](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)
 
 
+Getting started (git release, recommended)
+------------------------------------------
+
+On Debian-based operating systems (Ubuntu, BackTrack, etc.) use this script:
+
+    $ bash < <(curl -s https://raw.github.com/dradis/meta/master/install.sh)
+
+The script:
+  1. Checks for system-level dependencies (git, openssl, etc.)
+  2. Installs [RVM](http://beginrescueend.com/rvm/install/) and Ruby 1.9.3. It detects and reuses your existing RVM too.
+  3. Downloads and prepares the git repo with Dradis code
+
+[View install.sh source](https://github.com/dradis/meta/blob/master/install.sh)
+
+If you want to manually clone the repo:
+
+    $ mkdir dradis-git
+    $ cd dradis-git/
+    $ git clone https://github.com/dradis/dradisframework.git server
+
+Then download the reset and start scripts to your dradis-git/ folder:
+
+    $ curl -O https://raw.github.com/dradis/meta/master/reset.sh
+    $ curl -O https://raw.github.com/dradis/meta/master/start.sh
+    $ chmod +x *.sh
+    $ ./reset.sh
+
+Once the environment is ready, you can start the server with:
+
+    $ ./start.sh
+
+And browse to https://localhost:3004 to start using Dradis.
+
+If you would like to make Dradis accessible to other people on the network:
+
+    $ ./start.sh -b 0.0.0.0 -p 443
+
+The `-b` option defines Dradis' bind address and the `-p` option can be used to change the port.
+
+
 Getting started (stable release)
 --------------------------------
 
@@ -58,45 +98,6 @@ to a different address (so others can connect to your instance) or another port
 number, you can use the -b and -p switches respectively:
 
     $ ./start.sh -b 10.0.0.123 -p 443
-
-
-Getting started (git release)
------------------------------
-
-First, clone the repo:
-
-    $ mkdir dradis-git
-    $ cd dradis-git/
-    $ git clone https://github.com/dradis/dradisframework.git server
-
-Then download the verify, reset and start scripts to your dradis-git/ folder:
-
-    $ curl -O https://raw.github.com/dradis/meta/master/verify.sh
-    $ curl -O https://raw.github.com/dradis/meta/master/reset.sh
-    $ curl -O https://raw.github.com/dradis/meta/master/start.sh
-    $ chmod +x *.sh
-    $ ./verify.sh
-      # follow instructions / install dependencies
-    $ ./reset.sh
-
-Dradis runs on top of Ruby on Rails so you need an extra step to make sure all
-the JavaScript files and stylesheets are served swiftly:
-
-    $ cd server/
-    $ RAILS_ENV=production bundle exec rake assets:precompile
-    $ cd ..
-
-Once the environment is ready, you can start the server with:
-
-    $ ./start.sh
-
-And browse to https://localhost:3004 to start using Dradis.
-
-If you would like to make Dradis accessible to other people on the network:
-
-    $ ./start.sh -b 0.0.0.0 -p 443
-
-The `-b` option defines Dradis' bind address and the `-p` option can be used to change the port.
 
 
 Getting help
