@@ -92,6 +92,36 @@ noscript p {
 
 #first_render .portlet li strong { font-weight: bold; }
 
+.cheatsheet {
+  padding: 5px;
+  font-size: 12px;
+  h2 {
+    margin-bottom: 3px;
+  }
+  p {
+    margin: 3px 0;
+  }
+  pre {
+    background-color: #EEE;
+    border: 1px solid #DDD;
+    margin: 0 0 20px;
+    padding: 5px;
+  }
+
+  .col {
+    float: left;
+    margin-right: 10px;
+    padding: 0 0 10px;
+    width: 240px;
+  }
+  p.clear {
+    clear: both;
+    margin-top: 5px;
+    border-top: 1px solid #DDD;
+    padding-top: 5px;
+  }
+}
+
 .x-grid3-row-body { overflow: scroll; }
 
 .topic {

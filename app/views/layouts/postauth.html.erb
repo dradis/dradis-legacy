@@ -30,6 +30,50 @@
 
       <% if flash[:notice] %><div id="notice"><%= flash[:notice] %></div><% end %>
       <% if flash[:error] %><div id="error"><%= flash[:error] %></div><% end %>
+
+      <div id="formatting-cheat-sheet" class="cheatsheet x-hide-display">
+        <div class="col">
+          <h2>Format text</h2>
+          <p>Text styles</p>
+          <pre>*This text will be bold*
+_This will also be italic_
+
+_You *can* combine them_
+</pre>
+          <p>Blockquotes</p>
+          <pre>bc. This would extend
+until the first blank line</pre>
+          <pre>bc.. This will extend
+across blank lines until
+
+the next paragraph block
+        </div>
+
+        <div class="col">
+          <h2>Lists</h2>
+          <p>Unordered</p>
+          <pre>* an item
+* and another
+** nested
+</pre>
+          <p>Ordered</p>
+          <pre># one
+# two
+## nested
+</pre>
+        </div>
+        <div class="col">
+          <h2>Miscellaneous</h2>
+          <p>Images</p>
+          <pre>!/images/logo.png(Dradis logo)!
+Format: !url(Alt Text)!
+</pre>
+
+          <p>Links</p>
+          <pre>"Web":http://dradisframework.org</pre>
+        </div>
+        <p class="clear">You can use <a href="http://redcloth.org/textile/" target="_blank">Textile</a> markup.</p>
+      </div>
     </div>
     <script type="text/javascript">
       dradis.author = "<%= h(current_user) %>";
