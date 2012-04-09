@@ -3,34 +3,38 @@ module NexposeUpload
   @@logger=nil
 
   public
-  
-  # This method will be called by the framework when the user selects your 
+
+  # This method will be called by the framework when the user selects your
   # plugin from the drop down list of the 'Import from file' dialog
   def self.import(params={})
-    @plugin_author_name = Configuration.author
-
-    @category = Category.find_or_create_by_name(Configuration.category)
-
-    #Create a parent node for the NeXpose output
-    @nexpose_node = Node.create(:label => Configuration.node_label)
-
+    file_content = File.read( params[:file] )
     @@logger = params.fetch(:logger, Rails.logger)
     @@logger.info('started debugging')
 
-    file_content = File.read( params[:file] )
+    # get the "NeXpose Scanner output" category instance or create it if it does not exist
+    @category = Category.find_or_create_by_name(Configuration.category)
+    # every note we create will be assigned to this author
+    @author = Configuration.author
+    # create the parent early so we can use it to provide feedback and errors
+    @parent = Node.find_or_create_by_label(Configuration.parent_node)
 
-    doc = Nokogiri::XML(file_content)
+
+    @@logger.info{'Parsing NeXpose output file...'}
+    doc = Nokogiri::XML( file_content )
+    @@logger.info{'Parsing done'}
 
     if doc.root.name == 'NeXposeSimpleXML'
+      @@logger.info{'NeXpose-Simple format detected'}
       hosts = parse_nexpose_simple_xml(doc)
       notes_simple(hosts)
     elsif doc.root.name == 'NexposeReport'
+      @@logger.info{'NeXpose-Full format detected'}
       hosts = parse_nexpose_full_xml(doc)
       notes_full(hosts)
     else
       error_note = Note.new(
-          :node => @nexpose_node,
-          :author => @plugin_author_name,
+          :node => @parent,
+          :author => @author,
           :category => @category,
           :text => "Document doesn't seem to be in either a NeXpose-Simple or NeXpose-Full XML format."
       ).save
@@ -42,10 +46,10 @@ module NexposeUpload
   def self.notes_simple(hosts)
     return if hosts.nil?
     hosts.each do |host|
-      host_node = @nexpose_node.children.find_or_create_by_label_and_type_id(host['address'], Node::Types::HOST)
+      host_node = @parent.children.find_or_create_by_label_and_type_id(host['address'], Node::Types::HOST)
       Note.create(
           :node => host_node,
-          :author => @plugin_author_name,
+          :author => @author,
           :category => @category,
           :text => "Host Description : #{host['description']} \nScanner Fingerprint certainty : #{host['fingerprint']}"
       )
@@ -55,7 +59,7 @@ module NexposeUpload
       host['generic_vulns'].each do |id, finding|
         Note.create(
             :node => generic_findings_node,
-            :author => @plugin_author_name,
+            :author => @author,
             :category => @category,
             :text => "Finding ID :  #{id} \n \n Finding Refs :\n-------\n #{finding}"
         )
@@ -67,7 +71,7 @@ module NexposeUpload
         findings.each do |id, finding|
           Note.create(
               :node => port_node,
-              :author => @plugin_author_name,
+              :author => @author,
               :category => @category,
               :text => "Finding ID :  #{id} \n \n Finding Refs :\n-------\n #{finding}"
           )
@@ -79,49 +83,47 @@ module NexposeUpload
   
   def self.notes_full(hosts)
     return if hosts.nil?
-    scan_node = Node.create(:label => 'Scan Summary', :parent_id => @nexpose_node.id)
-   
-    hosts['scan'].each do |scan|         
-       scan['index'].each do |idx, val|
+    scan_node = Node.create(:label => 'Scan Summary', :parent_id => @parent.id)
+
+    hosts['scan'].each do |scan|
+      scan['index'].each do |idx, val|
         Note.create(
           :node => scan_node,
-          :author => @plugin_author_name,
+          :author => @author,
           :category => @category,
           :text => "Scan Id: #{val['id']} \nScan Name: #{val['name']} \nScan Start Time: #{val['startTime']} \nScan End Time: #{val['endTime']} \nScan Status: #{val['status']}"
         )
-        
-       end    
+      end
     end
-    
+
     hosts['nodes'].each do |nodes|
       nodes['index'].each do |nodek, nodev|
-       nodes_node = @nexpose_node.children.find_or_create_by_label_and_type_id("#{nodek}", Node::Types::HOST)
-          str = ''
-          nodev.each {|k,v| str << "#{v}"}
-          Note.create(
-            :node => nodes_node,
-            :author => @plugin_author_name,
-            :category => @category,
-            :text => str
-          )
+        nodes_node = @parent.children.find_or_create_by_label_and_type_id("#{nodek}", Node::Types::HOST)
+        str = ''
+        nodev.each {|k,v| str << "#{v}"}
+        Note.create(
+          :node => nodes_node,
+          :author => @author,
+          :category => @category,
+          :text => str
+        )
       end
     end
     
-    vulns_node = Node.create(:label => "Definitions", :parent_id => @nexpose_node.id)
+    vulns_node = Node.create(:label => "Definitions", :parent_id => @parent.id)
     hosts['vulns'].each do |vulns|
       vulns['index'].each do |vulnk, vulnv|
         str = ''
         vulnv.each {|k,v| str << "#{v}"}
-          Note.create(
-            :node => vulns_node,
-            :author => @plugin_author_name,
-            :category => @category,
-            :text => str
-          )
+        Note.create(
+          :node => vulns_node,
+          :author => @author,
+          :category => @category,
+          :text => str
+        )
       end
     end
   end
-
 
   def self.parse_nexpose_simple_xml(doc)
     results = doc.search('device')
@@ -133,7 +135,6 @@ module NexposeUpload
       current_host['fingerprint'] = host.search('fingerprint')[0].nil? ? "N/A" : host.search('fingerprint')[0]['certainty']
       current_host['description'] = host.search('description')[0].nil? ? "N/A" : host.search('description')[0].text
 
-
       #So there's two sets of vulns in a NeXpose simple XML report for each host
       #Theres some generic ones at the top of the report
       #And some service specific ones further down the report.
@@ -141,7 +142,6 @@ module NexposeUpload
       current_host['generic_vulns'] = Hash.new
       host.xpath('vulnerabilities/vulnerability').each do |vuln|
         current_host['generic_vulns'][vuln['id']] = ''
-
 
         vuln.xpath('id').each do |id|
           current_host['generic_vulns'][vuln['id']] << id['type'] + " : " + id.text + "\n"
@@ -165,21 +165,18 @@ module NexposeUpload
             current_host['ports'][port_label][vuln['id']] << id['type'] + " : " + id.text + "\n"
           end
         end
-
       end
 
       hosts << current_host
     end
     return hosts
   end
-  
-  
-  
-   def self.get_tests(node)
-     tstr = "\n"
-     tests = node.xpath('tests/test')
-     tests.each do |test|
-       if test['status'] != 'not-vulnerable' 
+
+  def self.get_tests(node)
+    tstr = "\n"
+    tests = node.xpath('tests/test')
+    tests.each do |test|
+      if test['status'] != 'not-vulnerable'
         tstr << "Status: %{color:red}#{test['status']}%\n"
         tstr << "Vuln ID: #{test['id']}\n"
         @vuln_list.push("#{test['id']}") if !@vuln_list.include?("#{test['id']}")
@@ -187,70 +184,70 @@ module NexposeUpload
         paragraph.each do |para|
           tstr << "Test Description: #{para.text}" if para && para.respond_to?('text')
         end
-       end 
-     end
-     
-     if tstr.include?("Status")
-       tstr << "\n"
-     else
-       tstr = ''
-     end
-     return tstr
-   end   
-  
-  
-   def self.get_endpoints(node)
-     return if node.nil?
-     ep_str = ''
-     sstr = ''
-     fstr = ''
-     cstr = ''
-     
-     ep_str << "\nEndpoints\n\n"
-     end_point = node.xpath('endpoints/endpoint')
-     end_point.each do |ep|
-        svcs = ep.xpath('services/service')
-          svcs.each do |svc|
-            svc_name = svc['name'].empty? ? "Unknown" : svc['name']
-            sstr << "Service Name: #{svc_name}\n"
-            
-            fingerprints = svc.xpath('fingerprints/fingerprint')
-            fingerprints.each do |fp|
-              cert = fp['certainty'].empty? ? "Unknown" : fp['certainty']
-              prod = fp['product'].empty? ? "Unknown" : fp['product']
-              fstr << "Fingerprint - certainty: #{cert}, product #{prod}\n"
-            end
-            
-            configurations = svc.xpath('configuration/config')
-            configurations.each do |config|
-             cn = config['name'].empty? ? "Unknown" : config['name']
-             cd  = config.respond_to?('inner_html') ? config.inner_html : ''
-             cstr << "Config Name: #{cn}\, "
-             cstr << "Config Details: #{cd}\n"
-            end
-          end
-        
-        # Some top level, endpoint data  
-        protocol = ep['protocol'] if not ep.nil?
-        port = ep['port'] if not ep.nil?
-        status = ep['status'] if not ep.nil?
-        
-        # Finalize/prep the string for return
-        ep_str << self.normalize_ep(protocol, port, status)
-        ep_str << sstr
-        ep_str << cstr
-        ep_str << fstr
-        ep_str << "\n\n"
-        
-        # Reset the various strings (clear them)
-        sstr = ''
-        fstr = ''
-        cstr = ''
-        
-     end
-     return ep_str
+      end 
+    end
+
+    if tstr.include?("Status")
+      tstr << "\n"
+    else
+      tstr = ''
+    end
+    return tstr
   end
-  
+
+  def self.get_endpoints(node)
+
+    return if node.nil?
+
+    ep_str = ''
+    sstr = ''
+    fstr = ''
+    cstr = ''
+     
+    ep_str << "\nEndpoints\n\n"
+    end_point = node.xpath('endpoints/endpoint')
+    end_point.each do |ep|
+      svcs = ep.xpath('services/service')
+      svcs.each do |svc|
+        svc_name = svc['name'].empty? ? "Unknown" : svc['name']
+        sstr << "Service Name: #{svc_name}\n"
+
+        fingerprints = svc.xpath('fingerprints/fingerprint')
+        fingerprints.each do |fp|
+          cert = fp['certainty'].empty? ? "Unknown" : fp['certainty']
+          prod = fp['product'].empty? ? "Unknown" : fp['product']
+          fstr << "Fingerprint - certainty: #{cert}, product #{prod}\n"
+        end
+
+        configurations = svc.xpath('configuration/config')
+        configurations.each do |config|
+          cn = config['name'].empty? ? "Unknown" : config['name']
+          cd  = config.respond_to?('inner_html') ? config.inner_html : ''
+          cstr << "Config Name: #{cn}\, "
+          cstr << "Config Details: #{cd}\n"
+        end
+      end
+
+      # Some top level, endpoint data
+      protocol = ep['protocol'] if not ep.nil?
+      port = ep['port'] if not ep.nil?
+      status = ep['status'] if not ep.nil?
+
+      # Finalize/prep the string for return
+      ep_str << self.normalize_ep(protocol, port, status)
+      ep_str << sstr
+      ep_str << cstr
+      ep_str << fstr
+      ep_str << "\n\n"
+
+      # Reset the various strings (clear them)
+      sstr = ''
+      fstr = ''
+      cstr = ''
+    end
+    return ep_str
+  end
+
   def self.normalize_ep(*vals)
     protocol, port, status, config_name, config_details = vals
     str = ''
@@ -261,30 +258,34 @@ module NexposeUpload
     str << "Status: #{status}\n"
     return str
   end
-  
+
   def self.get_software(node)
+
     return if node.nil?
     return if node.xpath('software/fingerprint').empty?
-     sw_str = ''
-     
-     title = "\nSoftware Fingerprints\n"
-     sw_str << "#{title}" + "=" * title.length + "\n"
-     sw = node.xpath('software/fingerprint')
-     sw.each do |fp|
-       sw_str << "Certainty: #{fp['certainty']}\n" if !fp['certainty'].nil?
-       sw_str << "Software-Class: #{fp['software-class']}\n" if !fp['software-class'].nil?
-       sw_str << "Vendor: #{fp['vendor']}\n" if !fp['vendor'].nil?
-       sw_str << "Family: #{fp['family']}\n" if !fp['family'].nil?
-       sw_str << "Product: #{fp['product']}\n" if !fp['product'].nil?
-       sw_str << "Version: #{fp['version']}\n" if !fp['version'].nil?
-       sw_str << "\n"
-     end
-     sw_str << "\n"
-     return sw_str
+
+    sw_str = ''
+
+    title = "\nSoftware Fingerprints\n"
+    sw_str << "#{title}" + "=" * title.length + "\n"
+    sw = node.xpath('software/fingerprint')
+    sw.each do |fp|
+      sw_str << "Certainty: #{fp['certainty']}\n" if !fp['certainty'].nil?
+      sw_str << "Software-Class: #{fp['software-class']}\n" if !fp['software-class'].nil?
+      sw_str << "Vendor: #{fp['vendor']}\n" if !fp['vendor'].nil?
+      sw_str << "Family: #{fp['family']}\n" if !fp['family'].nil?
+      sw_str << "Product: #{fp['product']}\n" if !fp['product'].nil?
+      sw_str << "Version: #{fp['version']}\n" if !fp['version'].nil?
+      sw_str << "\n"
+    end
+    sw_str << "\n"
+    return sw_str
   end
-  
+
   def self.get_description(vuln)
+
     return if vuln.nil?
+
     str = "\n"
     title = "Description"
     str << "#{title}\n" + "=" * title.length  + "\n"
@@ -293,15 +294,15 @@ module NexposeUpload
       cbe = desc.xpath('ContainerBlockElement')
       cbe.each do |cb|
         para = cb.xpath('Paragraph')
-          para.each do |p|
-            str << p
-          end
+        para.each do |p|
+          str << p
         end
+      end
     end
     str << "\n"
-   return str
+    return str
   end
-  
+
   def self.get_solution(vuln)
     return if vuln.nil?
     str = "\n"
@@ -322,13 +323,13 @@ module NexposeUpload
   end
 
   def self.parse_nexpose_full_xml(doc)
-     @vuln_list = []
-     details = {}
-     hosts = Array.new
-     scans = doc.xpath('//scans/scan')
-     nodes = doc.xpath('//nodes/node')
-     vuln_defs = doc.xpath('//VulnerabilityDefinitions/vulnerability')
-    
+    @vuln_list = []
+    details = {}
+    hosts = Array.new
+    scans = doc.xpath('//scans/scan')
+    nodes = doc.xpath('//nodes/node')
+    vuln_defs = doc.xpath('//VulnerabilityDefinitions/vulnerability')
+
     #
     # Beginning of scan hash item creation 
     #
@@ -344,62 +345,58 @@ module NexposeUpload
       scan_hash = {
         'index' => { idx.to_s => {
                           'id' => id,
-                          'name' => name ,
+                          'name' => name,
                           'startTime' => startTime,
                           'endTime'   => endTime,
                           'status'    => status
                           }
                 }
       }
-      
-  
+
       scan_items.push(scan_hash)
     end
+
     details['scan'] = scan_items
     # End of scan parsing and hash item creation
-  
+
     node_items = []
     node_hash = {}
-    nodes.each_with_index do |node, index|      
+    nodes.each_with_index do |node, index|
       address = node['address'] || 'N/A'
       status = node['status'] || 'N/A'
       device_id = node['device-id'] || 'N/A'
       hw_addr = node['hardware-address'] || 'N/A'
-      names = node.at_xpath('names').nil? ? "No Names" : node.at_xpath('names').text 
+      names = node.at_xpath('names').nil? ? "No Names" : node.at_xpath('names').text
       tests = get_tests(node)
-    
+
       idx = tests.empty? ? "Node-#{index.to_s} #{address}" : "!!! Node-#{index.to_s} #{address}"
       ep = get_endpoints(node)
       software = get_software(node)
       node_hash = {
-          'index' => { "#{idx}" => { 
-                           
-                               'tests' => "#{tests}\n", 
+          'index' => { "#{idx}" => {
+                               'tests' => "#{tests}\n",
                                'status'  => "Status: #{status}\n",
                                'device-id' => "Device ID: #{device_id}\n",
                                'hardware-address' => "Hardware Address: #{hw_addr}\n",
                                'names' => "Names: #{names}\n",
                                'software' => software,
-                               'endpoints' => ep 
-                               
-              
+                               'endpoints' => ep
                               }
                   }
       }
 
       node_items.push(node_hash)
     end
-     details['nodes'] = node_items
-    
+    details['nodes'] = node_items
+
     vuln_hash = {}
     vuln_items = []
     vuln_defs.each_with_index do |vuln, index|
-      
       vuln_id = vuln['id'] || 'N/A'
       vuln_title = vuln['title'] || 'N/A'
       vuln_sev = vuln['severity'] || 'N/A'
       vuln_pcisev = vuln['pciSeverity'] || 'N/A'
-      vuln_cvssScore = vuln['cvssScore'] || 'N/A'      
+      vuln_cvssScore = vuln['cvssScore'] || 'N/A'
       vuln_cvssVec = vuln['cvssVector'] || 'N/A'
       vuln_published = vuln['published'] || 'N/A'
       vuln_added = vuln['added'] || 'N/A'
@@ -416,7 +413,6 @@ module NexposeUpload
       solution = get_solution(vuln)
       vuln_hash = {
         'index' => { "#{vuln_id.to_s}" => {
-                            
                                   'vtitle' => "Title: #{vuln_title}\n",
                                   'vsev' => "Severity: #{vuln_sev}\n",
                                   'vpcisev' => "PCI Severity: #{vuln_pcisev}\n",
@@ -429,18 +425,12 @@ module NexposeUpload
                                   'references'  => "#{ref_str}\n",
                                   'tags' => "#{tags_str}\n",
                                   'solution' => "#{solution}\n",
-            
-            
-            
-            } 
-          
+            }
         }
       }
      vuln_items.push(vuln_hash) if @vuln_list.include?(vuln_id.downcase)
     end
     details['vulns'] = vuln_items
-   return details
+    return details
   end # self.parse_nexpose_full_xml ends
-
 end
-

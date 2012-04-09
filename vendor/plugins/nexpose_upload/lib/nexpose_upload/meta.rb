@@ -1,7 +1,8 @@
 module NexposeUpload  
   module Meta
-    NAME = "NeXposeSimpleXML file upload"
-    # change this to the appropriate version
+    NAME = "NeXpose XML file upload"
+    EXPECTS = "NeXpose Simple or Full XML format."
+
     module VERSION #:nodoc:
       MAJOR = 2
       MINOR = 7

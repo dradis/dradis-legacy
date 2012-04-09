@@ -3,5 +3,4 @@ NexposeUpload
 
 Upload plugin for NeXpose vulnerability scanner.
 
-This currently only works with NeXposeSimpleXML, which is the only XML filetype available from the community edition.
-
+This plugin supports both NeXpose-Simple and NeXpose-Full formats.

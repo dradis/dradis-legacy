@@ -10,7 +10,7 @@ module NexposeUpload
     configure :namespace => 'nexpose'
     setting :category, :default => 'NeXpose Scanner output'
     setting :author, :default => 'NeXpose Scanner plugin'
-    setting :node_label, :default => 'NeXpose Output'
+    setting :parent_node, :default => 'plugin.nexpose'
   end
 end
 
