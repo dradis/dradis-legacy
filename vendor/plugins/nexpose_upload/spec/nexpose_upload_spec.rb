@@ -68,7 +68,7 @@ describe 'NexposeUpload plugin' do
   # Ensure the first array row has the key 'description'
  
   it 'NexposeUpload responds to all the expected fields' do
-    doc = Nokogiri::XML( XML1 )
+    doc = Nokogiri::XML( NexposeUploadSpecHelper::XML1 )
     hosts = NexposeUpload.parse_nexpose_simple_xml(doc)
     # Begin tests
     hosts.length.should > 0

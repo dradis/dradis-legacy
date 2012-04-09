@@ -1,16 +1,9 @@
 require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rspec/core/rake_task'
+require 'rdoc/task'
 
-desc 'Default: run unit tests.'
-task :default => :test
-
-desc 'Test the nexpose_upload plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
-end
+RSpec::Core::RakeTask.new(:spec)
+task :default => :spec
 
 desc 'Generate documentation for the nexpose_upload plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
