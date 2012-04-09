@@ -1,4 +1,5 @@
 v2.10
+ - Updated NeXpose plugin: add NeXpose-Full support
  - Feature requests implemented: #2312560, #2706007
  - Bugs fixed: #55, #67, #72
 
