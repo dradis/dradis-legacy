@@ -23,6 +23,10 @@ dradis.notes.NoteEditorPanel=Ext.extend(Ext.TabPanel, {
         }),
         this.fields.preview = new dradis.notes.NotePreviewPanel({
           title: 'Preview'
+        }),
+        this.fields.attachments = new dradis.attachments.Viewer({
+          title: 'Attachments',
+          store: this.attachmentsStore
         })
       ],
       buttonAlign: 'left',
@@ -73,6 +77,7 @@ dradis.notes.NoteEditorPanel=Ext.extend(Ext.TabPanel, {
   load: function(record){
     this.fields.editor.setValue( record.get('text') );
     this.fields.preview.update( record.get('text') );
+    this.fields.attachments.load();
   },
 
   clear: function(){

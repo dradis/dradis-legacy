@@ -33,3 +33,25 @@
     z-index: 3;
     color: #777;
 }
+
+// jQuery File Upload styles
+.jquery-upload {
+  .dropzone {
+    border: 2px dashed #CCC;
+    width: 80%;
+    margin: 5ex auto;
+    text-align: center;
+    color: #999;
+    padding: 5ex;
+  }
+
+  // From Bootstrap
+  .table-striped tbody tr:nth-child(odd) td,.table-striped tbody tr:nth-child(odd) th{background-color:#f9f9f9;}
+  .table tbody tr:hover td,.table tbody tr:hover th{background-color:#f5f5f5;}
+  .table {
+    .preview {}
+    .name { text-align: center; }
+    .size { text-align: center; }
+    .actions { text-align: center; }
+  }
+}

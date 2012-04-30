@@ -1,4 +1,8 @@
-//= require adapter/ext/ext-base
+// require adapter/ext/ext-base
+//= require jquery
+//= require jquery-fileupload/index
+
+//= require adapter/jquery/ext-jquery-adapter
 //= require ext-all
 
 //= require ux/Ext.ux.StatusBar
@@ -9,6 +13,7 @@
 //= require ux/Ext.ux.FileUploader
 //= require ux/Ext.ux.UploadPanel
 
+//= require dx/dradis.attachments.Viewer
 //= require dx/dradis.plugins.PluginManager
 //= require dx/dradis.plugins.UploadFormPanel
 //= require dx/dradis.notes.NotePreviewPanel

@@ -295,4 +295,8 @@ Ext.onReady(function() {
   }).delay(15000);
   
   plugins.refresh();
+
+  // Initialize the jQuery File Upload widget:
+  //   See: https://github.com/blueimp/jQuery-File-Upload/
+  $('#fileupload').fileupload({dropZone: $('#dropzone')});
 });

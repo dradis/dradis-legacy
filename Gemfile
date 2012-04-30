@@ -15,6 +15,7 @@ gem 'execjs'
 gem 'therubyracer'
 
 gem 'jquery-rails'
+gem 'jquery-fileupload-rails'
 
 gem 'builder'
 gem 'nokogiri'

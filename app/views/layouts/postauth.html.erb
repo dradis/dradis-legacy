@@ -75,6 +75,11 @@ Format: !url(Alt Text)!
         <p class="clear">You can use <a href="http://redcloth.org/textile/" target="_blank">Textile</a> markup.</p>
       </div>
     </div>
+
+    <div id="jquery-upload" class="jquery-upload x-hide-display">
+      <%= render :partial => 'file_upload' %>
+    </div>
+
     <script type="text/javascript">
       dradis.author = "<%= h(current_user) %>";
       dradis.revision = <%= Configuration.revision %>;

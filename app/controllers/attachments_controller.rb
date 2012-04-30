@@ -18,15 +18,33 @@ class AttachmentsController < ApplicationController
   # submitted using an HTML form POST request.
   def create
     # TODO: what happens with files if they already exist?
-    @attachment = Attachment.new(params['attachment_file'].original_filename, :node_id => params[:node_id])
-    @attachment << params['attachment_file'].read
+    uploaded_file = params.fetch('attachment_file', params.fetch('files', []).first)
+    @attachment = Attachment.new(uploaded_file.original_filename, :node_id => params[:node_id])
+    @attachment << uploaded_file.read
     @attachment.save
     
     # Note: this breaks the basic html scaffolds, but is required for the FileTree 
     # extension
     #redirect_to node_attachments_path(params[:node_id])
     response.headers["Content-Type"] = 'text/html'
-    render :text => {:success => true}.to_json
+
+    if params['attachment_file']
+      # old ExtJS uplpader
+      render :text => {:success => true}.to_json
+    else
+      # new jQuery uploader
+      json = {
+        :name => @attachment.filename,
+        :size => File.size(@attachment.fullpath),
+        :url => node_attachment_path(@node, @attachment.filename),
+        :delete_url => node_attachment_path(@node, @attachment.filename),
+        :delete_type => "DELETE"
+      }
+      if Mime::Type.lookup_by_extension(File.extname(@attachment.filename).downcase.tr('.','')).to_s =~ /^image\//
+        json[:thumbnail_url] = node_attachment_path(@node, @attachment.filename)
+      end
+      render :json => [json]
+    end
   end
 
   # It is possible to rename attachments and this function provides that
