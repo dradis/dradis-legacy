@@ -77,7 +77,7 @@ dradis.notes.NoteEditorPanel=Ext.extend(Ext.TabPanel, {
   load: function(record){
     this.fields.editor.setValue( record.get('text') );
     this.fields.preview.update( record.get('text') );
-    this.fields.attachments.load();
+    this.fields.attachments.load( record.get('node_id') );
   },
 
   clear: function(){
