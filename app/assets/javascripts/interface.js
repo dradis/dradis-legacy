@@ -298,5 +298,14 @@ Ext.onReady(function() {
 
   // Initialize the jQuery File Upload widget:
   //   See: https://github.com/blueimp/jQuery-File-Upload/
-  $('#fileupload').fileupload({dropZone: $('#dropzone')});
+  $('#fileupload').fileupload({
+    dropZone: $('#dropzone'),
+    headers: {
+      'X-CSRF-Token': csrf_token
+    },
+    destroy: function (e, data) {
+      data.headers = $(this).data('fileupload').options.headers;
+      $.blueimpUI.fileupload.prototype.options.destroy.call(this, e, data);
+    }
+  });
 });
