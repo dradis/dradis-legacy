@@ -1,7 +1,9 @@
 v2.10
+ - New drag'n'drop file uploads with preview
  - Updated NeXpose plugin: add NeXpose-Full support
  - Feature requests implemented: #2312560, #2332708, #2706007
  - Bugs fixed: #55, #67, #72
+ - Updated to Rails 3.2.3
 
 v2.9 (1st of February 2012)
  - New Retina Network Security Scanner plugin
