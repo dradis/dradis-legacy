@@ -287,13 +287,19 @@ Ext.onReady(function() {
   attachments.fields.uploader.uploader.baseParams['authenticity_token'] = csrf_token;
   uploaders.fields.form.add( new Ext.form.Hidden({name:'authenticity_token', value: csrf_token}) );
 
+  // Setup smart-refresh Ajax polling
   pollingTask.after = dradis.last_audit;
   // Delay status polling 20 secs so the initial GUI and Ajax calls are already
   // rendered and completed.
   new Ext.util.DelayedTask(function(){
     Ext.TaskMgr.start(pollingTask);
   }).delay(15000);
-  
+  // Disable polling when the tab looses focus, renable when it regains it
+  window.onblur = function () { Ext.TaskMgr.stop(pollingTask); };
+  window.onfocus = function () { Ext.TaskMgr.start(pollingTask); };
+
+
+  // Refresh the list of import / export and upload plugins
   plugins.refresh();
 
   // Initialize the jQuery File Upload widget:
