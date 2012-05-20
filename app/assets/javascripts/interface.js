@@ -54,10 +54,10 @@ var dradisstatus = new Ext.ux.StatusBar({
         listeners:{
           toggle:function(){
             if ( dradistabs.items.length != 5 ) {
-              this.welcome = new Ext.Panel({ 
-                                  contentEl:'first_render', 
-                                  title: 'What\'s new?', 
-                                  autoScroll: true, 
+              this.welcome = new Ext.Panel({
+                                  contentEl:'first_render',
+                                  title: 'What\'s new?',
+                                  autoScroll: true,
                                   bodyStyle: 'background: #FFF url(/images/logo_small.png) no-repeat right bottom;'
                                 });
               dradistabs.add(this.welcome);
@@ -86,7 +86,7 @@ var dradisstatus = new Ext.ux.StatusBar({
 
 /*
  * ------------------------------------------------------- custom ExtJS widgets
- * Events thrown by the different widgets are handleded in this object and 
+ * Events thrown by the different widgets are handleded in this object and
  * notifications are passed to other widgets of the interface were appropriate.
  * ----------------------------------------------------------------------------
  */
@@ -102,7 +102,7 @@ nodestree.on('nodeclick', function(node_id){
 });
 
 nodestree.on('notesdrop', function(drop_ev) {
-  var notes = drop_ev.data.selections; 
+  var notes = drop_ev.data.selections;
   var node_id = drop_ev.target.id;
 
   for(var i = 0, len = notes.length; i < len; i++){
@@ -120,8 +120,8 @@ update_attachments_tab = function(store){
 attachments.on('load', update_attachments_tab);
 attachments.on('remove', update_attachments_tab);
 
-importer.on('importrecord',function(record){ 
-    notesbrowser.addNote(record.data.description ); 
+importer.on('importrecord',function(record){
+    notesbrowser.addNote(record.data.description);
     dradistabs.activate(notesbrowser);
 });
 
@@ -143,9 +143,9 @@ uploaders.on('uploadfailure', function(response){
     msg: '<p>We could not process the upload.</p><p>Error message was:</p>' +
          '<textarea cols="80">' + msg  + '</textarea>' +
          '<p>The stack trace was:</p>' +
-         '<textarea cols="80" rows="10">' + trace + '</textarea>' + 
+         '<textarea cols="80" rows="10">' + trace + '</textarea>' +
          '<p>What to do now:</p>' +
-         '<ul>' + 
+         '<ul>' +
          '<li>- Go through the plugin\'s documentation.</li>' +
          '<li>- Ask in the <a href="http://dradisframework.org/community/" target="_blank">community forums</a> or the <a href="http://dradisframework.org/mailing_lists.html" target="_blank">mailing lists</a></li>' +
          '<li>- If all else fails, please consider submitting a <a href="http://sourceforge.net/tracker/?func=add&group_id=209736&atid=1010917" target="_blank">bug report</a>.</li>' +
@@ -162,7 +162,7 @@ uploaders.on('uploadfailure', function(response){
  */
 Ext.onReady(function() {
   Ext.QuickTips.init();
-  
+
   var centerelement;
 
   if (dradis.firstrender == true) {
@@ -181,9 +181,9 @@ Ext.onReady(function() {
         margins: '0 0 5 0',
         bbar: new Ext.Toolbar({
           cls: 'x-panel-header',
-          items: [ 
+          items: [
             {
-              text: 'import from file...', 
+              text: 'import from file...',
               tooltip: 'import other tool\'s output into dradis',
               iconCls:'icon-form-magnify',
               menu: {
@@ -196,8 +196,8 @@ Ext.onReady(function() {
                   },
                   {
                     text: 'old importer (soon-to-be deprecated)',
-                    handler: function() { 
-                      uploaders.show(); 
+                    handler: function() {
+                      uploaders.show();
                       uploaders.center();
                     }
                   }
@@ -246,13 +246,13 @@ Ext.onReady(function() {
     dradisstatus.items.get(0).toggle();
   }
 
-  // This is how rails provides feedback, through the flash[:notice] and 
+  // This is how rails provides feedback, through the flash[:notice] and
   // flash[:error] variables. Checkout the ./app/views/postauth.html.erb
   // to locate the corresponding <div> elements
   var notice = Ext.getDom('notice');
   if ( notice != null){
     Ext.Msg.show({
-      title: 'Notice', 
+      title: 'Notice',
       msg: notice.innerHTML,
       buttons: Ext.Msg.OK,
       icon: Ext.Msg.INFO
@@ -261,7 +261,7 @@ Ext.onReady(function() {
   var error = Ext.getDom('error');
   if ( error != null){
     Ext.Msg.show({
-      title: 'Error', 
+      title: 'Error',
       msg: error.innerHTML,
       buttons: Ext.Msg.OK,
       icon: Ext.Msg.ERROR
@@ -269,13 +269,13 @@ Ext.onReady(function() {
 
   }
 
-  // Only install the Ajax callbacks once the ViewPort has been rendered, 
+  // Only install the Ajax callbacks once the ViewPort has been rendered,
   // otherwise the first Ajax call may return before the dradisstatus has been
   // rendered and cause an exception
   vp.on('afterrender', function(){
     // --- all-purpose general Ajax handlers to update the Status bar message
-    Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); }); 
-    Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); }); 
+    Ext.Ajax.on('beforerequest', function(){ dradisstatus.showBusy(); });
+    Ext.Ajax.on('requestcomplete', function(){ dradisstatus.clearStatus({useDefaults:true}); });
 
   });
 
