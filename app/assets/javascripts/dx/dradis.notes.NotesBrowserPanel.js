@@ -220,8 +220,19 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
             itemclick: function(item){
               var s1 = item.parentMenu.grid.getStore();
               var s2 = item.parentMenu.grid.store;
-              item.parentMenu.grid.getStore().remove( item.parentMenu.record );
-              item.parentMenu.grid.fireEvent('modified');
+
+              Ext.Msg.show({
+                title: 'Confirm deletion',
+                msg: 'You have chosen to delete these notes, there is no going back. Continue?',
+                buttons: Ext.Msg.OKCANCEL,
+                fn: function(button){
+                  if (button == 'ok') {
+                    item.parentMenu.grid.getStore().remove( item.parentMenu.record );
+                    item.parentMenu.grid.fireEvent('modified');
+                  }
+                },
+                icon: Ext.MessageBox.QUESTION
+              });
             }
           }
       })
