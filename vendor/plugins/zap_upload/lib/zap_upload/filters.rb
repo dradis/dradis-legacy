@@ -30,7 +30,7 @@ module ZapUpload
       :text => "#[Title]#\nZAP upload: #{file_name}\n\n#[Report_date]##{report_date}")
 
     # Process the report contents
-    doc.xpath('/report/alertitem').each do |alert|
+    doc.xpath('/OWASPZAPReport/site/alerts/alertitem').each do |alert|
       alert_name = alert.xpath('alert').text
       alert_text = alert.elements.collect{ |attribute|
         "#[#{attribute.name.capitalize}]#\n#{attribute.text}\n\n"
