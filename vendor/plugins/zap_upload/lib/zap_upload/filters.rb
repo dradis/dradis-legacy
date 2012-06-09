@@ -29,8 +29,15 @@ module ZapUpload
       :category => category,
       :text => "#[Title]#\nZAP upload: #{file_name}\n\n#[Report_date]##{report_date}")
 
-    # Process the report contents
-    doc.xpath('/OWASPZAPReport/site/alerts/alertitem').each do |alert|
+    # Depending on Zap version, XML structure is different. 
+    # Detect version and then use appropriate xpath:
+    if( doc.xpath( '/OWASPZAPReport' ).count > 0 )
+      report_path = '/OWASPZAPReport/site/alerts/alertitem'
+    else
+      report_path = '/report/alertitem'
+    end
+
+    doc.xpath(report_path).each do |alert|
       alert_name = alert.xpath('alert').text
       alert_text = alert.elements.collect{ |attribute|
         "#[#{attribute.name.capitalize}]#\n#{attribute.text}\n\n"
