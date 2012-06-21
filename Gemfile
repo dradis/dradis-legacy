@@ -33,6 +33,7 @@ gem 'rubyzip', '~> 0.9.6.1'
 gem 'rspec-rails', :group => [:development, :test]
 
 group :test do
+  gem 'database_cleaner'
   gem 'factory_girl', '~> 2.6.4'
   gem 'capybara'
   gem 'guard-rspec'
