@@ -214,27 +214,28 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
           record: undefined,
           items: [
             { text: 'Assign to...', iconCls: 'options', menu:{ items:[] } },
-            { text: 'Delete Note', iconCls: 'del' }
-          ],
-          listeners: {
-            itemclick: function(item){
-              var s1 = item.parentMenu.grid.getStore();
-              var s2 = item.parentMenu.grid.store;
+            {
+              text: 'Delete Note',
+              iconCls: 'del',
+              handler: function(item){
+                var s1 = item.parentMenu.grid.getStore();
+                var s2 = item.parentMenu.grid.store;
 
-              Ext.Msg.show({
-                title: 'Confirm deletion',
-                msg: 'You have chosen to delete these notes, there is no going back. Continue?',
-                buttons: Ext.Msg.OKCANCEL,
-                fn: function(button){
-                  if (button == 'ok') {
-                    item.parentMenu.grid.getStore().remove( item.parentMenu.record );
-                    item.parentMenu.grid.fireEvent('modified');
-                  }
-                },
-                icon: Ext.MessageBox.QUESTION
-              });
+                Ext.Msg.show({
+                  title: 'Confirm deletion',
+                  msg: 'You have chosen to delete these notes, there is no going back. Continue?',
+                  buttons: Ext.Msg.OKCANCEL,
+                  fn: function(button){
+                    if (button == 'ok') {
+                      item.parentMenu.grid.getStore().remove( item.parentMenu.record );
+                      item.parentMenu.grid.fireEvent('modified');
+                    }
+                  },
+                  icon: Ext.MessageBox.QUESTION
+                });
+              }
             }
-          }
+          ],
       })
     };
 
