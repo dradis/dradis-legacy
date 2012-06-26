@@ -289,7 +289,7 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
     var values = {
       value: Ext.util.Format.htmlEncode(value),
       author: Ext.util.Format.htmlEncode(record.get('author')),
-      date: Ext.util.Format.date( record.get('updated_at'), 'd M Y h:i')
+      date: Ext.util.Format.date( record.get('updated_at'), 'd M Y H:i')
     };
     return template.apply(values);
   },
@@ -326,7 +326,7 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
     var categoriesMenu = this.contextMenu.get(0).menu;
     categoriesMenu.removeAll();
     this.categories.store.each(function(record){
-      item = new Ext.menu.Item({
+      var item = new Ext.menu.Item({
         text: Ext.util.Format.htmlEncode(record.get('name')),
         categoryId: record.get('id'),
         scope: this,
