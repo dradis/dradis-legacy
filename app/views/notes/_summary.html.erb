@@ -8,6 +8,6 @@
   <div class="notebody preview">
     <p><%= RedCloth.new( note.text.gsub(/#\[([\w\s]+)?\]#[\r|\n]/){ "h1. #{$1}\n\n" }, [:filter_html]).to_html.html_safe %></p>
   </div>
-  <div class="notefooter">Last updated: <%= time_ago_in_words(note.updated_at) %> ago</div>
+  <div class="notefooter">Last updated: <%= time_ago_in_words(note.updated_at) %> ago by <%= note.author %></div>
 <% end %>
 

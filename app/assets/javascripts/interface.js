@@ -13,7 +13,7 @@ var nodestree = new dradis.NodesTree();
 // For the time being keep the old Notes tab while we create a better alternative
 var notesbrowser = new dradis.notes.NotesBrowserPanel();
 notesbrowser.title = 'Old notes';
-var newnotes = new Ext.Panel({ title: 'New notes' });
+var newnotes = new Ext.Panel({ title: 'New notes', autoScroll: true });
 
 var importer = new dradis.importer.Panel();
 var attachments = new dradis.attachments.AttachmentsPanel();
