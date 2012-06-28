@@ -1,5 +1,6 @@
-module DradisCore
-  module VERSION #:nodoc:
+module Dradis
+  module Core
+    module VERSION #:nodoc:
       MAJOR = 3
       MINOR = 0
       TINY = 0
@@ -10,4 +11,5 @@ module DradisCore
         STRING
       end
     end
+  end
 end
