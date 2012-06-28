@@ -1,14 +1,9 @@
 #!/usr/bin/env rake
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
-
+require 'dradis/core/rake_tasks'
 
 RSpec::Core::RakeTask.new
+Dradis::Core::RakeTasks.new
 
 task :default => :spec
-
-desc "Generates a dummy app for testing"
-task :test_app do
-  ENV['LIB_NAME'] = 'spree/core'
-  Rake::Task['common:test_app'].invoke
-end
