@@ -5,14 +5,16 @@ class Category < ActiveRecord::Base
   #   * Used by the RevisionObserver to track record changes
   attr_accessor :updated_by
 
+  validates :name, presence: true
+
   before_destroy :valid_destroy
 
   private
   def valid_destroy
-    if (self.id == 1) 
+    if (self.id == 1)
       self.errors.add :base, 'Cannot delete Default category.'
     end
-    if ( Note.count(:conditions =>{ :category_id => self.id }) > 0)
+    if (Note.where(category_id: self.id) > 0)
       self.errors.add :base, 'Cannot delete Category with notes.'
     end
     return errors.count.zero? ? true : false
