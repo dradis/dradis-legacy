@@ -12,12 +12,12 @@ describe Node do
     @node.label = 'rspec node'
     @node.should be_valid
   end
-  
-  it "should delete all nested nodes when deleted" do
-    parent = Factory.create(:node)
 
-    3.times do 
-      parent.children << Factory.create(:node)
+  it "should delete all nested nodes when deleted" do
+    parent = FactoryGirl.create(:node)
+
+    3.times do
+      parent.children << FactoryGirl.create(:node)
     end
 
     child_ids = parent.children.map(&:id)
@@ -30,10 +30,10 @@ describe Node do
   end
 
   it "should delete all associated notes when deleted" do
-    node = Factory.create(:node)
+    node = FactoryGirl.create(:node)
 
-    3.times do 
-      node.notes << Factory.create(:note)
+    3.times do
+      node.notes << FactoryGirl.create(:note)
     end
 
     note_ids = node.notes.map(&:id)
@@ -46,7 +46,7 @@ describe Node do
   end
 
   it "should delete all associated attachments" do
-    node = Factory.create(:node)
+    node = FactoryGirl.create(:node)
 
     attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => node.id )
     attachment.save
@@ -57,7 +57,7 @@ describe Node do
   end
 
   it "should delete it's corresponding attachment subfolder when deleted" do
-    node = Factory.create(:node)
+    node = FactoryGirl.create(:node)
 
     attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => node.id )
     attachment.save
@@ -68,14 +68,14 @@ describe Node do
   end
 
   it "should assign a default 0 position if none is provided" do
-    node = Factory.create(:node)
+    node = FactoryGirl.create(:node)
     node.should respond_to(:position)
     node.should respond_to(:position=)
     node.position.should eq(0)
   end
 
   it "should keep the position when provided" do
-    node = Factory.create(:node)
+    node = FactoryGirl.create(:node)
     node.position = 3
     node.save.should eq(true)
     node = Node.last
