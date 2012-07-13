@@ -8,6 +8,9 @@ require 'rspec/rails'
 # in spec/support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
+require 'database_cleaner'
+require 'factory_girl_rails'
+
 RSpec.configure do |config|
   # == Mock Framework
   #
