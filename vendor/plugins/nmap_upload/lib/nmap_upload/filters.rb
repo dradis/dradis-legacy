@@ -67,12 +67,12 @@ module NmapUpload
       host.each_port do |port|
         port_info = ''
         port_info << "\t\tPort ##{port.number}/#{port.protocol} is #{port.state} (#{port.reason})\n"
-        srv = port.service_node
-        port_info << "\t\t\tService: #{srv['name']}\n" if srv['name']
-        port_info << "\t\t\tProduct: #{srv['product']}\n" if srv['product']
-        port_info << "\t\t\tVersion: #{srv['version'] }\n" if srv['version']
-        port_info << "\n"
-
+        if (srv = port.service_node)
+          port_info << "\t\t\tService: #{srv['name']}\n" if srv['name']
+          port_info << "\t\t\tProduct: #{srv['product']}\n" if srv['product']
+          port_info << "\t\t\tVersion: #{srv['version'] }\n" if srv['version']
+          port_info << "\n"
+        end
         port_hash["#{port.number}/#{port.protocol}"] = port_info
         host_info << port_info
       end
