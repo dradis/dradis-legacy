@@ -312,6 +312,15 @@ Ext.onReady(function() {
     destroy: function (e, data) {
       data.headers = $(this).data('fileupload').options.headers;
       $.blueimpUI.fileupload.prototype.options.destroy.call(this, e, data);
+    },
+    send: function (e, data) {
+      var fu = $(this).data('fileupload');
+      data.url = data.url &&
+        fu.options._addUrlParams(data.url, 'authenticity_token=' + csrf_token);
+      $.blueimpUI.fileupload.prototype.options.send.call(this, e, data);
+    },
+    _addUrlParams: function (url, data) {
+      return url + (/\?/.test(url) ? '&' : '?') + data;
     }
   });
 });
