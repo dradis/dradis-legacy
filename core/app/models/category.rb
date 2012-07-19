@@ -1,9 +1,6 @@
 # This class represents a Note category. Each Category has a name.
 class Category < ActiveRecord::Base
-  # Virtual attribute:
-  #   * Set by the CategoriesController when modifying a category
-  #   * Used by the RevisionObserver to track record changes
-  attr_accessor :updated_by
+  attr_accessible :name
 
   validates :name, presence: true
 
