@@ -41,7 +41,7 @@ describe Note do
   end
 
   it "should split a text field into a name/value hash" do
-    note = Factory.create(:note)
+    note = FactoryGirl.create(:note)
     note.text =<<EON
 #[Title]#
 RSpec Title

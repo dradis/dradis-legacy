@@ -1,5 +1,5 @@
 class CreateNotes < ActiveRecord::Migration
-  def self.up
+  def change
     create_table :notes do |t|
       t.string :author
       t.text :text
@@ -8,9 +8,5 @@ class CreateNotes < ActiveRecord::Migration
 
       t.timestamps
     end
-  end
-
-  def self.down
-    drop_table :notes
   end
 end
