@@ -45,27 +45,29 @@ describe Node do
     end
   end
 
-  it "should delete all associated attachments" do
-    node = FactoryGirl.create(:node)
+  pending "should delete all associated attachments"
+  # it "should delete all associated attachments" do
+  #   node = FactoryGirl.create(:node)
+  # 
+  #   attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => node.id )
+  #   attachment.save
+  # 
+  #   node.destroy
+  # 
+  #   File.exists?(attachment.fullpath).should be_false
+  # end
 
-    attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => node.id )
-    attachment.save
-
-    node.destroy
-
-    File.exists?(attachment.fullpath).should be_false
-  end
-
-  it "should delete it's corresponding attachment subfolder when deleted" do
-    node = FactoryGirl.create(:node)
-
-    attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => node.id )
-    attachment.save
-
-    node.destroy
-
-    File.exists?(Attachment.pwd.join(node.id.to_s)).should be_false
-  end
+  pending "should delete it's corresponding attachment subfolder when deleted"
+  # it "should delete it's corresponding attachment subfolder when deleted" do
+  #   node = FactoryGirl.create(:node)
+  # 
+  #   attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => node.id )
+  #   attachment.save
+  # 
+  #   node.destroy
+  # 
+  #   File.exists?(Attachment.pwd.join(node.id.to_s)).should be_false
+  # end
 
   it "should assign a default 0 position if none is provided" do
     node = FactoryGirl.create(:node)
