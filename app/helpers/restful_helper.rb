@@ -1,2 +1,0 @@
-module RestfulHelper # :nodoc:
-end

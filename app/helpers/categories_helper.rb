@@ -1,2 +1,0 @@
-module CategoriesHelper # :nodoc:
-end
