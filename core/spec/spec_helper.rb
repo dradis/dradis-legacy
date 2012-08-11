@@ -29,6 +29,10 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
+  def dradis
+    Dradis::Core::Engine.routes.url_helpers
+  end
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
