@@ -4,6 +4,7 @@ module Dradis
       extend ActiveSupport::Concern
       included do
         # Add before_filter calls here
+        helper_method :current_user
       end
 
       protected
