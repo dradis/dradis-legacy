@@ -1,7 +1,10 @@
 Welcome to Dradis
 =================
 
-[![Build Status](https://secure.travis-ci.org/dradis/dradisframework.png)](https://secure.travis-ci.org/dradis/dradisframework)
+[![Build Status](https://secure.travis-ci.org/dradis/dradis.png)][travis][![Dependency Status](https://gemnasium.com/dradis/dradis.png?travis)][gemnasium]
+
+[travis]: https://secure.travis-ci.org/dradis/dradisframework
+[gemnasium]: https://gemnasium.com/dradis/dradis
 
 Dradis is an open source framework to enable effective information sharing, 
 specially during security assessments.
@@ -34,9 +37,8 @@ Some of the features:
   * [wXf](https://github.com/WebExploitationFramework/wXf)
   * [Zed Attack Proxy](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)
 
-
-Getting started (git release, recommended)
-------------------------------------------
+Installing Ruby and RVM
+-----------------------
 
 On Debian-based operating systems (Ubuntu, BackTrack, etc.) use this script:
 
@@ -45,59 +47,37 @@ On Debian-based operating systems (Ubuntu, BackTrack, etc.) use this script:
 The script:
   1. Checks for system-level dependencies (git, openssl, etc.)
   2. Installs [RVM](http://beginrescueend.com/rvm/install/) and Ruby 1.9.3. It detects and reuses your existing RVM too.
-  3. Downloads and prepares the git repo with Dradis code
 
 [View install.sh source](https://github.com/dradis/meta/blob/master/install.sh)
 
-If you want to manually clone the repo:
 
-    $ mkdir dradis-git
-    $ cd dradis-git/
-    $ git clone https://github.com/dradis/dradisframework.git server
+Installation
+------------
 
-Then download the reset and start scripts to your dradis-git/ folder:
+Once you have Ruby 1.9.3 in your system you can install the Dradis gem:
 
-    $ curl -O https://raw.github.com/dradis/meta/master/reset.sh
-    $ curl -O https://raw.github.com/dradis/meta/master/start.sh
-    $ chmod +x *.sh
-    $ ./reset.sh
+    $ gem install ruby
 
-Once the environment is ready, you can start the server with:
 
-    $ ./start.sh
+Running
+-------
 
-And browse to https://localhost:3004 to start using Dradis.
+In order to start using Dradis you need to deploy it in a folder of your choosing:
+
+    $ dradis new ~/dradis
+
+And you're ready to start the server:
+
+    $ cd ~/dradis/
+    $ dradis start
+
+Now you can browse to https://localhost:3004 to start using Dradis.
 
 If you would like to make Dradis accessible to other people on the network:
 
-    $ ./start.sh -b 0.0.0.0 -p 443
+    $ dradis start -b 0.0.0.0 -p 443
 
 The `-b` option defines Dradis' bind address and the `-p` option can be used to change the port.
-
-
-Getting started (stable release)
---------------------------------
-
-In http://dradisframework.org/downloads.html you will find a Windows installer
-and .tar.gz and .tar.bz2 packages.
-
-Uncompress, verify and prepare the environment:
-
-    $ tar xvvjf dradis-vX.Y.Z.tar.bz2
-    $ cd dradis-vX.Y/
-    $ ./verify.sh
-      # follow instructions / install dependencies
-    $ ./reset.sh
-
-Once the environment is ready, you can start the server with:
-
-    $ ./start.sh
-
-And browse to https://localhost:3004 to start using Dradis. If you need to bind
-to a different address (so others can connect to your instance) or another port
-number, you can use the -b and -p switches respectively:
-
-    $ ./start.sh -b 10.0.0.123 -p 443
 
 
 Getting help
