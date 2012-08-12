@@ -1,1 +1,0 @@
-require 'zap_upload'

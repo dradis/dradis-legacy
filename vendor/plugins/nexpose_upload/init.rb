@@ -1,2 +1,0 @@
-require 'nexpose_upload'
-

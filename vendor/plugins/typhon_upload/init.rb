@@ -1,1 +1,0 @@
-require 'typhon_upload'

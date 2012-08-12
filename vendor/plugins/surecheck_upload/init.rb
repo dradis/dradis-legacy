@@ -1,2 +1,0 @@
-require 'surecheck_upload'
-

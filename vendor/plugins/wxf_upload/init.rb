@@ -1,2 +1,0 @@
-require 'wxf_upload'
-
