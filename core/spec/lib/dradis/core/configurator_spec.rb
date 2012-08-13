@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Core::Configurator do
+describe Dradis::Core::Configurator do
 
   before(:each) do
     @config_1 = Configuration.create :name => "spec:test1", :value => "abc"
@@ -9,7 +9,7 @@ describe Core::Configurator do
   end
 
   it "should allow the namespace to be overridden" do
-    configuration = Class.new(Core::Configurator)
+    configuration = Class.new(Dradis::Core::Configurator)
 
     configuration.namespace.should_not == "spec"
     configuration.configure(:namespace => 'spec')
@@ -17,20 +17,20 @@ describe Core::Configurator do
   end
 
   it "should be possible to find configurations defined within the selected namespace" do
-    configuration = Class.new(Core::Configurator).configure(:namespace => 'spec')
-    
+    configuration = Class.new(Dradis::Core::Configurator).configure(:namespace => 'spec')
+
     configuration.try(:test1).should == "abc"
     configuration.try(:test2).should == "def"
   end
-  
+
   it "shouldn't be possible to find another namespace's configurations" do
-    configuration = Class.new(Core::Configurator).configure(:namespace => 'spec')
+    configuration = Class.new(Dradis::Core::Configurator).configure(:namespace => 'spec')
 
     configuration.try(:other).should be_nil
   end
 
   it "should respond_to? a key which is not set, but has a default value" do
-    configuration = Class.new(Core::Configurator).configure(:namespace => 'spec') do
+    configuration = Class.new(Dradis::Core::Configurator).configure(:namespace => 'spec') do
       setting :something, :default => 'test'
     end
 
@@ -38,7 +38,7 @@ describe Core::Configurator do
   end
 
   it "should return a default value for a key which is not set" do
-    configuration = Class.new(Core::Configurator).configure(:namespace => 'spec') do
+    configuration = Class.new(Dradis::Core::Configurator).configure(:namespace => 'spec') do
       setting :something, :default => 'test'
     end
 
@@ -46,18 +46,18 @@ describe Core::Configurator do
   end
 
   it "should collect all configurables" do
-    count = Core::Configurator.configurables.count
+    count = Dradis::Core::Configurator.configurables.count
 
-    configuration_1 = Class.new(Core::Configurator).configure(:namespace => 'spec') do
+    configuration_1 = Class.new(Dradis::Core::Configurator).configure(:namespace => 'spec') do
       setting :something, :default => 'test'
     end
-    
-    Core::Configurator.configurables.should include(configuration_1)
-    Core::Configurator.configurables.count.should == count + 1
+
+    Dradis::Core::Configurator.configurables.should include(configuration_1)
+    Dradis::Core::Configurator.configurables.count.should == count + 1
   end
 
   it "should return all configurations" do
-    configuration = Class.new(Core::Configurator).configure(:namespace => 'specs') do
+    configuration = Class.new(Dradis::Core::Configurator).configure(:namespace => 'specs') do
       setting :something, :default => 'test'
     end
 
@@ -68,16 +68,16 @@ describe Core::Configurator do
   end
 
   it "should return default values as configurations" do
-    configuration = Class.new(Core::Configurator).configure(:namespace => 'specs') do
+    configuration = Class.new(Dradis::Core::Configurator).configure(:namespace => 'specs') do
       setting :something, :default => 'test'
     end
 
     configuration.settings.count.should == 1
     configuration.settings.first.value.should == "test"
   end
-  
+
   it "should return ad-hoc configurations" do
-    configuration = Class.new(Core::Configurator).configure(:namespace => 'specs') do
+    configuration = Class.new(Dradis::Core::Configurator).configure(:namespace => 'specs') do
       setting :something, :default => 'test'
     end
 
@@ -87,7 +87,7 @@ describe Core::Configurator do
   end
 
   it "should return a hash of all settings from the current namespace" do
-    configuration = Class.new(Core::Configurator).configure(:namespace => 'specs') do
+    configuration = Class.new(Dradis::Core::Configurator).configure(:namespace => 'specs') do
       setting :something, :default => 'test'
     end
 

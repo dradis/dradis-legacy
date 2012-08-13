@@ -1,9 +1,11 @@
 # This class is used to store configuration options in the back-end database.
-# Each Configuraiton object has a :name and a :value. Some configuration 
+# Each Configuraiton object has a :name and a :value. Some configuration
 # parameters can be accessed through the helper methods provided in this class.
 class Configuration < ActiveRecord::Base
-  validates_presence_of :name, :value
-  validates_uniqueness_of :name
+  attr_accessible :name, :value
+
+  validates :name, presence: true, uniqueness: true
+  validates :value, presence: true
 
   def Configuration.exists?(*attrs)
     self.table_exists? && super(*attrs)
@@ -13,7 +15,7 @@ class Configuration < ActiveRecord::Base
   def Configuration.revision
     Configuration.find_by_name('revision').value
   end
-  
+
   # Helper method to retrieve the value of the 'revision' setting and increment
   # it by one.
   def Configuration.increment_revision
@@ -21,7 +23,7 @@ class Configuration < ActiveRecord::Base
     revision.value = revision.value.to_i + 1
     revision.save
   end
-  
+
   # Retrieves the current password (stored in the 'password' setting)
   def Configuration.password
     Configuration.exists?(:name => 'password') ? Configuration.find_by_name('password').value : nil

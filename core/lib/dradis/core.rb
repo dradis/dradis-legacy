@@ -1,5 +1,6 @@
 require 'acts_as_tree'
 
+require 'dradis/core/configurator'
 require 'dradis/core/engine'
 require 'dradis/core/version'
 
