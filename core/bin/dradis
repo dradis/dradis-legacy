@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'dradis/core/cli'
+
+Dradis::Core::CLI.start
