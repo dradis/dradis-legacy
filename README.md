@@ -112,18 +112,7 @@ Getting help
 Contributing
 ------------
 
-* Join the developer discussion at: [dradis-devel](https://lists.sourceforge.net/mailman/listinfo/dradis-devel)
-* [Report a bug](https://github.com/dradis/dradisframework/issues)
-* Help with the [Dradis Guides](https://github.com/dradis/dradisguides) project or submit your guide.
-* Submit a patch:
-  * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-  * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
-  * Fork the project
-  * Start a feature/bugfix branch
-  * Commit and push until you are happy with your contribution
-  * Make sure to add tests for it. This is important so we don't break it in a future version unintentionally.
-  * Review our [Contributor's Agreement](https://github.com/dradis/dradisframework/wiki/Contributor%27s-agreement). Sending us a pull request means you have read and accept to this agreement
-  * Send us a [pull request](http://help.github.com/pull-requests/)
+Please see CONTRIBUTING.md for details.
 
 
 License
