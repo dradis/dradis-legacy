@@ -1,42 +1,49 @@
 v2.10
 -----
-* New drag'n'drop file uploads with preview
-* Updated NeXpose plugin: add NeXpose-Full support
-* Feature requests implemented: #2312560, #2332708, #2706007
-* Bugs fixed: #55, #67, #72
-* Updated to Rails 3.2.3
-* [See the full list of changes](https://github.com/dradis/dradisframework/compare/2.9.0...2.10.0)
+ - New drag'n'drop file uploads with preview
+ - Updated NeXpose plugin: add NeXpose-Full support
+ - Feature requests implemented: #2312560, #2332708, #2706007
+ - Bugs fixed: #55, #67, #72
+ - Updated to Rails 3.2.3
+ - [See the full list of changes](https://github.com/dradis/dradisframework/compare/v2.9.0...v2.10.0)
 
 v2.9 (1st of February 2012)
 ---------------------------
-* New Retina Network Security Scanner plugin
-* New Zed Attack Proxy upload plugin
-* Updated VulnDB import plugin
-* Faster Nikto upload plugin
-* Faster (60x times) Nessus upload plugin
-* Faster Nmap upload plugin (through ruby-nmap gem)
-* Updated First Time User's Wizard
-* Upgrade to Rails 3.2
-* [See the full list of changes](https://github.com/dradis/dradisframework/compare/v2.8.0...v2.9.0)
+ - New Retina Network Security Scanner plugin
+ - New Zed Attack Proxy upload plugin
+ - Updated VulnDB import plugin
+ - Faster Nikto upload plugin
+ - Faster (60x times) Nessus upload plugin
+ - Faster Nmap upload plugin (through ruby-nmap gem)
+ - Updated First Time User's Wizard
+ - Upgrade to Rails 3.2
+ - [See the full list of changes](https://github.com/dradis/dradisframework/compare/v2.8.0...v2.9.0)
 
 v2.8 (10th of October 2011)
+---------------------------
  - Cleaner three-column layout
  - Smarter Ajax polling and auto-updating
  - New version of the Nmap upload plugin
  - New version of the Nessus upload plugin
  - ./verify.sh now checks that libxml2 is installed
  - Bugs fixed: #17, #31, #37, #43, #48
+ - [See the full list of changes](https://github.com/dradis/dradisframework/compare/v2.7.2...v2.8.0)
 
 v2.7.2 (1st of August 2011)
+---------------------------
  - Updated to Rails 3.0.9
  - Improved startup scripts
  - Bugs fixed: #5, #9, #13, #14, #15, #16, #19, #20
+ - [See the full list of changes](https://github.com/dradis/dradisframework/compare/REL-2.7.1...v2.7.2)
 
 v2.7.1 (24th of May 2011)
+-------------------------
  - Improved note editor: more space, less Ajax
  - Bugs fixed: #3, #4, #6, #7, #8, #10
+ - [See the full list of changes](https://github.com/dradis/dradisframework/compare/REL-2.7.0...REL-2.7.1)
 
 v2.7 (19th of April 2011)
+-------------------------
  - Improved command line API with Thor (thor -T)
  - New Configuration Manager
  - New Upload Manager
@@ -54,6 +61,7 @@ v2.7 (19th of April 2011)
  - Updated to Rails 3.0.6
 
 v2.6.1 (11th of February 2011)
+------------------------------
  - Fixed a 'back slash' vs 'forward slash' issue in start.sh
  - Smarten up verify.sh to find the Bundler binary
  - Deal with Burp Scanner's opinionated handling of null bytes
@@ -61,6 +69,7 @@ v2.6.1 (11th of February 2011)
  - Updated libraries RedCloth 4.2.6 and Rails 3.0.4
 
 v2.6 (2nd of December 2010)
+---------------------------
  - New first-time repository content
  - New helper scripts to run and reset the environment
  - Upgraded libraries: ExtJS 3.3, Rails 3.0.3
@@ -68,10 +77,12 @@ v2.6 (2nd of December 2010)
  - Bugs fixed: #3021312, #3030629, #3076709
 
 v2.5.2 (18th of May 2010)
+-------------------------
  - bugs fixed: #2974460
  - security patch 
 
 v2.5.1 (7th of March 2010)
+--------------------------
  - The NotesBrowser does a better job of keeping track of the current node
  - New notes are no longer out of sync with the server
  - upgraded library: ExtJS 3.1.1
@@ -79,6 +90,7 @@ v2.5.1 (7th of March 2010)
 
 
 v2.5 (5th of February 2010)
+---------------------------
  - improved Note editor (supports formatting)
  - new HTML export plugin to generate reports in HTML format
  - new Nikto Upload plugin: your favourite web server scanner output in Dradis.
@@ -93,9 +105,12 @@ v2.5 (5th of February 2010)
  - bugs fixed: #2936554, #2938593
 
 v2.4.1 (31st of October 2009)
+-----------------------------
  - bugs fixed: #2881746, #2888245, #2889402
 
+
 v2.4 (10th of September 2009)
+-----------------------------
  - drag'n'drop your notes
  - new Rake tasks to backup the project, reset the environment, etc.
  - better upload plugin feedback in case of exception
@@ -105,7 +120,9 @@ v2.4 (10th of September 2009)
    attachments
  - new plugin to import data from the OSVDB
 
+
 v2.3 (5th of August 2009)
+-------------------------
  - expand / collapse buttons in the tree
  - add a new node filtering facility to the tree
  - import from file functionality (nmap, nessus, etc.)
@@ -125,6 +142,7 @@ v2.3 (5th of August 2009)
  features added to the framework.
 
 v2.2 (11th of June 2009)
+------------------------
  - add attachments to nodes
  - add 'refresh' buttons to the tree and the notes list
  - force 'webrick' even if mongrel is installed (no SSL support in mongrel)
@@ -132,31 +150,43 @@ v2.2 (11th of June 2009)
  - autoExpandColumn now works on IE
  - Rails runs in "production" mode
 
+
 v2.1.1 (17th  of April 2009)
+----------------------------
  - the version string was not properly updated across the different modules.
 
+
 v2.1 (16th of April 2009)
+-------------------------
  - import/export plugin architecture
  - import/export plugin generators
  - sample WordXML export plugin
  - sample WikiMedia import plugin
 
+
 v2.0.1 (23rd of February 2009)
+------------------------------
  - first security patch
 
+
 v2.0 (29th of January 2009)
+---------------------------
  - Forget Hosts, Services and Protocols. Embrace the freedom of Nodes.
  - Forget SOAP, embrace REST
  - Powered by Rails 2.0 and ExtJS 2.2 (http://www.extjs.com/)
  - Now with security! (SSL transport and user authentication)
 
+
 v1.2 (4th of April 2008)
+------------------------
  - a slightly less annoying implementation of the web interface 'auto refresh'
  functionality.
  - the services added through the web interface can have a name now :)
  - simple prevention against embedded XSS.
  - the missing submit.png image is included in the release now.
 
+
 v1.1 (29th of February 2008)
+----------------------------
  - new web interface, the old summary is gone, the new one is much neater and
  ajax powered.
