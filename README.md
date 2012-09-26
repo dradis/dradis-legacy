@@ -114,6 +114,8 @@ Contributing
 
 Please see CONTRIBUTING.md for details.
 
+Many thanks to all Dradis Framework [contributors](https://github.com/dradis/dradisframework/graphs/contributors).
+
 
 License
 -------
