@@ -1,6 +1,6 @@
 class CreateNodes < ActiveRecord::Migration
   def change
-    create_table :nodes do |t|
+    create_table :dradis_nodes do |t|
       t.string :label
       t.integer :type_id
       t.integer :parent_id
