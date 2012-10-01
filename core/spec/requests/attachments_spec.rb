@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AttachmentsController do
+describe 'Attachments' do
   describe "as guest" do
     it_should_require_authentication :attachment
   end
