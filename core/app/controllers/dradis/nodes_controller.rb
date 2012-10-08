@@ -1,62 +1,63 @@
-# This controller exposes the REST operations required to manage the Node 
-# resource.
-class NodesController < ApplicationController
-  before_filter :login_required
-  before_filter :find_or_initialize_node, :except => [ :index, :sort ]
+module Dradis
+  class NodesController < AuthenticatedController
 
-  respond_to :json
+    before_filter :find_or_initialize_node, :except => [ :index, :sort ]
 
-  # GET /nodes
-  def index
-    parent_id = params[:node] == 'root-node' ? nil : params[:node].to_i
-    @nodes = Node.where(:parent_id => parent_id )
-    respond_with(@nodes)
-  end        
+    respond_to :json
 
-  # POST /nodes
-  def create
-    if @node.save
-      flash[:notice] = 'Successfully created node.'
+    # GET /nodes
+    def index
+      parent_id = params[:node] == 'root-node' ? nil : params[:node].to_i
+      @nodes = Node.where(:parent_id => parent_id )
+      respond_with(@nodes)
     end
-    respond_with(@node)
-  end
 
-  # GET /nodes/<id>
-  def show
-    respond_with(@node)
-  end
-
-  # POST /nodes/sort
-  def sort
-    params[:nodes].each_with_index do |id, index|
-      Node.update_all({:position => index+1}, {:id => id})
-    end
-    render :nothing => true
-  end
-
-  # PUT /node/<id>
-  def update
-    if @node.update_attributes( params[:node] || ActiveSupport::JSON.decode(params[:data]) )
-      flash[:notice] = 'Successfully updated node.' 
-    end
-    respond_with(@node)
-  end
-
-  # DELETE /nodes/<id>
-  def destroy
-    @node.destroy
-    respond_with(@node)
-  end
-
-  protected
-    def find_or_initialize_node
-      if params[:id]
-        unless @node = Node.find_by_id(params[:id])
-          render_optional_error_file :not_found
-        end
-      else
-        @node = Node.new(params[:node] || ActiveSupport::JSON.decode(params[:data]))
+    # POST /nodes
+    def create
+      if @node.save
+        flash[:notice] = 'Successfully created node.'
       end
-      @node.updated_by = current_user
+      respond_with(@node)
     end
+
+    # GET /nodes/<id>
+    def show
+      respond_with(@node)
+    end
+
+    # POST /nodes/sort
+    def sort
+      params[:nodes].each_with_index do |id, index|
+        Node.update_all({:position => index+1}, {:id => id})
+      end
+      render :nothing => true
+    end
+
+    # PUT /node/<id>
+    def update
+      if @node.update_attributes( params[:node] || ActiveSupport::JSON.decode(params[:data]) )
+        flash[:notice] = 'Successfully updated node.'
+      end
+      respond_with(@node)
+    end
+
+    # DELETE /nodes/<id>
+    def destroy
+      @node.destroy
+      respond_with(@node)
+    end
+
+    protected
+      def find_or_initialize_node
+        if params[:id]
+          unless @node = Node.find_by_id(params[:id])
+            render_optional_error_file :not_found
+          end
+        else
+          @node = Node.new(params[:node] || ActiveSupport::JSON.decode(params[:data]))
+        end
+        # TODO
+        # @node.updated_by = current_user
+      end
+  end
 end

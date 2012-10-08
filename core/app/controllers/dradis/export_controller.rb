@@ -1,5 +1,5 @@
 module Plugins
-  # The Plugins::Export module will be filled in with functionality by the 
+  # The Plugins::Export module will be filled in with functionality by the
   # different export plugins installed in this dradis instance. The 
   # ExportController will expose this functionality through an standarised
   # interface.
@@ -18,46 +18,41 @@ module Plugins
   end
 end
 
-# The ExportController provides access to the different export plugins that 
-# have been deployed in the dradis server.
-#
-# Each export plugin will include itself in the Plugins::Export module and this
-# controller will include it so all the functionality provided by the different
-# plugins is exposed.
-#
-# A convenience list method is provided that will return all the currently
-# loaded plugins.
-class ExportController < ApplicationController
-  include Plugins::Export
-  before_filter :login_required
-  before_filter :prepare_params, :except => [:list]
+module Dradis
+  # The ExportController provides access to the different export plugins that 
+  # have been deployed in the dradis server.
+  #
+  # Each export plugin will include itself in the Plugins::Export module and this
+  # controller will include it so all the functionality provided by the different
+  # plugins is exposed.
+  #
+  # A convenience list method is provided that will return all the currently
+  # loaded plugins.
+  class ExportController < BaseController
+    include Plugins::Export
 
-  # This method provides a list of all the available export options. It 
-  # assumes that each export plugin includes sub-modules in the  
-  # Plugins::Export mixing.
-  def list
-    respond_to do |format|
-      format.html{ redirect_to root_path }
-      format.json{ 
-        list = []
-        actions_module = (RUBY_VERSION < '1.9') ? 'Actions' : :Actions
-        Plugins::Export.included_modules.each do |plugin|
-          list << { :name => plugin.name.underscore.humanize.gsub(/\//,' - '), :actions => [] }
-          if (plugin.constants.include?(actions_module))
-             list.last[:actions] = plugin::Actions.instance_methods.sort
+    # This method provides a list of all the available export options. It
+    # assumes that each export plugin includes sub-modules in the
+    # Plugins::Export mixing.
+    def list
+      respond_to do |format|
+        format.html{ redirect_to root_path }
+        format.json{
+          list = []
+          actions_module = (RUBY_VERSION < '1.9') ? 'Actions' : :Actions
+          Plugins::Export.included_modules.each do |plugin|
+            list << { :name => plugin.name.underscore.humanize.gsub(/\//,' - '), :actions => [] }
+            if (plugin.constants.include?(actions_module))
+               list.last[:actions] = plugin::Actions.instance_methods.sort
+            end
           end
-        end
 
-        render :json => list
-      }
+          render :json => list
+        }
+      end
     end
-  end
 
-  private
-  def prepare_params
-  end
-
-  protected
+    protected
     # In case something goes wrong with the export, fail graciously instead of
     # presenting the obscure Error 500 default page of Rails.
     # TODO: handle this error in the client side and present an ExtJS window 
@@ -66,4 +61,5 @@ class ExportController < ApplicationController
       flash[:error] = exception.message
       redirect_to root_path
     end
+  end
 end

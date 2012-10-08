@@ -8,7 +8,7 @@ module Dradis
     def create
       usr = params.fetch(:username, nil)
       # pwd = params.fetch(:password, nil)
-      if not ( usr.nil? ) #|| pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != ::Configuration.password)
+      if not ( usr.blank? ) #|| pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != ::Configuration.password)
         self.current_user = usr
         redirect_to root_path, notice: 'Logged in successfully'
       else
