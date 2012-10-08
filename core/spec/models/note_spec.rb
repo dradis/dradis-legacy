@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Note do
+describe Dradis::Note do
   before(:each) do
-    @category = Category.create!(:name => "test_category")
-    @node     = Node.create!(:label => 'rspec test')
-    @note     = Note.new
+    @category = Dradis::Category.create!(:name => "test_category")
+    @node     = Dradis::Node.create!(:label => 'rspec test')
+    @note     = Dradis::Note.new
   end
 
   it "shouldn't fail when text, cat and node are passed" do
