@@ -1,0 +1,32 @@
+// Set the correct sprite paths
+//$iconSpritePath: image-path('glyphicons-halflings.png');
+//$iconWhiteSpritePath: image-path('glyphicons-halflings-white.png');
+
+$dradisGreen: #A4D23F;
+//$navbarBackground: #555;
+//$navbarBackgroundHighlight: #888;
+
+$navbarBackground: $dradisGreen;
+$navbarBackgroundHighlight: $dradisGreen;
+
+$navbarBrandColor: #fff;
+
+$navbarText: #fff;
+$navbarLinkColor: #eee;
+
+@import "bootstrap";
+
+body {
+  padding-top: 60px;
+//  background-color: $blue;
+}
+
+@import "bootstrap-responsive";
+
+//.navbar .brand {
+//  color: #FAFFB8;
+//}
+
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+  background-color: darken(#DFE8F6, 20%);
+}

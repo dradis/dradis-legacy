@@ -1,9 +1,11 @@
 require 'acts_as_tree'
+require 'bootstrap-sass'
 require 'rails/all'
+
+require 'dradis/core/engine'
 
 require 'dradis/core/cli'
 require 'dradis/core/configurator'
-require 'dradis/core/engine'
 require 'dradis/core/version'
 
 module Dradis

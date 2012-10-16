@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1" name="viewport">
+  <title>Dradis Framework</title>
+  <%= favicon_link_tag image_path('favicon.ico') %>
+  <%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <%# dradis/all is generated in the target app and will eventually load dradis/dradis_core -%>
+  <%= stylesheet_link_tag "dradis/all" %>
+</head>
+<body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+
+        <a class="brand" href="javascript:void()">Dradis Framework</a>
+
+
+        <div class="nav-collapse collapse">
+          <!-- <form class="navbar-search" style="width: 80%;">
+            <input type="text" class="search-query" placeholder="Search" style="width: 100%;">
+          </form> -->
+
+          <ul class="nav pull-right">
+            <% if current_user %>
+            <li><%= link_to 'Logout', logout_path %></li>
+            <% else %>
+            <li><%= link_to 'Login', login_path %></li>
+            <% end %>
+          </ul>
+          <p class="pull-right navbar-text"><%= current_user %></p>
+        </div><!--/.nav-collapse -->
+
+
+      </div>
+    </div>
+  </div>
+
+  <div id="contents">
+    <div id="header">
+      <% flash.each do |key, value| -%>
+        <div class="flash <%= key %>"><%= value %></div>
+      <% end -%>
+    </div>
+
+    <%= yield %>
+  </div>
+
+  <%# dradis/all is generated in the target app and will eventually load dradis/dradis_core -%>
+  <%= javascript_include_tag "dradis/all" %>
+  <%= yield :javascript %>
+</body>
+</html>
