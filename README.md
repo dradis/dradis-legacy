@@ -1,6 +1,8 @@
 Welcome to Dradis
 =================
 
+*Important note*: You're currently viewing the `master` branch of this repo. This corresponds to Dradis Framework 2.x. Right now we're working on the `dradis3.x` branch. Once the preliminary work is complete, `dradis3.x` will become the new `master`.
+
 [![Build Status](https://secure.travis-ci.org/dradis/dradisframework.png)](https://secure.travis-ci.org/dradis/dradisframework)
 
 Dradis is an open source framework to enable effective information sharing, 
