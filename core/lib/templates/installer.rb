@@ -1,9 +1,4 @@
 # TODO:
-#   - gem vs gemfile generator
-#   - Port 3004 + SSL
-#     + generate SSL cert
-#   - Mount engine on /
-#   - rm ./public/index.html
 #   - ./db/seeds.rb
 #   - copy migrations / create db / run migrations / seed data
 #   - precompile assets
@@ -14,93 +9,118 @@
 
 
 # This application template is inspired by:
-#   * https://github.com/resolve/refinerycms/blob/master/templates/refinery/installer.rb
+#   * https://github.com/refinery/refinerycms/blob/master/templates/refinery/installer.rb
 #   * http://railswizard.org/
+#   * https://github.com/RailsApps/rails-composer
+#   * https://github.com/RailsApps/rails_apps_composer
 #
+
 
 # >----------------------------[ Initial Setup ]------------------------------<
 
-initializer 'generators.rb', <<-RUBY
-Rails.application.config.generators do |g|
+# We want to ensure that you have an ExecJS runtime available!
+begin
+  run 'bundle install --quiet'
+  require 'execjs'
+  ::ExecJS::Runtimes.autodetect
+rescue LoadError
+  gsub_file 'Gemfile', "# gem 'therubyracer'", "gem 'therubyracer'"
 end
-RUBY
-
-@recipes = ['dradis'] 
-
-def recipes; @recipes end
-def recipe?(name); @recipes.include?(name) end
-
-def say_custom(tag, text); say "\033[1m\033[36m" + tag.to_s.rjust(10) + "\033[0m" + "  #{text}" end
-def say_recipe(name); say "\033[1m\033[36m" + "recipe".rjust(10) + "\033[0m" + "  Running #{name} recipe..." end
-def say_wizard(text); say_custom(@current_recipe || 'wizard', text) end
-
-def ask_wizard(question)
-  ask "\033[1m\033[30m\033[46m" + (@current_recipe || 'prompt').rjust(10) + "\033[0m\033[36m" + "  #{question}\033[0m"
-end
-
-def yes_wizard?(question)
-  answer = ask_wizard(question + " \033[33m(y/n)\033[0m")
-  case answer.downcase
-    when "yes", "y"
-      true
-    when "no", "n"
-      false
-    else
-      yes_wizard?(question)
-  end
-end
-
-def no_wizard?(question); !yes_wizard?(question) end
-
-def multiple_choice(question, choices)
-  say_custom('question', question)
-  values = {}
-  choices.each_with_index do |choice,i| 
-    values[(i + 1).to_s] = choice[1]
-    say_custom (i + 1).to_s + ')', choice[0]
-  end
-  answer = ask_wizard('Enter your selection:') while !values.keys.include?(answer)
-  values[answer]
-end
-
-@current_recipe = nil
-@configs = {}
-
-@after_blocks = []
-def after_bundler(&block); @after_blocks << [@current_recipe, block]; end
-@after_everything_blocks = []
-def after_everything(&block); @after_everything_blocks << [@current_recipe, block]; end
-@before_configs = {}
-def before_config(&block); @before_configs[@current_recipe] = block; end
 
 # >---------------------------------[ Dradis ]--------------------------------<
 
-@current_recipe = 'dradis'
-@before_configs['dradis'].call if @before_configs['dradis']
+# Dradis Framework gems
+gem 'dradis', path: '/Users/etd/dradis/git/dradis'
+gem 'dradis_core', path: '/Users/etd/dradis/git/dradis/core'
+gem 'dradis-html_export', path: '/Users/etd/dradis/git/dradis-html_export'
 
-gem 'dradis'
-gem 'dradis_core'
-gem 'dradis-html_export'
+# WEBrick with SSL and port 3004
+inject_into_file 'script/rails', :after => '# This command will automatically be run when you run "rails" with Rails 3 gems installed from the root of your application.' do
+  <<-eos
+
+require 'rubygems'
+require 'rails/commands/server'
+require 'rack'
+require 'webrick'
+require 'webrick/https'
+
+module Rails
+  class Server < ::Rack::Server
+    def default_options
+      super.merge({
+        :Port => 3004,
+        :Host => "127.0.0.1",
+        # hopefully this closes #17
+        # ref: http://stackoverflow.com/questions/1156759/
+        :DoNotReverseLookup => nil,
+        :environment => (ENV['RAILS_ENV'] || "development").dup,
+        :daemonize => false,
+        :debugger => false,
+        :pid => File.expand_path("tmp/pids/server.pid"),
+        :config => File.expand_path("config.ru"),
+        :SSLEnable => true,
+        :SSLVerifyClient => OpenSSL::SSL::VERIFY_NONE,
+        :SSLPrivateKey => OpenSSL::PKey::RSA.new(
+               File.open(File.expand_path( '../../config/ssl/server.key.insecure', __FILE__)).read),
+        :SSLCertificate => OpenSSL::X509::Certificate.new(
+               File.open(File.expand_path('../../config/ssl/server.crt', __FILE__)).read),
+        :SSLCertName => [["CN", WEBrick::Utils::getservername]]
+      })
+    end
+  end
+end
+  eos
+end
+
+# Generate SSL cert
+
+key = OpenSSL::PKey::RSA.generate(2048)
+create_file 'config/ssl/server.key.insecure', key.export
+
+cert = OpenSSL::X509::Certificate.new
+cert.version = 2
+cert.serial = 1
+cert.subject = OpenSSL::X509::Name.parse "/C=GB/ST=London/O=Dradis Framework [dradisframework.org]/OU=Dradis server/CN=dradis"
+cert.issuer = cert.subject
+cert.public_key = key.public_key
+cert.not_before = Time.now
+cert.not_after = cert.not_before + 2 * 365 * 24 * 60 * 60 # 2 years validity
+cert.sign(key, OpenSSL::Digest::SHA256.new)
+create_file 'config/ssl/server.crt', cert.to_pem
+
+# Mount engine on /
+route "mount Dradis::Core::Engine, :at => '/'"
+
+# Remove unused files created by Rails
+remove_file 'public/index.html'
+remove_file 'app/assets/images/rails.png'
 
 
-# run 'bundle install'
-# rake 'db:create'
-# generate "refinery:cms --fresh-installation #{ARGV.join(' ')}"
-# 
-# say <<-SAY
-# ============================================================================
-# Your new Refinery CMS application is now installed and mounts at '/'
-# ============================================================================
-# SAY
+#   - ./db/seeds.rb
+#   - copy migrations / create db / run migrations / seed data
+#   - precompile assets
+
+# switch to Production?
+#     + config.serve_static_assets = true in Production
+#     + config.assets.precompile += %w( banner.css dradis3.js dradis3.css )
 
 
 # >-----------------------------[ Run Bundler ]-------------------------------<
 
-say_wizard "Running Bundler install. This will take a while."
-run 'bundle install --quiet'
-say_wizard "Running after Bundler callbacks."
-@after_blocks.each{|b| config = @configs[b[0]] || {}; @current_recipe = b[0]; b[1].call}
 
-@current_recipe = nil
-say_wizard "Running after everything callbacks."
-@after_everything_blocks.each{|b| config = @configs[b[0]] || {}; @current_recipe = b[0]; b[1].call}
+# inside do
+#   run 'bundle install --path vendor/bundle'
+# end
+
+
+# rake 'db:create'
+# generate "refinery:cms --fresh-installation #{ARGV.join(' ')}"
+
+
+# >----------------------------[ Shell scripts ]------------------------------<
+
+# TODO: check if in *NIX environmet (curl, chmod)
+#for script in ['reset.sh', 'start.sh']
+#  run "curl -O https://raw.github.com/dradis/meta/master/#{script}"
+#  run "chmod +x "
+#end

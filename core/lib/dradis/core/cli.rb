@@ -7,7 +7,7 @@ require 'thor/group'
 module Dradis
   module Core
     class CLI < Thor
-      desc 'new [PATH]', 'create a new Dradis Framework forlder in the specified directory'
+      desc 'new [PATH]', 'create a new Dradis Framework folder in the specified directory'
       method_option :path, :type => :string, :desc => 'the folder in which a Dradis Framework instance will be created', :default => '.'
       def new(application_name = 'dradisfw')
         template_path = File.expand_path('../../../templates/installer.rb', __FILE__)
@@ -21,7 +21,7 @@ module Dradis
           note = ["\n=== ACTION REQUIRED ==="]
           note << "Now you can launch your Dradis webserver using:"
           note << "\ncd #{application_name}"
-          note << "rails server"
+          note << "bundle exec rails server"
           note << "\nThis will launch the built-in webserver at port 3004."
           note << "You can now see Dradis running in your browser at https://localhost:3004/"
           puts note
