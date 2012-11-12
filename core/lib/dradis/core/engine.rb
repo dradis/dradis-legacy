@@ -2,6 +2,7 @@ module Dradis
   module Core
     class Engine < ::Rails::Engine
       isolate_namespace Dradis
+      engine_name 'dradis'
 
       initializer 'clear_transient_data' do |app|
         # # It is fair to assume that once the server goes down, past activity is no
