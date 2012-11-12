@@ -107,7 +107,7 @@ module Dradis
       # The default Rails seed.rb file contains instructions on what the file
       # is used for
       remove_file 'db/seeds.rb'
-      copy_file File.expand_path('../../../../../db/seeds.rb',__FILE__), 'db/seeds.rb'
+      copy_file 'db/seeds.rb', 'db/seeds.rb'
     end
 
     def tweak_production!
