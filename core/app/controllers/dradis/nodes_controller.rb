@@ -3,13 +3,17 @@ module Dradis
 
     before_filter :find_or_initialize_node, :except => [ :index, :sort ]
 
-    respond_to :json
+    respond_to :html, :json
 
     # GET /nodes
     def index
       parent_id = params[:node] == 'root-node' ? nil : params[:node].to_i
       @nodes = Node.where(:parent_id => parent_id )
       respond_with(@nodes)
+    end
+
+    # GET /node/<id>/edit
+    def edit
     end
 
     # POST /nodes
@@ -22,6 +26,8 @@ module Dradis
 
     # GET /nodes/<id>
     def show
+      @nodes = Node.all
+      @categories = @node.notes.map(&:category).uniq
       respond_with(@node)
     end
 
@@ -51,6 +57,7 @@ module Dradis
       def find_or_initialize_node
         if params[:id]
           unless @node = Node.find_by_id(params[:id])
+            # FIXME this is no longer supported in Rails 3
             render_optional_error_file :not_found
           end
         else
