@@ -50,13 +50,30 @@ The script:
 
 [View install.sh source](https://github.com/dradis/meta/blob/master/install.sh)
 
+(This script also downloads a copy of this repo, which was fine in 2.x but no longer used in 3.x, ignore or delete it)
 
-Installation
-------------
+
+Installation (during 3.0 preparation)
+-------------------------------------
+Once you have Ruby 1.9.3 in your system you can install the Dradis gem:
+
+```
+$ git clone git://github.com/dradis/dradisframework.git
+$ git checkout -b dradis3.x remotes/origin/dradis3.x
+$ cd core/
+$ rake build
+$ cd pkg/
+$ gem install dradis_core-3.0.0.beta.gem
+```
+
+
+Installation (after 3.0 release)
+--------------------------------
 
 Once you have Ruby 1.9.3 in your system you can install the Dradis gem:
 
-    $ gem install ruby
+    $ gem install dradis
+
 
 
 Running
@@ -69,13 +86,13 @@ In order to start using Dradis you need to deploy it in a folder of your choosin
 And you're ready to start the server:
 
     $ cd ~/dradis/
-    $ dradis start
+    $ bundle exec rails server
 
 Now you can browse to https://localhost:3004 to start using Dradis.
 
 If you would like to make Dradis accessible to other people on the network:
 
-    $ dradis start -b 0.0.0.0 -p 443
+    $ bundle exec rails server -b 0.0.0.0 -p 443
 
 The `-b` option defines Dradis' bind address and the `-p` option can be used to change the port.
 
