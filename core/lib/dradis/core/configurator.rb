@@ -42,7 +42,7 @@ module Dradis
         # retrieve a value given a key, grabbing the default value from the configurations
         # array
         def get(key)
-          value     = Configuration.find(:first, :conditions => { :name => self.namespaced(key) }).try(:value)
+          value     = Dradis::Configuration.find(:first, :conditions => { :name => self.namespaced(key) }).try(:value)
 
           value     = @configs[key][:default]     if value.nil? && @configs[key][:default]
 
@@ -52,7 +52,7 @@ module Dradis
         # determines whether or not a key exists as a configuration, either in the
         # database, or the definitions of default values
         def is_a_configuration?(key)
-          Configuration.exists?(:name => self.namespaced(key)) || @configs && @configs.keys.include?(key)
+          Dradis::Configuration.exists?(:name => self.namespaced(key)) || @configs && @configs.keys.include?(key)
         end
 
         # use method_missing to make configuration values appear as variables on
@@ -82,8 +82,8 @@ module Dradis
         def settings
           @configs||= {}
 
-          settings  = @configs.collect { |key,config| Configuration.find_by_name(self.namespaced(key)) || Configuration.new(:name => self.namespaced(key), :value => config[:default]) }
-          settings += Configuration.find(:all, :conditions => ["name like ?", "#{self.namespace}:%"])
+          settings  = @configs.collect { |key,config| Dradis::Configuration.find_by_name(self.namespaced(key)) || Dradis::Configuration.new(:name => self.namespaced(key), :value => config[:default]) }
+          settings += Dradis::Configuration.find(:all, :conditions => ["name like ?", "#{self.namespace}:%"])
 
           settings.uniq
         end
