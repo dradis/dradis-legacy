@@ -1,0 +1,21 @@
+<div class="filter muted">
+  <div class="pull-left">View: <span>All</span></div>
+  <div class="pull-right">Arrange by</div>
+</div>
+<table class="clearfix table table-hover">
+  <tbody>
+    <% for category in @categories %>
+    <tr class="category">
+      <td colspan="3"><%= category.name %></td>
+    </tr>
+    <% for note in @node.notes %>
+    <% next if note.category != category %>
+    <tr>
+      <td><%= link_to note.fields['Title'], edit_node_note_path(@node, note) %></td>
+      <td></td>
+      <td><%= note.updated_at.strftime('%e %b %H:%M') %><td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>

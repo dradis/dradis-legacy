@@ -1,0 +1,21 @@
+body.home {
+
+  #message-list {
+
+    .filter {
+      height: 33px;
+      padding: 16px 0 0 17px;
+    }
+
+    tbody {
+      .category {
+        width: 100%;
+        font-weight: bold;
+
+        &:hover td {
+          background-color: #fff;
+        };
+      }
+    }
+  }
+}

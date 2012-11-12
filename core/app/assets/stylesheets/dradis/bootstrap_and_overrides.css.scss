@@ -3,6 +3,7 @@
 //$iconWhiteSpritePath: image-path('glyphicons-halflings-white.png');
 
 $dradisGreen: #A4D23F;
+$dradisGreen: #31B94D;
 //$navbarBackground: #555;
 //$navbarBackgroundHighlight: #888;
 
@@ -17,15 +18,10 @@ $navbarLinkColor: #eee;
 @import "bootstrap";
 
 body {
-  padding-top: 60px;
-//  background-color: $blue;
+//  padding-top: 60px;
 }
 
 @import "bootstrap-responsive";
-
-//.navbar .brand {
-//  color: #FAFFB8;
-//}
 
 .nav-pills > .active > a, .nav-pills > .active > a:hover {
   background-color: darken(#DFE8F6, 20%);

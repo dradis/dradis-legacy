@@ -1,0 +1,18 @@
+body.preauth {
+  background: #fff image-url('escheresque.png') top left;
+  padding-top: 100px;
+
+  .preauth-title {
+    color: #333;
+    text-align: center;
+  }
+
+  .preauth-modal {
+    background-color: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding: 1em;
+
+  }
+}

@@ -1,6 +1,6 @@
 module Dradis
   class BaseController < ApplicationController
-    layout 'dradis/application'
+    layout 'dradis/preauth'
     include Dradis::Concerns::CurrentUser
   end
 end
