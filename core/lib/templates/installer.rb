@@ -20,10 +20,19 @@ end
 # >---------------------------------[ Dradis ]--------------------------------<
 
 # Dradis Framework gems
-gem 'dradis', path: '/Users/etd/dradis/git/dradis'
-gem 'dradis_core', path: '/Users/etd/dradis/git/dradis/core'
-gem 'dradis-html_export', path: '/Users/etd/dradis/git/dradis-html_export'
+# This is cool for production
+# gem 'dradis', path: '/Users/etd/dradis/git/dradis'
+# gem 'dradis_core', path: '/Users/etd/dradis/git/dradis/core'
+# gem 'dradis-html_export', path: '/Users/etd/dradis/git/dradis-html_export'
 
+# While we're on dradis3.x branch
+append_to_file 'Gemfile' do
+  <<-eos
+git "https://github.com/dradis/dradisframework.git", :branch => 'dradis3.x' do
+  gem 'dradis_core'
+end
+  eos
+end
 
 # >-----------------------------[ Run Bundler ]-------------------------------<
 
