@@ -1,8 +1,5 @@
 # TODO:
 #   - precompile assets
-#   - switch to Production?
-#     + config.serve_static_assets = true in Production
-#     + config.assets.precompile += %w( banner.css dradis3.js dradis3.css )
 
 require 'rails/generators'
 require 'bundler'
@@ -111,10 +108,9 @@ module Dradis
     end
 
     def tweak_production!
-      # switch to Production?
-      #     + config.serve_static_assets = true in Production
-      #     + config.assets.precompile += %w( banner.css dradis3.js dradis3.css )
-      # gsub_file env, "config.assets.compile = false", "config.assets.compile = true", :verbose => false
+      say_status :adjust, 'Production environment settings (config/environments/production.rb)'
+      gsub_file 'config/environments/production.rb', 'config.assets.compile = false', 'config.assets.compile = true', :verbose => false
+      gsub_file 'config/environments/production.rb', '# config.assets.precompile += %w( search.js )', '# config.assets.precompile += %w( banner.css dradis3.js dradis3.css )', :verbose => false
     end
 
     def migrate_and_seed!
