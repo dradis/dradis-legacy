@@ -1,6 +1,6 @@
 class CreateFeeds < ActiveRecord::Migration
-  def self.up
-    create_table :feeds do |t|
+  def change
+    create_table :dradis_feeds do |t|
       t.string :action
       t.string :user
       t.datetime :actioned_at
@@ -9,9 +9,5 @@ class CreateFeeds < ActiveRecord::Migration
 
       t.timestamps
     end
-  end
-
-  def self.down
-    drop_table :feeds
   end
 end
