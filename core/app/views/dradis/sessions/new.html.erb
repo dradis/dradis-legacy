@@ -1,13 +1,14 @@
-<h1>Welcome to Dradis</h1>
-
-<p>You will only be able to log in if you know this server's password.</p>
-
 <%= form_tag session_path do -%>
-  <p><label for="username">Username</label><br/>
+  <label for="username">Username</label>
   <%= text_field_tag 'username', nil, placeholder: 'Choose your username' %></p>
 
-  <p><label for="password">Password</label><br/>
-  <%= password_field_tag 'password' %></p>
+  <label for="password">Password</label>
+  <%= password_field_tag 'password' %>
 
-  <%= submit_tag 'Log in' %>
+  <div>
+  <%= submit_tag 'Log in', class: 'btn' %>
+  </div>
 <% end -%>
+
+<p><strong>Not familiar with Dradis?</strong><br/>
+Checkout the <a href="http://guides.dradisframework.org">Getting started</a> guide.</p>

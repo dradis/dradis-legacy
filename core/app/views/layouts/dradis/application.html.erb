@@ -12,11 +12,10 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script>
   <![endif]-->
 
-  <%# dradis/all is generated in the target app and will eventually load dradis/dradis_core -%>
-  <%= stylesheet_link_tag "dradis/all" %>
+  <%= stylesheet_link_tag "application" %>
 </head>
-<body>
-  <div class="navbar navbar-fixed-top">
+<body class="<%= controller_name %>">
+  <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container-fluid">
 
@@ -34,6 +33,10 @@
             <input type="text" class="search-query" placeholder="Search" style="width: 100%;">
           </form> -->
 
+          <ul class="nav">
+            <li><%= link_to new_node_note_path(@node) do %><i class="icon-edit icon-white"></i> New note <% end %></li>
+          </ul>
+
           <ul class="nav pull-right">
             <% if current_user %>
             <li><%= link_to 'Logout', logout_path %></li>
@@ -49,15 +52,67 @@
     </div>
   </div>
 
-  <div id="contents">
-    <div id="header">
-      <% flash.each do |key, value| -%>
-        <div class="flash <%= key %>"><%= value %></div>
-      <% end -%>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+        <ul class="nav nav-tabs nav-stacked">
+          <li><a href="#"><i class="icon-chevron-down"></i> Uploaded files</a></li>
+          <li class="active2"><a href="#"><i class="icon-chevron-right"></i> scope</a></li>
+          <li><a href="#"><i class="icon-chevron-right"></i> web / web service</a></li>
+          <li><a href="#"><i class="icon-chevron-right"></i> infrastructure</a></li>
+          <% for node in @nodes do %>
+          <li><a href="javascript:void()"><i class="icon-chevron-right"></i> <%= node.label %></a></li>
+          <% end %>
+        </ul>
+
+        <div class="input-append">
+          <%= form_for Dradis::Node.new do |f| %>
+          <input class="span8" type="text" placeholder="New node..."/><button class="btn" type="button">Add</button>
+          <% end %>
+        </div>
+      </div>
+      <div id="message-list" class="span7">
+
+        <div id="header">
+          <%= flash_messages %>
+        </div>
+
+        <%= yield %>
+
+      </div>
+      <div class="span3">
+
+        <ul class="nav nav-tabs" id="myTab">
+          <li class="active"><a href="#import" data-toggle="tab">Import</a></li>
+          <li><a href="#attachments" data-toggle="tab">Attachments</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active" id="import">
+            <form class="form-search">
+              <input type="text" class="search-query span6" placeholder="Issue..." style="width: 100%;">
+              <!-- <div class="input-append span6">
+                <button type="submit" class="btn">Search</button>
+              </div> -->
+            </form>
+          </div>
+          <div class="tab-pane" id="attachments">
+            list of attachments
+          </div>
+        </div>
+      </div>
     </div>
 
-    <%= yield %>
-  </div>
+    <!-- <hr/> -->
+    <footer>
+      <p class="pull-right">&copy; Security Roots Ltd. 2012</p>
+    </footer>
+
+  </div> <!-- /container -->
 
   <%# dradis/all is generated in the target app and will eventually load dradis/dradis_core -%>
   <%= javascript_include_tag "dradis/all" %>
