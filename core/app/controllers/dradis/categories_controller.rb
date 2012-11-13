@@ -1,6 +1,6 @@
 module Dradis
   class CategoriesController < AuthenticatedController
-    before_filter :find_or_initialize_model
+    before_filter :find_or_initialize_model, :except => [ :index ]
 
     # GET /categories
     # GET /categories.json
