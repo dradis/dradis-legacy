@@ -1,5 +1,5 @@
 require 'acts_as_tree'
-require 'bootstrap-sass'
+# require 'bootstrap-sass'
 require 'rails/all'
 
 require 'dradis/core/engine'
