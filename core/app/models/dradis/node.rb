@@ -17,5 +17,23 @@ module Dradis
       DEFAULT = 0
       HOST = 1
     end
+
+    # ExtJS specific!
+    # Return the JSON structure representing this Node and any child nodes
+    # associated with it.
+    def as_json(options={})
+      json = {
+        :text => self.label,
+        :id => self.attributes['id'],
+        :type => self.type_id || 0,
+        :position => self.position || 0,
+        :parent_id => self.parent_id
+      }
+      if (self.children.any?)
+        json[:children] = self.children.sort{|a,b| (a.position||0) <=> (b.position||0) }
+      end
+      return json
+    end
+
   end
 end

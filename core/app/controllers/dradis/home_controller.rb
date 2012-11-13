@@ -2,11 +2,10 @@ module Dradis
   class HomeController < AuthenticatedController
     respond_to :html
     def index
-      node = Dradis::Node.create(label: 'Root node')
-      redirect_to node_path(node)
-      # @nodes = Dradis::Node.all
-      # @notes = Dradis::Note.all
-      # @categories = Dradis::Category.all
+      @last_audit = 0
+      if Dradis::Log.where(:uid=>0).count > 0
+        @last_audit = Dradis::Log.where(:uid => 0).order('created_at desc').limit(1)[0].id
+      end
     end
   end
 end
