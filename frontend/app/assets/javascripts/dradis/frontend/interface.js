@@ -94,7 +94,8 @@ nodestree.on('nodeclick', function(node_id){
   pollingTask.current_node = node_id;
   notesbrowser.updateNotes(node_id);
   newnotes.body.load('nodes/' + node_id + '/notes');
-  attachments.updateAttachments(node_id);
+  // FIXME FRONTEND
+  // attachments.updateAttachments(node_id);
   dradistabs.enable();
   if (dradistabs.getActiveTab() === null) {
     dradistabs.setActiveTab(0);
@@ -300,27 +301,29 @@ Ext.onReady(function() {
 
 
   // Refresh the list of import / export and upload plugins
-  plugins.refresh();
+  // FIXME FRONTEND
+  // plugins.refresh();
 
   // Initialize the jQuery File Upload widget:
   //   See: https://github.com/blueimp/jQuery-File-Upload/
-  $('#fileupload').fileupload({
-    dropZone: $('#dropzone'),
-    headers: {
-      'X-CSRF-Token': csrf_token
-    },
-    destroy: function (e, data) {
-      data.headers = $(this).data('fileupload').options.headers;
-      $.blueimpUI.fileupload.prototype.options.destroy.call(this, e, data);
-    },
-    send: function (e, data) {
-      var fu = $(this).data('fileupload');
-      data.url = data.url &&
-        fu.options._addUrlParams(data.url, 'authenticity_token=' + csrf_token);
-      $.blueimpUI.fileupload.prototype.options.send.call(this, e, data);
-    },
-    _addUrlParams: function (url, data) {
-      return url + (/\?/.test(url) ? '&' : '?') + data;
-    }
-  });
+  // FIXME FRONTEND
+  // $('#fileupload').fileupload({
+  //   dropZone: $('#dropzone'),
+  //   headers: {
+  //     'X-CSRF-Token': csrf_token
+  //   },
+  //   destroy: function (e, data) {
+  //     data.headers = $(this).data('fileupload').options.headers;
+  //     $.blueimpUI.fileupload.prototype.options.destroy.call(this, e, data);
+  //   },
+  //   send: function (e, data) {
+  //     var fu = $(this).data('fileupload');
+  //     data.url = data.url &&
+  //       fu.options._addUrlParams(data.url, 'authenticity_token=' + csrf_token);
+  //     $.blueimpUI.fileupload.prototype.options.send.call(this, e, data);
+  //   },
+  //   _addUrlParams: function (url, data) {
+  //     return url + (/\?/.test(url) ? '&' : '?') + data;
+  //   }
+  // });
 });
