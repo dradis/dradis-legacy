@@ -30,6 +30,7 @@ append_to_file 'Gemfile' do
   <<-eos
 git "https://github.com/dradis/dradisframework.git", :branch => 'dradis3.x' do
   gem 'dradis_core'
+  gem 'dradis_frontend'
 end
   eos
 end

@@ -23,8 +23,8 @@ module Dradis
     protected
 
     def load_assets!
-      insert_into_file 'app/assets/stylesheets/application.css', " *= require dradis/dradis_core\n", :before => ' *= require_self'
-      insert_into_file 'app/assets/javascripts/application.js', "//= require dradis/dradis_core\n", :before => '//= require_tree .'
+      insert_into_file 'app/assets/stylesheets/application.css', " *= require dradis/frontend/dradis_extjs\n", :before => ' *= require_self'
+      insert_into_file 'app/assets/javascripts/application.js', "//= require dradis/frontend/dradis_extjs\n", :before => '//= require_tree .'
     end
 
     # Generate SSL cert
