@@ -1,10 +1,9 @@
 <html>
   <head>
-    <title><%= Core::VERSION::string %></title>
+    <title>Dradis Framework <%= Dradis::Core::VERSION %></title>
     <link href="/favicon.ico" rel="shortcut icon" />
     <link href="/favicon.ico" rel="icon" />
 
-    <%# See config/initializers/asset_expansion.rb %>
     <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "application" %>
 
@@ -82,9 +81,9 @@ Format: !url(Alt Text)!
 
     <script type="text/javascript">
       dradis.author = "<%= h(current_user) %>";
-      dradis.revision = <%= Configuration.revision %>;
+      dradis.revision = <%= Dradis::Configuration.revision %>;
       dradis.last_audit = <%= @last_audit %>;
-      dradis.version = "<%= Core::VERSION.string  %>";
+      dradis.version = "Dradis Framework <%= Dradis::Core::VERSION  %>";
       dradis.firstrender = <%= !!flash[:first_login] %>;
       Ext.BLANK_IMAGE_URL = "<%= image_path 'default/s.gif' %>";
     </script>
