@@ -2,6 +2,8 @@ Dradis::Core::Engine.routes.draw do
   match '/login' => 'sessions#new', :as => :login
   match '/logout' => 'sessions#destroy', :as => :logout
 
+  match '/logs' => 'logs#index'
+
   # Resources
   resources :categories
   resources :nodes do
