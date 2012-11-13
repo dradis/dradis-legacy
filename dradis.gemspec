@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.name = 'dradis'
   s.version = version
   s.summary = 'Collaboration framework for security testing.'
-  s.description = 'Dradis is an open source framework to enable effective information sharing, specially during security assessments.'
+  s.description = 'Dradis is an open source framework to enable effective information sharing, especially during security assessments.'
 
   s.required_ruby_version = '>= 1.9.3'
   s.required_rubygems_version = ">= 1.8.11"
@@ -20,5 +20,4 @@ Gem::Specification.new do |s|
   # s.files = Dir['guides/**/*']
 
   s.add_dependency('dradis_core', version)
-  s.add_dependency('bundler', '~> 1.1')
 end
