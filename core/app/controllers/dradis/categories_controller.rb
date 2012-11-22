@@ -8,12 +8,19 @@ module Dradis
       @categories = Category.all
       respond_to do |format|
         # format.html
-        format.json { render json: @categories }
+        format.json{ render json: {data: @categories} }
       end
     end
 
     def create
       @category.save
+    end
+
+    def edit
+    end
+
+    def update
+      @category.update_attributes(params[:category])
     end
 
     private
