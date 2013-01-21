@@ -14,7 +14,7 @@ Ext.ns('dradis.plugins.upload');
 dradis.plugins.PluginManager = function(){
   var exporters = new Ext.menu.Menu({});
   var exportPluginsDS = new Ext.data.JsonStore({
-    url:'export/list/plugins.json',
+    url:'export.json',
     fields: ['name', 'actions'],
     listeners:{
       datachanged: function(store){

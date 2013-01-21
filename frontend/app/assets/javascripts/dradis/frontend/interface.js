@@ -301,9 +301,9 @@ Ext.onReady(function() {
 
 
   // Refresh the list of import / export and upload plugins
-  // FIXME FRONTEND
-  // plugins.refresh();
+  plugins.refresh();
 
+  // FIXME FRONTEND
   // Initialize the jQuery File Upload widget:
   //   See: https://github.com/blueimp/jQuery-File-Upload/
   // FIXME FRONTEND

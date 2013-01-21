@@ -18,7 +18,7 @@ Dradis::Core::Engine.routes.draw do
   resource :session
 
   # Plugins
-  match '/export/' => 'export#list'
+  get '/export/' => 'export#list'
 
   root :to => 'home#index'
 
