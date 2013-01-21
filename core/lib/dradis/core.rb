@@ -6,6 +6,7 @@ require 'dradis/core/engine'
 
 require 'dradis/core/cli'
 require 'dradis/core/configurator'
+require 'dradis/core/plugins'
 require 'dradis/core/version'
 
 module Dradis
