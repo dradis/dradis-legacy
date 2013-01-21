@@ -1,8 +1,11 @@
 Dradis::Core::Engine.routes.draw do
+  # Session management
   match '/login' => 'sessions#new', :as => :login
   match '/logout' => 'sessions#destroy', :as => :logout
 
-  match '/logs' => 'logs#index'
+  # Helper routes
+  get '/logs' => 'logs#index'
+  post '/preview' => 'home#preview'
 
   # Resources
   resources :categories
@@ -15,7 +18,7 @@ Dradis::Core::Engine.routes.draw do
   resource :session
 
   # Plugins
-  # match '/export/:action' => 'export#:action'
+  match '/export/' => 'export#list'
 
   root :to => 'home#index'
 

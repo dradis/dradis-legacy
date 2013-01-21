@@ -81,6 +81,7 @@ Format: !url(Alt Text)!
 
     <script type="text/javascript">
       dradis.author = "<%= h(current_user) %>";
+      dradis.preview = "<%= preview_path(format: :json) %>";
       dradis.revision = <%= Dradis::Configuration.revision %>;
       dradis.last_audit = <%= @last_audit %>;
       dradis.version = "Dradis Framework <%= Dradis::Core::VERSION  %>";

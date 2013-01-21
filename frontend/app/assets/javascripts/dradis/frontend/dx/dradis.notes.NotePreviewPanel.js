@@ -32,7 +32,7 @@ dradis.notes.NotePreviewPanel=Ext.extend(Ext.Panel, {
   },
 
   // other methods/actions
-  clear:function(){ 
+  clear:function(){
     if (this.body) {
       this.body.update('');
     }
@@ -43,7 +43,7 @@ dradis.notes.NotePreviewPanel=Ext.extend(Ext.Panel, {
     {
       this.body.update('<div class="loading-indicator">Loading...</div>');
       Ext.Ajax.request({
-        url: 'home/textilize/index.json', 
+        url: dradis.preview,
         params: { text: rawText },
         scope: this,
         success:function(response, options){
