@@ -1,0 +1,88 @@
+.preview {
+  font-family:"Lucida Grande",verdana,arial,helvetica,sans-serif;
+  padding: 10px;
+  color:#000000;
+  font-size:14px;
+  line-height:19px;
+}
+
+.preview h1 {
+  font-size:140%;
+  margin:35px 0 13px 0;
+}
+
+.preview a:link  { color:#03C; }
+
+.preview a {
+  padding:1px;
+  text-decoration:underline;
+}
+
+.preview p {
+  margin: 14px 0;
+}
+
+.preview li { margin-left: 40px; }
+.preview ul { list-style-type: square; }
+.preview ol { list-style-type: decimal; }
+.preview ul, ol { margin-bottom: 2ex; }
+
+.preview strong { font-weight: bold; }
+.preview em { font-style: italic; }
+
+.preview pre {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.preview {
+  table {
+    max-width: 100%;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    // Cells
+    th,
+    td {
+      padding: 8px;
+      line-height: 20px;
+      text-align: left;
+      vertical-align: top;
+      border-top: 1px solid #ddd;
+    }
+    th {
+      font-weight: bold;
+    }
+    // Bottom align for column headings
+    thead th {
+      vertical-align: bottom;
+    }
+    // Remove top border from thead by default
+    caption + thead tr:first-child th,
+    caption + thead tr:first-child td,
+    colgroup + thead tr:first-child th,
+    colgroup + thead tr:first-child td,
+    thead:first-child tr:first-child th,
+    thead:first-child tr:first-child td {
+      border-top: 0;
+    }
+  }
+
+  tbody {
+    > tr:nth-child(odd) > td,
+    > tr:nth-child(odd) > th {
+      background-color: #f9f9f9;
+    }
+    tr:hover td,
+    tr:hover th {
+      background-color: #f5f5f5;
+    }
+  }
+}
