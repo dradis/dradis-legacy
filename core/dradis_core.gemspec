@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'acts_as_tree', '~> 1.1.0'
-  gem.add_dependency 'rails', '~> 3.2.6'
+  gem.add_dependency 'rails', '~> 3.2.12'
   # gem.add_dependency 'backbone-on-rails'
   # gem.add_dependency 'bootstrap-sass'
 end
