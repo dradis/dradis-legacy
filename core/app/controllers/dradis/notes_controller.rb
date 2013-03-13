@@ -20,7 +20,15 @@ module Dradis
     end
 
     def create
-      redirect_to root_path, notice: @note.save
+      respond_to do |format|
+        format.html{ head :method_not_allowed }
+
+        if @note.save
+          format.json{ render json: {success: true, data: @note} }
+        else
+          format.json{ render json: {success: false, errors: @note.errors}, status: :unprocessable_entity }
+        end
+      end
     end
 
     # TODO - implement CRUD actions
@@ -57,8 +65,7 @@ module Dradis
           render_optional_error_file :not_found
         end
       else
-        @note = Note.new(params[:note] || ActiveSupport::JSON.decode(params[:data]))
-        @note.node = @node
+        @note = @node.notes.new(params[:note] || ActiveSupport::JSON.decode(params[:data]).except('updated_at'))
       end
       # TODO
       # @note.updated_by = current_user
