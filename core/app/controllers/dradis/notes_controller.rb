@@ -65,7 +65,10 @@ module Dradis
           render_optional_error_file :not_found
         end
       else
-        @note = @node.notes.new(params[:note] || ActiveSupport::JSON.decode(params[:data]).except('updated_at'))
+        whitelist = [:text, :category_id]
+        attrs = params[:note] || ActiveSupport::JSON.decode(params[:data], symbolize_keys: true)
+        @note = @node.notes.new( attrs.reject{|k,v| !whitelist.include?(k)} )
+        @note.author = current_user
       end
       # TODO
       # @note.updated_by = current_user
