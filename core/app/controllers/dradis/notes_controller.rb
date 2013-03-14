@@ -9,40 +9,33 @@ module Dradis
       @notes = @node.notes
       respond_to do |format|
         format.json {
-          render :json => { :success => true,
-                            :data => @notes
-                          }
+          render :json => {:success => true, :data => @notes}
         }
       end
     end
 
-    def new
-    end
-
     def create
       respond_to do |format|
-        format.html{ head :method_not_allowed }
-
         if @note.save
-          format.json{ render json: {success: true, data: @note} }
+          format.json { render json: {success: true, data: @note} }
         else
-          format.json{ render json: {success: false, errors: @note.errors}, status: :unprocessable_entity }
+          format.json { render json: {success: false, message: @note.errors.full_messages.join(',')}}
         end
       end
     end
 
-    # TODO - implement CRUD actions
-    def edit
-      @nodes = Node.all
-    end
-
     def update
-      if @note.update_attributes(params[:note])
-        redirect_to node_path(@node)
-      else
-        render :edit
+      respond_to do |format|
+        if @note.update_attributes(params[:note])
+          format.json { render json: {success: true} }
+        else
+          # ExtJS expects HTTP 200, instead of status: :unprocessable_entity
+          format.json { render json: {success: false, message: @note.errors.full_messages.join(',')}}
+        end
       end
     end
+
+    # TODO - implement destroy
 
     private
     # For most of the operations of this controller we need to identify the Node
