@@ -165,7 +165,40 @@ dradis.notes.Grid=Ext.extend(Ext.grid.EditorGridPanel, {
         restful: true,
         autoSave: true,
         sortInfo:{ field: 'text', direction: 'ASC' },
-        groupField: 'category_id'
+        groupField: 'category_id',
+        listeners: {
+          exception: {
+            // See: http://docs.sencha.com/ext-js/3-4/#!/api/Ext.data.DataProxy-event-exception
+            fn: function (proxy, type, action, options, response, arg) {
+
+              var msg = '<p>Changes <strong>could not be saved</strong> to the server.</p>';
+              if (type === 'response'){
+                if (response.status == 500) {
+                  msg = msg + '<p>Status: ' + response.status + ' - ' + response.statusText + '</p>';
+                } else if (response.status == 200) {
+                  msg = msg + '<p>Message: ' + arg.message + '</p>';
+                } else if (response.status == 0) {
+                  msg = msg + '<p>Looks like the server is down (!)</p>';
+                } else {
+                  msg = msg + '<p>Unknown error (not 0,200,500)</p>';
+                }
+
+                msg = msg + '<p>Please check server log for details.</p>';
+
+              } else {
+                // type == 'remote'
+                msg = msg + '<p>Validations failed: ' + response.raw.message + '</p>';
+              }
+              Ext.Msg.show({
+                buttons: Ext.MessageBox.OK,
+                title: 'Something went wrong',
+                msg: '<div>' + msg + '</div>',
+                icon: Ext.MessageBox.ERROR,
+                width: '480px'
+              });
+            }
+          }
+        }
       }),
       columns: [
         {
