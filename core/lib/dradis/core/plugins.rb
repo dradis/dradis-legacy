@@ -5,15 +5,13 @@ module Dradis
         def self.included(base)
           base.extend ClassMethods
           base.class_eval do
-            @name = nil
+            mattr_accessor :plugin_name
             @features = []
+            Dradis::Core::Plugins::register(self)
           end
         end
 
         module ClassMethods
-          def plugin_name(name)
-            @name = name
-          end
           def provides(*list)
             @features = list
           end
@@ -38,8 +36,8 @@ module Dradis
         # requested feature.
         def with_feature(feature)
           @@extensions.select do |plugin|
-            engine = "#{plugin}::Engine".constantize
-            engine.provides?(feature)
+            # engine = "#{plugin}::Engine".constantize
+            plugin.provides?(feature)
           end
         end
 

@@ -4,8 +4,10 @@ module Dradis
       plugin_list = Dradis::Core::Plugins::with_feature(:export)
       export_menu = []
       plugin_list.each do |plugin|
-        plugin_name = plugin.name.split('::')[1].underscore.humanize
-        export_menu << { name: plugin_name, actions: [ plugin_name.split(' ')[0].downcase ] }
+        export_menu << {
+          name: plugin.plugin_name,
+          actions: [ plugin.name.split('::')[1].underscore.humanize.split(' ')[0].downcase ]
+        }
       end
       # respond_to do |format|
       #   format.json { render json: export_menu }
