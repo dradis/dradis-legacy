@@ -19,6 +19,7 @@ Dradis::Core::Engine.routes.draw do
 
   # Plugins
   get '/export/' => 'export#list'
+  get '/import/' => 'import#list'
 
   root :to => 'home#index'
 
