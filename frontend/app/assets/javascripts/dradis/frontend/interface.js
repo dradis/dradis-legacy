@@ -303,7 +303,7 @@ Ext.onReady(function() {
   // Refresh the list of import / export and upload plugins
   new Ext.util.DelayedTask(function(){
     plugins.refresh();
-  }).delay(7000);
+  }).delay(3000);
 
   // FIXME FRONTEND
   // Initialize the jQuery File Upload widget:
