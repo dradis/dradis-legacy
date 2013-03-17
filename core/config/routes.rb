@@ -19,7 +19,9 @@ Dradis::Core::Engine.routes.draw do
 
   # Plugins
   get '/export/' => 'export#list'
-  get '/import/' => 'import#list'
+  get  '/import/'        => 'import#list'
+  post '/import/filters' => 'import#filters'
+  post '/import/search'  => 'import#search'
 
   root :to => 'home#index'
 

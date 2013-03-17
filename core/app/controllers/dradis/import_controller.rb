@@ -9,8 +9,8 @@ module Dradis
   # For more information on import plugins see:
   # http://dradisframework.org/import_plugins.html
   class ImportController < AuthenticatedController
-    before_filter :validate_source, :only => [:filters, :query]
-    before_filter :validate_filter, :only => :query
+    before_filter :validate_source, :only => [:filters, :search]
+    before_filter :validate_filter, :only => :search
 
     def list
       plugin_list = Dradis::Core::Plugins::with_feature(:import)
@@ -24,10 +24,40 @@ module Dradis
       render json: import_list
     end
 
+    # For a given data source, list all the Filters exposed by the corresponding
+    # import plugin.
+    # Only supports JSON format.
+    def filters
+      respond_to do |format|
+        format.json{
+          list = [
+            {
+              :display => 'This source does not define any filters',
+              :value => 'invalid'
+            }
+          ]
+          filters_module = :Filters
+          if (@source.constants.include?(filters_module))
+            list.clear
+            @source::Filters.constants.each do |filter_name|
+              filter = "#{@source.name}::Filters::#{filter_name}".constantize
+              list << {
+                :display => "#{filter_name}: #{filter::NAME}",
+                :value => filter_name
+              }
+            end
+          end
+
+          render :json => list
+        }
+      end
+    end
+
     protected
     # Ensure that the data source requested is valid.
     def validate_source()
-      valid_sources = Plugins::Import::included_modules.collect(&:name)
+      valid_sources = Dradis::Core::Plugins::with_feature(:import).map(&:to_s)
+
       if (params.key?(:scope) && valid_sources.include?(params[:scope])) 
         @source = params[:scope].constantize
       else
@@ -48,35 +78,6 @@ module Dradis
 end
 
 # 
-#   # For a given data source, list all the Filters exposed by the corresponding
-#   # import plugin.
-#   # Only supports JSON format.
-#   def filters
-#     respond_to do |format|
-#       format.html{ redirect_to root_path }
-#       format.json{
-#         list = [
-#           {
-#             :display => 'This source does not define any filter',
-#             :value => 'invalid'
-#           }
-#         ]
-#         filters_module = (RUBY_VERSION < '1.9') ? 'Filters' : :Filters
-#         if (@source.constants.include?(filters_module))
-#           list.clear
-#           @source::Filters.constants.each do |filter_name|
-#             filter = "#{@source.name}::Filters::#{filter_name}".constantize 
-#             list << { 
-#               :display => "#{filter_name}: #{filter::NAME}", 
-#               :value => filter_name 
-#             }
-#           end
-#         end
-#         
-#         render :json => list
-#       }
-#     end
-#   end
 # 
 #   # Run a query against the remote data source using a given filter.
 #   # Only supports JSON format.
