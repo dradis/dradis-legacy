@@ -9,10 +9,14 @@ module Dradis
           actions: [ plugin.name.split('::')[1].underscore.humanize.split(' ')[0].downcase ]
         }
       end
-      # respond_to do |format|
-      #   format.json { render json: export_menu }
-      # end
-      render json: export_menu
+
+      # maybe we could improve this by only doing the processing in :json format
+      # however, it's not a lot of processing and hopefully in the future we'll
+      # also support :html format
+      respond_to do |format|
+        format.html{ redirect_to root_path }
+        format.json { render json: export_menu }
+      end
     end
 
     # TODO
