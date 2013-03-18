@@ -21,7 +21,13 @@ module Dradis
           value: plugin.name
         }
       end
-      render json: import_list
+      # maybe we could improve this by only doing the processing in :json format
+      # however, it's not a lot of processing and hopefully in the future we'll
+      # also support :html format
+      respond_to do |format|
+        format.html{ redirect_to root_path }
+        format.json { render json: import_list }
+      end
     end
 
     # For a given data source, list all the Filters exposed by the corresponding
@@ -29,6 +35,7 @@ module Dradis
     # Only supports JSON format.
     def filters
       respond_to do |format|
+        format.html{ redirect_to root_path }
         format.json{
           list = [
             {
@@ -51,6 +58,18 @@ module Dradis
           render :json => list
         }
       end
+
+      # Run a query against the remote data source using a given filter.
+      # Only supports JSON format.
+      def search
+        respond_to do |format|
+          format.html{ redirect_to root_path }
+          format.json{
+            render :json => @filter.run(params)
+          }
+        end
+      end
+
     end
 
     protected
@@ -67,26 +86,12 @@ module Dradis
 
     # If the source is valid, ensure that it defines the requested filter.
     def validate_filter()
-      filter_module = (RUBY_VERSION < '1.9') ? params[:filter] : params[:filter].to_sym
-      if (params.key?(:filter) && @source::Filters::constants.include?(filter_module))
-        @filter = "#{@source.name}::Filters::#{params[:filter]}".constantize
+      filter_name = params[:filter]
+      if (params.key?(:filter) && @source::Filters::constants.include?(filter_name.to_sym))
+        @filter = "#{@source.name}::Filters::#{filter_name}".constantize
       else
         redirect_to root_path
       end
     end    
   end
 end
-
-# 
-# 
-#   # Run a query against the remote data source using a given filter.
-#   # Only supports JSON format.
-#   def query
-#     respond_to do |format|
-#       format.html{ redirect_to root_path }
-#       format.json{
-#         render :json => @filter.run(params)
-#       }
-#     end
-#   end
-# end
