@@ -9,10 +9,10 @@
  .file-pdf
 ,.file-ai
 {
-	background-image: url(../images/mimetypes/pdf_document.png) ! important;
+	background-image: image-url('mimetypes/pdf_document.png') ! important;
 }
 .file-txt {
-	background-image: url(../images/mimetypes/txt.png) ! important;
+	background-image: image-url('mimetypes/txt.png') ! important;
 }
  .file-bmp  
 ,.file-cgm  
@@ -46,12 +46,12 @@
 ,.file-xcf  
 ,.file-xpm  
 {
-	background-image: url(../images/mimetypes/image.png) ! important;
+	background-image: image-url('mimetypes/image.png') ! important;
 }
  .file-conf  
 ,.file-vim 
 {
-	background-image: url(../images/mimetypes/source.png) ! important;
+	background-image: image-url('mimetypes/source.png') ! important;
 }
  .file-html  
 ,.file-htm  
@@ -59,10 +59,10 @@
 ,.file-xhtml  
 ,.file-xml  
 {
-	background-image: url(../images/mimetypes/html.png) ! important;
+	background-image: image-url('mimetypes/html.png') ! important;
 }
 .file-sh  {
-	background-image: url(../images/mimetypes/shellscript.png) ! important;
+	background-image: image-url('mimetypes/shellscript.png') ! important;
 }
  .file-3g2 
 ,.file-3gp 
@@ -82,23 +82,23 @@
 ,.file-wmp 
 ,.file-wmv 
 {
-	background-image: url(../images/mimetypes/video.png) ! important;
+	background-image: image-url('mimetypes/video.png') ! important;
 }
  .file-ttf  
 ,.file-otf 
 {
-	background-image: url(../images/mimetypes/font_truetype.png) ! important;
+	background-image: image-url('mimetypes/font_truetype.png') ! important;
 }
  .file-exe  
 ,.file-dll 
 {
-	background-image: url(../images/mimetypes/exec_wine.png) ! important;
+	background-image: image-url('mimetypes/exec_wine.png') ! important;
 }
  .file-doc  
 ,.file-odt 
 ,.file-rtf 
 {
-	background-image: url(../images/mimetypes/wordprocessing.png) ! important;
+	background-image: image-url('mimetypes/wordprocessing.png') ! important;
 }
  .file-xls  
 ,.file-ods 
@@ -109,16 +109,16 @@
 ,.file-wpd 
 ,.file-abw 
 {
-	background-image: url(../images/mimetypes/spreadsheet_document.png) ! important;
+	background-image: image-url('mimetypes/spreadsheet_document.png') ! important;
 }
 .file-js  {
-	background-image: url(../images/mimetypes/source_j.png) ! important;
+	background-image: image-url('mimetypes/source_j.png') ! important;
 }
 .file-css  {
-	background-image: url(../images/mimetypes/source_c.png) ! important;
+	background-image: image-url('mimetypes/source_c.png') ! important;
 }
 .file-php  {
-	background-image: url(../images/mimetypes/source_php.png) ! important;
+	background-image: image-url('mimetypes/source_php.png') ! important;
 }
  .file-7z 
 ,.file-a 
@@ -135,17 +135,17 @@
 ,.file-zip  
 ,.file-zoo  
 {
-	background-image: url(../images/mimetypes/zip.png) ! important;
+	background-image: image-url('mimetypes/zip.png') ! important;
 }
  .file-ppt  
 ,.file-odp 
 ,.file-ppz 
 ,.file-ppt 
 {
-	background-image: url(../images/mimetypes/pps.png) ! important;
+	background-image: image-url('mimetypes/pps.png') ! important;
 }
 .file-msg  {
-	background-image: url(../images/mimetypes/message.png) ! important;
+	background-image: image-url('mimetypes/message.png') ! important;
 }
  .file-dwg  
 ,.file-sxd 
@@ -158,18 +158,18 @@
 ,.file-msod  
 ,.file-qpic  
 {
-	background-image: url(../images/mimetypes/vectorgfx.png) ! important;
+	background-image: image-url('mimetypes/vectorgfx.png') ! important;
 }
 .file-ics 
 {
-	background-image: url(../images/mimetypes/vcalendar.png) ! important;
+	background-image: image-url('mimetypes/vcalendar.png') ! important;
 }
  .file-chm 
 ,.file-info 
 ,.file-hlp 
 ,.file-help 
 {
-	background-image: url(../images/mimetypes/info.png) ! important;
+	background-image: image-url('mimetypes/info.png') ! important;
 }
  .file-aac 
 ,.file-ac3 
@@ -197,7 +197,7 @@
 ,.file-wv 
 ,.file-wvc 
 {
-	background-image: url(../images/mimetypes/sound.png) ! important;
+	background-image: image-url('mimetypes/sound.png') ! important;
 }
  .file-asc 
 ,.file-cer 
@@ -214,7 +214,7 @@
 ,.file-pem 
 ,.file-sig 
 {
-	background-image: url(../images/mimetypes/file_locked.png) ! important;
+	background-image: image-url('mimetypes/file_locked.png') ! important;
 }
  .file-bin 
 ,.file-cue 
@@ -223,23 +223,23 @@
 ,.file-mdf 
 ,.file-nrg 
 {
-	background-image: url(../images/mimetypes/cdimage.png) ! important;
+	background-image: image-url('mimetypes/cdimage.png') ! important;
 }
  .file-jar 
 ,.file-java 
 ,.file-class 
 {
-	background-image: url(../images/mimetypes/java_src.png) ! important;
+	background-image: image-url('mimetypes/java_src.png') ! important;
 }
 .file-sql 
 {
-	background-image: url(../images/mimetypes/source_s.png) ! important;
+	background-image: image-url('mimetypes/source_s.png') ! important;
 }
  .file-moov 
 ,.file-mov 
 ,.file-qt 
 {
-	background-image: url(../images/mimetypes/quicktime.png) ! important;
+	background-image: image-url('mimetypes/quicktime.png') ! important;
 }
 
 /* eof */

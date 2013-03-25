@@ -34,10 +34,10 @@
 
 #attachments-view .x-view-over{
   border:1px solid #dddddd;
-  background: #efefef url(../images/default/grid/row-over.gif) repeat-x left top;
+  background: #efefef image-url('default/grid/row-over.gif') repeat-x left top;
 	padding: 4px;
 }
-
+//where is this used?
 #attachments-view .x-view-selected{
 	background: #eff5fb url(images/selected.gif) no-repeat right bottom;
 	border:1px solid #99bbe8;
@@ -49,7 +49,7 @@
 
 #attachments-view .loading-indicator {
 	font-size:11px;
-	background-image:url('../images/default/grid/loading.gif');
+	background-image: image-url('default/grid/loading.gif');
 	background-repeat: no-repeat;
 	background-position: left;
 	padding-left:20px;
@@ -67,7 +67,7 @@
 	margin-bottom:1px;
 	position:relative;
 	background-color:#e0e0e0;
-	background-image:url(../images/white_bg.png);
+	background-image: image-url('white_bg.png');
 	background-repeat:no-repeat
 }
 .ux-up-icon-file {
@@ -75,7 +75,7 @@
 	height:16px;
 	vertical-align:-3px;
 	margin-right:4px;
-	background-image:url(../images/default/tree/leaf.gif);
+	background-image: image-url('default/tree/leaf.gif');
 	float:left;
 }
 .ux-up-item-selected {
@@ -99,19 +99,19 @@
 	z-index:-1;
 }
 .ux-up-icon-queued {
-	background-image:url(../images/silk/page_white_get.png);
+	background-image:image-url('silk/page_white_get.png');
 }
 .ux-up-icon-uploading {
-	background-image:url(../images/default/grid/wait.gif);
+	background-image:image-url('default/grid/wait.gif');
 }
 .ux-up-icon-done {
-	background-image:url(../images/silk/accept.png);
+	background-image:image-url('silk/accept.png');
 }
 .ux-up-icon-failed {
-	background-image:url(../images/silk/error.png);
+	background-image:image-url('silk/error.png');
 }
 .ux-up-icon-stopped {
-	background-image:url(../images/silk/stop.png);
+	background-image:image-url('silk/stop.png');
 }
 .ux-up-text {
 	float:left;
