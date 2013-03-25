@@ -26,7 +26,7 @@ module Dradis
 
     def update
       respond_to do |format|
-        if @note.update_attributes(params[:note])
+        if @note.update_attributes(@note_attrs)
           format.json { render json: {success: true} }
         else
           # ExtJS expects HTTP 200, instead of status: :unprocessable_entity
@@ -53,14 +53,19 @@ module Dradis
     # Once a valid @node is set by the previous filter we look for the Note we
     # are going to be working with based on the :id passed by the user.
     def find_or_initialize_note
+
+      # Because we may need the attrs here and in the :update method, we must
+      # save the clean list in an attribute
+      whitelist = [:text, :category_id]
+      attrs = params[:note] || ActiveSupport::JSON.decode(params[:data], symbolize_keys: true)
+      @note_attrs = attrs.reject{|k,v| !whitelist.include?(k)}
+
       if params[:id]
         unless @note = Note.find(params[:id])
           render_optional_error_file :not_found
         end
       else
-        whitelist = [:text, :category_id]
-        attrs = params[:note] || ActiveSupport::JSON.decode(params[:data], symbolize_keys: true)
-        @note = @node.notes.new( attrs.reject{|k,v| !whitelist.include?(k)} )
+        @note = @node.notes.new(@note_attrs)
         @note.author = current_user
       end
       # TODO
