@@ -1,85 +1,66 @@
-# require 'spec_helper'
-# 
-# describe Attachment do
-#   fixtures :configurations
-# 
-#   before(:each) do
-#   end
-# 
-#   it "should copy the source file into the attachments folder" do
-#     node = Node.create!(:label => 'rspec test')
-# 
-#     attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => node.id )
-#     attachment.save
-#     File.exists?(Attachment.pwd + "#{node.id}/rails.png").should be_true
-# 
-#     node.destroy
-#   end
-# 
-#   it "should be able to find attachments by filename"
-#   it "should be able to find all attachments for a given node"
-#   it "should recognise Ruby file IO and in particular the <<() method"
-#   it "should be re-nameble"
-# end
+require 'spec_helper'
 
-# TestUnit
+describe Dradis::Attachment do
+  # fixtures :configurations
 
-# require File.dirname(__FILE__) + '/../test_helper'
-# 
-# class AttachmentTest < ActiveSupport::TestCase
-#   
-#   require 'fileutils'
-# 
-#   def setup
-#     FileUtils.mkdir(Attachment.pwd) if !File.exists?(Attachment.pwd)
-#   end
-# 
-#   def teardown
-#     FileUtils.rm_rf(Attachment.pwd) if File.exists?(Attachment.pwd)
-#   end
-# 
-#   # Test if the actual file is created in the expected place
-#   def test_should_create_new_file
-#     attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png', :node_id => '1')
-#     attachment.save
-#     assert File.exists?(Attachment.pwd + "/1/rails.png")
-#   end
-# 
-#   # Confirm that an attachment can be found by filename and node_id
-#   def test_should_find_file_by_file_name
-#     attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png', :node_id => '1')
-#     attachment.save
-#     attachment = Attachment.find("rails.png", :conditions => {:node_id => 1})
-#     assert_equal "rails.png", attachment.filename
-#   end
-# 
-#   def test_should_create_new_file_from_file_io
-#     attachment = Attachment.new("rails.png", :node_id => '1')
-#     file_handle = File.new(Rails.root.join('public', 'images', 'rails.png'),'r')
-#     content = file_handle.read
-#     attachment << content
-#     attachment.save
-#     attachment_content = Attachment.find("rails.png", :conditions => {:node_id => 1}).read
-#     assert_equal content, attachment_content
-#   end
-# 
-#   def test_should_get_all_attachments_for_node
-#     attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png', :node_id => '1')
-#     attachment.save
-#     attachment = Attachment.new( Rails.root.join('public', 'images', 'add.gif', :node_id => '1')
-#     attachment.save
-#     attachments = Attachment.find(:all, :conditions => {:node_id => 1})
-#     assert_equal 2, attachments.count
-#   end
-# 
-#   def test_should_rename_filename
-#     attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png', :node_id => '1')
-#     attachment.save
-#     attachment = Attachment.find('rails.png', :conditions => {:node_id => 1})
-#     attachment.filename = 'newrails.png'
-#     attachment.save
-#     assert attachment = Attachment.find('newrails.png', :conditions => {:node_id => 1})
-#     assert_equal 1, Attachment.find(:all).count
-#   end
-# 
-# end
+  before(:each) do
+    FileUtils.mkdir(Dradis::Attachment.pwd) if !File.exists?(Dradis::Attachment.pwd)
+  end
+  after(:each) do
+    FileUtils.rm_rf(Dradis::Attachment.pwd) if File.exists?(Dradis::Attachment.pwd)
+  end
+
+  let(:node){Dradis::Node.create!(label: 'rspec test')}
+
+  it "copies the source file into the attachments folder" do
+    attachment = Dradis::Attachment.new(Rails.root.join('spec', 'fixtures', 'files', 'rails.png'), node_id: node.id)
+    attachment.save
+    File.exists?(Dradis::Attachment.pwd + "#{node.id}/rails.png").should be_true
+
+    node.destroy
+  end
+
+  it "finds attachments by filename" do
+    attachment = Dradis::Attachment.new(Rails.root.join('spec', 'fixtures', 'files', 'rails.png'), node_id: node.id)
+    attachment.save
+
+    attachment = Dradis::Attachment.find('rails.png', conditions: {node_id: node.id})
+    attachment.filename.should eq('rails.png')
+  end
+
+  it "finds all attachments for a given node" do
+    attachment1 = Dradis::Attachment.new(Rails.root.join('spec', 'fixtures', 'files', 'rails.png'), node_id: node.id)
+    attachment1.save
+
+    attachment2 = Dradis::Attachment.new(Rails.root.join('spec', 'fixtures', 'files', 'add.gif'), node_id: node.id)
+    attachment2.save
+
+    attachments = Dradis::Attachment.find(:all, conditions: {node_id: node.id})
+    attachments.count.should eq(2)
+  end
+
+  it "recognizes Ruby file IO and in particular the <<() method" do
+    source = Rails.root.join('spec', 'fixtures', 'files', 'rails.png')
+
+    attachment = Dradis::Attachment.new('rails.png', node_id: node.id)
+    attachment << File.read(source)
+    attachment.save
+
+    destination = Dradis::Attachment.find('rails.png', conditions: {node_id: node.id})
+    destination.size.should eq(source.size)
+    FileUtils.compare_file(source,destination).should be_true()
+  end
+
+  it "can be renamed" do
+    attachment = Dradis::Attachment.new(Rails.root.join('spec', 'fixtures', 'files', 'rails.png'), node_id: node.id)
+    attachment.save
+
+    attachment = Dradis::Attachment.find('rails.png', conditions: {node_id: node.id})
+    attachment.filename = 'newrails.png'
+    attachment.save
+
+    attachment = Dradis::Attachment.find('newrails.png', conditions: {node_id: node.id})
+    Dradis::Attachment.find(:all).count.should eq(1)
+  end
+
+end

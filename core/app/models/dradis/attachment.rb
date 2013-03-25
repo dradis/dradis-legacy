@@ -1,3 +1,4 @@
+module Dradis
 =begin
 **
 ** attachment.rb
@@ -199,4 +200,5 @@ class Attachment < File
   def Attachment.model_name
     ActiveModel::Name.new(self)
   end
+end
 end
