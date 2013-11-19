@@ -40,7 +40,7 @@ describe Dradis::Attachment do
   end
 
   it "recognizes Ruby file IO and in particular the <<() method" do
-    source = Rails.root.join('spec', 'fixtures', 'files', 'rails.png')
+    source = File.new( File.expand_path('../../fixtures/files/rails.png', __FILE__) )
 
     attachment = Dradis::Attachment.new('rails.png', node_id: node.id)
     attachment << File.read(source)
