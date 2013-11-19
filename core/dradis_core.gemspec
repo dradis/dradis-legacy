@@ -24,4 +24,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rails', '~> 3.2.12'
   # gem.add_dependency 'backbone-on-rails'
   # gem.add_dependency 'bootstrap-sass'
+
+  gem.add_development_dependency 'capybara'
+  gem.add_development_dependency 'factory_girl_rails'
+  gem.add_development_dependency 'rspec-rails'
 end

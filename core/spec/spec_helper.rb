@@ -1,5 +1,6 @@
 # Configure Rails Envinronment
 ENV["RAILS_ENV"] ||= 'test'
+
 require File.expand_path("../dummy/config/environment", __FILE__)
 
 require 'rspec/rails'
@@ -10,6 +11,10 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
 require 'database_cleaner'
 require 'factory_girl_rails'
+
+# Make sure we look for the factories in the gem and not in the dummy app
+FactoryGirl.definition_file_paths << File.join(File.dirname(__FILE__), 'factories')
+FactoryGirl.find_definitions
 
 RSpec.configure do |config|
   # == Mock Framework
