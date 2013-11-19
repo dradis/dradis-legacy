@@ -1,7 +1,7 @@
 Welcome to Dradis
 =================
 
-[![Build Status](https://secure.travis-ci.org/dradis/dradis.png)][travis][![Dependency Status](https://gemnasium.com/dradis/dradis.png?travis)][gemnasium]
+[![Build Status](https://secure.travis-ci.org/dradis/dradisframework.png)][travis][![Dependency Status](https://gemnasium.com/dradis/dradisframework.png)][gemnasium]
 
 [travis]: https://secure.travis-ci.org/dradis/dradisframework
 [gemnasium]: https://gemnasium.com/dradis/dradis
