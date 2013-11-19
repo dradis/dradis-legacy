@@ -3,9 +3,9 @@ require 'spec_helper'
 describe Dradis::Core::Configurator do
 
   before(:each) do
-    @config_1 = Configuration.create :name => "spec:test1", :value => "abc"
-    @config_2 = Configuration.create :name => "spec:test2", :value => "def"
-    @config_3 = Configuration.create :name => "some:other", :value => "ghi"
+    @config_1 = Dradis::Configuration.create :name => "spec:test1", :value => "abc"
+    @config_2 = Dradis::Configuration.create :name => "spec:test2", :value => "def"
+    @config_3 = Dradis::Configuration.create :name => "some:other", :value => "ghi"
   end
 
   it "should allow the namespace to be overridden" do
@@ -61,7 +61,7 @@ describe Dradis::Core::Configurator do
       setting :something, :default => 'test'
     end
 
-    Configuration.create(:name => "specs:something", :value => "xyz")
+    Dradis::Configuration.create(:name => "specs:something", :value => "xyz")
 
     configuration.settings.count.should == 1
     configuration.settings.first.value.should == "xyz"
@@ -81,7 +81,7 @@ describe Dradis::Core::Configurator do
       setting :something, :default => 'test'
     end
 
-    Configuration.create(:name => "specs:else", :value => "xyz")
+    Dradis::Configuration.create(:name => "specs:else", :value => "xyz")
 
     configuration.settings.count.should == 2
   end
