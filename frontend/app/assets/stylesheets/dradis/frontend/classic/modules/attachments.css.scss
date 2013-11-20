@@ -1,0 +1,126 @@
+/*
+ * Ext JS Library 2.2
+ * Copyright(c) 2006-2008, Ext JS, LLC.
+ * licensing@extjs.com
+ *
+ * http://extjs.com/license
+ */
+
+#attachments-view .x-panel-body{
+  font: 11px Arial, Helvetica, sans-serif;
+}
+#attachments-view .thumb{
+  padding: 3px;
+}
+#attachments-view .thumb img{
+  height: 16; width: 16;
+}
+#attachments-view .thumb-wrap{
+  float: left;
+  margin: 4px;
+  margin-right: 0;
+  padding: 4px;
+  width: 300px;
+}
+#attachments-view .thumb-wrap span{
+  display: block;
+  overflow: hidden;
+  text-align: center;
+}
+
+#attachments-view .x-view-over{
+  border:1px solid #dddddd;
+  background: #efefef image-url('default/grid/row-over.gif') repeat-x left top;
+  padding: 4px;
+}
+
+//where is this used?
+#attachments-view .x-view-selected{
+  background: #eff5fb url(images/selected.gif) no-repeat right bottom;
+  border:1px solid #99bbe8;
+  padding: 4px;
+}
+
+#attachments-view .x-view-selected .thumb{
+  background:transparent;
+}
+
+#attachments-view .loading-indicator {
+  font-size:11px;
+  background-image: image-url('default/grid/loading.gif');
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left:20px;
+  margin:10px;
+}
+
+
+/* From Saki's FileTree extension: filetree.css */
+
+.ux-up-item {
+  line-height:17px;
+  height:17px;
+  cursor:default;
+/*	border: 1px solid transparent; */
+  margin-bottom:1px;
+  position:relative;
+  background-color:#e0e0e0;
+  background-image: image-url('white_bg.png');
+  background-repeat:no-repeat
+}
+
+.ux-up-icon-file {
+  width:16px;
+  height:16px;
+  vertical-align:-3px;
+  margin-right:4px;
+  background-image: image-url('default/tree/leaf.gif');
+  float:left;
+}
+
+.ux-up-item-selected {
+  /*
+  border-color:#c0c0c0;
+  background-color:#f0f0f0;
+  */
+}
+
+.ux-up-indicator {
+  background-color:yellow;
+  height:17px;
+  width:40px;
+  position:absolute;
+  opacity:0.4;
+}
+
+.ux-up-icon-state {
+  width:16px;
+  float:right;
+  margin-right:2px;
+  cursor:pointer;
+  z-index:-1;
+}
+
+.ux-up-icon-queued {
+  background-image:image-url('silk/page_white_get.png');
+}
+
+.ux-up-icon-uploading {
+  background-image:image-url('default/grid/wait.gif');
+}
+
+.ux-up-icon-done {
+  background-image:image-url('silk/accept.png');
+}
+
+.ux-up-icon-failed {
+  background-image:image-url('silk/error.png');
+}
+
+.ux-up-icon-stopped {
+  background-image:image-url('silk/stop.png');
+}
+
+.ux-up-text {
+  float:left;
+}

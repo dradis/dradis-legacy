@@ -2,12 +2,9 @@
 *= require_self
 *= require ext-all
 *= require xtheme-blue
-*= require dradis/frontend/attachments
-*= require dradis/frontend/icons
-*= require dradis/frontend/filetype
-*= require dradis/frontend/file-upload
-*= require dradis/frontend/dradis
-*= require dradis/frontend/textile
 * require jquery.fileupload-ui
 */
 
+//@import 'dradis/frontend/classic/base';
+@import 'dradis/frontend/classic/layout';
+@import 'dradis/frontend/classic/modules';
