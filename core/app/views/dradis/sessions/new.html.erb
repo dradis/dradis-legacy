@@ -1,14 +1,23 @@
-<%= form_tag session_path do -%>
-  <label for="username">Username</label>
-  <%= text_field_tag 'username', nil, placeholder: 'Choose your username' %></p>
+<section id="content">
+  <%= form_tag session_path do -%>
+    <h1>Dradis Login</h1>
 
-  <label for="password">Password</label>
-  <%= password_field_tag 'password' %>
+    <div>
+      <%= text_field_tag 'username', nil, required: '', placeholder: 'Choose your username' %></p>
+    </div>
 
-  <div>
-  <%= submit_tag 'Log in', class: 'btn' %>
+    <div>
+      <%= password_field_tag 'password', required: '' %>
+    </div>
+
+    <div>
+      <%= submit_tag 'Log in' %>
+    </div>
+  <% end -%>
+
+  <div class="button">
+    <p><strong>Not familiar with Dradis?</strong></p>
+    <p>Checkout the <a href="http://guides.dradisframework.org">Getting started</a> guide.</p>
+    <br/>
   </div>
-<% end -%>
-
-<p><strong>Not familiar with Dradis?</strong><br/>
-Checkout the <a href="http://guides.dradisframework.org">Getting started</a> guide.</p>
+</section>

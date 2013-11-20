@@ -1,41 +1,25 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1" name="viewport">
-    <title>Dradis Framework</title>
-    <%= favicon_link_tag image_path('favicon.ico') %>
-    <%= csrf_meta_tags %>
-    <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script>
-    <![endif]-->
+<!--[if lt IE 7 ]> <html lang="en" class="ie6 ielt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7 ielt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1" name="viewport">
+  <meta charset="utf-8">
+  <title>Dradis Framework</title>
+  <%= favicon_link_tag image_path('favicon.ico') %>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag "application" %>
+</head>
+<body class="preauth">
+  <div class="container">
+    <%= yield %>
+  </div><!-- container -->
 
-    <%= stylesheet_link_tag "application" %>
-  </head>
-  <body class="preauth">
-
-    <div class="container">
-
-      <div class="row">
-        <div class="span4 offset4">
-          <div class="preauth-title">
-            <h1>Dradis Framework</h1>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="span4 offset4">
-          <div class="preauth-modal">
-            <%= yield %>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <%# dradis/all is generated in the target app and will eventually load dradis/dradis_core -%>
-    <%= javascript_include_tag "dradis/all" %>
-  </body>
+  <%# dradis/all is generated in the target app and will eventually load dradis/dradis_core -%>
+  <%= javascript_include_tag "dradis/all" %>
+</body>
 </html>
