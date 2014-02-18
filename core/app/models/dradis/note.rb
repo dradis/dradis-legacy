@@ -26,7 +26,7 @@ module Dradis
   #
   # This behaviour is extensively used by import/export plugins such as WordExport.
   class Note < ActiveRecord::Base
-    attr_accessible :author, :category_id, :node_id, :text
+    # attr_accessible :author, :category_id, :node_id, :text
 
     belongs_to :category
     belongs_to :node, touch: true

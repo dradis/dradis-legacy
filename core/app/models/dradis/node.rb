@@ -2,7 +2,7 @@ module Dradis
   class Node < ActiveRecord::Base
     include ActsAsTree
 
-    attr_accessible :label, :parent_id, :position, :type_id
+    # attr_accessible :label, :parent_id, :position, :type_id
 
     validates :label, presence: true
 

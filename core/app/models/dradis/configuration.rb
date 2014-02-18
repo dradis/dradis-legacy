@@ -3,7 +3,7 @@ module Dradis
   # Each Configuraiton object has a :name and a :value. Some configuration
   # parameters can be accessed through the helper methods provided in this class.
   class Configuration < ActiveRecord::Base
-    attr_accessible :name, :value
+    # attr_accessible :name, :value
 
     validates :name, presence: true, uniqueness: true
     validates :value, presence: true

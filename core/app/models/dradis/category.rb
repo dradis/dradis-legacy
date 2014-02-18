@@ -1,10 +1,9 @@
 module Dradis
   # This class represents a Note category. Each Category has a name.
   class Category < ActiveRecord::Base
-    attr_accessible :name
+    # attr_accessible :name
 
     validates :name, presence: true
-
     before_destroy :valid_destroy
 
     private
