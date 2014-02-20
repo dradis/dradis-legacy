@@ -20,9 +20,18 @@ module Dradis
         # Log.destroy_all if Log.table_exists?
         # Feed.destroy_all if Feed.table_exists?
       end
+
       initializer 'extjs_json' do
         ActiveRecord::Base.include_root_in_json = false
       end
+
+      # initializer 'dradis.core.checking_migrations' do |app|
+      #   Migrations.new(config, engine_name).check
+      # end
     end
   end
 end
+
+# FIXME: should make Routes into a module and include it from the engine
+# instead of re-opening the class.
+require 'dradis/core/routes'
