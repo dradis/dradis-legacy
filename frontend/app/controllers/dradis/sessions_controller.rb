@@ -14,7 +14,7 @@ module Dradis
     # POST /setup
     def setup
           # @password was set by the ensure_valid_password filter
-          c = ::Configuration.find_by_name('password')
+          c = Dradis::Configuration.find_by_name('password')
           c.value = ::Digest::SHA512.hexdigest(@password)
           c.save
           flash[:notice] = 'Password set. Please log in.'
@@ -31,8 +31,8 @@ module Dradis
     # POST /sessions
     def create
       usr = params.fetch(:username, nil)
-      # pwd = params.fetch(:password, nil)
-      if not ( usr.blank? ) #|| pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != ::Configuration.password)
+      pwd = params.fetch(:password, nil)
+      if not ( usr.blank? || pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != Dradis::Configuration.password)
         self.current_user = usr
         redirect_to root_path, notice: 'Logged in successfully'
       else
