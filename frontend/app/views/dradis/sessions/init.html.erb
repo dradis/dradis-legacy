@@ -1,5 +1,5 @@
             <div id="server_init">
-              <%= form_tag :action => 'setup' do -%>
+              <%= form_tag initial_setup_path do -%>
               <h2>Server password</h2>
               <div>This server does not have a password yet, please set up one:</div>
               <div class="form_group">
@@ -12,38 +12,6 @@
                   <%= password_field_tag 'password[confirm_value]', nil, :class => 'password' %>  
                 </div>
               </div>
-  
-              <h2>Meta-Server</h2>
-              <div>You can create a new project or checkout one from the
-              Meta-Server:</div>
-              <div class="form_group">
-                <div>
-                  <label>New project</label>
-                  <%= radio_button_tag 'mode', 'new', @new_project %>
-                </div>
-                <div>
-                  <label>Checkout project</label>
-                  <%= radio_button_tag 'mode', 'meta-server', !@new_project %>
-
-                  <%= hidden_field_tag 'revision', nil %>
-                </div>
-              </div>
               <div class="right clear"><%= submit_tag 'Initialize', :id => 'init', :class => 'submit' %></div>
               <% end -%>
-              <div id="meta_server">
-              <% if @projects %>
-                <%= render :partial => 'project_browser' %>
-              <% else %>
-                <%= render :partial => 'meta_server' %>
-              <% end %>
-              </div>
-
             </div>
-            <script type="text/javascript">
-            $(function(){
-              $("input[name='mode']").change(function(){
-                $("#meta_server").toggle( $("#mode_meta-server").is(":checked") );
-              });
-              <% if @new_project -%>$("#meta_server").hide();<% end -%>
-            });
-            </script>
