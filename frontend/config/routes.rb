@@ -1,7 +1,7 @@
 Dradis::Core::Engine.add_routes do
   # Session management
-  get '/initial_setup' => 'sessions#init'
-  post '/initial_setup' => 'sessions#setup'
+  get '/setup' => 'sessions#init'
+  post '/setup' => 'sessions#setup'
   get '/login' => 'sessions#new', :as => :login
   get '/logout' => 'sessions#destroy', :as => :logout
 
