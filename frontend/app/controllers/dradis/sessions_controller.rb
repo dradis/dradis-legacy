@@ -16,12 +16,12 @@ module Dradis
 
     # POST /setup
     def setup
-          # @password was set by the ensure_valid_password filter
-          c = Dradis::Configuration.find_by_name('password')
-          c.value = ::Digest::SHA512.hexdigest(@password)
-          c.save
-          flash[:notice] = 'Password set. Please log in.'
-              redirect_to :action => :new
+      # @password was set by the ensure_valid_password filter
+      c = Dradis::Configuration.find_by_name('password')
+      c.value = ::BCrypt::Password.create(@password)
+      c.save
+      flash[:notice] = 'Password set. Please log in.'
+      redirect_to :action => :new
     end
     # ------------------------------------------ /Initial shared password setup
 
@@ -35,11 +35,12 @@ module Dradis
     def create
       usr = params.fetch(:username, nil)
       pwd = params.fetch(:password, nil)
-      if not ( usr.blank? || pwd.nil? || ::Digest::SHA512.hexdigest(pwd) != Dradis::Configuration.password)
+      if not ( usr.blank? || pwd.nil? || ::BCrypt::Password.new(Dradis::Configuration.password) != pwd )
         self.current_user = usr
         redirect_to root_path, notice: 'Logged in successfully'
       else
-        flash.now[:error] = 'Try again.'
+        flash.now[:alert] = 'Try again.'
+        @username = usr
         render :action => 'new'
       end
     end

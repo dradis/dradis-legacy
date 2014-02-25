@@ -7,7 +7,9 @@ Gem::Specification.new do |gem|
   gem.version       = version
   gem.summary       = %q{ExtJS frontend for the Dradis Framework project}
   gem.description   = %q{Required dependency for Dradis Framework}
+
   gem.required_ruby_version = '>= 1.9.3'
+  gem.required_rubygems_version = ">= 1.8.11"
   gem.license       = 'GPL-2'
 
 
@@ -22,4 +24,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'acts_as_tree', '~> 1.1.0'
   gem.add_dependency 'rails', '~> 3.2.12'
+  gem.add_dependency 'bcrypt-ruby', '~> 3.1.2'
 end
