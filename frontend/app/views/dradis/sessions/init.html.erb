@@ -1,15 +1,15 @@
             <div id="server_init">
-              <%= form_tag initial_setup_path do -%>
+              <%= form_tag setup_path do -%>
               <h2>Server password</h2>
               <div>This server does not have a password yet, please set up one:</div>
               <div class="form_group">
                 <div>
                   <label for="password">Password</label>
-                  <%= password_field_tag 'password[value]', nil, :class => 'password' %>
+                  <%= password_field_tag :password, nil, :class => 'password' %>
                 </div>
                 <div>
                   <label for="password_confirmation">Confirm Password</label>
-                  <%= password_field_tag 'password[confirm_value]', nil, :class => 'password' %>  
+                  <%= password_field_tag :password_confirmation, nil, :class => 'password' %>
                 </div>
               </div>
               <div class="right clear"><%= submit_tag 'Initialize', :id => 'init', :class => 'submit' %></div>
