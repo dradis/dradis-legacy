@@ -23,6 +23,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'acts_as_tree', '~> 1.1.0'
-  gem.add_dependency 'rails', '~> 3.2.12'
   gem.add_dependency 'bcrypt-ruby', '~> 3.1.2'
+  gem.add_dependency 'bootstrap-sass', '~> 3.1.1.0'
+  gem.add_dependency 'rails', '~> 4.0.3'
 end

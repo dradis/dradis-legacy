@@ -7,7 +7,9 @@ Gem::Specification.new do |gem|
   gem.version       = version
   gem.summary       = %q{Core functionality for the Dradis Framework project}
   gem.description   = %q{Required dependency for Dradis Framework}
+
   gem.required_ruby_version = '>= 1.9.3'
+  gem.required_rubygems_version = ">= 1.8.11"
   gem.license       = 'GPL-2'
 
 
@@ -21,11 +23,12 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'acts_as_tree', '~> 1.1.0'
-  gem.add_dependency 'rails', '~> 3.2.12'
+  # gem.add_dependency 'rails', '~> 3.2.12'
+  gem.add_dependency 'rails', '~> 4.0.3'
   # gem.add_dependency 'backbone-on-rails'
   # gem.add_dependency 'bootstrap-sass'
 
-  gem.add_development_dependency 'capybara'
-  gem.add_development_dependency 'factory_girl_rails'
-  gem.add_development_dependency 'rspec-rails'
+  # gem.add_development_dependency 'capybara'
+  # gem.add_development_dependency 'factory_girl_rails'
+  # gem.add_development_dependency 'rspec-rails'
 end
