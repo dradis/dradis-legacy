@@ -1,13 +1,8 @@
 Rails.application.routes.draw do
-  resources :users
-  resource :session
-  match '/login' => 'sessions#new', :as => :login
-  match '/logout' => 'sessions#destroy', :as => :logout
 
-  match '/wizard' => 'wizard#index', :as => :wizard
-
-  resources :configurations
   resources :categories
+  resources :configurations
+
   resources :feeds
 
   resources :nodes do
@@ -18,6 +13,12 @@ Rails.application.routes.draw do
     end
   end
 
-  root :to => 'home#index'
-  match '/:controller(/:action(/:id))'
+  resource :session
+  resources :users
+
+  get '/login' => 'sessions#new', as: :login
+  get '/logout' => 'sessions#destroy', as: :logout
+  get '/wizard' => 'wizard#index', as: :wizard
+
+  root to: 'home#index'
 end
