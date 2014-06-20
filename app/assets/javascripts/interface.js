@@ -17,7 +17,6 @@ var newnotes = new Ext.Panel({ title: 'New notes', autoScroll: true });
 
 var importer = new dradis.importer.Panel();
 var attachments = new dradis.attachments.AttachmentsPanel();
-var feedsWindow = new dradis.feeds.FeedsWindow();
 
 importer.setImportStore( plugins.getImportPluginsStore() );
 
@@ -67,19 +66,7 @@ var dradisstatus = new Ext.ux.StatusBar({
             }
           }
         }
-      },
-      {
-        id: 'rss-icon',
-        iconCls: 'rss-off',
-        listeners: {
-            click:function(){
-                feedsWindow.refresh();
-                feedsWindow.show();
-                feedsWindow.center();
-            }
-        }
       }
-
     ]
 });
 

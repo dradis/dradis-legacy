@@ -20,30 +20,18 @@ class RevisionObserver < ActiveRecord::Observer
   # This method is called every time an object of the observed classes is saved.
   def after_create(record)
     Configuration.increment_revision()
-    Feed.create(:action => 'created',
-      :actioned_at => record.updated_at,
-      :resource => record.class.to_s.downcase,
-      :value => Feed.extract_rss_value(record))
     log_change('create', record)
   end
 
   # This method is called every time an object of the observed classes is saved.
   def after_update(record)
     Configuration.increment_revision()
-    Feed.create(:action => 'updated',
-      :actioned_at => record.updated_at,
-      :resource => record.class.to_s.downcase,
-      :value => Feed.extract_rss_value(record))
     log_change('update', record)
   end
 
   # This method is called every time an object of the observed classes is deleted.
   def after_destroy(record)
     Configuration.increment_revision()
-    Feed.create(:action => 'deleted',
-      :actioned_at => record.updated_at,
-      :resource => record.class.to_s.downcase,
-      :value => Feed.extract_rss_value(record))
     log_change('destroy', record)
   end
 end

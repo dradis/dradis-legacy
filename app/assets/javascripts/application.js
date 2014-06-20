@@ -19,7 +19,6 @@
 //= require dx/dradis.notes.NotePreviewPanel
 //= require dx/dradis.notes.NoteEditorWindow
 //= require dx/dradis.notes.NotesBrowserPanel
-//= require dx/dradis.feeds.FeedsWindow
 
 //= require thebrain
 //= require nodestree
