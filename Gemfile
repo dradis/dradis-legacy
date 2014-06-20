@@ -65,7 +65,7 @@ gem 'ruby-nmap'
 gem 'rubyzip', '~> 0.9.6.1'
 
 # Command line interface
-gem 'thor', '0.14.6'
+gem 'thor', '~> 0.19.1'
 
 
 # ------------------------------------------------------------------ Test & Dev
