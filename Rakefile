@@ -4,10 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-#begin
-#  require 'delayed/tasks'
-#rescue LoadError
-#  STDERR.puts "Run `bundler install` to install delayed_job"
-#end
-
-Dradis::Application.load_tasks
+Rails.application.load_tasks

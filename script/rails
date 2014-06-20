@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # This command will automatically be run when you run "rails" with Rails 3 gems installed from the root of your application.
 
+# FIXME!!
+
 require 'rubygems'
 require 'rails/commands/server'
 require 'rack'

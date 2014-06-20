@@ -4,9 +4,9 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
 
-  # See ActionController::RequestForgeryProtection for details
-  # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => 'f03fd569848374a6c0110c829c91ef57'
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery
   
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem  
