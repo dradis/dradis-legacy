@@ -3,4 +3,4 @@
 Rails.logger.info "Clearing old Logs and Feeds..."
 
 Log.destroy_all if Log.table_exists?
-Feed.destroy_all if Feed.table_exists?
+
