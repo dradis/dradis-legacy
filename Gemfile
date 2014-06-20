@@ -40,6 +40,8 @@ gem 'spring',        group: :development
 
 # --------------------------------------------------------- Dradis dependencies
 
+# Dradis::Core
+gemspec path: 'engines/core'
 
 # In Production we need to be able to compile assets
 # gem 'execjs'

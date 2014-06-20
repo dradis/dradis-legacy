@@ -1,3 +1,9 @@
+PATH
+  remote: engines/core
+  specs:
+    dradis_core (3.0.0)
+      rails (~> 4.1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -191,6 +197,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.0.0)
   database_cleaner
+  dradis_core!
   factory_girl (~> 2.6.4)
   guard-rspec
   jbuilder (~> 2.0)
