@@ -24,34 +24,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  # If the user chooses 'Change Meta-Server', this method will reset all the
-  # internal variables so she can start choosing a new Meta-Server from the
-  # begining.
-  def change_metaserver
-    session[:meta_server] = nil
-    render :update do |page|
-      page.replace_html 'meta_server', :partial => 'meta_server'
-    end
-  end
-
-  # When the user chooses 'Checkout from Meta-Server' this action will retrieve
-  # the available projects from the Meta-Server for the user to choose from.
-  def get_projects
-    render :update do |page|
-      @projects = nil
-      begin
-        meta_server = session[:meta_server] || MetaServer.new( params.fetch( :meta_server, {} ) )
-        @projects = Project.find_from_metaserver(meta_server)
-        session[:meta_server] = meta_server
-
-        page.replace_html 'meta_server', :partial => 'project_browser'
-      rescue Exception => e
-        flash.now[:meta_server] = e.message
-        page.replace_html 'meta_server', :partial => 'meta_server'
-      end
-    end
-  end
-  
   # Once the user submits the settings form we initialise the database, note 
   # that the ensure_valid_password and ensure_valid_metaserver_settings filters
   # have performed the necessary validation of the supplied input
@@ -85,9 +57,6 @@ class SessionsController < ApplicationController
         :file => Attachment.new(:filename => 'revision_import.zip', 
                                 :node_id => uploadsNode.id) 
       )
-
-      ::Configuration.create( :name => 'mode', :value => 'meta-server' )
-      ::Configuration.create( :name => 'project', :value => @project_revision.prefix_options[:project_id].to_s )
     end
 
     flash[:notice] =  'Password set. Please log in.'
@@ -149,17 +118,6 @@ class SessionsController < ApplicationController
     return first_login
   end
 
-  # Ensure that we keep the choosen preferences by the user, just in case a 
-  # validation does fail, the user should still be presented with the right
-  # interface
-  def update_user_selection
-    @mode = params.fetch(:mode, nil)
-    # Just in case validation fails, ensure that the checkboxes have the right
-    # selection
-    session[:meta_server] = nil if (@mode == 'new')
-    @new_project = session[:meta_server] ? false : true
-  end
-
   # Ensure that the user has provided a valid password, that the password 
   # matches the confirmation and that they are not empty.
   def ensure_valid_password
@@ -187,61 +145,6 @@ class SessionsController < ApplicationController
     end
  
     @password = pwd1
-    return true
-  end
-
-  # Check that a user has choosen a revision if running in meta-server @mode
-  def ensure_valid_metaserver_settings
-    # Step 2: Ensure that we have a Revision, if the user has chosen meta-server mode
-    revision = params.fetch(:revision, nil)
-
-    if (@mode.nil? || ((@mode!='meta-server') & (@mode!='new')))
-      flash[:error] = 'You have to choose a valid mode'
-      redirect_to :action => :init
-      return false
-    end
-
-    if (@mode == 'meta-server') && revision.nil? 
-      flash[:error] = 'You have to choose a revision to checkout'
-      redirect_to :action => :init
-      return false
-    end
-
-    if (@mode == 'meta-server') && session[:meta_server].nil?
-      # TODO: this should never happen!!
-      #flash[:error] = 'You have to choose a revision to checkout'
-      redirect_to :action => :init
-      return      
-    end
-    
-    
-    @project_revision = nil
-    if ( !@new_project )
-      project, revision = revision.split('_')
-      p_id = project.to_i
-      r_id = revision.to_i
-      begin
-        Project.site_from_metaserver( session[:meta_server] )
-        project = Project.find(p_id)
-        revision_found = false
-        project.attributes['revisions'].each do |rev|
-          next if (rev.id != r_id)
-          revision_found = true
-          @project_revision = rev
-        end
-
-        if !revision_found
-          flash[:error] = 'Invalid revision'
-          redirect_to :action => :init
-          return      
-        end
-      rescue
-          flash[:error] = 'Invalid revision'
-          redirect_to :action => :init
-          return      
-      end
-    end
-   
     return true
   end
 end
