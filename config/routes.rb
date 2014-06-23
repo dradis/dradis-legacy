@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount Frontend.engine => '/', as: 'frontend'
+  mount Dradis::Frontend::Engine => '/', as: 'frontend'
 end
