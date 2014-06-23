@@ -14,6 +14,9 @@ Dradis::Frontend::Engine.routes.draw do
 
   get '/login' => 'sessions#new', as: :login
   get '/logout' => 'sessions#destroy', as: :logout
+  # These routes allow users to set the shared password
+  get '/setup' => 'sessions#init'
+  post '/setup' => 'sessions#setup'
 
   root to: 'home#index'
 end

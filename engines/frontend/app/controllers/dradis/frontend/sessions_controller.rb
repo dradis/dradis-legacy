@@ -3,9 +3,9 @@ require 'bcrypt'
 module Dradis
   module Frontend
     class SessionsController < Dradis::Frontend::ApplicationController
-      before_action :ensure_setup, :only => :new
-      before_action :ensure_not_setup, :only => [:init, :setup]
-      before_action :ensure_valid_password, :only => :setup
+      before_action :ensure_setup, only: :new
+      before_action :ensure_not_setup, only: [:init, :setup]
+      before_action :ensure_valid_password, only: :setup
 
       # ------------------------------------------- Initial shared password setup
       # Initialise the session, clear any objects that might currently exist and
