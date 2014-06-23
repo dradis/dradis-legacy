@@ -7,15 +7,15 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery
-  
+
   # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem  
-  
+  include AuthenticatedSystem
+
   before_filter :show_first_time_wizard
 
   # This filter would display the 'First Time' wizard the first time dradis is
   # run in this box. 
-  # In order to do this it checks for the presence of the 
+  # In order to do this it checks for the presence of the
   # config/first_login.txt file and if not found, it creates it and presents
   # the user with the wizard view.
   def show_first_time_wizard

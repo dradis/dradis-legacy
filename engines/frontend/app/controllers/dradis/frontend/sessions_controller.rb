@@ -1,15 +1,15 @@
 require 'digest/sha2'
-# This controller handles the login/logout function of the site.  
+# This controller handles the login/logout function of the site.
 class SessionsController < ApplicationController
   layout 'banner'
-  
+
   before_filter :check_test_password, :only => :new
 
   # Validate user settings before seting up the new project
   before_filter :update_user_selection, :only => :setup
   before_filter :ensure_valid_password, :only => :setup
   before_filter :ensure_valid_metaserver_settings, :only => :setup
-  
+
   # Initialise the session, clear any objects that might currently exist and
   # present the session start up configuration HTML form.
   def init
@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  # Once the user submits the settings form we initialise the database, note 
+  # Once the user submits the settings form we initialise the database, note
   # that the ensure_valid_password and ensure_valid_metaserver_settings filters
   # have performed the necessary validation of the supplied input
   def setup
@@ -33,7 +33,6 @@ class SessionsController < ApplicationController
       return
     end
 
-   
     # Step 3: Initialise the project
     # @password was set by the ensure_valid_password filter
     c = ::Configuration.find_by_name('password')
@@ -53,9 +52,9 @@ class SessionsController < ApplicationController
       end
 
       # Unpack, restore the DB and attachments
-      ProjectPackageUpload.import( 
-        :file => Attachment.new(:filename => 'revision_import.zip', 
-                                :node_id => uploadsNode.id) 
+      ProjectPackageUpload.import(
+        :file => Attachment.new(:filename => 'revision_import.zip',
+                                :node_id => uploadsNode.id)
       )
     end
 
@@ -82,7 +81,7 @@ class SessionsController < ApplicationController
       render :action => 'new'
     end
   end
-  
+
   # Logout action. Reset the session.
   def destroy
     #self.current_user.forget_me if logged_in?
@@ -94,7 +93,7 @@ class SessionsController < ApplicationController
 
   protected
   # before filter, if the database doesn't contain a valid password, a new
-  # one is created.  
+  # one is created.
   def check_test_password
     if ::Configuration.password.nil?
       render :action => :not_ready
@@ -118,7 +117,7 @@ class SessionsController < ApplicationController
     return first_login
   end
 
-  # Ensure that the user has provided a valid password, that the password 
+  # Ensure that the user has provided a valid password, that the password
   # matches the confirmation and that they are not empty.
   def ensure_valid_password
     # Step 1:  Password and Password confirmation match
@@ -128,22 +127,22 @@ class SessionsController < ApplicationController
       redirect_to :action => :init
       return false
     end
-    
+
     pwd1 = pwd.fetch( :value, nil )
     pwd2 = pwd.fetch( :confirm_value, nil )
-    
+
     if (pwd1.nil? || pwd2.nil? || pwd1.blank?)
       flash[:error] = 'You need to provide both a password and a confirmation.'
       redirect_to :action => :init
       return false
     end
-    
+
     if not pwd1 == pwd2
       flash[:error] = 'The password did not match the confirmation.'
       redirect_to :action => :init
       return false
     end
- 
+
     @password = pwd1
     return true
   end
