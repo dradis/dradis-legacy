@@ -6,6 +6,12 @@ class CreateDradisTables < ActiveRecord::Migration
       t.timestamps
     end
 
+    create_table :dradis_configurations do |t|
+      t.string :name
+      t.string :value
+      t.timestamps
+    end
+
     create_table :dradis_notes do |t|
       t.string :author
       t.text :text
@@ -25,6 +31,7 @@ class CreateDradisTables < ActiveRecord::Migration
 
   def self.down
     drop_table :dradis_categories
+    drop_table :configurations
     drop_table :dradis_notes
     drop_table :dradis_nodes
   end
