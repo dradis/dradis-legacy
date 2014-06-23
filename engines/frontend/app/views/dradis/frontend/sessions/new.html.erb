@@ -17,10 +17,10 @@
 <% end -%>
 
 <script type="text/javascript">
-	var login = document.getElementById('login');
- 	if(login){
+  var login = document.getElementById('login');
+  if(login){
     login.onfocus = function(){
-			if(login.value == '[choose a username]'){
+      if(login.value == '[choose a username]'){
         login.value = '';
         login.style.color = '#000';
       }
@@ -32,12 +32,9 @@
         login.style.color = '#777';
       }
     };
-		
+
     if(login.value == ''){
       login.value = '[choose a username]';
     }
   }
 </script>
-
-
-
