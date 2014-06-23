@@ -1,0 +1,10 @@
+/*
+ *= require_self
+ */
+body.authenticated {
+  background-color: green;
+}
+
+body.unauthenticated {
+  background-color: red;
+}

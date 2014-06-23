@@ -10,6 +10,9 @@ module Dradis
           end
         end
       end
-    end
+
+      initializer 'frontend.asset_precompile_paths' do |app|
+        app.config.assets.precompile += ["dradis/frontend/manifests/*"]
+      end
   end
 end
