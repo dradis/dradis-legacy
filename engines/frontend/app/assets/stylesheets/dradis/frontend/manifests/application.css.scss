@@ -1,6 +1,10 @@
 /*
  *= require_self
  */
+
+@import 'bootstrap';
+@import 'bootstrap-responsive';
+
 body.authenticated {
   background-color: green;
 }

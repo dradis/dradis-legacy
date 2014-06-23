@@ -4,6 +4,15 @@ PATH
     dradis_core (3.0.0)
       rails (~> 4.1.1)
 
+PATH
+  remote: engines/frontend
+  specs:
+    dradis_frontend (3.0.0)
+      bcrypt (~> 3.1.7)
+      bootstrap-sass (~> 2.3.2.2)
+      rails (~> 4.1.1)
+      warden (~> 1.2.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -35,6 +44,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    bcrypt (3.1.7)
+    bootstrap-sass (2.3.2.2)
+      sass (~> 3.2)
     builder (3.2.2)
     capybara (2.3.0)
       mime-types (>= 1.16)
@@ -185,6 +197,8 @@ GEM
     uglifier (2.5.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    warden (1.2.3)
+      rack (>= 1.0)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -198,6 +212,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner
   dradis_core!
+  dradis_frontend!
   factory_girl (~> 2.6.4)
   guard-rspec
   jbuilder (~> 2.0)
