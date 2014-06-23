@@ -2,6 +2,8 @@ module Dradis
   module Core
     # This class represents a Note category. Each Category has a name.
     class Category < ActiveRecord::Base
+      self.table_name = 'dradis_categories'
+
       # Virtual attribute:
       #   * Set by the CategoriesController when modifying a category
       #   * Used by the RevisionObserver to track record changes

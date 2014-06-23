@@ -4,6 +4,8 @@
 module Dradis
   module Core
     class Configuration < ActiveRecord::Base
+      self.table_name = 'dradis_configurations'
+
       validates :name,
         presence: true,
         uniqueness: true

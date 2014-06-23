@@ -7,6 +7,8 @@ module Dradis
     # Each Node has a :parent node and a :label. Nodes can also have many
     # Attachment objects associated with them.
     class Node < ActiveRecord::Base
+      self.table_name = 'dradis_nodes'
+
       attr_accessible :label, :parent_id, :position, :type_id
 
       # Virtual attribute:
