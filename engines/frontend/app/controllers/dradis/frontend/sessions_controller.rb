@@ -1,5 +1,11 @@
-require 'bcrypt'
-
+# Dradis::Frontend::SessionsController
+#
+# This controller is in charge of setting up the shared password if none exists
+# yet (e.g. the app has just been installed or resetted).
+#
+# It also delegates authentication to Warden once the shared password has been
+# properly configured.
+#
 module Dradis
   module Frontend
     class SessionsController < Dradis::Frontend::ApplicationController
@@ -18,11 +24,11 @@ module Dradis
       # POST /setup
       def setup
         # @password was set by the ensure_valid_password filter
-        c = Dradis::Configuration.find_by_name('password')
+        c = Dradis::Core::Configuration.find_by_name('password')
         c.value = ::BCrypt::Password.create(@password)
         c.save
         flash[:notice] = 'Password set. Please log in.'
-        redirect_to :action => :new
+        redirect_to action: :new
       end
       # ------------------------------------------ /Initial shared password setup
 
@@ -30,26 +36,19 @@ module Dradis
 
       # GET /login
       def new
+        flash.now[:alert] = warden.message if warden.message.present?
       end
 
       # POST /sessions
       def create
-        usr = params.fetch(:username, nil)
-        pwd = params.fetch(:password, nil)
-        if not ( usr.blank? || pwd.nil? || ::BCrypt::Password.new(Dradis::Configuration.password) != pwd )
-          self.current_user = usr
-          redirect_to root_path, notice: 'Logged in successfully'
-        else
-          flash.now[:alert] = 'Try again.'
-          @username = usr
-          render :action => 'new'
-        end
+        warden.authenticate!
+        redirect_to root_path, notice: 'Logged in successfully'
       end
 
       # GET /logout
       def destroy
-        reset_session
-        redirect_to root_url, :notice => 'You have been logged out.'
+        logout
+        redirect_to root_url, notice: 'You have been logged out.'
       end
 
       protected
@@ -67,7 +66,7 @@ module Dradis
       # Only allow access to the setup actions if we still don't have a valid
       # shared password.
       def ensure_not_setup
-        redirect_to :action => :new unless (Dradis::Core::Configuration.password == 'improvable_dradis')
+        redirect_to action: :new unless (Dradis::Core::Configuration.password == 'improvable_dradis')
       end
 
       # Ensure that the user has provided a valid password, that the password

@@ -1,40 +1,37 @@
-<p id="wizard">Not familiar with Dradis? Checkout the <%= link_to 'Wizard', wizard_path %></a>.</p>
-<p>You will only be able to log in if you know this server's password.</p>
+<div class="page-header">
+  <h1>Welcome, please sign in</h1>
+</div>
 
-<%= form_tag session_path do -%>
-<p><label for="login">Login</label><br/>
-<%= text_field_tag 'login', '[choose a username]', :style => 'color: #777;', :class => 'text' %></p>
+<%= form_tag session_path, class: 'form-horizontal' do -%>
+  <p class="lead">You will only be able to log in if you know this server's password.</p>
+  <% if flash[:alert] %>
+  <div class="alert alert-error">
+    <%= flash[:alert] %>
+  </div>
+  <% end %>
+  <% if flash[:notice] %>
+  <div class="alert alert-info">
+    <%= flash[:notice] %>
+  </div>
+  <% end %>
 
-<p><label for="password">Password</label><br/>
-<%= password_field_tag 'password', nil, :class => 'password' %></p>
+  <div class="control-group">
+    <label class="control-label" for="username">User name</label>
+    <div class="controls">
+      <%= text_field_tag 'username', nil, placeholder: 'Choose any user name you want', class: 'input-xlarge' %>
+    </div>
+  </div>
 
-<!-- Uncomment this if you want this functionality
-<p><label for="remember_me">Remember me:</label>
-<%= check_box_tag 'remember_me' %></p>
--->
+  <div class="control-group">
+    <label class="control-label" for="password">Password</label>
+    <div class="controls">
+      <%= password_field_tag 'password', nil, class: 'input-xlarge' %></p>
+    </div>
+  </div>
 
-<div class="right"><%= submit_tag 'Log in', :class => 'submit' %></div>
+  <div class="control-group">
+    <div class="controls">
+      <%= submit_tag 'Let me in!', class: 'btn' %>
+    </div>
+  </div>
 <% end -%>
-
-<script type="text/javascript">
-  var login = document.getElementById('login');
-  if(login){
-    login.onfocus = function(){
-      if(login.value == '[choose a username]'){
-        login.value = '';
-        login.style.color = '#000';
-      }
-    };
-
-    login.onblur = function(){
-      if(login.value == ''){
-        login.value = '[choose a username]';
-        login.style.color = '#777';
-      }
-    };
-
-    if(login.value == ''){
-      login.value = '[choose a username]';
-    }
-  }
-</script>

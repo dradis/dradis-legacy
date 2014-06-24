@@ -1,49 +1,29 @@
-            <div id="server_init">
-              <%= form_tag :action => 'setup' do -%>
-              <h2>Server password</h2>
-              <div>This server does not have a password yet, please set up one:</div>
-              <div class="form_group">
-                <div>
-                  <label for="password">Password</label>
-                  <%= password_field_tag 'password[value]', nil, :class => 'password' %>
-                </div>
-                <div>
-                  <label for="password_confirmation">Confirm Password</label>
-                  <%= password_field_tag 'password[confirm_value]', nil, :class => 'password' %>
-                </div>
-              </div>
+<div class="page-header">
+  <h1>Configure the shared password</h1>
+</div>
 
-              <h2>Meta-Server</h2>
-              <div>You can create a new project or checkout one from the
-              Meta-Server:</div>
-              <div class="form_group">
-                <div>
-                  <label>New project</label>
-                  <%= radio_button_tag 'mode', 'new', @new_project %>
-                </div>
-                <div>
-                  <label>Checkout project</label>
-                  <%= radio_button_tag 'mode', 'meta-server', !@new_project %>
-
-                  <%= hidden_field_tag 'revision', nil %>
-                </div>
-              </div>
-              <div class="right clear"><%= submit_tag 'Initialize', :id => 'init', :class => 'submit' %></div>
-              <% end -%>
-              <div id="meta_server">
-              <% if @projects %>
-                <%= render :partial => 'project_browser' %>
-              <% else %>
-                <%= render :partial => 'meta_server' %>
-              <% end %>
-              </div>
-
-            </div>
-            <script type="text/javascript">
-            $(function(){
-              $("input[name='mode']").change(function(){
-                $("#meta_server").toggle( $("#mode_meta-server").is(":checked") );
-              });
-              <% if @new_project -%>$("#meta_server").hide();<% end -%>
-            });
-            </script>
+<%= form_tag({action: 'setup'}, {class: 'form-horizontal'}) do -%>
+  <p class="lead">This server does not have a password yet, please set up one:</p>
+  <% if flash[:alert]%>
+  <div class="alert alert-warning">
+    <%= flash[:alert] %>
+  </div>
+  <% end %>
+  <div class="control-group">
+    <label class="control-label" for="password">Password</label>
+    <div class="controls">
+      <%= password_field_tag :password, nil %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="password_confirmation">Confirm Password</label>
+    <div class="controls">
+      <%= password_field_tag :password_confirmation, nil %>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Set password and continue</button>
+    </div>
+  </div>
+<% end -%>

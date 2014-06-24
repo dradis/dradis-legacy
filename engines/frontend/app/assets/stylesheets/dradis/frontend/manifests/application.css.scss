@@ -5,10 +5,20 @@
 @import 'bootstrap';
 @import 'bootstrap-responsive';
 
+
+#status {
+  float: right;
+  padding: 5px;
+}
+
 body.authenticated {
-  background-color: green;
+  #status {
+   background-color: green;
+  }
 }
 
 body.unauthenticated {
-  background-color: red;
+  #status {
+    background-color: red;
+  }
 }

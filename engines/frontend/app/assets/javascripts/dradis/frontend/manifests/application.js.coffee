@@ -4,7 +4,7 @@
 
 jQuery ->
   if $('body').hasClass('unauthenticated')
-    $('body').
-      removeClass('unauthenticated').
+    $('#status').
+      css('background-color', 'inherit').
       addClass('alert').
       addClass('alert-error')
