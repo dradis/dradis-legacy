@@ -1,0 +1,13 @@
+# Select the Framework plugins you want to use. Uncomment to enable, comment to
+# disable.
+#
+# After making changes run the following to update dependencies:
+#   $ bundle
+
+# Export plugin
+gem 'dradis-html_export', path: '../dradis-html_export'
+
+
+
+# Upload plugins
+gem 'dradis-burp', path: '../dradis-burp'

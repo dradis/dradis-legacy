@@ -15,3 +15,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Application configuration files
+/Gemfile.plugins
+/config/database.yml 
