@@ -285,9 +285,10 @@ Ext.ux.UploadPanel = Ext.extend(Ext.Panel, {
 					+ '<div class="ux-up-item">'
 //					+ '<div class="ux-up-indicator">&#160;</div>'
 					+ '<div class="ux-up-icon-file {fileCls}">&#160;</div>'
-					+ '<div class="ux-up-text x-unselectable" qtip="{fileName}">{shortName}</div>'
+					+ '<div class="ux-up-text x-unselectable" qtip="{fileName:htmlEncode}">{shortName:htmlEncode}</div>'
 					+ '<div id="remove-{[values.input.id]}" class="ux-up-icon-state ux-up-icon-{state}"'
-					+ 'qtip="{[this.scope.getQtip(values)]}">&#160;</div>'
+          // + 'qtip="{[this.scope.getQtip(values)]}">&#160;</div>'
+          + '>&#160;</div>'
 					+ '</div>'
 					+ '</tpl>'
 					, {scope:this}

@@ -21,9 +21,9 @@ dradis.attachments.FileViewPanel=Ext.extend(Ext.Panel, {
   fields:{},
   template: new Ext.XTemplate( 
     '<tpl for=".">',
-      '<div class="thumb-wrap" id="{filename}" style="border:1px solid #ccc;">',
-        '<div class="thumb"><div class="ux-up-icon-file file-{extension}"></div></div>',
-        '<span class="x-editable">{filename}</span>',
+      '<div class="thumb-wrap" id="{filename:htmlEncode}" style="border:1px solid #ccc;">',
+        '<div class="thumb"><div class="ux-up-icon-file file-{extension:htmlEncode}"></div></div>',
+        '<span class="x-editable">{filename:htmlEncode}</span>',
         '<div style="float:right;">{sizeString}</div>',
         '<div style="clear-both;"></div>',
       '</div>',
