@@ -8,6 +8,8 @@
 gem 'dradis-html_export', path: '../dradis-html_export'
 
 
-
 # Upload plugins
 gem 'dradis-burp', path: '../dradis-burp'
+gem 'dradis-nessus', path: '../dradis-nessus'
+
+
