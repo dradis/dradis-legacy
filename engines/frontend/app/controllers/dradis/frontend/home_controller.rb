@@ -22,6 +22,18 @@ module Dradis
         # if Log.where(:uid=>0).count > 0
         #   @last_audit = Log.where(:uid => 0).order('created_at desc').limit(1)[0].id
         # end
+        @plugins = {
+          addon: [],
+          export: [],
+          import: [],
+          upload: [],
+          theme: []
+        }
+        Dradis::Plugins.list.each do |plugin|
+          @plugins.keys.each do |feature|
+            @plugins[feature] << plugin if plugin.provides?(feature)
+          end
+        end
       end
 
       # Returns the Textile version of a text passed as parameter
