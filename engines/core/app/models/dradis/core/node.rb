@@ -1,15 +1,15 @@
+# Dradis Note objects are associated with a Node. It is possible to create a
+# tree structure of Nodes to hierarchically structure the information held
+# in the repository.
+#
+# Each Node has a :parent node and a :label. Nodes can also have many
+# Attachment objects associated with them.
+#
+
 module Dradis
   module Core
-    # Dradis Note objects are associated with a Node. It is possible to create a
-    # tree structure of Nodes to hierarchically structure the information held
-    # in the repository.
-    #
-    # Each Node has a :parent node and a :label. Nodes can also have many
-    # Attachment objects associated with them.
     class Node < ActiveRecord::Base
       self.table_name = 'dradis_nodes'
-
-      attr_accessible :label, :parent_id, :position, :type_id
 
       # Virtual attribute:
       #   * Set by the NotesController when modifying a note
@@ -17,31 +17,19 @@ module Dradis
       attr_accessor :updated_by
 
       acts_as_tree
-      validates_presence_of :label
-      has_many :notes, :dependent => :destroy
+      has_many :notes, dependent: :destroy
+
+      validates :label, presence: true
 
       before_destroy :destroy_attachments
-      before_save {|record| record.position = 0 unless record.position }
-
-      # Return the JSON structure representing this Node and any child nodes
-      # associated with it.
-      def as_json(options={})
-        json = {
-          :text => self.label,
-          :id => self.attributes['id'],
-          :type => self.type_id || 0,
-          :position => self.position || 0,
-          :parent_id => self.parent_id
-        }
-        if (self.children.any?)
-          json[:children] = self.children.sort{|a,b| (a.position||0) <=> (b.position||0) }
-        end
-        return json
+      before_save do |record|
+        record.type_id = Types::DEFAULT unless record.type_id
+        record.position = 0 unless record.position
       end
 
       # Return all the Attachment objects associated with this Node.
       def attachments
-        Attachment.find(:all, :conditions => {:node_id => self.id})
+        Attachment.find(:all, conditions: {node_id: self.id})
       end
 
       private
@@ -55,6 +43,8 @@ module Dradis
       module Types
         DEFAULT = 0
         HOST = 1
+        METHODOLOGY = 2
+        ISSUELIB = 3
       end
     end
   end
