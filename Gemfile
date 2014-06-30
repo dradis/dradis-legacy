@@ -43,7 +43,7 @@ gemspec path: 'engines/frontend'
 
 
 # Dradis::Plugins manage the list of available / loaded external plugins
-gem 'dradis-plugins', github: 'dradis/dradis-plugins'
+gem 'dradis-plugins', path: '../dradis-plugins'
 
 
 
@@ -58,6 +58,9 @@ gem 'jquery-fileupload-rails'
 
 
 # ------------------------------------------------------------------ Other gems
+
+# The Node collection acts as a tree
+gem 'acts_as_tree', '~> 1.6'
 
 # Manipulate XML
 gem 'builder'
