@@ -1,0 +1,20 @@
+<div class="page-header">
+  <h1>Dradis Framework</h1>
+</div>
+
+<div class="pull-right">
+  <p>authenticated as <%= current_user %>! <%= link_to 'Log out', logout_path %></p>
+</div>
+
+<p class="lead">The list of loaded modules:</p>
+
+<% @plugins.each do |feature, list| %>
+<section>
+  <h2><%= feature.to_s.titleize %></h2>
+  <ul>
+  <% list.each do |plugin| %>
+    <li><%= plugin %></li>
+  <% end %>
+  </ul>
+</section>
+<% end %>
