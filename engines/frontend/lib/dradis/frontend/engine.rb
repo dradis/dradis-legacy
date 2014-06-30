@@ -15,21 +15,13 @@ module Dradis
         app.config.assets.precompile += ["dradis/frontend/manifests/*"]
       end
 
+      # Install the Warden middleware in the application's stack. We use our own
+      # shared password strategy.
       initializer 'frontend.warden' do |app|
-
         Rails.configuration.middleware.use Warden::Manager do |manager|
           manager.default_strategies :shared_password
           manager.failure_app = ->(env){ SessionsController.action(:new).call(env) }
         end
-
-        # FIXME: do we need these two?
-        #Warden::Manager.serialize_into_session do |user|
-        #  user
-        #end
-        #
-        #Warden::Manager.serialize_from_session do |id|
-        #  id
-        #end
 
         Warden::Strategies.add(:shared_password, Dradis::Frontend::WardenStrategy)
       end
