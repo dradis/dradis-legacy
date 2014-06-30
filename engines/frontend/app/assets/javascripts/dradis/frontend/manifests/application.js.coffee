@@ -8,3 +8,9 @@ jQuery ->
       css('background-color', 'inherit').
       addClass('alert').
       addClass('alert-error')
+
+  if $('body').hasClass('authenticated')
+    $('#status').
+      css('background-color', 'inherit').
+      addClass('alert').
+      addClass('alert-success')
