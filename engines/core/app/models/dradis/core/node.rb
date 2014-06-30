@@ -32,6 +32,21 @@ module Dradis
         Attachment.find(:all, conditions: {node_id: self.id})
       end
 
+
+      # ---------------------------------------------------------------- Issues
+      #
+
+      # Returns or creates the Node that acts as container for all Issues in a
+      # given project
+      def self.issue_library
+        if (issue_lib = where(type_id: Node::Types::ISSUELIB).limit(1).first)
+          issue_lib
+        else
+          create(label: 'All issues', type_id: Node::Types::ISSUELIB)
+        end
+      end
+
+
       private
       # Whenever a node is deleted all the associated attachments have to be
       # deleted too

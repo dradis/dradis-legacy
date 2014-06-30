@@ -1,0 +1,22 @@
+<section class="inner summary-panel">
+  <h2>Issues so far</h2>
+
+  <% if @issues.any? %>
+    <ul class="issue-list drop-target">
+        <% for issue in @issues %>
+          <%= content_tag_for :li, issue, data: {url: issue_path(issue, format: :json)} do %>
+            <%= link_to issue.title, issue %>
+          <% end %>
+        <% end %>
+    </ul>
+  <% else %>
+  <p>There are no issues in this project yet.</p>
+  <p>Issues can come from three sources:</p>
+  <ul>
+    <li>Issues that you manually create (something very specific to this assessment).</li>
+    <li>Issues created by one of the plugins when you <%= link_to 'Upload output from a tool', upload_manager_path() %> like Nessus or Qualys.</li>
+    <li>Issues that you import from an external repository like <a href="http://vulndbhq.com">VulnDB</a> or Mediawiki.</li>
+  </ul>
+  <p>Manage the project issues from the <%= link_to 'All issues', issues_path() %> module in the sidebar.</p>
+  <% end %>
+</section>

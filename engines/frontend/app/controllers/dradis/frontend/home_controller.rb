@@ -3,6 +3,21 @@ module Dradis
     class HomeController < Dradis::Frontend::AuthenticatedController
 
       def index
+        # We need to extract all the users that have participated in the project so far.
+        @authors = [current_user]
+
+        # FIXME: this hard-coding of the table name is problematic, it would be better to use Note.table_name
+        # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`'), include: :tags ).sort
+        @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
+
+        @nodes = Dradis::Core::Node.all
+
+        # A little bit of hard-coding the theme never hurts!
+        # This layout is provided by dradis-theme_snowcrash
+        render layout: 'dradis/themes/snowcrash'
+      end
+
+      def info
         # @last_audit = 0
         # if Log.where(:uid=>0).count > 0
         #   @last_audit = Log.where(:uid => 0).order('created_at desc').limit(1)[0].id

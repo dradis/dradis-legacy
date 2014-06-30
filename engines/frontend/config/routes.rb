@@ -2,6 +2,8 @@ Dradis::Frontend::Engine.routes.draw do
   resources :categories
   # resources :configurations
 
+  resources :issues
+
   resources :nodes do
     collection { post :sort }
     resources :notes
@@ -10,13 +12,28 @@ Dradis::Frontend::Engine.routes.draw do
     end
   end
 
-  resource :session
+  # ------------------------------------------------------------ Upload Manager
+  get '/upload' => 'upload#new', as: :upload_manager
 
-  get '/login' => 'sessions#new', as: :login
-  get '/logout' => 'sessions#destroy', as: :logout
+
+
+  # ------------------------------------------------------------ Authentication
+
   # These routes allow users to set the shared password
   get '/setup' => 'sessions#init'
   post '/setup' => 'sessions#setup'
+
+  # Authentication routes
+  resource :session
+  get '/login' => 'sessions#new', as: :login
+  get '/logout' => 'sessions#destroy', as: :logout
+
+
+  # --------------------------------------------------------------------- Debug
+
+  if Rails.env.development?
+    get '/info', to: 'home#info'
+  end
 
   root to: 'home#index'
 end

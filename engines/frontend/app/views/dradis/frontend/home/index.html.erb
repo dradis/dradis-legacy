@@ -1,0 +1,25 @@
+<% title 'Project summary' %>
+
+<div class="row-fluid">
+  <div class="span6">
+    <%= render partial: 'dradis/frontend/home/issue_summary' %>
+  </div>
+
+  <div class="span6">
+    <div class="inner">
+      <h2>Project team</h2>
+      <% if @authors.any? %>
+        <ul>
+        <% for user in @authors do %>
+        <li><%= user %></li>
+        <!-- <div class="gravatar">
+          <%#= image_tag avatar_url(user, :size => 73), :title => user.email %>
+        </div> -->
+        <% end %>
+        </ul>
+      <% else %>
+      <p>No one has contributed yet.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
