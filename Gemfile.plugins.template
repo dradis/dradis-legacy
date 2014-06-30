@@ -4,6 +4,10 @@
 # After making changes run the following to update dependencies:
 #   $ bundle
 
+# General add-ons
+# gem 'dradis-api', path: '../dradis-api'
+
+
 # Export plugin
 gem 'dradis-html_export', path: '../dradis-html_export'
 
@@ -13,3 +17,5 @@ gem 'dradis-burp', path: '../dradis-burp'
 gem 'dradis-nessus', path: '../dradis-nessus'
 
 
+# Themes
+gem 'dradis-theme_snowcrash', path: '../dradis-theme_snowcrash'
