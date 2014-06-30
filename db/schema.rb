@@ -44,4 +44,13 @@ ActiveRecord::Schema.define(version: 20120131171008) do
     t.datetime "updated_at"
   end
 
+  create_table "evidence", force: true do |t|
+    t.integer  "node_id"
+    t.integer  "issue_id"
+    t.text     "content"
+    t.string   "author"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
 end
