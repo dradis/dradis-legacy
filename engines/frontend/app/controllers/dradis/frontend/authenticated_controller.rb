@@ -6,11 +6,12 @@
 #
 # Any third-party code (e.g. plugins) should inherit from this class instead of
 # calling the authentication filters directly
+#
+
 module Dradis
   module Frontend
     class AuthenticatedController < Dradis::Frontend::ApplicationController
       before_filter :login_required
-      layout 'dradis3'
     end
   end
 end
