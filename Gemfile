@@ -14,7 +14,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+#gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -45,8 +45,8 @@ gemspec path: 'engines/frontend'
 # Dradis::Plugins manage the list of available / loaded external plugins
 gem 'dradis-plugins', path: '../dradis-plugins'
 
-
-
+# Dradis::Plugins::Projects lets you backup and restore the repo state
+gem 'dradis-projects', path: '../dradis-projects'
 
 
 # In Production we need to be able to compile assets
@@ -54,7 +54,6 @@ gem 'dradis-plugins', path: '../dradis-plugins'
 # gem 'therubyracer'
 
 # ------------------------------------------------------------------ Asset gems
-gem 'jquery-fileupload-rails'
 
 
 # ------------------------------------------------------------------ Other gems
