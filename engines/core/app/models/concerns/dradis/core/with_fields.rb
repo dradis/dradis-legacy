@@ -5,13 +5,13 @@ module Dradis
         base.extend(ClassMethods)
         base.class_eval do
         end
+      end
 
-        # This method can be implemented by classes including the module to add
-        # custom fields to the collection that would normally be returned by
-        # parsing the text blob stored in the property.
-        def local_fields
-          {}
-        end
+      # This method can be implemented by classes including the module to add
+      # custom fields to the collection that would normally be returned by
+      # parsing the text blob stored in the property.
+      def local_fields
+        {}
       end
 
       module ClassMethods
@@ -29,7 +29,8 @@ module Dradis
         def with_fields(field)
           define_method :fields do
             begin
-              Hash[ *(self.send(field).scan(/#\[(.+?)\]#[\r|\n](.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end ].merge(local_fields)
+              content_blob = self.send(field)
+              Hash[ *(content_blob.scan(/#\[(.+?)\]#[\r|\n](.*?)(?=#\[|\z)/m).flatten.collect do |str| str.strip end) ].merge(local_fields)
             rescue
               # if the note is not in the expected format, just return an empty hash
               {}
