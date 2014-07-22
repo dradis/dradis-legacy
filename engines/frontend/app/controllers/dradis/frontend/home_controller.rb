@@ -1,7 +1,6 @@
 module Dradis
   module Frontend
     class HomeController < Dradis::Frontend::AuthenticatedController
-
       def index
         # We need to extract all the users that have participated in the project so far.
         @authors = [current_user]
@@ -10,8 +9,17 @@ module Dradis
         # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`'), include: :tags ).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
 
-        @nodes = Dradis::Core::Node.all
+        @nodes = Dradis::Core::Node.includes(:children).all
 
+        # This is required for the forms in the view, to avoid hard-coding the name of the classes
+        @categories   = Dradis::Core::Category.all
+
+        @new_evidence = Dradis::Core::Evidence.new
+        @new_child    = Dradis::Core::Node.new(parent_id: @node.id)
+        @new_node     = Dradis::Core::Node.new
+        @new_note     = Dradis::Core::Note.new
+
+        # FIXME: HARD-CODING WARNING #2
         # A little bit of hard-coding the theme never hurts!
         # This layout is provided by dradis-theme_snowcrash
         render layout: 'dradis/themes/snowcrash'

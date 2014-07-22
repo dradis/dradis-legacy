@@ -11,6 +11,9 @@
 module Dradis
   module Frontend
     class AuthenticatedController < Dradis::Frontend::ApplicationController
+      # FIXME: HARD-CODING WARNING #1
+      helper Dradis::Themes::Snowcrash::Engine.helpers
+
       before_filter :login_required
     end
   end
