@@ -6,6 +6,11 @@ module Dradis
     class Configuration < ActiveRecord::Base
       self.table_name = 'dradis_configurations'
 
+      # -- Relationships --------------------------------------------------------
+
+      # -- Callbacks ------------------------------------------------------------
+
+      # -- Validations ----------------------------------------------------------
       validates :name,
         presence: true,
         uniqueness: true
@@ -13,6 +18,9 @@ module Dradis
       validates :value,
         presence: true
 
+      # -- Scopes ---------------------------------------------------------------
+
+      # -- Class Methods --------------------------------------------------------
       def self.exists?(*attrs)
         self.table_exists? && super(*attrs)
       end
@@ -39,6 +47,9 @@ module Dradis
       def self.uploadsNode
         Configuration.find_by_name('uploads_node').value
       end
+
+      # -- Instance Methods -----------------------------------------------------
+
     end
   end
 end

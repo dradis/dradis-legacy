@@ -12,22 +12,34 @@ module Dradis
   module Core
     class Issue < Dradis::Core::Note
 
+      # -- Relationships --------------------------------------------------------
+      has_many :evidence, dependent: :destroy
+      has_many :affected, through: :evidence, source: :node
+
+      # -- Callbacks ------------------------------------------------------------
+
+      # -- Validations ----------------------------------------------------------
       before_validation do
         self.category = Category.issue unless self.category
       end
 
-      has_many :evidence, dependent: :destroy
-      has_many :affected, through: :evidence, source: :node
+      # -- Scopes ---------------------------------------------------------------
 
-      # We don't do this any more because it would cascade a SQL query to fetch
-      # evidence even when we're asking for other unrelated fields.
-      # The only place where this was used was in the AdvancedWord export plugin.
-      # def fields
-      #   super.merge('Affected' => affected.uniq.collect(&:label).to_sentence)
-      # end
-      def title
-        fields.fetch('Title', "This Issue doesn't provide a Title field")
+      # -- Class Methods --------------------------------------------------------
+
+      # Create a hash with all issues where the keys correspond to the field passed
+      # as an argument
+      def self.all_issues_by_field(field)
+        # we don't memoize it because we want it to reflect recently added Issues
+        issues_map = Issue.all.map do |issue|
+          [issue.fields[field], issue]
+        end
+        Hash[issues_map]
       end
+
+      # -- Instance Methods -----------------------------------------------------
+
+      # Used by .sort()
       def <=>(other)
         self.title <=> other.title
       end
@@ -54,14 +66,8 @@ module Dradis
         end
       end
 
-      # Create a hash with all issues where the keys correspond to the field passed
-      # as an argument
-      def self.all_issues_by_field(field)
-        # we don't memoize it because we want it to reflect recently added Issues
-        issues_map = Issue.all.map do |issue|
-          [issue.fields[field], issue]
-        end
-        Hash[issues_map]
+      def title
+        fields.fetch('Title', "This Issue doesn't provide a Title field")
       end
     end
   end

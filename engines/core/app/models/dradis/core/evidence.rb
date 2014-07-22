@@ -17,11 +17,21 @@ module Dradis
       #   * Used by the RevisionObserver to track record changes
       attr_accessor :updated_by
 
+      # -- Relationships --------------------------------------------------------
       belongs_to :issue
       belongs_to :node
 
+      # -- Callbacks ------------------------------------------------------------
+
+      # -- Validations ----------------------------------------------------------
       validates :issue, presence: true, associated: true
       validates :node, presence: true, associated: true
+
+      # -- Scopes ---------------------------------------------------------------
+
+      # -- Class Methods --------------------------------------------------------
+
+      # -- Instance Methods -----------------------------------------------------
 
       # Used by .sort()
       def <=>(other)

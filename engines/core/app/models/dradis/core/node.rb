@@ -17,24 +17,23 @@ module Dradis
       attr_accessor :updated_by
 
       acts_as_tree
+
+      # -- Relationships --------------------------------------------------------
       has_many :notes, dependent: :destroy
 
-      validates :label, presence: true
-
+      # -- Callbacks ------------------------------------------------------------
       before_destroy :destroy_attachments
       before_save do |record|
         record.type_id = Types::DEFAULT unless record.type_id
         record.position = 0 unless record.position
       end
 
-      # Return all the Attachment objects associated with this Node.
-      def attachments
-        Attachment.find(:all, conditions: {node_id: self.id})
-      end
+      # -- Validations ----------------------------------------------------------
+      validates :label, presence: true
 
+      # -- Scopes ---------------------------------------------------------------
 
-      # ---------------------------------------------------------------- Issues
-      #
+      # -- Class Methods --------------------------------------------------------
 
       # Returns or creates the Node that acts as container for all Issues in a
       # given project
@@ -46,6 +45,13 @@ module Dradis
         end
       end
 
+      # -- Instance Methods -----------------------------------------------------
+
+
+      # Return all the Attachment objects associated with this Node.
+      def attachments
+        Attachment.find(:all, conditions: {node_id: self.id})
+      end
 
       private
       # Whenever a node is deleted all the associated attachments have to be
