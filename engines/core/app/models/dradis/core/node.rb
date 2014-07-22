@@ -20,6 +20,8 @@ module Dradis
 
       # -- Relationships --------------------------------------------------------
       has_many :notes, dependent: :destroy
+      has_many :evidence, dependent: :destroy
+
 
       # -- Callbacks ------------------------------------------------------------
       before_destroy :destroy_attachments

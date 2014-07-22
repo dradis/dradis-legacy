@@ -1,4 +1,6 @@
 Dradis::Frontend::Engine.routes.draw do
+
+  # ----------------------------------------------------------------- Resources
   resources :categories
   # resources :configurations
 
@@ -6,11 +8,13 @@ Dradis::Frontend::Engine.routes.draw do
 
   resources :nodes do
     collection { post :sort }
+    resources :evidence
     resources :notes
     constraints(:id => /.*/) do
       # resources :attachments
     end
   end
+
 
   # ------------------------------------------------------------ Upload Manager
   get '/upload' => 'upload#new', as: :upload_manager
@@ -18,7 +22,6 @@ Dradis::Frontend::Engine.routes.draw do
 
 
   # ------------------------------------------------------------ Authentication
-
   # These routes allow users to set the shared password
   get '/setup' => 'sessions#init'
   post '/setup' => 'sessions#setup'
