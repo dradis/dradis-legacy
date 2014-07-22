@@ -23,6 +23,12 @@ module Dradis
       validates :issue, presence: true, associated: true
       validates :node, presence: true, associated: true
 
+      # Used by .sort()
+      def <=>(other)
+        self.issue.title <=> other.issue.title
+      end
+
+
       private
 
       # See WithFields concern
