@@ -9,6 +9,8 @@
 module Dradis
   module Core
     class Evidence < ActiveRecord::Base
+      self.table_name = 'dradis_evidence'
+
       include WithFields
       with_fields :content
 

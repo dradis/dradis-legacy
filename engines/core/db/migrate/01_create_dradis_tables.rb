@@ -29,7 +29,7 @@ class CreateDradisTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :evidence do |t|
+    create_table :dradis_evidence do |t|
       t.references :node
       t.references :issue
       t.text :content
