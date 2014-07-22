@@ -1,5 +1,6 @@
 require 'bcrypt'
 require 'bootstrap-sass'
+require 'simple_form'
 require 'warden'
 
 require 'dradis/frontend/version'

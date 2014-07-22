@@ -21,5 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '~> 4.1.1'
   s.add_dependency 'bcrypt', '~> 3.1.7'
   s.add_dependency 'bootstrap-sass', '~> 2.3.2.2'
+  # Forms that integrate with Twitter's Bootstrap
+  s.add_dependency 'simple_form'
   s.add_dependency 'warden', '~> 1.2.3'
 end
