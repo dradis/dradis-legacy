@@ -15,6 +15,12 @@ module Dradis
         app.config.assets.precompile += ["dradis/frontend/manifests/*"]
       end
 
+      initializer 'frontend.inflections' do |app|
+        ActiveSupport::Inflector.inflections do |inflect|
+          inflect.uncountable %w( evidence )
+        end
+      end
+
       # Install the Warden middleware in the application's stack. We use our own
       # shared password strategy.
       initializer 'frontend.warden' do |app|
