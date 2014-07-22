@@ -226,8 +226,10 @@ class DradisTasks < Thor
       require 'config/environment'
 
       say "Changing password for Dradis server."
-      password = ask "Enter new Dradis password:"
-      confirmation = ask "Retype new Dradis password:"
+      password = ask "Enter new Dradis password:", echo: false
+      puts
+      confirmation = ask "Retype new Dradis password:", echo: false
+      puts
 
       if !password.blank? && password == confirmation
         Configuration.find_or_create_by_name('password').update_attribute(:value, ::Digest::SHA512.hexdigest(password))
