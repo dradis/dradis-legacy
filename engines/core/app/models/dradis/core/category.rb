@@ -9,7 +9,25 @@ module Dradis
       #   * Used by the RevisionObserver to track record changes
       attr_accessor :updated_by
 
+      # -- Relationships --------------------------------------------------------
+
+      # -- Callbacks ------------------------------------------------------------
       before_destroy :valid_destroy
+
+      # -- Validations ----------------------------------------------------------
+
+      # -- Scopes ---------------------------------------------------------------
+
+      # -- Class Methods --------------------------------------------------------
+      def self.default
+        find_or_create_by(name: 'Default category')
+      end
+
+      def self.issue
+        find_or_create_by(name: 'Issue description')
+      end
+
+      # -- Instance Methods -----------------------------------------------------
 
       private
       def valid_destroy
