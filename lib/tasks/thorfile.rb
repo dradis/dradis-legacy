@@ -232,7 +232,9 @@ class DradisTasks < Thor
       puts
 
       if !password.blank? && password == confirmation
-        Configuration.find_or_create_by_name('password').update_attribute(:value, ::Digest::SHA512.hexdigest(password))
+        new_pass = ::BCrypt::Password.create(password)
+        pwd_config = Dradis::Core::Configuration.find_or_create_by(name: 'password')
+        pwd_config.update_attribute(:value, new_pass)
         say("Password Changed.", Thor::Shell::Color::GREEN)
       else
         say("Passwords do not match. Password Unchanged.", Thor::Shell::Color::RED)
