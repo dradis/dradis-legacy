@@ -32,11 +32,10 @@ Dradis::Frontend::Engine.routes.draw do
   get '/logout' => 'sessions#destroy', as: :logout
 
 
-  # --------------------------------------------------------------------- Debug
-
-  if Rails.env.development?
-    get '/info', to: 'home#info'
-  end
+  # ---------------------------------------------------------------------- Root
+  get '/info',    to: 'home#info' if Rails.env.development?
+  get '/markup',  to: 'home#markup', as: :markup
+  get '/preview', to: 'home#textilize', as: :preview, defaults: {format: :json}
 
   root to: 'home#index'
 end

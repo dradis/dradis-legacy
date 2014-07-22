@@ -44,6 +44,12 @@ module Dradis
         end
       end
 
+      # Returns the markup cheatsheet that is used by the jQuery.Textile plugin Help
+      # button.
+      def markup
+        render layout: false
+      end
+
       # Returns the Textile version of a text passed as parameter
       def textilize
         respond_to do |format|
