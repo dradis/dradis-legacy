@@ -5,14 +5,14 @@
 module Dradis
   module Frontend
     class NodesController < Dradis::Frontend::AuthenticatedController
-      # before_filter :find_or_initialize_node, :except => [ :index, :sort ]
+      before_filter :find_or_initialize_node, except: [ :index, :sort ]
 
       layout 'dradis/themes/snowcrash'
       respond_to :html, :json
 
       # POST /nodes
       def create
-        @node = Dradis::Core::Node.new(node_params)
+
         respond_to do |format|
           if @node.save
             format.html { redirect_to @node, notice: "Node [#{@node.label}] created." }
@@ -26,8 +26,6 @@ module Dradis
 
       # GET /nodes/<id>
       def show
-        @node = Dradis::Core::Node.find_by_id(params[:id].to_i)
-
         # FIXME: this hard-coding of the table name is problematic, it would be better to use Note.table_name
         # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`'), include: :tags ).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
@@ -56,36 +54,37 @@ module Dradis
       # end
 
       # PUT /node/<id>
-      # def update
-      #   if @node.update_attributes( params[:node] || ActiveSupport::JSON.decode(params[:data]) )
-      #     flash[:notice] = 'Successfully updated node.'
-      #   else
-      #     flash[:alert] = @node.errors.full_messages.join(';')
-      #   end
-      #   respond_with(@node)
-      # end
+      def update
+        respond_to do |format|
+          if @node.update_attributes(node_params)
+            format.html { redirect_to @node, notice: "Node [#{@node.label}] updated." }
+          else
+            format.html { render action: 'new' }
+          end
+        end
+      end
 
       # DELETE /nodes/<id>
-      # def destroy
-      #   @node.destroy
-      #   if @node.parent
-      #     respond_with(@node.parent)
-      #   else
-      #     redirect_to root_path
-      #   end
-      # end
+      def destroy
+        @node.destroy
+        if @node.parent
+          redirect_to @node.parent, notice: "Child node [#{@node.label}] deleted."
+        else
+          redirect_to root_path, notice: "Top-level node [#{@node.label}] deleted."
+        end
+      end
 
       protected
-      # def find_or_initialize_node
-      #   if params[:id]
-      #     unless @node = Node.find_by_id(params[:id])
-      #       render_optional_error_file :not_found
-      #     end
-      #   else
-      #     @node = Dradis::Core::Node.new(node_params)
-      #   end
-      #   @node.updated_by = current_user
-      # end
+      def find_or_initialize_node
+        if params[:id]
+          unless @node = Dradis::Core::Node.find_by_id(params[:id].to_i)
+            render_optional_error_file :not_found
+          end
+        else
+          @node = Dradis::Core::Node.new(node_params)
+        end
+        @node.updated_by = current_user
+      end
 
       def node_params
         params.require(:node).permit(:label, :parent_id, :position, :type_id)
