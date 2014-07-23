@@ -15,7 +15,7 @@ module Dradis
         @categories   = Dradis::Core::Category.all
 
         @new_evidence = Dradis::Core::Evidence.new
-        @new_child    = Dradis::Core::Node.new(parent_id: @node.id)
+        # @new_child    = Dradis::Core::Node.new(parent_id: @node.id)
         @new_node     = Dradis::Core::Node.new
         @new_note     = Dradis::Core::Note.new
 
