@@ -70,7 +70,7 @@ module Dradis
       # give :node_id is valid.
       def find_node
         @node = Dradis::Core::Node.find_by(id: params[:node_id].to_i)
-        redirect_to root_path unless @node
+        redirect_to root_path, alert: 'Node not found' unless @node
       end
 
       # Once a valid @node is set by the previous filter we look for the Note we
