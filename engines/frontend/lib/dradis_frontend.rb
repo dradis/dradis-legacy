@@ -1,5 +1,7 @@
 require 'bcrypt'
 require 'bootstrap-sass'
+require 'rails_autolink'
+require 'redcloth'
 require 'simple_form'
 require 'warden'
 

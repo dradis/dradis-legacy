@@ -65,8 +65,6 @@ gem 'acts_as_tree', '~> 1.6'
 gem 'builder'
 gem 'nokogiri'
 
-# Textile markup
-gem 'RedCloth', '4.2.9', :require => 'redcloth'
 
 # Security
 gem 'ruby-nmap'

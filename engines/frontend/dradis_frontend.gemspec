@@ -19,9 +19,20 @@ Gem::Specification.new do |s|
   s.test_files = s.files.grep(%r{^(test|spec|features)/})
 
   s.add_dependency 'rails', '~> 4.1.1'
+
+  # User passwords
   s.add_dependency 'bcrypt', '~> 3.1.7'
+
+  # Theme / CSS framework
   s.add_dependency 'bootstrap-sass', '~> 2.3.2.2'
+
+  # Note markup
+  s.add_dependency 'rails_autolink', '~> 1.1'
+  s.add_dependency 'RedCloth', '4.2.9'
+
   # Forms that integrate with Twitter's Bootstrap
-  s.add_dependency 'simple_form'
+  s.add_dependency 'simple_form', '~> 3.0'
+
+  # Authentication
   s.add_dependency 'warden', '~> 1.2.3'
 end
