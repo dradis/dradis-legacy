@@ -7,11 +7,14 @@ Dradis::Frontend::Engine.routes.draw do
   resources :issues
 
   resources :nodes do
-    collection { post :sort }
+    # collection { post :sort }
+
     resources :evidence
     resources :notes
+
+    # This deals with attachment extensions used as :format by Rails
     constraints(:id => /.*/) do
-      # resources :attachments
+      resources :attachments
     end
   end
 
