@@ -5,7 +5,9 @@
 module Dradis
   module Frontend
     class NodesController < Dradis::Frontend::AuthenticatedController
-      before_filter :find_or_initialize_node, except: [ :index, :sort ]
+      before_filter :find_or_initialize_node, except: [:index, :sort]
+
+      after_filter :update_revision_if_modified, except: [:index , :show]
 
       layout 'dradis/themes/snowcrash'
       respond_to :html, :json
@@ -27,7 +29,7 @@ module Dradis
       # GET /nodes/<id>
       def show
         # FIXME: this hard-coding of the table name is problematic, it would be better to use Note.table_name
-        # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`'), include: :tags ).sort
+        # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`') ).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
         @nodes = Dradis::Core::Node.includes(:children).all
 
@@ -88,6 +90,13 @@ module Dradis
 
       def node_params
         params.require(:node).permit(:label, :parent_id, :position, :type_id)
+      end
+
+      # This is an after_filter that increments the current revision if a note was
+      # modified as a result of any of the operations exposed by this controller.
+      def update_revision_if_modified
+        return unless @modified
+        ::Dradis::Core::Configuration.increment_revision
       end
     end
   end
