@@ -27,7 +27,9 @@ module Dradis
 
       # Retrieve the value of the configuration setting whose name is 'revision'
       def self.revision
-        Configuration.find_by_name('admin:revision').value
+        Configuration.find_or_create_by(name: 'admin:revision') do |c|
+          c.value = '0'
+        end.value
       end
   
       # Helper method to retrieve the value of the 'revision' setting and increment
