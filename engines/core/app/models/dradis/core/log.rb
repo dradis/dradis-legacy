@@ -1,6 +1,7 @@
 module Dradis
   module Core
     class Log < ActiveRecord::Base
+      self.table_name = 'dradis_logs'
 
       def write(trace=nil, &block)
         text = trace.nil? ? yield : trace

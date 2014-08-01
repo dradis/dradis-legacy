@@ -35,6 +35,13 @@ ActiveRecord::Schema.define(version: 20120131171008) do
     t.datetime "updated_at"
   end
 
+  create_table "dradis_logs", force: true do |t|
+    t.integer  "uid"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "dradis_nodes", force: true do |t|
     t.string   "label"
     t.integer  "type_id"
