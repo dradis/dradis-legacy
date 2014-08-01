@@ -69,9 +69,6 @@ gem 'nokogiri'
 # Security
 gem 'ruby-nmap'
 
-# To create/read zip archives
-gem 'rubyzip', '~> 0.9.6.1'
-
 # Command line interface
 gem 'thor', '~> 0.19.1'
 
