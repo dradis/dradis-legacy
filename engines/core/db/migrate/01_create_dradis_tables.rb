@@ -12,11 +12,12 @@ class CreateDradisTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :dradis_notes do |t|
-      t.string :author
-      t.text :text
+    create_table :dradis_evidence do |t|
       t.references :node
-      t.references :category
+      t.references :issue
+      t.text :content
+      t.string :author
+
       t.timestamps
     end
 
@@ -29,12 +30,17 @@ class CreateDradisTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :dradis_evidence do |t|
-      t.references :node
-      t.references :issue
-      t.text :content
+    create_table :dradis_notes do |t|
       t.string :author
+      t.text :text
+      t.references :node
+      t.references :category
+      t.timestamps
+    end
 
+    create_table :dradis_logs do |t|
+      t.integer :uid
+      t.text :text
       t.timestamps
     end
   end
@@ -44,6 +50,7 @@ class CreateDradisTables < ActiveRecord::Migration
     drop_table :dradis_notes
     drop_table :dradis_categories
     drop_table :dradis_nodes
-    drop_table :configurations
+    drop_table :dradis_configurations
+    drop_table :dradis_logs
   end
 end
