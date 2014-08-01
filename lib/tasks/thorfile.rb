@@ -23,7 +23,8 @@ class DradisTasks < Thor
       begin
         FileUtils.mkdir_p File.dirname(backup_path)
         
-        ProjectExport::Processor.full_project( :filename => backup_path )
+        exporter = Dradis::Plugins::Projects::Export::Package.new
+        exporter.export(filename: backup_path)
 
         puts "[  DONE  ]"
         puts "** Backup Saved as: #{backup_path}"
@@ -194,8 +195,8 @@ class DradisTasks < Thor
     desc "attachments", "removes all attachments"
     def attachments
       print "** Deleting all attachments...                                        "
-      FileUtils.rm_rf(Dir.glob( Attachment::AttachmentPwd.join('*')) )
-      puts(Dir.glob( Attachment::AttachmentPwd.join('*')).empty? ? "[  DONE  ]" : "[ FAILED ]")
+      FileUtils.rm_rf(Dir.glob( Dradis::Core::Attachment::pwd.join('*')) )
+      puts(Dir.glob( Dradis::Core::Attachment::pwd.join('*')).empty? ? "[  DONE  ]" : "[ FAILED ]")
     end
 
     desc "database", "removes all data from a dradis repository, except configurations"
@@ -204,12 +205,13 @@ class DradisTasks < Thor
       
       print "** Cleaning database...                                               "
 
-      Note.destroy_all
-      Node.destroy_all
-      Category.destroy_all
+      Dradis::Core::Evidence.destroy_all
+      Dradis::Core::Issue.destroy_all
+      Dradis::Core::Note.destroy_all
+      Dradis::Core::Node.destroy_all
+      Dradis::Core::Category.destroy_all
       
-      Feed.destroy_all
-      Log.destroy_all
+      Dradis::Core::Log.destroy_all
       
       puts "[  DONE  ]"
     end

@@ -2,5 +2,5 @@
 # longer useful and can be disposed of.
 Rails.logger.info "Clearing old Logs and Feeds..."
 
-Log.destroy_all if Log.table_exists?
+Dradis::Core::Log.destroy_all if Dradis::Core::Log.table_exists?
 
