@@ -19,8 +19,13 @@ Dradis::Frontend::Engine.routes.draw do
   end
 
 
-  # ------------------------------------------------------------ Upload Manager
-  get '/upload' => 'upload#new', as: :upload_manager
+  # ----------------------------------------------------- Upload/Export Manager
+  get '/export' => 'export#index', as: :export_manager
+
+  get  '/upload'        => 'upload#index',  as: :upload_manager
+  post '/upload'        => 'upload#create'
+  post '/upload/parse'  => 'upload#parse'
+  get  '/upload/status' => 'upload#status'
 
 
 

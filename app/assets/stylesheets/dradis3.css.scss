@@ -31,23 +31,3 @@ body.configurations {
     }
   }
 }
-
-/*=========================================================== Upload Manager */
-body.upload {
-  #console {
-    background-color: #000;
-    color: #CCC;
-    padding: 2ex 1ex;
-    margin-top: 2ex;
-    height: 250px;
-    overflow: scroll;
-  }
-
-  .file {
-    padding: 40px;
-    margin: 0 auto;
-    border: 1px solid #dadada;
-    -moz-border-radius: 24px;
-    -webkit-border-radius: 24px;
-  }
-}
