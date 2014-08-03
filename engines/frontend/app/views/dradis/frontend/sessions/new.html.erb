@@ -1,9 +1,8 @@
-<div class="page-header">
-  <h1>Welcome, please sign in</h1>
-</div>
-
 <%= form_tag session_path, class: 'form-horizontal' do -%>
-  <p class="lead">You will only be able to log in if you know this server's password.</p>
+  <div class="page-header">
+    <h1>Welcome, please sign in</h1>
+  </div>
+
   <% if flash[:alert] %>
   <div class="alert alert-error">
     <%= flash[:alert] %>
@@ -31,7 +30,7 @@
 
   <div class="control-group">
     <div class="controls">
-      <%= submit_tag 'Let me in!', class: 'btn' %>
+      <%= submit_tag 'Let me in!', class: 'btn btn-large btn-primary2' %>
     </div>
   </div>
 <% end -%>
