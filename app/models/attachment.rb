@@ -98,7 +98,7 @@ class Attachment < File
       raise "Node with ID=#{@node_id} does not exist" unless @node_id && Node.exists?(@node_id)
 
       @filename ||= File.basename(@tempfile)
-      FileUtils.mkdir(File.dirname(fullpath)) unless File.exists?(File.dirname(fullpath))
+      FileUtils.mkdir_p(File.dirname(fullpath)) unless File.exists?(File.dirname(fullpath))
       self.close
       FileUtils.cp(self.path, fullpath) if @intialfile != fullpath
       if ( @initialfile && @initialfile != fullpath )
