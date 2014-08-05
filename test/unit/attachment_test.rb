@@ -12,33 +12,41 @@ class AttachmentTest < ActiveSupport::TestCase
     FileUtils.rm_rf(Attachment.pwd) if File.exists?(Attachment.pwd)
   end
 
+  def existing_file_name
+    'example.txt'
+  end
+
+  # An example file that is already in the file system
+  def existing_file_path
+    Rails.root.join('test', 'unit', existing_file_name)
+  end
+
   def test_has_a_pwd
     assert_instance_of Pathname, Attachment.pwd
   end
 
   # Test if the actual file is created in the expected place
   def test_should_create_new_file
-    attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => '1')
+    attachment = Attachment.new(existing_file_path, :node_id => '1')
     attachment.save
-    filename = File.join(Attachment.pwd, "/1/rails.png")
+    filename = File.join(Attachment.pwd, "/1/" + existing_file_name)
     assert File.exists?(filename)
   end
 
   # Confirm that an attachment can be found by filename and node_id
   def test_should_find_file_by_file_name
-    attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => '1')
+    attachment = Attachment.new( existing_file_path, :node_id => '1')
     attachment.save
-    attachment = Attachment.find("rails.png", :conditions => {:node_id => 1})
-    assert_equal "rails.png", attachment.filename
+    attachment = Attachment.find(existing_file_name, :conditions => {:node_id => 1})
+    assert_equal existing_file_name, attachment.filename
   end
 
-  def xtest_should_create_new_file_from_file_io
-    attachment = Attachment.new("rails.png", :node_id => '1')
-    file_handle = File.new(Rails.root.join('public', 'images', 'rails.png'),'r')
+  def test_should_create_new_file_from_file_io
+    attachment = Attachment.new(existing_file_name, :node_id => '1')
     content = file_handle.read
     attachment << content
     attachment.save
-    attachment_content = Attachment.find("rails.png", :conditions => {:node_id => 1}).read
+    attachment_content = Attachment.find(existing_file_name, :conditions => {:node_id => 1}).read
     assert_equal content, attachment_content
   end
 
@@ -52,7 +60,7 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def xtest_should_rename_filename
-    attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => '1')
+    attachment = Attachment.new(existing_file_path, :node_id => '1')
     attachment.save
     attachment = Attachment.find('rails.png', :conditions => {:node_id => 1})
     attachment.filename = 'newrails.png'
