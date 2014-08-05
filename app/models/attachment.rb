@@ -149,24 +149,16 @@ class Attachment < File
       node_id = options[:conditions][:node_id].to_s
       raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
       if (File.exist?(File.join(AttachmentPwd, node_id)))
-        node_dir = Dir.new(File.join(AttachmentPwd, node_id))
-        node_dir.each do |attachment|
-          next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(File.join(AttachmentPwd, node_id, attachment))
-          attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
-        end
+        attachments = attachments_for_node(node_id)
       end
     else
-      # TODO: we should sort by name here?
       dir.each do |node|
         next unless node =~ /^\d*$/
-        node_dir = Dir.new(File.join(AttachmentPwd, node))
-        node_dir.each do |attachment|
-          next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(File.join(AttachmentPwd, node, attachment))
-          attachments << Attachment.new(:filename => $1, :node_id => node.to_i)
-        end
+        attachments += attachments_for_node(node)
       end
-      attachments.sort! { |a, b| a.filename <=> b.filename }
     end
+
+    attachments.sort! { |a, b| a.filename <=> b.filename }
 
     # return based on the request arguments
     case args.first
@@ -177,6 +169,16 @@ class Attachment < File
       else
         attachments
     end
+  end
+
+  def self.attachments_for_node(node_id)
+    answer = []
+    node_dir = Dir.new(File.join(AttachmentPwd, node_id))
+    node_dir.each do |attachment|
+      next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(File.join(AttachmentPwd, node_id, attachment))
+      answer << Attachment.new(:filename => $1, :node_id => node_id.to_i)
+    end
+    answer
   end
 
   # Class method that returns the path to the attachment storage

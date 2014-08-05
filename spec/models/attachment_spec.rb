@@ -126,6 +126,10 @@ describe Attachment do
       attachment.filename.should eq("example.txt")
     end
 
+    describe "without a node_id" do
+      it "returns attachments from all nodes"
+    end
+
   end
 
 
