@@ -120,35 +120,37 @@ class Attachment < File
     # TODO: refactor long method
     options = args.extract_options!
     dir = Dir.new(AttachmentPwd)
-
-    # makes the find request and stores it to resources
-    return_value = case args.first
+    case args.first
     when :all, :first, :last
       find_by_symbol(args, dir, options)
     else
-      # in this routine we find the attachment by file name and node id
-      filename = args.first
-      attachments = []
-      raise "You need to supply a node id in the condition parameter" unless options[:conditions] && options[:conditions][:node_id]
-      node_id = options[:conditions][:node_id].to_s
-      raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
-      node_dir = Dir.new( File.join(AttachmentPwd, node_id) )
-      node_dir.each do |attachment|
-        next unless ((attachment =~ /^(.+)$/) == 0 && $1 == filename)
-        attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
-      end
-      raise "Could not find Attachment with filename #{filename}" if attachments.empty?
-      attachments.first
+      find_by_filename(args.first, options)
     end
-    return return_value
   end
 
+  # Find the attachment by file name and node id
+  def self.find_by_filename(filename, options)
+    attachments = []
+    raise "You need to supply a node id in the condition parameter" unless options[:conditions] && options[:conditions][:node_id]
+    node_id = options[:conditions][:node_id].to_s
+    raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
+    node_dir = Dir.new(File.join(AttachmentPwd, node_id))
+    node_dir.each do |attachment|
+      next unless ((attachment =~ /^(.+)$/) == 0 && $1 == filename)
+      attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
+    end
+    raise "Could not find Attachment with filename #{filename}" if attachments.empty?
+    attachments.first
+  end
+
+  # Find attachments using one of the options :first, :last, :all. If options
+  # contains a :node_id, only attachments from that node will be returned.
   def self.find_by_symbol(args, dir, options)
     attachments = []
     if options[:conditions] && options[:conditions][:node_id]
       node_id = options[:conditions][:node_id].to_s
       raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
-      if (File.exist?(File.join(AttachmentPwd, node_id)))
+      if File.exist?(File.join(AttachmentPwd, node_id))
         attachments = attachments_for_node(node_id)
       end
     else
@@ -157,9 +159,7 @@ class Attachment < File
         attachments += attachments_for_node(node)
       end
     end
-
     attachments.sort! { |a, b| a.filename <=> b.filename }
-
     # return based on the request arguments
     case args.first
       when :first

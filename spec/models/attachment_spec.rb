@@ -130,6 +130,25 @@ describe Attachment do
       it "returns attachments from all nodes"
     end
 
+    describe "with node_id and filename" do
+      it "returns the attachment of the same filename" do
+        attachment = Attachment.find("add.gif", :conditions => {:node_id => 1})
+        attachment.filename.should eq("add.gif")
+      end
+
+      it "fails if the file does not exist" do
+        error_message = /Could not find Attachment with filename nosuchfile.txt/
+        lambda { Attachment.find("nosuchfile.txt", :conditions => {:node_id => 1}) }.should raise_error error_message
+      end
+
+
+      it "fails without a node_id" do
+        error_message = /You need to supply a node id in the condition parameter/
+        lambda { Attachment.find("add.gif", :conditions => {}) }.should raise_error error_message
+      end
+
+    end
+
   end
 
 
