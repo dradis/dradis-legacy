@@ -27,6 +27,14 @@ module Dradis
         find_or_create_by(name: 'Issue description')
       end
 
+      def self.properties
+        find_or_create_by(name: 'Project properties')
+      end
+
+      def self.report
+        find_or_create_by(name: 'Report category')
+      end
+
       # -- Instance Methods -----------------------------------------------------
 
       private
