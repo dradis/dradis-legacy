@@ -20,7 +20,8 @@ Dradis::Frontend::Engine.routes.draw do
 
 
   # ----------------------------------------------------- Upload/Export Manager
-  get '/export' => 'export#index', as: :export_manager
+  get  '/export' => 'export#index', as: :export_manager
+  post '/export' => 'export#create'
 
   get  '/upload'        => 'upload#index',  as: :upload_manager
   post '/upload'        => 'upload#create'
