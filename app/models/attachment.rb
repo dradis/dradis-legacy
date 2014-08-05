@@ -134,8 +134,9 @@ class Attachment < File
     raise "You need to supply a node id in the condition parameter" unless options[:conditions] && options[:conditions][:node_id]
     node_id = options[:conditions][:node_id].to_s
     raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
-    node_dir = Dir.new(File.join(AttachmentPwd, node_id))
+    node_dir = Dir.new(node_directory(node_id))
     node_dir.each do |attachment|
+      # TODO: remove regex acrobatics
       next unless ((attachment =~ /^(.+)$/) == 0 && $1 == filename)
       attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
     end
@@ -150,7 +151,7 @@ class Attachment < File
     if options[:conditions] && options[:conditions][:node_id]
       node_id = options[:conditions][:node_id].to_s
       raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
-      if File.exist?(File.join(AttachmentPwd, node_id))
+      if File.exist?(node_directory(node_id))
         attachments = attachments_for_node(node_id)
       end
     else
@@ -173,8 +174,9 @@ class Attachment < File
 
   def self.attachments_for_node(node_id)
     answer = []
-    node_dir = Dir.new(File.join(AttachmentPwd, node_id))
+    node_dir = Dir.new(node_directory(node_id))
     node_dir.each do |attachment|
+      # TODO: remove regex acrobatics
       next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(File.join(AttachmentPwd, node_id, attachment))
       answer << Attachment.new(:filename => $1, :node_id => node_id.to_i)
     end
@@ -190,6 +192,12 @@ class Attachment < File
   def fullpath
     File.join(AttachmentPwd, @node_id.to_s, @filename.to_s)
   end
+
+  # Returns the directory where attachments for a given node_id are stored
+  def self.node_directory(node_id)
+    File.join(AttachmentPwd, node_id)
+  end
+
 
   # Provide a JSON representation of this object that can be understood by 
   # components of the web interface
