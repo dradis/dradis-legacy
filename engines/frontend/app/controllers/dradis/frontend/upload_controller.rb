@@ -68,7 +68,7 @@ module Dradis
         @plugins = Dradis::Plugins::with_feature(:upload).collect do |plugin|
           path = plugin.to_s
           path[0..path.rindex('::')-1].constantize
-        end        
+        end.sort{|a,b| a.name <=> b.name }
       end
 
       def find_uploads_node
