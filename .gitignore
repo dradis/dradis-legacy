@@ -25,3 +25,9 @@
 
 # Ignore backups
 /backup
+
+# Ignore gem cache
+/vendor/cache
+
+# Ignore Mac files
+.DS_Store
