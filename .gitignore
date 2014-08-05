@@ -13,3 +13,15 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Node attachments uploaded by user
+/attachments
+
+# Ignore database config, it may contain sensitive information
+/config/database.yml
+
+# Ignore note about first login
+/config/first_login.txt
+
+# Ignore backups
+/backup
