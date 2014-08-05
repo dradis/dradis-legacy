@@ -28,14 +28,16 @@ describe Attachment do
     node = Node.create!(:label => 'rspec test')
     attachment = Attachment.new(existing_file_path, :node_id => node.id)
     attachment.save
-    File.exists?(Attachment.pwd + "#{node.id}/#{existing_file_name}").should be_true
+    created = Attachment.pwd + "#{node.id}/#{existing_file_name}"
+    File.exists?(created).should be_true
     node.destroy
   end
 
   it "should be able to find attachments by filename" do
     attachment = Attachment.new(existing_file_path, :node_id => '1')
     attachment.save
-    attachment = Attachment.find(existing_file_name, :conditions => {:node_id => 1})
+    attachment = Attachment.find(
+        existing_file_name, :conditions => {:node_id => 1})
     existing_file_name.should eq(attachment.filename)
   end
 
@@ -45,16 +47,15 @@ describe Attachment do
     content = file_handle.read
     attachment << content
     attachment.save
-    attachment_content = Attachment.find(existing_file_name, :conditions => {:node_id => 1}).read
+    attachment_content = Attachment.find(
+        existing_file_name, :conditions => {:node_id => 1}).read
     content.should eq(attachment_content)
   end
 
   it "should read content in binary"
-  # contents of non-ASCII files should be read correctly, see example_with_encoding.txt
+  # contents of non-ASCII files should be read correctly,
+  # see example_with_encoding.txt
   # maybe this is just an issue with comparing strings
-
-
-
 
   it "should be re-nameable" do
     attachment = Attachment.new(existing_file_path, :node_id => '1')
@@ -62,7 +63,7 @@ describe Attachment do
     attachment = Attachment.find(existing_file_name, :conditions => {:node_id => 1})
     attachment.filename = 'newrails.png'
     attachment.save
-    assert attachment = Attachment.find('newrails.png', :conditions => {:node_id => 1})
+    attachment = Attachment.find('newrails.png', :conditions => {:node_id => 1})
     Attachment.find(:all).count.should eq(1)
   end
 
@@ -92,7 +93,8 @@ describe Attachment do
     context "when file does not exist" do
 
       it "requires an existing Node" do
-        lambda { @attachment.save }.should raise_error /Node with ID=2000 does not exist/
+        error_message = /Node with ID=2000 does not exist/
+        lambda { @attachment.save }.should raise_error error_message
       end
 
     end
@@ -107,7 +109,8 @@ describe Attachment do
     before(:each) do
       attachment = Attachment.new(existing_file_path, :node_id => '1')
       attachment.save
-      attachment = Attachment.new(Rails.root.join('public', 'images', 'add.gif'), :node_id => '1')
+      attachment = Attachment.new(
+          Rails.root.join('public', 'images', 'add.gif'), :node_id => '1')
       attachment.save
     end
 
@@ -138,13 +141,16 @@ describe Attachment do
 
       it "fails if the file does not exist" do
         error_message = /Could not find Attachment with filename nosuchfile.txt/
-        lambda { Attachment.find("nosuchfile.txt", :conditions => {:node_id => 1}) }.should raise_error error_message
+        lambda {
+          Attachment.find("nosuchfile.txt", :conditions => {:node_id => 1})
+        }.should raise_error error_message
       end
-
 
       it "fails without a node_id" do
         error_message = /You need to supply a node id in the condition parameter/
-        lambda { Attachment.find("add.gif", :conditions => {}) }.should raise_error error_message
+        lambda {
+          Attachment.find("add.gif", :conditions => {})
+        }.should raise_error error_message
       end
 
     end

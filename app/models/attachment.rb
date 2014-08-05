@@ -63,7 +63,11 @@ class Attachment < File
 
   require 'fileutils'
   # Set the path to the attachment storage
-  AttachmentPwd = ENV["RAILS_ENV"] == "test" ? Rails.root.join('tmp', 'attachments') : Rails.root.join('attachments')
+  AttachmentPwd = if ENV["RAILS_ENV"] == "test"
+                    Rails.root.join('tmp', 'attachments')
+                  else
+                    Rails.root.join('attachments')
+                  end
   FileUtils.mkdir_p(AttachmentPwd)
 
   attr_accessor :filename, :node_id, :tempfile
@@ -92,7 +96,9 @@ class Attachment < File
     if File.exists?(fullpath) && File.file?(fullpath)
       self.close
     else
-      raise "Node with ID=#{@node_id} does not exist" unless @node_id && Node.exists?(@node_id)
+      unless @node_id && Node.exists?(@node_id)
+        raise "Node with ID=#{@node_id} does not exist"
+      end
 
       @filename ||= File.basename(@tempfile)
       FileUtils.mkdir_p(File.dirname(fullpath))
@@ -109,7 +115,7 @@ class Attachment < File
   # Deletes the file that the instance is pointing to from memory
   def delete
     self.close
-    if ( !@initialfile || (File.dirname(@initialfile) == Rails.root.join('tmp')) )
+    if !@initialfile || (File.dirname(@initialfile) == Rails.root.join('tmp'))
       raise "No physical file to delete"
     end
     FileUtils.rm(@initialfile)
@@ -130,7 +136,9 @@ class Attachment < File
   # Find the attachment by file name and node id
   def self.find_by_filename(filename, options)
     attachments = []
-    raise "You need to supply a node id in the condition parameter" unless options[:conditions] && options[:conditions][:node_id]
+    unless options[:conditions] && options[:conditions][:node_id]
+      raise "You need to supply a node id in the condition parameter"
+    end
     node_id = options[:conditions][:node_id].to_s
     raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
     node_dir = Dir.new(node_directory(node_id))
@@ -139,7 +147,9 @@ class Attachment < File
       next unless ((attachment =~ /^(.+)$/) == 0 && $1 == filename)
       attachments << Attachment.new(:filename => $1, :node_id => node_id.to_i)
     end
-    raise "Could not find Attachment with filename #{filename}" if attachments.empty?
+    if attachments.empty?
+      raise "Could not find Attachment with filename #{filename}"
+    end
     attachments.first
   end
 
@@ -149,7 +159,9 @@ class Attachment < File
     attachments = []
     if options[:conditions] && options[:conditions][:node_id]
       node_id = options[:conditions][:node_id].to_s
-      raise "Node with ID=#{node_id} does not exist" unless Node.exists?(node_id)
+      unless Node.exists?(node_id)
+        raise "Node with ID=#{node_id} does not exist"
+      end
       if File.exist?(node_directory(node_id))
         attachments = attachments_for_node(node_id)
       end
@@ -176,7 +188,8 @@ class Attachment < File
     node_dir = Dir.new(node_directory(node_id))
     node_dir.each do |attachment|
       # TODO: remove regex acrobatics
-      next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(File.join(AttachmentPwd, node_id, attachment))
+      next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(
+          File.join(AttachmentPwd, node_id, attachment))
       answer << Attachment.new(:filename => $1, :node_id => node_id.to_i)
     end
     answer
@@ -196,7 +209,6 @@ class Attachment < File
   def self.node_directory(node_id)
     File.join(AttachmentPwd, node_id)
   end
-
 
   # Provide a JSON representation of this object that can be understood by 
   # components of the web interface
