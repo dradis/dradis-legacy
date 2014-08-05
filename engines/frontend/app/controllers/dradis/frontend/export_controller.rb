@@ -24,6 +24,11 @@ module Dradis
       end
 
       def create
+        # We need to pass some params to the plugin's controller. But we're
+        # redirecting, so we'll put them in the session.
+        # *Warning* can't store too much data here.
+        session[:export_manager] = {template: @template_file}
+
         # FIXME: check the Routing guide to find a better way.
         action_path = "#{params[:route]}_path"
         redirect_to eval(@exporter::Engine::engine_name).send(action_path)
@@ -45,36 +50,11 @@ module Dradis
         end.sort{|a,b| a.name <=> b.name }
       end
 
-      # This method applies validation to the :template parameter to ensure it is
-      # a valid template
-      def prepare_params
-        return unless params.key?(:template)
-
-        # For good measure we remove the parameter (we may add it back later)
-        template = params.delete(:template)
-
-        # This goes from an action name that can be defined in any of the Export
-        # plugins to the name of the folder of the plugin that defines it
-        plugin_name = self.method(params[:action]).owner.parent.name.underscore
-
-        templates_dir = File.join(::Configuration::paths_templates_reports, plugin_name)
-        return unless File.exists?(templates_dir) && File.directory?(templates_dir)
-
-        valid_templates = Dir.entries(templates_dir)
-        if valid_templates.include?(template)
-          tmp_template = File.join(templates_dir, template)
-          # this should be redundant as include? wouldn't match params[:template] with ../ in them
-          if tmp_template.to_s.starts_with?(templates_dir)
-            params[:template] = tmp_template
-          end
-        end
-      end
-
       # In case something goes wrong with the export, fail graciously instead of
       # presenting the obscure Error 500 default page of Rails.
       def rescue_action(exception)
         flash[:error] = exception.message
-        redirect_to upload_manager_path
+        redirect_to upload_manager_path()
       end
 
       def templates_dir_for(args={})
@@ -104,8 +84,8 @@ module Dradis
         if params.key?(:template)
           template_name = params[:template]
           templates_dir = templates_dir_for(plugin: @exporter)
-          template_file = File.expand_path(File.join(templates_dir, template_name))
-          template_file.starts_with?(templates_dir) && File.exists?(template_file)
+          @template_file = File.expand_path(File.join(templates_dir, template_name))
+          @template_file.starts_with?(templates_dir) && File.exists?(@template_file)
         end
       end
     end
