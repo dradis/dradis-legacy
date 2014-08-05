@@ -53,6 +53,12 @@ module Dradis
         end.value
       end
 
+      def Configuration.paths_templates_reports
+        Configuration.find_or_create_by(name: 'admin:paths:templates:reports') do |c|
+          c.value = Rails.root.join('templates', 'reports').to_s
+        end.value
+      end
+
 
       # ------------------------------------------------------------- admin:plugins
 
