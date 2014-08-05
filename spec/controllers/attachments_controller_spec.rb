@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe AttachmentsController do
   describe "as guest" do
+    pending "not sure if this should redirect to wizard?"
     it_should_require_authentication :attachment
   end
 
