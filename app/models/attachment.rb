@@ -17,29 +17,29 @@
 
 # ==Description
 # This class in an abstraction layer to the <tt>attachments/</tt> folder. It allows
-# access to the folder content in a way that mimics the working of ActiveRecord
+# access to the folder content in a way that mimics the working of ActiveRecord.
 #
-# The Attachment class inherits from the ruby core File class
+# The Attachment class inherits from the ruby core File class.
 #
 # Folder structure
-# The attachement folder structure example:
+# The attachment folder structure example:
 # AttachmentPWD
 #    |
 #    - 1     - this directory level represents the nodes, folder name = node id
 #    |   |
-#    |   - 3.image.gif
-#    |   - 4.another_image.gif
+#    |   - image.gif
+#    |   - another_image.gif
 #    |
 #    - 2
 #        |
-#        - 1.icon.gif
-#        - 2.another_icon.gif
+#        - icon.gif
+#        - another_icon.gif
 #
 # ==General usage
 #   attachment = Attachment.new("images/my_image.gif", :node_id => 1)
 #
-# This will create an instance of an attachment that belongs to node with ID = 0
-# Nothing has bee saved yet
+# This will create an instance of an attachment that belongs to node with ID = 1
+# Nothing has been saved yet.
 #
 #   attachment.save
 #
@@ -47,7 +47,6 @@
 #
 # You can inspect the saved instance:
 #   attachment.node_id
-#   attachment.id
 #   attachment.filename
 #   attachment.fullpath
 #
@@ -65,17 +64,15 @@ class Attachment < File
   require 'fileutils'
   # Set the path to the attachment storage
   AttachmentPwd = ENV["RAILS_ENV"] == "test" ? Rails.root.join('tmp', 'attachments') : Rails.root.join('attachments')
-  FileUtils.mkdir(AttachmentPwd) unless File.exists?(AttachmentPwd)
+  FileUtils.mkdir_p(AttachmentPwd)
 
   attr_accessor :filename, :node_id, :tempfile
-  attr_reader :id
 
   # Initializes the attachment instance 
   def initialize(*args)
     options = args.extract_options!
     @filename = options[:filename]
     @node_id = options[:node_id]
-    #@id = options[:id]
     @tempfile = args[0] || options[:tempfile]
 
     if File.exists?(fullpath) && File.file?(fullpath)
@@ -98,7 +95,7 @@ class Attachment < File
       raise "Node with ID=#{@node_id} does not exist" unless @node_id && Node.exists?(@node_id)
 
       @filename ||= File.basename(@tempfile)
-      FileUtils.mkdir_p(File.dirname(fullpath)) unless File.exists?(File.dirname(fullpath))
+      FileUtils.mkdir_p(File.dirname(fullpath))
       self.close
       FileUtils.cp(self.path, fullpath) if @intialfile != fullpath
       if ( @initialfile && @initialfile != fullpath )
@@ -120,6 +117,7 @@ class Attachment < File
 
   # Return the attachment instance(s) based on the find parameters
   def self.find(*args)
+    # TODO: refactor long method
     options = args.extract_options!
     dir = Dir.new(AttachmentPwd)
 
@@ -146,7 +144,7 @@ class Attachment < File
             attachments << Attachment.new(:filename => $1, :node_id => node.to_i)
           end
         end
-        attachments.sort! {|a,b| a.filename <=> b.filename }
+        attachments.sort! { |a,b| a.filename <=> b.filename }
       end
 
       # return based on the request arguments

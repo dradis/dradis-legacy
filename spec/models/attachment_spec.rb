@@ -74,4 +74,8 @@ describe Attachment do
     Attachment.find(:all).count.should eq(1)
   end
 
+  describe "using a tempfile" do
+    #
+  end
+
 end
