@@ -55,14 +55,6 @@ describe Attachment do
 
 
 
-  it "should be able to find all attachments for a given node" do
-    attachment = Attachment.new(existing_file_path, :node_id => '1')
-    attachment.save
-    attachment = Attachment.new(Rails.root.join('public', 'images', 'add.gif'), :node_id => '1')
-    attachment.save
-    attachments = Attachment.find(:all, :conditions => {:node_id => 1})
-    attachments.count.should eq(2)
-  end
 
   it "should be re-nameable" do
     attachment = Attachment.new(existing_file_path, :node_id => '1')
@@ -109,6 +101,31 @@ describe Attachment do
 
   describe "#delete" do
     it "works"
+  end
+
+  describe "#find" do
+    before(:each) do
+      attachment = Attachment.new(existing_file_path, :node_id => '1')
+      attachment.save
+      attachment = Attachment.new(Rails.root.join('public', 'images', 'add.gif'), :node_id => '1')
+      attachment.save
+    end
+
+    it "with :all returns all attachments for a given node" do
+      attachments = Attachment.find(:all, :conditions => {:node_id => 1})
+      attachments.map(&:filename).should eq(["add.gif", "example.txt"])
+    end
+
+    it "with :first returns the first attachment" do
+      attachment = Attachment.find(:first, :conditions => {:node_id => 1})
+      attachment.filename.should eq("add.gif")
+    end
+
+    it "with :last returns the last attachment" do
+      attachment = Attachment.find(:last, :conditions => {:node_id => 1})
+      attachment.filename.should eq("example.txt")
+    end
+
   end
 
 
