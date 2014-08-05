@@ -65,10 +65,10 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 2, attachments.count
   end
 
-  def xtest_should_rename_filename
+  def test_should_rename_filename
     attachment = Attachment.new(existing_file_path, :node_id => '1')
     attachment.save
-    attachment = Attachment.find('rails.png', :conditions => {:node_id => 1})
+    attachment = Attachment.find(existing_file_name, :conditions => {:node_id => 1})
     attachment.filename = 'newrails.png'
     attachment.save
     assert attachment = Attachment.find('newrails.png', :conditions => {:node_id => 1})
