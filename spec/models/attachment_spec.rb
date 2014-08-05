@@ -74,8 +74,43 @@ describe Attachment do
     Attachment.find(:all).count.should eq(1)
   end
 
-  describe "using a tempfile" do
-    #
+  describe "initialization" do
+    describe "using a tempfile" do
+      it "creates the tempfile" do
+        filename = "abc.temp"
+        path = File.join(Rails.root, 'tmp', filename)
+        FileUtils.rm path, :force => true
+        attachment = Attachment.new(:tempfile => filename)
+        attachment.tempfile.should == "abc.temp"
+        File.exist?(path).should be_true
+      end
+    end
   end
+
+  describe "#save" do
+
+    before(:each) do
+      @attachment = Attachment.new :node_id => 2000, :tempfile => "abcde.temp"
+    end
+
+    context "with existing file" do
+      it "does not require a Node"
+    end
+
+    context "when file does not exist" do
+
+      it "requires an existing Node" do
+        lambda { @attachment.save }.should raise_error /Node with ID=2000 does not exist/
+      end
+
+    end
+
+  end
+
+  describe "#delete" do
+    it "works"
+  end
+
+
 
 end
