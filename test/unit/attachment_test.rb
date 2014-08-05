@@ -43,6 +43,7 @@ class AttachmentTest < ActiveSupport::TestCase
 
   def test_should_create_new_file_from_file_io
     attachment = Attachment.new(existing_file_name, :node_id => '1')
+    file_handle = File.new(existing_file_path,'r')
     content = file_handle.read
     attachment << content
     attachment.save
@@ -50,8 +51,13 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal content, attachment_content
   end
 
-  def xtest_should_get_all_attachments_for_node
-    attachment = Attachment.new( Rails.root.join('public', 'images', 'rails.png'), :node_id => '1')
+  def xtest_should_read_content_in_binary
+    # contents of non-ASCII files should be read correctly, see example_with_encoding.txt
+    # maybe this is just an assert issue
+  end
+
+  def test_should_get_all_attachments_for_node
+    attachment = Attachment.new(existing_file_path, :node_id => '1')
     attachment.save
     attachment = Attachment.new( Rails.root.join('public', 'images', 'add.gif'), :node_id => '1')
     attachment.save

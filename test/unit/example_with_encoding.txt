@@ -1,0 +1,2 @@
+an example file for testing attachments
+with some encoding äöü
