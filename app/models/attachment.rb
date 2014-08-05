@@ -117,7 +117,6 @@ class Attachment < File
 
   # Return the attachment instance(s) based on the find parameters
   def self.find(*args)
-    # TODO: refactor long method
     options = args.extract_options!
     dir = Dir.new(AttachmentPwd)
     case args.first
