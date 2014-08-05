@@ -18,4 +18,9 @@
 
 # Application configuration files
 /Gemfile.plugins
-/config/database.yml 
+/config/database.yml
+
+# Other application data
+/attachments/
+/backup/
+/templates/
