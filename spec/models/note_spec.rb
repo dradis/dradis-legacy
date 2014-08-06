@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe Note do
   before(:each) do
+    # Sometimes the tests fail because there is no configuration named revision
+    # TODO: existence of that configuration should be ensured automatically
+    Configuration.find_or_create_by_name('revision')
     @category = Category.create!(:name => "test_category")
     @node     = Node.create!(:label => 'rspec test')
     @note     = Note.new
