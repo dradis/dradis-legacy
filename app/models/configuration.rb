@@ -11,13 +11,13 @@ class Configuration < ActiveRecord::Base
 
   # Retrieve the value of the configuration setting whose name is 'revision'
   def Configuration.revision
-    Configuration.find_by_name('revision').value
+    Configuration.find_or_create_by_name('revision').value
   end
   
   # Helper method to retrieve the value of the 'revision' setting and increment
   # it by one.
   def Configuration.increment_revision
-    revision = Configuration.find_by_name('revision')
+    revision = Configuration.find_or_create_by_name('revision')
     revision.value = revision.value.to_i + 1
     revision.save
   end

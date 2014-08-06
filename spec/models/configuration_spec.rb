@@ -39,4 +39,17 @@ describe Configuration do
 
     @config.destroy
   end
+
+  describe "revision" do
+    it "starts at nil" do
+      Configuration.destroy_all
+      Configuration.revision.should be_nil
+    end
+
+    it "can be incremented even if no revision exists yet" do
+      Configuration.destroy_all
+      Configuration.increment_revision
+      Configuration.revision.should eq('1')
+    end
+  end
 end
