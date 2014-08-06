@@ -5,6 +5,7 @@ describe Attachment do
 
   before(:each) do
     FileUtils.mkdir_p(Attachment.pwd)
+    Node.stub(:exists?) { |id| id.to_i == 1 }
   end
 
   after(:each) do
