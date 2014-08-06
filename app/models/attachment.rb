@@ -23,7 +23,7 @@
 #
 # Folder structure
 # The attachment folder structure example:
-# AttachmentPWD
+# ATTACHMENT_PWD
 #    |
 #    - 1     - this directory level represents the nodes, folder name = node id
 #    |   |
@@ -63,12 +63,12 @@ class Attachment < File
 
   require 'fileutils'
   # Set the path to the attachment storage
-  AttachmentPwd = if ENV['RAILS_ENV'] == 'test'
+  ATTACHMENT_PWD = if ENV['RAILS_ENV'] == 'test'
                     Rails.root.join('tmp', 'attachments')
                   else
                     Rails.root.join('attachments')
                   end
-  FileUtils.mkdir_p(AttachmentPwd)
+  FileUtils.mkdir_p(ATTACHMENT_PWD)
 
   attr_accessor :filename, :node_id, :tempfile
 
@@ -124,7 +124,7 @@ class Attachment < File
   # Return the attachment instance(s) based on the find parameters
   def self.find(*args)
     options = args.extract_options!
-    dir = Dir.new(AttachmentPwd)
+    dir = Dir.new(ATTACHMENT_PWD)
     case args.first
     when :all, :first, :last
       find_by_symbol(args, dir, options)
@@ -189,7 +189,7 @@ class Attachment < File
     node_dir.each do |attachment|
       # TODO: remove regex acrobatics
       next unless (attachment =~ /^(.+)$/) == 0 && !File.directory?(
-          File.join(AttachmentPwd, node_id, attachment))
+          File.join(ATTACHMENT_PWD, node_id, attachment))
       answer << Attachment.new(:filename => $1, :node_id => node_id.to_i)
     end
     answer
@@ -197,17 +197,17 @@ class Attachment < File
 
   # Class method that returns the path to the attachment storage
   def self.pwd
-    AttachmentPwd
+    ATTACHMENT_PWD
   end
 
   # Returns the full path of an attachment on the file system
   def fullpath
-    File.join(AttachmentPwd, @node_id.to_s, @filename.to_s)
+    File.join(ATTACHMENT_PWD, @node_id.to_s, @filename.to_s)
   end
 
   # Returns the directory where attachments for a given node_id are stored
   def self.node_directory(node_id)
-    File.join(AttachmentPwd, node_id)
+    File.join(ATTACHMENT_PWD, node_id)
   end
 
   # Provide a JSON representation of this object that can be understood by 
