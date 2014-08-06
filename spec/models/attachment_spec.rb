@@ -142,16 +142,16 @@ describe Attachment do
 
       it "fails if the file does not exist" do
         error_message = /Could not find Attachment with filename nosuchfile.txt/
-        lambda {
+        lambda do
           Attachment.find("nosuchfile.txt", :conditions => {:node_id => 1})
-        }.should raise_error error_message
+        end.should raise_error error_message
       end
 
       it "fails without a node_id" do
         error_message = /You need to supply a node id in the condition parameter/
-        lambda {
+        lambda do
           Attachment.find("add.gif", :conditions => {})
-        }.should raise_error error_message
+        end.should raise_error error_message
       end
 
     end

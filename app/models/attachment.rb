@@ -63,7 +63,7 @@ class Attachment < File
 
   require 'fileutils'
   # Set the path to the attachment storage
-  AttachmentPwd = if ENV["RAILS_ENV"] == "test"
+  AttachmentPwd = if ENV['RAILS_ENV'] == 'test'
                     Rails.root.join('tmp', 'attachments')
                   else
                     Rails.root.join('attachments')
