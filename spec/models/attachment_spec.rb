@@ -158,6 +158,4 @@ describe Attachment do
 
   end
 
-
-
 end
