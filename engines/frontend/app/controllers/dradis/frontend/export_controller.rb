@@ -27,7 +27,10 @@ module Dradis
         # We need to pass some params to the plugin's controller. But we're
         # redirecting, so we'll put them in the session.
         # *Warning* can't store too much data here.
-        session[:export_manager] = {template: @template_file}
+        session[:export_manager] = {
+          content_service: 'Dradis::Plugins::ContentService',
+          template: @template_file
+        }
 
         # FIXME: check the Routing guide to find a better way.
         action_path = "#{params[:route]}_path"
