@@ -11,10 +11,11 @@
 <% @plugins.each do |feature, list| %>
 <section>
   <h2><%= feature.to_s.titleize %></h2>
-  <ul>
+  <dl>
   <% list.each do |plugin| %>
-    <li><%= plugin %></li>
+    <dt><%= plugin %></dt>
+    <dd><%= plugin.plugin_description %></dd>
   <% end %>
-  </ul>
+  </dl>
 </section>
 <% end %>
