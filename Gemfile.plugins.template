@@ -10,6 +10,14 @@
 
 # Export plugin
 gem 'dradis-html_export', path: '../dradis-html_export'
+# gem 'dradis-pdf_export', path: '../dradis-pdf_export'
+# gem 'dradis-csv', path: '../dradis-csv'
+
+
+
+# Import plugins
+gem 'dradis-mediawiki', path: '../dradis-mediawiki'
+gem 'dradis-vulndb', path: '../dradis-vulndb'
 
 
 # Upload plugins
@@ -18,4 +26,4 @@ gem 'dradis-nessus', path: '../dradis-nessus'
 
 
 # Themes
-gem 'dradis-theme_snowcrash', path: '../dradis-theme_snowcrash'
+# gem 'dradis-theme_snowcrash', path: '../dradis-theme_snowcrash'
