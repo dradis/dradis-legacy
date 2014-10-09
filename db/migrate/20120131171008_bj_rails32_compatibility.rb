@@ -7,6 +7,6 @@
 
 class BjRails32Compatibility < ActiveRecord::Migration
   def change
-    create_table Bj::Table.table_name
+    #create_table Bj::Table.table_name
   end
 end
