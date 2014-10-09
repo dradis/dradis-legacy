@@ -138,7 +138,7 @@ class DradisTasks < Thor
       require 'config/environment'
 
       print "** Checking database migrations...                                    "
-      ActiveRecord::Migrator.migrate("db/migrate/", nil)
+      ActiveRecord::Migrator.migrate(Rails.application.config.paths["db/migrate"], nil)
       puts "[  DONE  ]"
     end
     
