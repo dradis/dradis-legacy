@@ -6,11 +6,7 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
 
-
-Dradis::Core::Category.create(name:'default category')
-
 Dradis::Core::Configuration.create(name:'password', value: 'improvable_dradis')
-
 
 # The code below checks whether the config/first_login.txt file exists. If it 
 # doesn't then it will pre-populate the database with some default Nodes and 
