@@ -1,25 +1,39 @@
-Welcome to Dradis
+Dev instructions this branch is not the default
+===============================================
+
+```
+$ git clone https://github.com/dradis/dradisframework.git
+$ cd dradisframework/
+$ git checkout dradis3_blackhat-arsenal
+$ ruby bin/setup
+$ bundle exec rails server
+```
+
+You can browse to the app at http://localhost:3000/
+
+
+<!-- Welcome to Dradis
 =================
 
 *Important note*: You're currently viewing the `master` branch of this repo. This corresponds to Dradis Framework 2.x. Right now we're working on the `dradis3.x` branch. Once the preliminary work is complete, `dradis3.x` will become the new `master`.
 
 [![Build Status](https://secure.travis-ci.org/dradis/dradisframework.png)](https://secure.travis-ci.org/dradis/dradisframework)
 
-Dradis is an open source framework to enable effective information sharing, 
+Dradis is an open source framework to enable effective information sharing,
 specially during security assessments.
 
 Our goals:
 
 * Share the information effectively.
 * Easy to use, easy to be adopted. Otherwise it would present little benefit over other systems.
-* Flexible: with a powerful and simple extensions interface. 
+* Flexible: with a powerful and simple extensions interface.
 * Small and portable. You should be able to use it while on site (no outside connectivity). It should be OS independent (no two testers use the same OS).
 
 Some of the features:
 
 * Platform independent
 * Easy report generation: in Word, HTML, etc.
-* Markup support for the notes: styles, images, links, etc. 
+* Markup support for the notes: styles, images, links, etc.
 * Integration with existing systems and tools:
   * [Burp Scanner](http://portswigger.net/burp/scanner.html)
   * [Metasploit](http://www.metasploit.com/)
@@ -122,4 +136,4 @@ Many thanks to all Dradis Framework [contributors](https://github.com/dradis/dra
 License
 -------
 
-Dradis Framework is released under [GNU General Public License version 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+Dradis Framework is released under [GNU General Public License version 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html) -->
