@@ -9,7 +9,7 @@ module Dradis
         # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`'), include: :tags ).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
 
-        @nodes = Dradis::Core::Node.includes(:children).all
+        @nodes = Dradis::Core::Node.includes(:children).except_issue_library.roots
 
         # This is required for the forms in the view, to avoid hard-coding the name of the classes
         @categories   = Dradis::Core::Category.all

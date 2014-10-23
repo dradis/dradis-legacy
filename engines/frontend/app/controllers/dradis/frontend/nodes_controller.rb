@@ -7,7 +7,7 @@ module Dradis
     class NodesController < Dradis::Frontend::AuthenticatedController
       before_filter :find_or_initialize_node, except: [:index, :sort]
 
-      after_filter :update_revision_if_modified, except: [:index , :show]
+      after_filter :update_revision_if_modified, except: [:index , :show, :tree]
 
       layout 'dradis/themes/snowcrash'
       respond_to :html, :json
@@ -31,7 +31,7 @@ module Dradis
         # FIXME: this hard-coding of the table name is problematic, it would be better to use Note.table_name
         # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`') ).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
-        @nodes = Dradis::Core::Node.includes(:children).all
+        @nodes = Dradis::Core::Node.includes(:children).except_issue_library.roots
 
         @sorted_notes = @node.notes.sort
         @sorted_evidence = @node.evidence.sort
@@ -73,6 +73,12 @@ module Dradis
           redirect_to @node.parent, notice: "Child node [#{@node.label}] deleted."
         else
           redirect_to root_path, notice: "Top-level node [#{@node.label}] deleted."
+        end
+      end
+
+      def tree
+        respond_to do |format|
+          format.js
         end
       end
 
