@@ -56,7 +56,7 @@ module Dradis
 
       # -- Instance Methods -----------------------------------------------------
       def ancestor_of?(node)
-        node.ancestors.include?(self)
+        node && node.ancestors.include?(self)
       end
       # Return all the Attachment objects associated with this Node.
       def attachments
