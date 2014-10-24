@@ -40,7 +40,7 @@ module Dradis
       validates :label, presence: true
 
       # -- Scopes ---------------------------------------------------------------
-      scope :except_issue_library, -> { where('type_id != ?', Types::ISSUELIB) }
+      scope :in_tree, -> { where("type_id IN (?)", [Types::DEFAULT, Types::HOST]).roots }
 
       # -- Class Methods --------------------------------------------------------
 

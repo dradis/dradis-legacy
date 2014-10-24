@@ -31,7 +31,8 @@ module Dradis
         # FIXME: this hard-coding of the table name is problematic, it would be better to use Note.table_name
         # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`') ).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
-        @nodes = Dradis::Core::Node.includes(:children).except_issue_library.roots
+
+        @nodes = Dradis::Core::Node.in_tree
 
         @sorted_notes = @node.notes.sort
         @sorted_evidence = @node.evidence.sort
