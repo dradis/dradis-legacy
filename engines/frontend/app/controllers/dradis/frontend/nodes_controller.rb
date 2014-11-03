@@ -78,6 +78,7 @@ module Dradis
       end
 
       def tree
+        @children = @node.children
         respond_to do |format|
           format.js
         end
