@@ -8,7 +8,9 @@ Dradis::Frontend::Engine.routes.draw do
 
   resources :nodes do
     # collection { post :sort }
-
+    member do
+      get :tree
+    end
     resources :evidence
     resources :notes
 

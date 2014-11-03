@@ -83,7 +83,8 @@ module Dradis
         # @issues = Dradis::Core::Issue.find( Dradis::Core::Note.where(node_id: @issuelib).pluck('`notes`.`id`')).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
 
-        @nodes = Dradis::Core::Node.includes(:children).all
+        @nodes = Dradis::Core::Node.in_tree
+
         @new_node = Dradis::Core::Node.new
       end
 

@@ -59,7 +59,7 @@ module Dradis
 
       # There should be a better way of handling this.
       def find_nodes
-        @nodes = Dradis::Core::Node.includes(:children).all
+        @nodes = Dradis::Core::Node.in_tree
         @new_node = Dradis::Core::Node.new
       end
 
