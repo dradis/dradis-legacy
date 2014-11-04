@@ -40,7 +40,7 @@ module Dradis
       validates :label, presence: true
 
       # -- Scopes ---------------------------------------------------------------
-      scope :in_tree, -> { where("type_id IN (?)", [Types::DEFAULT, Types::HOST]).roots }
+      scope :in_tree, -> { where("type_id IN (?)", [Types::DEFAULT, Types::HOST]).where(parent_id: nil) }
 
       # -- Class Methods --------------------------------------------------------
 
