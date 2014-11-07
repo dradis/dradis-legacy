@@ -26,6 +26,7 @@ module Dradis
       # -- Callbacks ------------------------------------------------------------
 
       # -- Validations ----------------------------------------------------------
+      validates :content, length: { maximum: 65535 }
       validates :issue, presence: true, associated: true
       validates :node, presence: true, associated: true
 

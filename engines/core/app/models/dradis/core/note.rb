@@ -46,6 +46,7 @@ module Dradis
       # -- Validations ----------------------------------------------------------
       validates :category, presence: true
       validates :node, presence: true
+      validates :text, length: { maximum: 65535 }
 
       # -- Scopes ---------------------------------------------------------------
 
