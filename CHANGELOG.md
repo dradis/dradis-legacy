@@ -1,3 +1,16 @@
+v3.0
+-------------------------
+ - Support for Issue/Evidence separation
+ - New HTML/CSS interface
+ - Use BCrypt for password storage.
+ - Gemified plugins in external repositories
+ - Enhanced background workers
+ - New plugins:
+   * Export: CSV, PDF
+   * Upload: Acunetix, Brakeman, Qualys
+ ? HTTP API
+ ?
+
 v2.10
 -----
  - New drag'n'drop file uploads with preview
