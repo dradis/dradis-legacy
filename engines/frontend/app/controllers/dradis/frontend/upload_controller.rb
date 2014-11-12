@@ -7,7 +7,7 @@ module Dradis
 
     class UploadController < Dradis::Frontend::AuthenticatedController
       before_filter :find_nodes
-      before_filter :find_plugins
+      before_filter :find_uploaders
       before_filter :find_uploads_node, only: [:create, :parse]
       before_filter :validate_uploader, only: [:create, :parse]
 
@@ -64,31 +64,28 @@ module Dradis
       end
 
       # The list of available Upload plugins. See the dradis_plugins gem.
-      def find_plugins
-        @plugins = Dradis::Plugins::with_feature(:upload).collect do |plugin|
-          path = plugin.to_s
-          path[0..path.rindex('::')-1].constantize
-        end.sort{|a,b| a.name <=> b.name }
+      def find_uploaders
+        @uploaders = Dradis::Plugins::with_feature(:upload).map(&:uploaders).flatten.sort{|a,b| a.name <=> b.name }
       end
 
       def find_uploads_node
         @uploads_node = Dradis::Core::Node.find_or_create_by(label: Dradis::Core::Configuration.plugin_uploads_node)
       end
 
-      def logger
+      def job_logger
         @job_logger ||= Dradis::Core::Log.new(uid: params[:item_id].to_i)
       end
 
       def process_upload_inline(args={})
         attachment = args[:attachment]
 
-        logger.write('Small attachment detected. Processing in line.')
+        job_logger.write('Small attachment detected. Processing in line.')
         begin
           content_service = Dradis::Plugins::ContentService.new(plugin: @uploader)
           template_service = Dradis::Plugins::TemplateService.new(plugin: @uploader)
 
           importer = @uploader::Importer.new(
-                      logger: logger,
+                      logger: job_logger,
              content_service: content_service,
             template_service: template_service
           )
@@ -96,16 +93,16 @@ module Dradis
           importer.import(file: attachment.fullpath)
 
         rescue Exception => e
-          logger.write('There was a fatal error processing your upload:')
-          logger.write(e.message)
+          job_logger.write('There was a fatal error processing your upload:')
+          job_logger.write(e.message)
           if Rails.env.development?
             e.backtrace[0..10].each do |trace|
-              logger.debug{ trace }
+              job_logger.debug{ trace }
               sleep(0.2)
             end
           end
         end
-        logger.write('Worker process completed.')
+        job_logger.write('Worker process completed.')
       end
 
       def process_upload_background(args={})
@@ -121,12 +118,12 @@ module Dradis
                                         project_id: @project.id,
                                         uid: item_id)
 
-        logger.write("Enqueueing job to start in the background. Job id is #{item_id}")
+        job_logger.write("Enqueueing job to start in the background. Job id is #{item_id}")
       end
 
       # Ensure that the requested :uploader is valid
       def validate_uploader()
-        valid_uploaders = @plugins.collect(&:name)
+        valid_uploaders = @uploaders.collect(&:name)
 
         if (params.key?(:uploader) && valid_uploaders.include?(params[:uploader]))
           @uploader = params[:uploader].constantize
