@@ -80,8 +80,11 @@ module Dradis
       private
       def find_issues
         # FIXME: this hard-coding of the table name is problematic, it would be better to use Note.table_name
-        # @issues = Dradis::Core::Issue.find( Dradis::Core::Note.where(node_id: @issuelib).pluck('`notes`.`id`')).sort
-        @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
+        # We need a transaction because multiple DELETE calls can be issued from
+        # index and a TOCTOR can appear between the Note read and the Issue.find
+        Note.transaction do
+          @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
+        end
 
         @nodes = Dradis::Core::Node.includes(:children).all
         @new_node = Dradis::Core::Node.new
