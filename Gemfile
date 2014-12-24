@@ -43,10 +43,25 @@ gemspec path: 'engines/frontend'
 
 
 # Dradis::Plugins manage the list of available / loaded external plugins
-gem 'dradis-plugins', path: '../dradis-plugins'
+if Dir.exists?('../dradis-plugins')
+  gem 'dradis-plugins', path: '../dradis-plugins'
+else
+  gem 'dradis-plugins', github: 'dradis/dradis-plugins'
+end
 
 # Dradis::Plugins::Projects lets you backup and restore the repo state
-gem 'dradis-projects', path: '../dradis-projects'
+if Dir.exists?('../dradis-projects')
+  gem 'dradis-projects', path: '../dradis-projects'
+else
+  gem 'dradis-projects', github: 'dradis/dradis-projects'
+end
+
+# Default theme: Snowcrash
+if Dir.exists?('../dradis-theme_snowcrash')
+  gem 'dradis-theme_snowcrash', path: '../dradis-theme_snowcrash'
+else
+  gem 'dradis-theme_snowcrash', github: 'dradis/dradis-theme_snowcrash'
+end
 
 
 # In Production we need to be able to compile assets
