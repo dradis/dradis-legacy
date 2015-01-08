@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -22,9 +20,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
-
 # Use unicorn as the app server
 # gem 'unicorn'
 
@@ -34,6 +29,12 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# ------------------------------------------------------ With native extensions
+# These require native extensions.
+# Ensure Traveling Ruby provides an appropriate version before bumping.
+gem 'bcrypt', '3.1.9'
+gem 'sqlite3', '1.3.9'
+gem 'nokogiri', '1.6.5'
 
 # --------------------------------------------------------- Dradis dependencies
 
@@ -43,21 +44,21 @@ gemspec path: 'engines/frontend'
 
 
 # Dradis::Plugins manage the list of available / loaded external plugins
-if Dir.exists?('../dradis-plugins')
+if Dir.exists?('../dradis-plugins') && !ENV['PACKAGING']
   gem 'dradis-plugins', path: '../dradis-plugins'
 else
   gem 'dradis-plugins', github: 'dradis/dradis-plugins'
 end
 
 # Dradis::Plugins::Projects lets you backup and restore the repo state
-if Dir.exists?('../dradis-projects')
+if Dir.exists?('../dradis-projects') && !ENV['PACKAGING']
   gem 'dradis-projects', path: '../dradis-projects'
 else
   gem 'dradis-projects', github: 'dradis/dradis-projects'
 end
 
 # Default theme: Snowcrash
-if Dir.exists?('../dradis-theme_snowcrash')
+if Dir.exists?('../dradis-theme_snowcrash') && !ENV['PACKAGING']
   gem 'dradis-theme_snowcrash', path: '../dradis-theme_snowcrash'
 else
   gem 'dradis-theme_snowcrash', github: 'dradis/dradis-theme_snowcrash'
@@ -78,8 +79,6 @@ gem 'acts_as_tree', '~> 1.6'
 
 # Manipulate XML
 gem 'builder'
-gem 'nokogiri'
-
 
 # Security
 gem 'ruby-nmap'
@@ -89,15 +88,17 @@ gem 'thor', '~> 0.19.1'
 
 
 # ------------------------------------------------------------------ Test & Dev
-# Gems required for testing
-gem 'rspec-rails', :group => [:development, :test]
+group :development do
+  gem 'rspec-rails'
+  gem 'spring'
+end unless ENV['PACKAGING']
 
 group :test do
   gem 'database_cleaner'
   gem 'factory_girl', '~> 2.6.4'
   gem 'capybara'
   gem 'guard-rspec'
-end
+end unless ENV['PACKAGING']
 
 
 
