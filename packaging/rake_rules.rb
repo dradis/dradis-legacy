@@ -10,13 +10,23 @@ SQLITE3_VERSION = "1.3.9"
 NOKOGIRI_VERSION = "1.6.5"
 BCRYPT_VERSION = "3.1.9"
 
+namespace :assets do
+  namespace :precompile do
+    desc "Shorthand to run assets:precompile in production mode"
+    task :production do
+      system('rake assets:precompile RAILS_ENV=production')
+    end
+  end
+end
+
+
 desc "Package your app"
 task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
 
 namespace :package do
   namespace :linux do
     task :x86 => [:bundle_install,
-      # "assets:precompile",
+      "assets:precompile:production",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
@@ -27,7 +37,7 @@ namespace :package do
 
     desc "Package your app for Linux x86_64"
     task :x86_64 => [:bundle_install,
-      # "assets:precompile",
+      "assets:precompile:production",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
@@ -39,7 +49,7 @@ namespace :package do
 
   desc "Package your app for OS X"
   task :osx => [:bundle_install,
-    # "assets:precompile",
+    "assets:precompile:production",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
