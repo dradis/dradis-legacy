@@ -30,7 +30,7 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-bcrypt-#{NOKOGIRI_VERSION}.tar.gz"
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-bcrypt-#{BCRYPT_VERSION}.tar.gz"
     ] do
       create_package("linux-x86")
     end
@@ -170,7 +170,6 @@ def create_package(target)
 
   puts "\nCopying gems..."
   sh "cp packaging/tmp/Gemfile packaging/tmp/Gemfile.lock #{package_dir}/lib/vendor/"
-  sh "rm -rf packaging/tmp"
   sh "mkdir -p #{package_dir}/lib/vendor/engines"
   sh "cp -r engines/core #{package_dir}/lib/vendor/engines"
   sh "cp -r engines/frontend #{package_dir}/lib/vendor/engines"
