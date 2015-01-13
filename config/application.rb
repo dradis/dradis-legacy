@@ -11,7 +11,10 @@ require "sprockets/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups)
+# Bundler.require(*Rails.groups)
+
+# Require only the gems listed in the default and current environment groups
+Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module Dradis
   class Application < Rails::Application
