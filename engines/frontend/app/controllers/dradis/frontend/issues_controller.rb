@@ -82,7 +82,7 @@ module Dradis
         # FIXME: this hard-coding of the table name is problematic, it would be better to use Note.table_name
         # We need a transaction because multiple DELETE calls can be issued from
         # index and a TOCTOR can appear between the Note read and the Issue.find
-        Note.transaction do
+        ::Dradis::Core::Note.transaction do
           @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
         end
 
