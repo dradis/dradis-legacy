@@ -18,7 +18,7 @@ end
 #
 # For more information on import plugins see:
 # http://dradisframework.org/import_plugins.html
-class ImportController < ApplicationController
+class ImportController < Dradis::Frontend::ApplicationController
   include Plugins::Import
   before_filter :login_required
   before_filter :validate_source, :only => [:filters, :query]

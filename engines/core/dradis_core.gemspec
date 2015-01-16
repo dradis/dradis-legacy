@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email = ['etd@nomejortu.com']
   s.homepage = 'http://dradisframework.org'
 
-  s.files = `git ls-files`.split($\)
+  s.files = Dir['**/*'].keep_if { |file| File.file?(file) }
   s.executables = s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   s.test_files = s.files.grep(%r{^(test|spec|features)/})
 

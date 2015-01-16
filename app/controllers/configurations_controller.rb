@@ -1,9 +1,9 @@
-# Internal application Configuration settings are handled through this 
+# Internal application Configuration settings are handled through this
 # REST-enabled controller.
-class ConfigurationsController < AuthenticatedController
+class ConfigurationsController < Dradis::Frontend::AuthenticatedController
   before_filter :find_or_initialize_config, :except => [ :index ]
 
-  # Get all the Configuration objects. It only supports XML format. Sample 
+  # Get all the Configuration objects. It only supports XML format. Sample
   # request:
   # https://localhost:3004/configurations.xml
   def index
@@ -19,20 +19,20 @@ class ConfigurationsController < AuthenticatedController
   def create
     respond_to do |format|
       format.html { head :method_not_allowed }
-      
+
       if @config.save
         headers['Location'] = configuration_url(@config)
-        
-        format.xml { 
-          render :xml => @config.to_xml, :status => :created 
+
+        format.xml {
+          render :xml => @config.to_xml, :status => :created
         }
         format.js {
           render :json => @config.to_json, :status => :created
         }
       else
-        format.xml { 
-          render :xml => @config.errors.to_xml, 
-          :status => :unprocessable_entity 
+        format.xml {
+          render :xml => @config.errors.to_xml,
+          :status => :unprocessable_entity
         }
         format.js {
           render :json => @config.errors.to_json,
@@ -41,7 +41,7 @@ class ConfigurationsController < AuthenticatedController
       end
     end
   end
-  
+
   # Retrieve a  Configuration object. Only supports XML format.
   def show
     respond_to do |format|
@@ -49,7 +49,7 @@ class ConfigurationsController < AuthenticatedController
       format.xml { render :xml => @config.to_xml }
     end
   end
-  
+
   # Update the attributes (name, value) of a Configurarion object. Only
   # supports XML format.
   def update
@@ -65,13 +65,13 @@ class ConfigurationsController < AuthenticatedController
       end
     end
   end
-  
+
   # Delete a give configuration from the back-end dabatase. Only
   # supports XML format.
   def destroy
     respond_to do |format|
       format.html { head :method_not_allowed }
-      
+
       if @config.destroy
         format.xml { head :ok }
       else
@@ -79,7 +79,7 @@ class ConfigurationsController < AuthenticatedController
       end
     end
   end
-  
+
   private
   # This filter locates a Configuration object based on the :id passed as a
   # parameter in the request. If the :id is invalid an error page is rendered.
@@ -90,8 +90,8 @@ class ConfigurationsController < AuthenticatedController
       end
     else
       @config = ::Configuration.new(params[:config])
-      
+
     end
   end
-  
+
 end

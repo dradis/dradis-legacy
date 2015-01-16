@@ -1,7 +1,7 @@
 # This controller is used by the Ajax poller to retrieve changes made by other
 # users.
 
-class LogsController < AuthenticatedController
+class LogsController < Dradis::Frontend::AuthenticatedController
   respond_to :json
 
   # Returns an array of log entries in the form of:
