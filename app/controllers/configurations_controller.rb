@@ -1,7 +1,7 @@
 # Internal application Configuration settings are handled through this
 # REST-enabled controller.
 class ConfigurationsController < Dradis::Frontend::AuthenticatedController
-  before_filter :find_or_initialize_config, :except => [ :index ]
+  before_filter :find_or_initialize_config, except: [ :index ]
 
   # Get all the Configuration objects. It only supports XML format. Sample
   # request:
@@ -10,7 +10,7 @@ class ConfigurationsController < Dradis::Frontend::AuthenticatedController
     @configs = ::Configuration.find(:all)
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => @configs.to_xml}
+      format.xml { render xml: @configs.to_xml }
     end
   end
 
@@ -24,20 +24,14 @@ class ConfigurationsController < Dradis::Frontend::AuthenticatedController
         headers['Location'] = configuration_url(@config)
 
         format.xml {
-          render :xml => @config.to_xml, :status => :created
+          render xml: @config.to_xml, status: :created
         }
         format.js {
-          render :json => @config.to_json, :status => :created
+          render json: @config.to_json, status: :created
         }
       else
-        format.xml {
-          render :xml => @config.errors.to_xml,
-          :status => :unprocessable_entity
-        }
-        format.js {
-          render :json => @config.errors.to_json,
-          :status => :unprocessable_entity
-        }
+        format.xml { render xml: @config.errors.to_xml, status: :unprocessable_entity }
+        format.js { render json: @config.errors.to_json, status: :unprocessable_entity }
       end
     end
   end
@@ -46,7 +40,7 @@ class ConfigurationsController < Dradis::Frontend::AuthenticatedController
   def show
     respond_to do |format|
       format.html { head :method_not_allowed }
-      format.xml { render :xml => @config.to_xml }
+      format.xml { render xml: @config.to_xml }
     end
   end
 
@@ -57,11 +51,11 @@ class ConfigurationsController < Dradis::Frontend::AuthenticatedController
       format.html { head :method_not_allowed }
 
       if @config.update_attributes(params[:config])
-        format.xml { render :xml => @config.to_xml }
-        format.js { render :json => @config.to_json }
+        format.xml { render xml: @config.to_xml }
+        format.js { render json: @config.to_json }
       else
-        format.xml { render :xml => @config.errors.to_xml, :status => :unprocessable_entity }
-        format.js { render :json => @config.errors.to_json, :status => :unprocessable_entity }
+        format.xml { render xml: @config.errors.to_xml, status: :unprocessable_entity }
+        format.js { render json: @config.errors.to_json, status: :unprocessable_entity }
       end
     end
   end
@@ -75,7 +69,7 @@ class ConfigurationsController < Dradis::Frontend::AuthenticatedController
       if @config.destroy
         format.xml { head :ok }
       else
-        format.xml { render :xml => @config.errors.to_xml, :status => :unprocessable_entity }
+        format.xml { render xml: @config.errors.to_xml, status: :unprocessable_entity }
       end
     end
   end
@@ -90,8 +84,6 @@ class ConfigurationsController < Dradis::Frontend::AuthenticatedController
       end
     else
       @config = ::Configuration.new(params[:config])
-
     end
   end
-
 end
