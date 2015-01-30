@@ -245,6 +245,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  RedCloth (= 4.2.9)
   acts_as_tree (~> 1.6)
   bcrypt (= 3.1.9)
   builder

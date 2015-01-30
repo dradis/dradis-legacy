@@ -26,6 +26,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'bcrypt', '3.1.9'
 gem 'sqlite3', '1.3.9'
 gem 'nokogiri', '1.6.5'
+gem 'RedCloth', '4.2.9'
 
 # --------------------------------------------------------- Dradis dependencies
 
