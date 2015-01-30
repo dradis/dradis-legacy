@@ -3,12 +3,13 @@ require 'bundler/setup'
 
 PACKAGE_NAME = "dradisframework"
 VERSION = "3.0.0"
-TRAVELING_RUBY_VERSION = "20141215-2.1.5"
+TRAVELING_RUBY_VERSION = "20150130-2.1.5"
 
 # Must match Gemfile:
 SQLITE3_VERSION = "1.3.9"
 NOKOGIRI_VERSION = "1.6.5"
 BCRYPT_VERSION = "3.1.9"
+REDCLOTH_VERSION = "4.2.9"
 
 namespace :assets do
   namespace :precompile do
@@ -30,7 +31,8 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-bcrypt-#{BCRYPT_VERSION}.tar.gz"
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-bcrypt-#{BCRYPT_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-RedCloth-#{REDCLOTH_VERSION}.tar.gz"
     ] do
       create_package("linux-x86")
     end
@@ -41,7 +43,8 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-bcrypt-#{BCRYPT_VERSION}.tar.gz"
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-bcrypt-#{BCRYPT_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-RedCloth-#{REDCLOTH_VERSION}.tar.gz"
     ] do
       create_package("linux-x86_64")
     end
@@ -53,7 +56,8 @@ namespace :package do
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
-    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-bcrypt-#{BCRYPT_VERSION}.tar.gz"
+    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-bcrypt-#{BCRYPT_VERSION}.tar.gz",
+    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-RedCloth-#{REDCLOTH_VERSION}.tar.gz"
   ] do
     create_package("osx")
   end
@@ -137,6 +141,18 @@ file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-bcrypt-#{BCRYPT_VER
   download_native_extension("osx", "bcrypt-#{BCRYPT_VERSION}")
 end
 
+file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-RedCloth-#{REDCLOTH_VERSION}.tar.gz" do
+  download_native_extension("linux-x86", "RedCloth-#{REDCLOTH_VERSION}")
+end
+
+file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-RedCloth-#{REDCLOTH_VERSION}.tar.gz" do
+  download_native_extension("linux-x86_64", "RedCloth-#{REDCLOTH_VERSION}")
+end
+
+file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-RedCloth-#{REDCLOTH_VERSION}.tar.gz" do
+  download_native_extension("osx", "RedCloth-#{REDCLOTH_VERSION}")
+end
+
 def create_package(target)
   puts "\nCreating package #{ target }..."
 
@@ -173,11 +189,6 @@ def create_package(target)
   sh "mkdir -p #{package_dir}/lib/vendor/engines"
   sh "cp -r engines/core #{package_dir}/lib/vendor/engines"
   sh "cp -r engines/frontend #{package_dir}/lib/vendor/engines"
-
-  # Temporarily disable RedCloth
-  # TODO: Remove when RedCloth packages are available
-  File.write(f = "#{package_dir}/lib/vendor/engines/frontend/dradis_frontend.gemspec", File.read(f).gsub("s.add_dependency 'RedCloth'","# s.add_dependency 'RedCloth'"))
-  File.write("#{package_dir}/lib/vendor/engines/frontend/lib/redcloth.rb", "class RedCloth;def initialize(*args);end;end")
 
   sh "mkdir #{package_dir}/lib/vendor/.bundle"
   sh "cp packaging/bundler-config #{package_dir}/lib/vendor/.bundle/config"
