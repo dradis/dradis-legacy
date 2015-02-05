@@ -14,6 +14,7 @@ Dir.chdir APP_ROOT do
   puts "\n== Copying sample files =="
   unless File.exist?("config/database.yml")
     system "cp config/database.yml.template config/database.yml"
+    system "cp Gemfile.plugins.template Gemfile.plugins"
   end
 
   puts "\n== Preparing database =="
