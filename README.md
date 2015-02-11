@@ -1,39 +1,22 @@
-Dev instructions this branch is not the default
-===============================================
-
-```
-$ git clone https://github.com/dradis/dradisframework.git
-$ cd dradisframework/
-$ git checkout dradis3_blackhat-arsenal
-$ ruby bin/setup
-$ bundle exec rails server
-```
-
-You can browse to the app at http://localhost:3000/
-
-
-<!-- Welcome to Dradis
-=================
-
-*Important note*: You're currently viewing the `master` branch of this repo. This corresponds to Dradis Framework 2.x. Right now we're working on the `dradis3.x` branch. Once the preliminary work is complete, `dradis3.x` will become the new `master`.
+# Welcome to Dradis
 
 [![Build Status](https://secure.travis-ci.org/dradis/dradisframework.png)](https://secure.travis-ci.org/dradis/dradisframework)
 
-Dradis is an open source framework to enable effective information sharing,
-specially during security assessments.
+Dradis is an open source collaboration framework, tailored to InfoSec teams.
 
-Our goals:
+
+## Our goals
 
 * Share the information effectively.
 * Easy to use, easy to be adopted. Otherwise it would present little benefit over other systems.
 * Flexible: with a powerful and simple extensions interface.
 * Small and portable. You should be able to use it while on site (no outside connectivity). It should be OS independent (no two testers use the same OS).
 
-Some of the features:
+
+## Some of the features:
 
 * Platform independent
-* Easy report generation: in Word, HTML, etc.
-* Markup support for the notes: styles, images, links, etc.
+* Markup support for the notes: text styles, code blocks, images, links, etc.
 * Integration with existing systems and tools:
   * [Burp Scanner](http://portswigger.net/burp/scanner.html)
   * [Metasploit](http://www.metasploit.com/)
@@ -51,10 +34,21 @@ Some of the features:
   * [Zed Attack Proxy](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)
 
 
-Getting started (git release, recommended)
-------------------------------------------
+## Getting started (git release, recommended)
 
-On Debian-based operating systems (Ubuntu, BackTrack, etc.) use this script:
+```
+$ git clone https://github.com/dradis/dradisframework.git
+$ cd dradisframework/
+$ git checkout dradis3_blackhat-arsenal
+$ ruby bin/setup
+$ bundle exec rails server
+```
+
+You can browse to the app at http://localhost:3000/
+
+
+
+<!--On Debian-based operating systems (Ubuntu, BackTrack, etc.) use this script:
 
     $ bash < <(curl -s https://raw.github.com/dradis/meta/master/install.sh)
 
@@ -88,16 +82,15 @@ If you would like to make Dradis accessible to other people on the network:
 
     $ ./start.sh -b 0.0.0.0 -p 443
 
-The `-b` option defines Dradis' bind address and the `-p` option can be used to change the port.
+The `-b` option defines Dradis' bind address and the `-p` option can be used to change the port. -->
 
 
-Getting started (stable release)
---------------------------------
+## Getting started (stable release)
 
-In http://dradisframework.org/downloads.html you will find a Windows installer
-and .tar.gz and .tar.bz2 packages.
+In http://dradisframework.org/downloads.html you will find the latest packages. (pending 3.0 release)
 
-Uncompress, verify and prepare the environment:
+
+<!-- Uncompress, verify and prepare the environment:
 
     $ tar xvvjf dradis-vX.Y.Z.tar.bz2
     $ cd dradis-vX.Y/
@@ -113,27 +106,24 @@ And browse to https://localhost:3004 to start using Dradis. If you need to bind
 to a different address (so others can connect to your instance) or another port
 number, you can use the -b and -p switches respectively:
 
-    $ ./start.sh -b 10.0.0.123 -p 443
+    $ ./start.sh -b 10.0.0.123 -p 443 -->
 
 
-Getting help
-------------
+## Getting help
 
 * http://dradisframework.org/
 * Dradis Guides: http://guides.dradisframework.org
-* [Community Forums](http://dradisframework.org/community/)
+* [Community Forums](http://discuss.dradisframework.org/)
 * IRC: **#dradis** `irc.freenode.org`
 
 
-Contributing
-------------
+## Contributing
 
 Please see CONTRIBUTING.md for details.
 
 Many thanks to all Dradis Framework [contributors](https://github.com/dradis/dradisframework/graphs/contributors).
 
 
-License
--------
+## License
 
-Dradis Framework is released under [GNU General Public License version 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html) -->
+Dradis Framework is released under [GNU General Public License version 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
