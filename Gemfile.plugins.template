@@ -5,25 +5,60 @@
 #   $ bundle
 
 # General add-ons
-# gem 'dradis-api', path: '../dradis-api'
+# if Dir.exists?('../dradis-api') && !ENV['PACKAGING']
+#   gem 'dradis-api', path: '../dradis-api'
+# else
+#   gem 'dradis-api', github: 'dradis/dradis-api'
+# end
 
 
-# Export plugin
-gem 'dradis-html_export', path: '../dradis-html_export'
-# gem 'dradis-pdf_export', path: '../dradis-pdf_export'
-# gem 'dradis-csv', path: '../dradis-csv'
-
+# Export plugins
+if Dir.exists?('../dradis-html_export') && !ENV['PACKAGING']
+  gem 'dradis-html_export', path: '../dradis-html_export'
+else
+  gem 'dradis-html_export', github: 'dradis/dradis-html_export'
+end
+# if Dir.exists?('../dradis-pdf_export') && !ENV['PACKAGING']
+#   gem 'dradis-pdf_export', path: '../dradis-pdf_export'
+# else
+#   gem 'dradis-pdf_export', github: 'dradis/dradis-pdf_export'
+# end
+# if Dir.exists?('../dradis-csv') && !ENV['PACKAGING']
+#   gem 'dradis-csv', path: '../dradis-csv'
+# else
+#   gem 'dradis-csv', github: 'dradis/dradis-csv'
+# end
 
 
 # Import plugins
-gem 'dradis-mediawiki', path: '../dradis-mediawiki'
-gem 'dradis-vulndb', path: '../dradis-vulndb'
+if Dir.exists?('../dradis-mediawiki') && !ENV['PACKAGING']
+  gem 'dradis-mediawiki', path: '../dradis-mediawiki'
+else
+  gem 'dradis-mediawiki', github: 'dradis/dradis-mediawiki'
+end
+if Dir.exists?('../dradis-vulndb') && !ENV['PACKAGING']
+  gem 'dradis-vulndb', path: '../dradis-vulndb'
+else
+  gem 'dradis-vulndb', github: 'dradis/dradis-vulndb'
+end
 
 
 # Upload plugins
-gem 'dradis-burp', path: '../dradis-burp'
-gem 'dradis-nessus', path: '../dradis-nessus'
+if Dir.exists?('../dradis-burp') && !ENV['PACKAGING']
+  gem 'dradis-burp', path: '../dradis-burp'
+else
+  gem 'dradis-burp', github: 'dradis/dradis-burp'
+end
+if Dir.exists?('../dradis-nessus') && !ENV['PACKAGING']
+  gem 'dradis-nessus', path: '../dradis-nessus'
+else
+  gem 'dradis-nessus', github: 'dradis/dradis-nessus'
+end
 
 
 # Themes
-# gem 'dradis-theme_snowcrash', path: '../dradis-theme_snowcrash'
+# if Dir.exists?('../dradis-theme_snowcrash') && !ENV['PACKAGING']
+#   gem 'dradis-theme_snowcrash', path: '../dradis-theme_snowcrash'
+# else
+#   gem 'dradis-theme_snowcrash', github: 'dradis/dradis-theme_snowcrash'
+# end
