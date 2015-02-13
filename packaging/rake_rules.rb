@@ -77,6 +77,7 @@ namespace :package do
 
     puts "\nInstalling gems..."
     sh "cp Gemfile packaging/tmp"
+    sh "cp Gemfile.plugins.template packaging/tmp/Gemfile.plugins"
     sh "cp engines/core/dradis_core.gemspec packaging/tmp/engines/core"
     sh "cp engines/frontend/dradis_frontend.gemspec packaging/tmp/engines/frontend"
 
@@ -185,7 +186,7 @@ def create_package(target)
   sh "cp -pR packaging/vendor #{package_dir}/lib/"
 
   puts "\nCopying gems..."
-  sh "cp packaging/tmp/Gemfile packaging/tmp/Gemfile.lock #{package_dir}/lib/vendor/"
+  sh "cp packaging/tmp/Gemfile packaging/tmp/Gemfile.plugins packaging/tmp/Gemfile.lock #{package_dir}/lib/vendor/"
   sh "mkdir -p #{package_dir}/lib/vendor/engines"
   sh "cp -r engines/core #{package_dir}/lib/vendor/engines"
   sh "cp -r engines/frontend #{package_dir}/lib/vendor/engines"
