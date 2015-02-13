@@ -106,19 +106,16 @@ module Dradis
       end
 
       def process_upload_background(args={})
-        raise 'unimplemented!'
         attachment = args[:attachment]
 
         # Is it worth making Bj compatible?
         # Bj.submit "ruby script/rails runner lib/upload_processing_job.rb %s \"%s\" %s" % [ params[:uploader], attachment.fullpath, params[:item_id] ]
 
-        @job_id = UploadProcessor.create(
-                                        file: attachment.fullpath,
-                                        plugin: params[:uploader],
-                                        project_id: @project.id,
-                                        uid: item_id)
+        @job_id = UploadProcessor.create file: attachment.fullpath,
+                                         plugin: params[:uploader],
+                                         uid: params[:item_id]
 
-        job_logger.write("Enqueueing job to start in the background. Job id is #{item_id}")
+        job_logger.write("Enqueueing job to start in the background. Job id is #{ @job_id }")
       end
 
       # Ensure that the requested :uploader is valid

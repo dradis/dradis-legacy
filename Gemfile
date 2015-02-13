@@ -78,6 +78,9 @@ gem 'ruby-nmap'
 # Command line interface
 gem 'thor', '~> 0.19.1'
 
+# Redis-based background worker
+gem 'resque', require: 'resque/status_server'
+gem 'resque-status'
 
 # ------------------------------------------------------------------ Test & Dev
 group :development do
