@@ -199,9 +199,11 @@ def create_package(target)
     "-C #{package_dir}/lib/vendor/ruby"
   sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-bcrypt-#{BCRYPT_VERSION}.tar.gz " +
     "-C #{package_dir}/lib/vendor/ruby"
+  sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-RedCloth-#{REDCLOTH_VERSION}.tar.gz " +
+    "-C #{package_dir}/lib/vendor/ruby"
 
-  puts "\nPacking..."
   unless ENV['DIR_ONLY']
+    puts "\nPacking..."
     sh "tar -czf #{package_dir}.tar.gz #{package_dir}"
     sh "rm -rf #{package_dir}"
   end
