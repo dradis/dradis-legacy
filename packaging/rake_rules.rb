@@ -1,15 +1,17 @@
 # For Bundler.with_clean_env
 require 'bundler/setup'
 
-PACKAGE_NAME = "dradisframework"
-VERSION = "3.0.0"
+require 'core/version'
+
+PACKAGE_NAME = "dradis"
+VERSION = Core::VERSION::STRING
 TRAVELING_RUBY_VERSION = "20150130-2.1.5"
 
 # Must match Gemfile:
-SQLITE3_VERSION = "1.3.9"
-NOKOGIRI_VERSION = "1.6.5"
 BCRYPT_VERSION = "3.1.9"
+NOKOGIRI_VERSION = "1.6.5"
 REDCLOTH_VERSION = "4.2.9"
+SQLITE3_VERSION = "1.3.9"
 
 namespace :assets do
   namespace :precompile do
@@ -157,7 +159,7 @@ end
 def create_package(target)
   puts "\nCreating package #{ target }..."
 
-  package_dir = "#{PACKAGE_NAME}-#{target}"
+  package_dir = "#{PACKAGE_NAME}-#{VERSION}-#{target}"
 
   puts "\nRecreating #{package_dir} directory..."
   sh "rm -rf #{package_dir}"
