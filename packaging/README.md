@@ -1,15 +1,34 @@
-Packaging Dradis with Traveling Ruby
-====================================
+# Packaging Dradis with Traveling Ruby
+
+
+## Before you start
+
+Make sure you're running these instructions in Ruby 2.1:
+
+```
+bundle exec ruby -v
+```
+
+Also, whilst not strictly required you could check if there is a new version of (Traveling Ruby)[http://phusion.github.io/traveling-ruby/] we can use.
+
+
+
+## The meat and potatoes
+
 
 Run any of this tasks:
 
 ```
-rake package
-rake pacage:osx
-rake package:linux:x86
-rake package:linux:x86_64
+bundle exec rake package
+```
+
+Alternatively you can run individual tasks for the different supported platforms:
+
+```
+bundle exec rake pacage:osx
+bundle exec rake package:linux:x86
+bundle exec rake package:linux:x86_64
 ```
 
 When the task finishes you will find your packages in Dradis root as tar.gz files.
 
-Note that you need to run this with ruby 2.1. Since Dradis uses 1.9.3 right now, you will probably want to set up a `.rvmrc` or `.ruby-version` file in this directory and use a separate gemset.
