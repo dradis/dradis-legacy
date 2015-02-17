@@ -1,3 +1,8 @@
+soon
+----
+ ? HTTP API
+
+
 v3.0
 -------------------------
  - Support for Issue/Evidence separation
@@ -7,12 +12,11 @@ v3.0
  - Enhanced background workers
  - New plugins:
    * Export: CSV, PDF
-   * Upload: Acunetix, Brakeman, Qualys
- ? HTTP API
- ?
+   * Upload:	 Acunetix, Qualys
+ - Rails 4.1
 
-v2.10
------
+v2.10 (never officially released)
+---------------------------------
  - New drag'n'drop file uploads with preview
  - Updated NeXpose plugin: add NeXpose-Full support
  - Feature requests implemented: #2312560, #2332708, #2706007
