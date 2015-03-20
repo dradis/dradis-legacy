@@ -1,0 +1,29 @@
+<% title 'Configuration Manager' %>
+
+<p>Use the table below to manage the configuration of your Dradis plugins.</p>
+
+<%= form_tag configurations_path do %>
+  <% @configs.each do |configuration| %>
+    <h2> <%= configuration[:name] %></h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="setting" scope="col">Setting Name</th>
+          <th class="status" scope="col">Status</th>
+          <th class="value" scope="col">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% configuration[:settings].each_with_index do |setting, index| %>
+          <tr>
+            <td class="setting"><%= setting[:name] %></td>
+            <td class="status"><%= setting[:default] ? 'default' : 'user set' %></td>
+            <td class="value">
+              <%= text_field_tag "#{ configuration[:name].underscore }_settings_#{ setting[:name] }", setting[:value] %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

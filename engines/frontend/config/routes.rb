@@ -2,7 +2,8 @@ Dradis::Frontend::Engine.routes.draw do
 
   # ----------------------------------------------------------------- Resources
   resources :categories
-  # resources :configurations
+  resources :configurations
+
 
   resources :issues
 
