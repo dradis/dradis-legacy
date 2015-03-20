@@ -1,29 +1,39 @@
 <% title 'Configuration Manager' %>
 
-<p>Use the table below to manage the configuration of your Dradis plugins.</p>
+<div class="row-fluid">
+  <div class="span7 offset1">
+    <%= form_tag configurations_path do %>
+      <% @configs.each do |configuration| %>
+        <%= content_tag :h2, configuration[:name], id: configuration[:name] %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="setting" scope="col">Setting Name</th>
+              <th class="status" scope="col">Status</th>
+              <th class="value" scope="col">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% configuration[:settings].each_with_index do |setting, index| %>
+              <tr>
+                <td class="setting"><%= setting[:name] %></td>
+                <td class="status"><%= setting[:default] ? 'default' : 'user set' %></td>
+                <td class="value">
+                  <%= text_field_tag "#{ configuration[:name].underscore }_settings_#{ setting[:name] }", setting[:value] %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    <% end %>
+  </div>
 
-<%= form_tag configurations_path do %>
-  <% @configs.each do |configuration| %>
-    <h2> <%= configuration[:name] %></h2>
-    <table>
-      <thead>
-        <tr>
-          <th class="setting" scope="col">Setting Name</th>
-          <th class="status" scope="col">Status</th>
-          <th class="value" scope="col">Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% configuration[:settings].each_with_index do |setting, index| %>
-          <tr>
-            <td class="setting"><%= setting[:name] %></td>
-            <td class="status"><%= setting[:default] ? 'default' : 'user set' %></td>
-            <td class="value">
-              <%= text_field_tag "#{ configuration[:name].underscore }_settings_#{ setting[:name] }", setting[:value] %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
-<% end %>
+  <div class="span3 offset1" data-spy="affix" data-offset-top="300">
+    <ul class="nav nav-list bs-config-sidenav affix">
+      <% @configs.each do |configuration| -%>
+        <li><%= link_to configuration[:name], {anchor: configuration[:name]} %></a></li>
+      <% end -%>
+    </ul>
+  </div>
+</div>
