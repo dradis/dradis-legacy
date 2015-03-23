@@ -1,4 +1,4 @@
-# The UploadController provides access to the different upload plugins that 
+# The UploadController provides access to the different upload plugins that
 # have been deployed in the dradis server.
 #
 
@@ -6,7 +6,6 @@ module Dradis
   module Frontend
 
     class UploadController < Dradis::Frontend::AuthenticatedController
-      before_filter :find_nodes
       before_filter :find_uploaders
       before_filter :find_uploads_node, only: [:create, :parse]
       before_filter :validate_uploader, only: [:create, :parse]
@@ -56,13 +55,6 @@ module Dradis
       end
 
       private
-
-      # There should be a better way of handling this.
-      def find_nodes
-        @nodes = Dradis::Core::Node.in_tree
-        @new_node = Dradis::Core::Node.new
-      end
-
       # The list of available Upload plugins. See the dradis_plugins gem.
       def find_uploaders
         @uploaders = Dradis::Plugins::with_feature(:upload).map(&:uploaders).flatten.sort{|a,b| a.name <=> b.name }

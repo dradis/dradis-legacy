@@ -2,7 +2,6 @@ module Dradis
   module Frontend
 
     class ExportController < Dradis::Frontend::AuthenticatedController
-      before_filter :find_nodes
       before_filter :find_plugins
       # before_filter :find_uploads_node, only: [:create, :parse]
       before_filter :validate_exporter, only: [:create]
@@ -38,13 +37,6 @@ module Dradis
       end
 
       private
-
-      # There should be a better way of handling this.
-      def find_nodes
-        @nodes = Dradis::Core::Node.in_tree
-        @new_node = Dradis::Core::Node.new
-      end
-
       # The list of available Export plugins. See the dradis_plugins gem.
       def find_plugins
         @plugins = Dradis::Plugins::with_feature(:export).collect do |plugin|

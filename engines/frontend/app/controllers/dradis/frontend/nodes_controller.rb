@@ -32,8 +32,6 @@ module Dradis
         # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`') ).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
 
-        @nodes = Dradis::Core::Node.in_tree
-
         @sorted_notes = @node.notes.sort
         @sorted_evidence = @node.evidence.sort
 
@@ -42,7 +40,6 @@ module Dradis
 
         @new_evidence = Dradis::Core::Evidence.new
         @new_child    = Dradis::Core::Node.new(parent_id: @node.id)
-        @new_node     = Dradis::Core::Node.new
         @new_note     = Dradis::Core::Note.new
 
         respond_with(@node)

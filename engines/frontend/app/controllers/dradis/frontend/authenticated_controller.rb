@@ -15,6 +15,13 @@ module Dradis
       helper Dradis::Themes::Snowcrash::Engine.helpers
 
       before_filter :login_required
+      before_filter :find_nodes
+
+      private
+      def find_nodes
+        @nodes = Dradis::Core::Node.in_tree
+        @new_node = Dradis::Core::Node.new
+      end
     end
   end
 end
