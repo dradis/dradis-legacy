@@ -10,6 +10,11 @@ Dir.chdir APP_ROOT do
   community_dir = File.join(APP_ROOT, '..')
   puts "== Cloning core Dradis add-ons at #{community_dir} =="
   Dir.chdir community_dir do
+    # Export
+    system "git clone 'https://github.com/dradis/dradis-csv'"
+    system "git clone 'https://github.com/dradis/dradis-html_export'"
+    system "git clone 'https://github.com/dradis/dradis-pdf_export'"
+
     # Import
     system "git clone 'https://github.com/dradis/dradis-vulndb'"
     system "git clone 'https://github.com/dradis/dradis-mediawiki'"
@@ -19,6 +24,7 @@ Dir.chdir APP_ROOT do
     system "git clone 'https://github.com/dradis/dradis-burp'"
     system "git clone 'https://github.com/dradis/dradis-nessus'"
     system "git clone 'https://github.com/dradis/dradis-nexpose'"
+    system "git clone 'https://github.com/dradis/dradis-nmap'"
     system "git clone 'https://github.com/dradis/dradis-nikto'"
     system "git clone 'https://github.com/dradis/dradis-openvas'"
     system "git clone 'https://github.com/dradis/dradis-qualys'"
