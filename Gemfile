@@ -20,6 +20,10 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Process management
+gem 'foreman'
+gem 'rerun'
+
 # ------------------------------------------------------ With native extensions
 # These require native extensions.
 # Ensure Traveling Ruby provides an appropriate version before bumping.
