@@ -87,7 +87,7 @@ The `-b` option defines Dradis' bind address and the `-p` option can be used to 
 
 ## Getting started (stable release)
 
-In http://dradisframework.org/downloads.html you will find the latest packages. (pending 3.0 release)
+In http://dradisframework.org/download.html you will find the latest packages. (pending 3.0 release)
 
 
 <!-- Uncompress, verify and prepare the environment:
