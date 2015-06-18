@@ -1,7 +1,7 @@
 Packaging Dradis with Traveling Ruby
 ====================================
 
-Run any of this tasks:
+Run any of these tasks:
 
 ```
 rake package
