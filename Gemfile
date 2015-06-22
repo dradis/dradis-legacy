@@ -27,10 +27,11 @@ gem 'rerun'
 # ------------------------------------------------------ With native extensions
 # These require native extensions.
 # Ensure Traveling Ruby provides an appropriate version before bumping.
-gem 'bcrypt', '3.1.9'
-gem 'sqlite3', '1.3.9'
+gem 'bcrypt',   '3.1.9'
+gem 'sqlite3',  '1.3.9'
 gem 'nokogiri', '1.6.5'
 gem 'RedCloth', '4.2.9'
+gem 'hitimes',  '1.2.2'
 
 # --------------------------------------------------------- Dradis dependencies
 
