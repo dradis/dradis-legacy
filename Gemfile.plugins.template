@@ -18,16 +18,16 @@ if Dir.exists?('../dradis-html_export') && !ENV['PACKAGING']
 else
   gem 'dradis-html_export', github: 'dradis/dradis-html_export'
 end
-# if Dir.exists?('../dradis-pdf_export') && !ENV['PACKAGING']
-#   gem 'dradis-pdf_export', path: '../dradis-pdf_export'
-# else
-#   gem 'dradis-pdf_export', github: 'dradis/dradis-pdf_export'
-# end
-# if Dir.exists?('../dradis-csv') && !ENV['PACKAGING']
-#   gem 'dradis-csv', path: '../dradis-csv'
-# else
-#   gem 'dradis-csv', github: 'dradis/dradis-csv'
-# end
+if Dir.exists?('../dradis-pdf_export') && !ENV['PACKAGING']
+  gem 'dradis-pdf_export', path: '../dradis-pdf_export'
+else
+  gem 'dradis-pdf_export', github: 'dradis/dradis-pdf_export'
+end
+if Dir.exists?('../dradis-csv') && !ENV['PACKAGING']
+  gem 'dradis-csv', path: '../dradis-csv'
+else
+  gem 'dradis-csv', github: 'dradis/dradis-csv'
+end
 
 
 # Import plugins
@@ -44,16 +44,84 @@ end
 
 
 # Upload plugins
+if Dir.exists?('../dradis-acunetix') && !ENV['PACKAGING']
+  gem 'dradis-acunetix', path: '../dradis-acunetix'
+else
+  gem 'dradis-acunetix', github: 'dradis/dradis-acunetix'
+end
+# if Dir.exists?('../dradis-brakeman') && !ENV['PACKAGING']
+#   gem 'dradis-brakeman', path: '../dradis-brakeman'
+# else
+#   gem 'dradis-brakeman', github: 'dradis/dradis-brakeman'
+# end
 if Dir.exists?('../dradis-burp') && !ENV['PACKAGING']
   gem 'dradis-burp', path: '../dradis-burp'
 else
   gem 'dradis-burp', github: 'dradis/dradis-burp'
 end
+# if Dir.exists?('../dradis-cve') && !ENV['PACKAGING']
+#   gem 'dradis-cve', path: '../dradis-cve'
+# else
+#   gem 'dradis-cve', github: 'dradis/dradis-cve'
+# end
 if Dir.exists?('../dradis-nessus') && !ENV['PACKAGING']
   gem 'dradis-nessus', path: '../dradis-nessus'
 else
   gem 'dradis-nessus', github: 'dradis/dradis-nessus'
 end
+if Dir.exists?('../dradis-nexpose') && !ENV['PACKAGING']
+  gem 'dradis-nexpose', path: '../dradis-nexpose'
+else
+  gem 'dradis-nexpose', github: 'dradis/dradis-nexpose'
+end
+if Dir.exists?('../dradis-nikto') && !ENV['PACKAGING']
+  gem 'dradis-nikto', path: '../dradis-nikto'
+else
+  gem 'dradis-nikto', github: 'dradis/dradis-nikto'
+end
+if Dir.exists?('../dradis-nmap') && !ENV['PACKAGING']
+  gem 'dradis-nmap', path: '../dradis-nmap'
+else
+  gem 'dradis-nmap', github: 'dradis/dradis-nmap'
+end
+if Dir.exists?('../dradis-openvas') && !ENV['PACKAGING']
+  gem 'dradis-openvas', path: '../dradis-openvas'
+else
+  gem 'dradis-openvas', github: 'dradis/dradis-openvas'
+end
+if Dir.exists?('../dradis-qualys') && !ENV['PACKAGING']
+  gem 'dradis-qualys', path: '../dradis-qualys'
+else
+  gem 'dradis-qualys', github: 'dradis/dradis-qualys'
+end
+# if Dir.exists?('../dradis-retina') && !ENV['PACKAGING']
+#   gem 'dradis-retina', path: '../dradis-retina'
+# else
+#   gem 'dradis-retina', github: 'dradis/dradis-retina'
+# end
+# if Dir.exists?('../dradis-surecheck') && !ENV['PACKAGING']
+#   gem 'dradis-surecheck', path: '../dradis-surecheck'
+# else
+#   gem 'dradis-surecheck', github: 'dradis/dradis-surecheck'
+# end
+# if Dir.exists?('../dradis-w3af') && !ENV['PACKAGING']
+#   gem 'dradis-w3af', path: '../dradis-w3af'
+# else
+#   gem 'dradis-w3af', github: 'dradis/dradis-w3af'
+# end
+# if Dir.exists?('../dradis-wxf') && !ENV['PACKAGING']
+#   gem 'dradis-wxf', path: '../dradis-wxf'
+# else
+#   gem 'dradis-wxf', github: 'dradis/dradis-wxf'
+# end
+# if Dir.exists?('../dradis-zap') && !ENV['PACKAGING']
+#   gem 'dradis-zap', path: '../dradis-zap'
+# else
+#   gem 'dradis-zap', github: 'dradis/dradis-zap'
+# end
+
+
+
 
 
 # Themes
