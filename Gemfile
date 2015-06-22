@@ -118,7 +118,7 @@ end unless ENV['PACKAGING']
 # own plugins should be listed.
 #
 
-plugins_file = 'Gemfile.plugins'
+plugins_file = File.expand_path('../Gemfile.plugins', __FILE__)
 if File.exists?(plugins_file)
   eval(IO.read(plugins_file), binding)
 end
