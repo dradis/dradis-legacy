@@ -25,7 +25,7 @@ bundle exec rake package
 Alternatively you can run individual tasks for the different supported platforms:
 
 ```
-bundle exec rake pacage:osx
+bundle exec rake package:osx
 bundle exec rake package:linux:x86
 bundle exec rake package:linux:x86_64
 ```
