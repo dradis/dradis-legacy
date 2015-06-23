@@ -1,7 +1,8 @@
 # For Bundler.with_clean_env
 require 'bundler/setup'
-
 require 'core/version'
+
+require "sqlite3"
 
 PACKAGE_NAME = "dradis"
 VERSION = Core::VERSION::STRING
@@ -193,6 +194,16 @@ def create_package(target)
   sh "RAILS_ENV=production thor dradis:reset:database"
   sh "RAILS_ENV=production thor dradis:setup:seed"
   sh "cp db/production.sqlite3 #{package_dir}/lib/app/db/"
+
+  db = SQLite3::Database.new "#{package_dir}/lib/app/db/production.sqlite3"
+  table = "dradis_configurations"
+  # These configuration options contain hardcoded file paths that will almost
+  # definitely not be the same on the user's machine... so delete them and
+  # make the user generate their own.
+  db.execute "DELETE FROM #{table} WHERE name='admin:paths:templates:reports';"
+  db.execute "DELETE FROM #{table} WHERE name='admin:paths:templates:plugins';"
+  # Reset the password:
+  db.execute "UPDATE #{table} SET value='improvable_dradis' WHERE name='password';"
 
   puts "\nCopying ruby..."
   sh "mkdir #{package_dir}/lib/ruby"
