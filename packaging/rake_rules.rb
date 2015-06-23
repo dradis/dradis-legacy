@@ -5,7 +5,7 @@ require 'core/version'
 
 PACKAGE_NAME = "dradis"
 VERSION = Core::VERSION::STRING
-TRAVELING_RUBY_VERSION = "20150130-2.1.5"
+TRAVELING_RUBY_VERSION = "20150517-2.1.6"
 
 # Must match Gemfile:
 BCRYPT_VERSION   = "3.1.9"
