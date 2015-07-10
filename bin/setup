@@ -44,7 +44,7 @@ Dir.chdir APP_ROOT do
 
   puts "== Installing dependencies =="
   system "gem install bundler --conservative"
-  system "bundle check || bundle install --local"
+  system "bundle check || bundle install"
 
   puts "\n== Preparing database =="
   # Rails 4.2
