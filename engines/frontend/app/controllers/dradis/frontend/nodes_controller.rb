@@ -17,7 +17,7 @@ module Dradis
 
         respond_to do |format|
           if @node.save
-            format.html { redirect_to @node, notice: "Node [#{@node.label}] created." }
+            format.html { redirect_to @node, notice: "Successfully created node." }
             # format.json { render json: @dessert, status: :created, location: @dessert }
           else
             format.html { render action: 'new' }
@@ -57,7 +57,7 @@ module Dradis
       def update
         respond_to do |format|
           if @node.update_attributes(node_params)
-            format.html { redirect_to @node, notice: "Node [#{@node.label}] updated." }
+            format.html { redirect_to @node, notice: "Node updated." }
           else
             format.html { render action: 'new' }
           end
@@ -68,9 +68,9 @@ module Dradis
       def destroy
         @node.destroy
         if @node.parent
-          redirect_to @node.parent, notice: "Child node [#{@node.label}] deleted."
+          redirect_to @node.parent, notice: "Child node deleted."
         else
-          redirect_to root_path, notice: "Top-level node [#{@node.label}] deleted."
+          redirect_to root_path, notice: "Top-level node deleted."
         end
       end
 
