@@ -25,8 +25,9 @@ Dir.chdir APP_ROOT do
     system "git clone 'https://github.com/dradis/dradis-burp'"
     system "git clone 'https://github.com/dradis/dradis-nessus'"
     system "git clone 'https://github.com/dradis/dradis-nexpose'"
-    system "git clone 'https://github.com/dradis/dradis-nmap'"
     system "git clone 'https://github.com/dradis/dradis-nikto'"
+    system "git clone 'https://github.com/dradis/dradis-nmap'"
+    system "git clone 'https://github.com/dradis/dradis-ntospider'"
     system "git clone 'https://github.com/dradis/dradis-openvas'"
     system "git clone 'https://github.com/dradis/dradis-qualys'"
 
