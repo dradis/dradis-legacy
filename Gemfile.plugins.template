@@ -84,6 +84,11 @@ if Dir.exists?('../dradis-nmap') && !ENV['PACKAGING']
 else
   gem 'dradis-nmap', github: 'dradis/dradis-nmap'
 end
+if Dir.exists?('../dradis-ntospider') && !ENV['PACKAGING']
+  gem 'dradis-ntospider', path: '../dradis-ntospider'
+else
+  gem 'dradis-ntospider', github: 'dradis/dradis-ntospider'
+end
 if Dir.exists?('../dradis-openvas') && !ENV['PACKAGING']
   gem 'dradis-openvas', path: '../dradis-openvas'
 else
