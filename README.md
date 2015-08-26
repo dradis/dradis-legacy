@@ -39,8 +39,11 @@ Dradis is an open source collaboration framework, tailored to InfoSec teams.
 ```
 $ git clone https://github.com/dradis/dradisframework.git
 $ cd dradisframework/
-$ git checkout dradis3_blackhat-arsenal
-$ ruby bin/setup
+$ git checkout release-3.0
+$ cd bin
+$ bundle install
+$ ruby ./setup
+$ cd ..
 $ bundle exec rails server
 ```
 
