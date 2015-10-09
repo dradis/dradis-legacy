@@ -30,7 +30,7 @@ module Dradis
         if Mime::Type.lookup_by_extension(File.extname(@attachment.filename).downcase.tr('.','')).to_s =~ /^image\//
           json[:thumbnail_url] = node_attachment_path(@node, @attachment.filename)
         end
-        render json: {files: [json]}, content_type: 'text/plain'
+        render json: [json], content_type: 'text/plain'
       end
 
       # It is possible to rename attachments and this function provides that
