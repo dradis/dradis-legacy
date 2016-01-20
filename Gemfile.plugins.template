@@ -49,11 +49,11 @@ if Dir.exists?('../dradis-acunetix') && !ENV['PACKAGING']
 else
   gem 'dradis-acunetix', github: 'dradis/dradis-acunetix'
 end
-# if Dir.exists?('../dradis-brakeman') && !ENV['PACKAGING']
-#   gem 'dradis-brakeman', path: '../dradis-brakeman'
-# else
-#   gem 'dradis-brakeman', github: 'dradis/dradis-brakeman'
-# end
+if Dir.exists?('../dradis-brakeman') && !ENV['PACKAGING']
+  gem 'dradis-brakeman', path: '../dradis-brakeman'
+else
+  gem 'dradis-brakeman', github: 'dradis/dradis-brakeman'
+end
 if Dir.exists?('../dradis-burp') && !ENV['PACKAGING']
   gem 'dradis-burp', path: '../dradis-burp'
 else
@@ -64,6 +64,13 @@ end
 # else
 #   gem 'dradis-cve', github: 'dradis/dradis-cve'
 # end
+
+if Dir.exists?('../dradis-metasploit') && !ENV['PACKAGING']
+  gem 'dradis-metasploit', path: '../dradis-metasploit'
+else
+  gem 'dradis-metasploit', github: 'dradis/dradis-metasploit'
+end
+
 if Dir.exists?('../dradis-nessus') && !ENV['PACKAGING']
   gem 'dradis-nessus', path: '../dradis-nessus'
 else
