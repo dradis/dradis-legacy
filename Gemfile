@@ -89,6 +89,9 @@ gem 'resque-status'
 
 # ------------------------------------------------------------------ Test & Dev
 group :development do
+  # security
+  gem 'brakeman', require: false
+
   gem 'rspec-rails'
   gem 'spring'
   # Use Uglifier as compressor for JavaScript assets
