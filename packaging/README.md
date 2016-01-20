@@ -1,6 +1,5 @@
 # Packaging Dradis with Traveling Ruby
 
-
 ## Before you start
 
 Make sure you're running these instructions in Ruby 2.1.x:
