@@ -1,15 +1,19 @@
 # For Bundler.with_clean_env
 require 'bundler/setup'
+require 'core/version'
 
-PACKAGE_NAME = "dradisframework"
-VERSION = "3.0.0"
-TRAVELING_RUBY_VERSION = "20150130-2.1.5"
+require "sqlite3"
+
+PACKAGE_NAME = "dradis"
+VERSION = Core::VERSION::STRING
+TRAVELING_RUBY_VERSION = "20150517-2.1.6"
 
 # Must match Gemfile:
-SQLITE3_VERSION = "1.3.9"
+BCRYPT_VERSION   = "3.1.9"
 NOKOGIRI_VERSION = "1.6.5"
-BCRYPT_VERSION = "3.1.9"
 REDCLOTH_VERSION = "4.2.9"
+SQLITE3_VERSION  = "1.3.9"
+HITIMES_VERSION  = "1.2.2"
 
 namespace :assets do
   namespace :precompile do
@@ -32,7 +36,8 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-bcrypt-#{BCRYPT_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-RedCloth-#{REDCLOTH_VERSION}.tar.gz"
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-RedCloth-#{REDCLOTH_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-hitimes-#{HITIMES_VERSION}.tar.gz"
     ] do
       create_package("linux-x86")
     end
@@ -44,7 +49,8 @@ namespace :package do
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-sqlite3-#{SQLITE3_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-bcrypt-#{BCRYPT_VERSION}.tar.gz",
-      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-RedCloth-#{REDCLOTH_VERSION}.tar.gz"
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-RedCloth-#{REDCLOTH_VERSION}.tar.gz",
+      "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-hitimes-#{HITIMES_VERSION}.tar.gz"
     ] do
       create_package("linux-x86_64")
     end
@@ -57,7 +63,8 @@ namespace :package do
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-sqlite3-#{SQLITE3_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz",
     "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-bcrypt-#{BCRYPT_VERSION}.tar.gz",
-    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-RedCloth-#{REDCLOTH_VERSION}.tar.gz"
+    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-RedCloth-#{REDCLOTH_VERSION}.tar.gz",
+    "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-hitimes-#{HITIMES_VERSION}.tar.gz"
   ] do
     create_package("osx")
   end
@@ -154,10 +161,22 @@ file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-RedCloth-#{REDCLOTH
   download_native_extension("osx", "RedCloth-#{REDCLOTH_VERSION}")
 end
 
+file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-hitimes-#{HITIMES_VERSION}.tar.gz" do
+  download_native_extension("linux-x86", "hitimes-#{HITIMES_VERSION}")
+end
+
+file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-hitimes-#{HITIMES_VERSION}.tar.gz" do
+  download_native_extension("linux-x86_64", "hitimes-#{HITIMES_VERSION}")
+end
+
+file "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-hitimes-#{HITIMES_VERSION}.tar.gz" do
+  download_native_extension("osx", "hitimes-#{HITIMES_VERSION}")
+end
+
 def create_package(target)
   puts "\nCreating package #{ target }..."
 
-  package_dir = "#{PACKAGE_NAME}-#{target}"
+  package_dir = "#{PACKAGE_NAME}-#{VERSION}-#{target}"
 
   puts "\nRecreating #{package_dir} directory..."
   sh "rm -rf #{package_dir}"
@@ -176,6 +195,16 @@ def create_package(target)
   sh "RAILS_ENV=production thor dradis:setup:seed"
   sh "cp db/production.sqlite3 #{package_dir}/lib/app/db/"
 
+  db = SQLite3::Database.new "#{package_dir}/lib/app/db/production.sqlite3"
+  table = "dradis_configurations"
+  # These configuration options contain hardcoded file paths that will almost
+  # definitely not be the same on the user's machine... so delete them and
+  # make the user generate their own.
+  db.execute "DELETE FROM #{table} WHERE name='admin:paths:templates:reports';"
+  db.execute "DELETE FROM #{table} WHERE name='admin:paths:templates:plugins';"
+  # Reset the password:
+  db.execute "UPDATE #{table} SET value='improvable_dradis' WHERE name='password';"
+
   puts "\nCopying ruby..."
   sh "mkdir #{package_dir}/lib/ruby"
   sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
@@ -193,14 +222,18 @@ def create_package(target)
 
   sh "mkdir #{package_dir}/lib/vendor/.bundle"
   sh "cp packaging/bundler-config #{package_dir}/lib/vendor/.bundle/config"
-  sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-sqlite3-#{SQLITE3_VERSION}.tar.gz " +
-    "-C #{package_dir}/lib/vendor/ruby"
-  sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz " +
-    "-C #{package_dir}/lib/vendor/ruby"
-  sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-bcrypt-#{BCRYPT_VERSION}.tar.gz " +
-    "-C #{package_dir}/lib/vendor/ruby"
-  sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-RedCloth-#{REDCLOTH_VERSION}.tar.gz " +
-    "-C #{package_dir}/lib/vendor/ruby"
+
+  [
+    "sqlite3-#{SQLITE3_VERSION}",
+    "nokogiri-#{NOKOGIRI_VERSION}",
+    "bcrypt-#{BCRYPT_VERSION}",
+    "RedCloth-#{REDCLOTH_VERSION}",
+    "hitimes-#{HITIMES_VERSION}"
+  ].each do |gem|
+    sh "tar -xzf "+
+       "packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem}.tar.gz"+
+       " -C #{package_dir}/lib/vendor/ruby"
+  end
 
   unless ENV['DIR_ONLY']
     puts "\nPacking..."

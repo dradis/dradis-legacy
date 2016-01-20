@@ -24,7 +24,7 @@ if Dradis::Core::Configuration.table_exists?
   template_dir = Dradis::Core::Configuration.paths_templates_plugins
 
   Dradis::Plugins::with_feature(:upload).each do |plugin|
-    plugin_dir = File.join(template_dir, plugin.plugin_name.to_s)
-    plugin.copy_templates(to: plugin_dir)
+    # plugin_dir = File.join(template_dir, plugin.plugin_name.to_s)
+    plugin.copy_templates(to: template_dir)
   end
 end

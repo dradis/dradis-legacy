@@ -11,3 +11,13 @@ require File.expand_path('../lib/tasks/thorfile', __FILE__)
 Dir.glob('vendor/plugins/*/lib/tasks/thorfile.rb').each do |thorfile|
   require thorfile
 end
+
+# a gemified plugin can also add Thor tasks
+require 'config/environment'
+
+puts 'Loaded add-ons:'
+
+Dradis::Plugins::list.sort { |a,b| a.plugin_name <=> b.plugin_name }.each do |plugin|
+  puts "\t#{plugin.plugin_name} - #{plugin.plugin_description}"
+  plugin.load_thor_tasks
+end

@@ -20,13 +20,18 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Process management
+gem 'foreman'
+gem 'rerun'
+
 # ------------------------------------------------------ With native extensions
 # These require native extensions.
 # Ensure Traveling Ruby provides an appropriate version before bumping.
-gem 'bcrypt', '3.1.9'
-gem 'sqlite3', '1.3.9'
+gem 'bcrypt',   '3.1.9'
+gem 'sqlite3',  '1.3.9'
 gem 'nokogiri', '1.6.5'
 gem 'RedCloth', '4.2.9'
+gem 'hitimes',  '1.2.2'
 
 # --------------------------------------------------------- Dradis dependencies
 
@@ -84,6 +89,9 @@ gem 'resque-status'
 
 # ------------------------------------------------------------------ Test & Dev
 group :development do
+  # security
+  gem 'brakeman', require: false
+
   gem 'rspec-rails'
   gem 'spring'
   # Use Uglifier as compressor for JavaScript assets
@@ -114,7 +122,7 @@ end unless ENV['PACKAGING']
 # own plugins should be listed.
 #
 
-plugins_file = 'Gemfile.plugins'
+plugins_file = File.expand_path('../Gemfile.plugins', __FILE__)
 if File.exists?(plugins_file)
   eval(IO.read(plugins_file), binding)
 end

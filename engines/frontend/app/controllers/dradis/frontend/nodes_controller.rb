@@ -17,7 +17,7 @@ module Dradis
 
         respond_to do |format|
           if @node.save
-            format.html { redirect_to @node, notice: "Node [#{@node.label}] created." }
+            format.html { redirect_to @node, notice: "Successfully created node." }
             # format.json { render json: @dessert, status: :created, location: @dessert }
           else
             format.html { render action: 'new' }
@@ -32,8 +32,6 @@ module Dradis
         # @issues = Issue.find( Node.issue_library.notes.pluck('`notes`.`id`') ).sort
         @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
 
-        @nodes = Dradis::Core::Node.in_tree
-
         @sorted_notes = @node.notes.sort
         @sorted_evidence = @node.evidence.sort
 
@@ -42,7 +40,6 @@ module Dradis
 
         @new_evidence = Dradis::Core::Evidence.new
         @new_child    = Dradis::Core::Node.new(parent_id: @node.id)
-        @new_node     = Dradis::Core::Node.new
         @new_note     = Dradis::Core::Note.new
 
         respond_with(@node)
@@ -60,7 +57,7 @@ module Dradis
       def update
         respond_to do |format|
           if @node.update_attributes(node_params)
-            format.html { redirect_to @node, notice: "Node [#{@node.label}] updated." }
+            format.html { redirect_to @node, notice: "Node updated." }
           else
             format.html { render action: 'new' }
           end
@@ -71,9 +68,9 @@ module Dradis
       def destroy
         @node.destroy
         if @node.parent
-          redirect_to @node.parent, notice: "Child node [#{@node.label}] deleted."
+          redirect_to @node.parent, notice: "Child node deleted."
         else
-          redirect_to root_path, notice: "Top-level node [#{@node.label}] deleted."
+          redirect_to root_path, notice: "Top-level node deleted."
         end
       end
 

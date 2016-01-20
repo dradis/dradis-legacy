@@ -30,7 +30,7 @@ module Dradis
         if Mime::Type.lookup_by_extension(File.extname(@attachment.filename).downcase.tr('.','')).to_s =~ /^image\//
           json[:thumbnail_url] = node_attachment_path(@node, @attachment.filename)
         end
-        render json: {files: [json]}, content_type: 'text/plain'
+        render json: [json], content_type: 'text/plain'
       end
 
       # It is possible to rename attachments and this function provides that
@@ -112,16 +112,19 @@ module Dradis
       # original file name is still available, use it, otherwise, provide count-based
       # an alternative.
       def get_name(args={})
-        original = args[:original]
-        node_attachments = Dradis::Core::Attachment.pwd.join(@node.id.to_s)
+        original = args.fetch(:original)
 
-        return original unless File.exists?(node_attachments)
+        if @node.attachments.map(&:filename).include?(original)
+          attachments_pwd = Attachment.pwd.join(@node.id.to_s)
 
-        # The original name is taken, so we'll add the "_copy-XX." suffix
-        extension = File.extname(original)
-        basename = File.basename(original, extension)
-        sequence  = Dir.glob(node_attachments.join("#{basename}_copy-*#{extension}")).collect { |a| a.match(/_copy-([0-9]+)#{extension}\z/)[1].to_i }.max || 0
-        "%s_copy-%02i%s" % [basename, sequence + 1, extension]
+          # The original name is taken, so we'll add the "_copy-XX." suffix
+          extension = File.extname(original)
+          basename  = File.basename(original, extension)
+          sequence  = Dir.glob(attachments_pwd.join("#{basename}_copy-*#{extension}")).collect { |a| a.match(/_copy-([0-9]+)#{extension}\z/)[1].to_i }.max || 0
+          "%s_copy-%02i%s" % [basename, sequence + 1, extension]
+        else
+          original
+        end
       end
     end
 

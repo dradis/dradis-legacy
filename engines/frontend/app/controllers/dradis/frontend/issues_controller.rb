@@ -85,10 +85,6 @@ module Dradis
         ::Dradis::Core::Note.transaction do
           @issues = Dradis::Core::Issue.find( Dradis::Core::Node.issue_library.notes.pluck('`dradis_notes`.`id`') ).sort
         end
-
-        @nodes = Dradis::Core::Node.in_tree
-
-        @new_node = Dradis::Core::Node.new
       end
 
       def find_issuelib
