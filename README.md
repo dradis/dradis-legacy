@@ -1,3 +1,11 @@
+# This is not the Repo you are looking for!
+
+New development is taking place in [dradis/dradis-ce](https://github.com/dradis/dradis-ce).
+
+This repo contains 2007->2015 code, from Dradis v1 to v3.0.
+
+This repo lives here for archeological purposes.
+
 # Welcome to Dradis
 
 [![Build Status](https://secure.travis-ci.org/dradis/dradisframework.png)](https://secure.travis-ci.org/dradis/dradisframework)
