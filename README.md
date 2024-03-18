@@ -94,7 +94,7 @@ The `-b` option defines Dradis' bind address and the `-p` option can be used to 
 
 ## Getting started (stable release)
 
-In http://dradisframework.org/download.html you will find the latest packages. (pending 3.0 release)
+In https://dradis.com/ce/download.html you will find the latest packages. (pending 3.0 release)
 
 
 <!-- Uncompress, verify and prepare the environment:
@@ -118,7 +118,7 @@ number, you can use the -b and -p switches respectively:
 
 ## Getting help
 
-* http://dradisframework.org/
+* https://dradis.com/ce/
 * Dradis Guides: http://guides.dradisframework.org
 * [Community Forums](http://discuss.dradisframework.org/)
 * IRC: **#dradis** `irc.freenode.org`
